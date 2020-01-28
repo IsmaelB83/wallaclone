@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <!-- HEAD -->
+  <head>
+    <% include ../partials/head %>
+  </head>
+  <!-- BODY -->      
+  <body>
+    <!-- Main -->           
+    <main id='login' class='login' autocomplete='on'>
+        <div class='login-wrapper'>
+            <div class='login-logo'>
+                <img src='/images/static/logo.png' alt='logo'>
+            </div>
+            <form class='login-form' method='post' action="/user/create">
+                <% if (locals.error) { %>
+                <div class='alert <%= locals.status === 201 ? 'alert-success' : 'alert-danger' %>' role='alert'>
+                    <%= locals.status %> - <%= locals.error %>
+                </div>
+                <% } %>
+                <div class='form-group'>
+                    <div class='input-group mb-3'>
+                        <div class='input-group-prepend'>
+                            <span class='input-group-text'><i class='fa fa-user'></i></span>
+                        </div>
+                        <input  name='name'
+                                type='text' 
+                                class='form-control' 
+                                placeholder='<%=__('your name here')%>' 
+                                required
+                        >
+                    </div>
+                </div>
+                <div class='form-group'>
+                    <div class='input-group mb-3'>
+                        <div class='input-group-prepend'>
+                            <span class='input-group-text'><i class='far fa-envelope'></i></span>
+                        </div>
+                        <input  name='email'
+                                type='email' 
+                                class='form-control' 
+                                placeholder='<%=__('your email address')%>' 
+                                required
+                                value=<%=locals.email%>
+                        >
+                    </div>
+                </div>
+                <div class='form-group'>
+                    <div class='input-group mb-3'>
+                        <div class='input-group-prepend'>
+                            <span class='input-group-text'><i class='fas fa-key'></i></span>
+                        </div>
+                        <input name='password'
+                               type='password' 
+                               class='form-control' 
+                               placeholder='<%=__('your password')%>' 
+                               required>
+                    </div>
+                </div>
+                <div class='form-group'>
+                    <div class='input-group mb-3'>
+                        <div class='input-group-prepend'>
+                            <span class='input-group-text'><i class='fas fa-key'></i></span>
+                        </div>
+                        <input name='password2'
+                                type='password' 
+                                class='form-control' 
+                                placeholder='<%=__('repeat the password')%>' 
+                                required>
+                    </div>
+                </div>
+                <p class='help'><%=__('Enter your data to create the account')%></p>
+                <button type='submit' class='btn btn-block btn-primary login-btn--main'>Create account</button>
+                <div class='mt-2'>
+                    <a class='login-link' href='/user/login'><%= __('Go to login')%></a>
+                </div>
+            </form>
+        </div>
+    </main>
+    <!-- Bootstrap js -->
+    <% include ../partials/bootstrap %>
+  </body>
+</html>

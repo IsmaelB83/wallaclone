@@ -1,0 +1,118 @@
+{  
+   "users": [
+      {  
+         "name":"Ismael",
+         "email": "user@example.com",
+         "password": "1234"
+      }
+   ],
+   "anuncios": [
+      {  
+         "name":"PS4Pro",
+         "description": "Compro PS4 Pro con menos de 1 año de uso",
+         "price":200.99,
+         "type":"buy",
+         "photo":"/images/adverts/original/ps4pro.jpg",
+         "tags":[  
+            "lifestyle"
+         ]
+      },
+      {  
+         "name":"XBOX OneX",
+         "price":170.05,
+         "description": "Vendo XBOX One X como nueva. No tengo tiempo para jugar.",
+         "type":"sell",
+         "photo":"/images/adverts/original/xbox.jpg",
+         "tags":[  
+            "lifestyle"
+         ]
+      },
+      {  
+         "name":"Raton Gaming Razer Mamba",
+         "price":35.50,
+         "description": "El mejor ratón gamer del mercado. Como nuevo (1 año)",
+         "type":"sell",
+         "photo":"/images/adverts/original/ratonmamba.jpg",
+         "tags":[  
+            "lifestyle",
+            "work",
+            "mobile"
+         ]
+      },
+      {  
+         "name":"Teclado Gaming Razer Chroma",
+         "price":70.00,
+         "description": "Busco teclado razer en buen estado.",
+         "type":"buy",
+         "photo":"/images/adverts/original/tecladorazer.jpg",
+         "tags":[  
+            "lifestyle",
+            "work",
+            "mobile"
+         ]
+      },
+      {  
+         "name":"Gráfica Gaming 1080ti",
+         "price":400.00,
+         "description": "Todavía una bestia parda en el 2k.",
+         "type":"buy",
+         "photo":"/images/adverts/original/1080ti.jpg",
+         "tags":[  
+            "lifestyle",
+            "work"
+         ]
+      },
+      {  
+         "name":"PC Gaming (i7 6700K)",
+         "price":700.00,
+         "description": "Acabo de tener un hijo... se me acabo el gaming :)",
+         "type":"sell",
+         "photo":"/images/adverts/original/pcgaming.jpg",
+         "tags":[  
+            "lifestyle",
+            "work"
+         ]
+      },
+      {  
+         "name":"Apartamento en Marbella",
+         "price":5000000.00,
+         "description": "Vendo apartamento en primera linea de playa por no tener ni para pargar el seguro.",
+         "type":"sell",
+         "photo":"/images/adverts/original/apartamento.jpg",
+         "tags":[  
+            "lifestyle"
+         ]
+      },
+      {  
+         "name":"Calleras Crossfit",
+         "price": 15,
+         "description": "Dejate de romperte las manos en los WODs",
+         "type":"buy",
+         "photo":"/images/adverts/original/calleras.jpg",
+         "tags":[  
+            "lifestyle"
+         ]
+      },
+      {  
+         "name":"Comba de Crossfit",
+         "price": 8,
+         "description": "Soy el de las calleras.",
+         "type":"buy",
+         "photo":"/images/adverts/original/comba.jpg",
+         "tags":[  
+            "lifestyle"
+         ]
+      },
+      {  
+         "name":"BMW X6 M",
+         "price": 40000.00,
+         "description": "Soy el del apartamento. Con eso lo digo todo.",
+         "type":"sell",
+         "photo":"/images/adverts/original/x6.jpg",
+         "tags":[  
+            "lifestyle",
+            "motor"
+         ]
+      }
+   ]
+ }

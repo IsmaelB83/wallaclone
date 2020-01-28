@@ -1,0 +1,110 @@
+.Footer {
+    padding: 2.5rem 0;
+    width: 100%;
+    background:black;
+    color: #7c7e83;
+    font-size: .8rem;
+    line-height: .9rem; 
+}
+
+.Footer__row {
+    margin-bottom: 1.5rem;
+}
+
+.Footer__content {
+    margin-bottom: 1rem;
+}
+
+.Footer__content p {
+    line-height: 1.1rem;
+    margin: .5rem 0;
+}
+
+.Footer__content--center {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.Footer__title {
+    letter-spacing: 1px;
+    border-bottom: solid 1px #3a3a3a;
+    padding-bottom: 5px;
+    font-size: 1rem;
+    line-height: 1rem;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.Footer__block {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 1rem;
+}
+
+.Footer__link {
+    display: inline-block;
+    margin: 5px;
+    padding: 6px 15px;
+    font-size: 11px;
+    letter-spacing: 1px;
+    border-radius: 2px;
+    text-transform: capitalize;
+    background: var(--main-color);
+    border: 1px solid var(--main-color-dark);
+    color: white;
+}
+
+
+.Footer__link:hover {
+    background: var(--main-color-dark);
+    border-color: var(--main-color);
+    color: white;
+}
+
+/**
+ * Links del footer
+ */
+ .Mail__Icon {
+    margin-right: .5rem;
+ }
+
+.Footer a[href^="tel:"], .Footer a[href^="mailto:"], .Mail__Icon {
+    color: var(--main-color);
+}
+
+.Footer a[href^="tel:"]:hover, .Footer a[href^="mailto:"]:hover, .Mail__Icon {
+    color: var(--main-color-dark);
+}
+
+/**
+ * Social links del footer
+ */
+.SocialLinks {
+    margin-left: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.SocialLinks__link { 
+    padding: .2rem;
+    border-radius: 2px;
+    border: 1px solid transparent;
+    margin-right: .35rem;
+}
+
+.SocialLinks__link svg { font-size: 2rem;}
+
+.SocialLinks__link--facebook { color: #4267b2; }
+.SocialLinks__link--twitter { color: #38A1F3; }
+.SocialLinks__link--github { color: #ED3833; }
+.SocialLinks__link--linkedin { color: #0077B5; }
+.SocialLinks__link--instagram { color: #BD081C; }
+
+.SocialLinks__link:hover { 
+    border: 1px solid var(--main-color);
+    background-color: rgba(168, 245, 236, 0.3);
+}
+

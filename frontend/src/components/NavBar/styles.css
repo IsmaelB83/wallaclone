@@ -1,0 +1,53 @@
+.NavBar {
+  width: 100%;
+  background: linear-gradient(-45deg, var(--main-color), var(--main-color-light));
+  color: white;
+}
+
+.NavBar__Toolbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 !important;
+}
+
+.NavBar__Brand {
+  height: 40px;
+  width: auto;
+}
+
+.NavBar__Toolbar .NavBar__User { border-radius: 0; }
+.NavBar__Toolbar .NavBar__User:hover { border-radius: 0; }
+.NavBar__User .Avatar { margin-right: 5px; }
+
+.NavBar__User .NavBar__User--hiddenXS {
+  font-size: 1rem;
+  display: none;
+}
+
+@media only screen and (min-device-width : 768px){
+  .NavBar__Toolbar .NavBar__User .Avatar {
+    margin-right: 5px;
+  }
+  .NavBar__User .NavBar__User--hiddenXS {
+    display: block;
+  }    
+}
+
+.NavBar__Menu .NavBar__MenuItem:hover {
+  background: linear-gradient(-45deg, var(--main-color), var(--main-color-light));
+  color: white;
+}
+
+.NavBar__Menu .NavBar__MenuItem:hover svg {
+  color: white;
+}
+
+.NavBar__MenuItem .NavBar__MenuItemIcon {
+  min-width: 0px;
+  margin-right: .75rem;
+}
+
+.NavBar__MenuItem .NavBar__MenuItemText span {
+  font-size: .9rem;
+}

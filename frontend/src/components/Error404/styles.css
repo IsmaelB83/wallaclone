@@ -1,0 +1,17 @@
+.Error404 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem 0;
+}
+
+.Error404 img {
+    max-width: 700px;
+}
+
+.Error404 h1 {
+    text-transform: lowercase;
+    margin-top: 1rem;
+    font-weight: 400;
+}

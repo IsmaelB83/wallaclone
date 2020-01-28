@@ -1,0 +1,129 @@
+ /**
+ * Simple reset
+ */
+ *, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+:root {
+  font-size: 16px;
+  font-family: 'Lato', sans-serif;
+}
+
+ul, li {
+  list-style: none;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+img, embed, object, video {
+  max-width: 100%;
+  max-height: 100%;
+  width: 100%;
+}
+
+/**
+* Color palette (generated with https://coolors.co/)
+*/
+:root {
+  --main-color: rgb(19, 193, 172);
+  --main-color-dark: rgb(14, 147, 131);
+  --main-color-light:  rgb(168, 245, 236);
+  --dark-grey: rgb(30, 30, 36);
+  --medium-grey: rgb(48, 48, 54);
+  --light-grey: rgba(216, 220, 224, .7);
+  --main-white: rgb(250, 250, 250);
+  --main-black: rgb(2, 2, 2);
+}
+
+/**
+* Estilos margenes, etc.
+*/
+.mr-1 { margin-right: 5px; }
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.Container__Fill {
+  flex: 1; 
+  justify-content: center;
+  align-items: center;
+}
+
+/**
+* Section de titulo de página
+*/
+.Main__Section {
+  padding: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.Section__Title {
+  background: linear-gradient(-45deg, var(--main-color), var(--main-color-light));
+  padding: 1rem;
+  border: 1px solid var(--main-color);
+  border-radius: 5px;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, .3);
+}
+
+.Section__Title h2 {
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 1.25rem;
+  color: white;
+  text-shadow: 2px 2px 2px rgba(0,0,0,.5);
+}
+
+
+/**
+* Formato de los tags
+*/
+.Ad__Tag { margin-right: 5px; }
+.Ad__Tag.Ad__Tag--small { height: 1rem; }
+
+.Ad__Tag--buy,
+.Ad__Tag--sell,
+.Ad__Tag--lifestyle,
+.Ad__Tag--work,
+.Ad__Tag--mobile,
+.Ad__Tag--motor { color: white !important; }
+
+.Ad__Tag--buy { background-color: green !important; }
+.Ad__Tag--sell { background-color: red !important; }
+.Ad__Tag--lifestyle { background-color: orangered !important; }
+.Ad__Tag--work { background-color: purple !important; }
+.Ad__Tag--mobile { background-color: green !important; }
+.Ad__Tag--motor { background-color: blue !important; }
+
+/**
+ * Buttons
+ */
+.ButtonWallakeep {
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+
+.ButtonWallakeep__Green {
+  color: white !important;
+  background-color: var(--main-color) !important;
+}
+
+.ButtonWallakeep__Green:hover {
+  background-color: var(--main-color-dark) !important;
+}
+
+.ButtonWallakeep__Green:disabled {
+  color: white !important;
+  background-color: grey !important;
+  border: 1px solid lightgray !important;
+}

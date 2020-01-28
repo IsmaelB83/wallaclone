@@ -1,0 +1,21 @@
+.LoadingSmall {
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.LoadingSmall__Spinner {
+    height: 75px;
+    width: 100px;
+}
+
+.LoadingSmall__Text {
+    color: var(--main-color-dark);
+    letter-spacing: .25px;
+    text-transform: lowercase;
+    font-weight: 400;
+    font-size: 1rem;
+    text-align: center;
+}

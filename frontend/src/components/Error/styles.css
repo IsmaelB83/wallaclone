@@ -1,0 +1,27 @@
+.Error {
+    z-index: 100;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.Error h2 {
+    color: red;
+}
+
+.Error p {
+    font-size: 2rem;
+    margin-top: 1rem;
+    font-weight: bold;
+}
+
+.Error h3 {
+    margin-top: 2rem;
+}

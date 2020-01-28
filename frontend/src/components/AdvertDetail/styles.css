@@ -1,0 +1,156 @@
+.AdvertDetail {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 0 0 0;
+    width: 100%;
+}
+
+/**
+* Header del cards
+*/
+.AdvertDetail__Header {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.AdvertDetail__Header .AdvertDetail__Back {
+    clip-path: polygon(0 0, 0% 100%, 100% 0);
+    background-color: var(--main-color);
+    padding: .75rem 2rem 1rem .5rem;
+    color: white;
+    width: 100px;
+    align-self: flex-start;
+    transition: .3s all ease;
+}
+
+.AdvertDetail__Header .AdvertDetail__Back:hover {
+    background-color: var(--main-color-dark);
+}
+
+.AdvertDetail__Header h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    text-transform: capitalize;
+    text-shadow: 3px 4px 5px rgba(0, 0, 0, .3);
+    text-align: center;
+}
+
+.AdvertDetail__Header .Caption {
+    border-radius: 1rem;
+    width: auto;
+}
+
+/**
+* Content del cards
+*/
+.AdvertDetail__Main {
+    display: flex;
+    flex-direction: column;
+}
+
+.AdvertDetail__Content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.AdvertDetail__Content .AdvertDetail__Type {
+    align-self: flex-start;
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    font-weight: 300;
+    letter-spacing: 2px;
+}
+
+.AdvertDetail__Content .AdvertDetail__Description {
+    margin-top: 2rem;
+    font-size: 1.25rem;
+    font-weight: 300;
+}
+
+.AdvertDetail__Content .AdvertDetail__Tags {
+    margin-top: 1rem;
+}
+
+.AdvertDetail__Content .AdvertDetail__Actions {
+    margin-top: 2rem;
+    justify-self: flex-end;
+}
+
+.AdvertDetail__Actions .AdvertDetail__Button {
+    color: white;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    background-color: var(--main-color);
+    border: 1px solid var(--main-color);
+}
+
+.AdvertDetail__Actions .AdvertDetail__Button:hover {
+    background-color: var(--main-color-dark);
+    border: 1px solid var(--main-color);
+}
+
+.AdvertDetail__Actions .AdvertDetail__Button .Icon {
+    min-width: 0;
+    margin-right: 1rem;
+    color: white;
+}
+
+/**
+* Footer del cards
+*/
+.AdvertDetail__Footer { 
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    border-top: 1px solid var(--light-grey);
+    margin-top: 1rem;
+    padding-top: .5rem;
+}
+
+.AdvertDetail__Footer .AdvertDetail__Price {
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, .8);
+}
+
+.AdvertDetail__Footer .AdvertDetail__Price .Text {
+    letter-spacing: 1px;
+    font-size: 1rem;
+}
+
+.AdvertDetail__Footer .AdvertDetail__Price .Price {
+    font-size: 1.75rem;
+}
+
+.AdvertDetail__Footer .AdvertDetail__Price .Price span {
+    font-size: 2.5rem;
+}
+
+.AdvertDetail__Footer .AdvertDetail__Date {
+    text-transform: lowercase;
+    color: rgba(0, 0, 0, .8);
+    letter-spacing: 1px;
+}
+
+/**
+ * Responsive
+ */
+ @media only screen and (min-device-width : 700px){
+    .AdvertDetail__Main {
+        flex-direction: row;
+    }
+    
+    .AdvertDetail__Content {
+        padding: 3rem 3rem 1rem 3rem;
+    }
+
+    .AdvertDetail__Footer { 
+        margin: 0;
+    }
+}
+  
