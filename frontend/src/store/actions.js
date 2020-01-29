@@ -1,6 +1,8 @@
 // API
 import AdvertServices from '../services/AdvertServices';
-import UserServices from '../services/UserServices';
+import AuthServices from '../services/AuthServices';
+// Own modules
+import LocalStorage from '../utils/Storage';
 // Actions
 import {
     // Tags
@@ -28,20 +30,49 @@ import {
     LOGIN_REQUEST,
     LOGIN_FAILURE,
     LOGIN_SUCCESS,
-    LOGOUT,
+    LOGOUT_REQUEST,
+    LOGOUT_FAILURE,
+    LOGOUT_SUCCESS,
     SET_SESSION,
     EDIT_SESSION,
 } from './types';
 
 
-export const login = (email, password) => {   
+export const login = (email, password, jwt) => {   
     return async function(dispatch, getState) {
         dispatch(loginRequest());
         try {
-            const user = await UserServices.login(email, password);
+            // Authenticate trough user/password
+            const user = await AuthServices.login(email, password);
             dispatch(loginSuccess(user));
         } catch (error) {
             dispatch(loginFailure(error.message))
+        }
+    }
+};
+
+export const checkJWT = (jwt) => {   
+    return async function(dispatch, getState) {
+        dispatch(loginRequest());
+        try {
+            // Authenticate (validation when login from Local storage) trough JWT
+            const user = await AuthServices.checkJWT(jwt);
+            dispatch(loginSuccess(user));
+        } catch (error) {
+            dispatch(loginFailure(error.message))
+        }
+    }
+};
+
+export const logout = (jwt) => {
+    return async function(dispatch, getState) {
+        dispatch(logoutRequest());
+        try {
+            await AuthServices.logout(jwt);
+            LocalStorage.cleanLocalStorage();
+            dispatch(logoutSuccess());
+        } catch (error) {
+            dispatch(logoutFailure(error.message))
         }
     }
 };
@@ -138,10 +169,6 @@ export const editSession = session => ({
     session,
 });
 
-export const logout = () => ({
-    type: LOGOUT,
-});
-
 export const setPage = pageNumber => ({
     type: SET_PAGE,
     pageNumber
@@ -164,7 +191,20 @@ const loginSuccess = session => ({
     session,
 });
 
- const fetchTagsRequest = () => ({
+const logoutRequest = () => ({
+    type: LOGOUT_REQUEST
+});
+
+const logoutFailure = (error) => ({
+    type: LOGOUT_FAILURE,
+    error,
+});
+
+const logoutSuccess = () => ({
+    type: LOGOUT_SUCCESS,
+});
+
+const fetchTagsRequest = () => ({
     type: FETCH_TAGS_REQUEST
 });
 

@@ -22,7 +22,9 @@ export const SET_PAGE = 'SET_PAGE';
 export const LOGIN_REQUEST = 'LOGIN_REQUEST'
 export const LOGIN_FAILURE = 'LOGIN_FAILURE'
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
-export const LOGOUT = 'LOGOUT';
+export const LOGOUT_REQUEST = 'LOGOUT_REQUEST'
+export const LOGOUT_FAILURE = 'LOGOUT_FAILURE'
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
 export const SET_SESSION = 'SET_SESSION';
 export const EDIT_SESSION = 'EDIT_SESSION';
 

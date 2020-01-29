@@ -10,6 +10,8 @@ import { logout } from '../../store/actions';
 const mapStateToProps = (state) => {
     return {
         session: state.session,
+        isFetching: state.ui.isFetching,
+        error: state.ui.error,
     }
 }
 
@@ -19,7 +21,7 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
-        logout: () => dispatch(logout()),
+        logout: (jwt) => dispatch(logout(jwt)),
     }
 }
 

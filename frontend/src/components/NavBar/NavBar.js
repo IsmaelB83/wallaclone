@@ -72,7 +72,7 @@ export default function NavBar(props) {
               </ListItemIcon>
               <ListItemText className='NavBar__MenuItemText' primary="Perfil" />
             </MenuItem>
-            <MenuItem className='NavBar__MenuItem' component={Link} to='/login' onClick={() => props.logout()}>
+            <MenuItem className='NavBar__MenuItem' component={Link} to='/login' onClick={() => props.logout(props.session.jwt)}>
               <ListItemIcon className='NavBar__MenuItemIcon'>
                 <ExitToAppIcon fontSize="small" />
               </ListItemIcon>

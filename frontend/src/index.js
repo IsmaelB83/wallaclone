@@ -9,7 +9,7 @@ import App from './components/App';
 // Own modules
 import { configureStore } from './store';
 import LocalStorage from './utils/Storage';
-import { setSession } from './store/actions';
+import { checkJWT } from './store/actions';
 // Assets
 // CSS
 import './index.css';
@@ -17,10 +17,10 @@ import './index.css';
 // Store de redux
 const store = configureStore();
 
-// Intento recuperar la sesión del storage, y si existe evito el login
+// Intento recuperar la sesión del storage, y si existe trato de hacer login con el token
 let session = LocalStorage.readLocalStorage();
-if (session) {
-    store.dispatch(setSession(session));
+if (session && session.jwt) {
+    store.dispatch(checkJWT(session.jwt));
 }
 
 // Render

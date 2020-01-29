@@ -3,14 +3,13 @@
 import * as TYPES from './types';
 // Models
 import Advert, { ADVERT_CONSTANTS } from '../models/Advert';
-import Session from '../models/Session';
 
 /**
  * Estado inicial
  */
 export const initialState = {
     // User session
-    session: new Session(),
+    session: {},
     // Para el modo visualizar/editar almaceno el anuncio seleccionado en cache (lo obtengo
     // desde la API en vez de extraerlo del store. Así me aseguro que el usuario ve la
     // versión más actualizada del anuncio cuando lo selecciona)
@@ -133,8 +132,8 @@ export function session (state = initialState.session, action) {
             return {...action.session};
         case TYPES.SET_SESSION:
             return {...action.session};
-        case TYPES.LOGOUT:
-            return {...initialState.session};
+        case TYPES.LOGOUT_SUCCESS:
+            return initialState.session;
         default:
             return state;
     }
@@ -193,6 +192,12 @@ export function ui(state = initialState.ui, action) {
             return { ...state, error: null, isFetching: false }
         case TYPES.SET_PAGE:
             return { ...state, currentPage: action.pageNumber }
+        case TYPES.LOGOUT_REQUEST:
+            return { ...state, error: null, isFetching: true }
+        case TYPES.LOGOUT_FAILURE:
+            return { ...state, error: action.error, isFetching: false }
+        case TYPES.LOGOUT_SUCCESS:
+            return { ...state, error: null, isFetching: false }
         default:
             return state;
     }
