@@ -33,6 +33,21 @@ module.exports = () => {
         AuthMiddleware,
         AuthCtrl.logout
     );
+    // Activate user account
+    router.get(
+        '/activate/:token',
+        AuthCtrl.activate
+    );
+    // Request reset password
+    router.post(
+        '/reset/',
+        AuthCtrl.requestReset
+    );
+    // Reset password
+    router.post(
+        '/reset/:token',
+        AuthCtrl.reset
+    );
     
     // Return routes object
     return router;

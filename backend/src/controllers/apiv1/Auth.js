@@ -2,9 +2,11 @@
 // Node imports
 const bcrypt = require('bcrypt-nodejs');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 const moment = require('moment');
 // Own imports
 const { User } = require('../../models');
+const { mail } = require('../../utils');
 
 /**
  * Controller object
@@ -19,8 +21,15 @@ module.exports = {
      */
     login: async (req, res, next) => {
         // Find user by email
-        const user = await User.findOne({email: req.body.email, active: true});
+        const user = await User.findOne({email: req.body.email});
         if (user) {
+            // User account inactive
+            if (!user.active) {
+                return next({
+                    status: 401,
+                    description: 'Account not active. Check your email to activate the account.'
+                }); 
+            }
             // Compare hashes (use bcrypt to avoid timing attacks as well)
             if (bcrypt.compareSync(req.body.password, user.password)) {
                 // Create the payload and JWT (expiration in 60 minutes after login)
@@ -45,11 +54,15 @@ module.exports = {
                     },
                 });
             }
+            return next({
+                status: 401,
+                description: 'Not authorized. Wrong password.'
+            });
         }
         // Unauthorized
         return next({
             status: 401,
-            description: 'Not authorized'
+            description: 'Account does not exist. Go to create an account.'
         });
     },
 
@@ -107,4 +120,100 @@ module.exports = {
             description: 'User not logged in'
         });
     },
+
+    /**
+     * Activate a user account via token
+     * @param {Request} req Request web
+     * @param {Response} res Response web
+     * @param {Middleware} next Next middleware
+     */
+    activate: async (req, res, next) => {
+        // Find user with the specified token
+        let user = await User.findOne({
+            token: req.params.token, 
+            active: false, 
+            expire: { $gt: Date.now()}
+        });
+        if (user) {
+            // Activate user and reset token
+            user.token = '';
+            user.expire = '';
+            user.active = true;
+            user = await user.save();
+            // Ok
+            return res.json({
+                success: true,
+                description: 'Account activated succesfully',
+            });
+        }
+        // No autorizado
+        next({
+            status: 401, 
+            message: 'Token not valid or expired. Reset your password once again.'
+        });
+    },
+
+    /**
+     * Request reset password. Sends an email and set the token
+     * @param {Request} req Request web
+     * @param {Response} res Response web
+     * @param {Middleware} next Siguiente middleware al que llamar
+     */
+    requestReset: async (req, res, next) => {
+        // Find user with that email
+        let user = await User.findOne({email: req.body.email });
+        if (user) {
+            // Set token and save user record
+            user.token = crypto.randomBytes(20).toString('hex');
+            user.expire = Date.now() + 360000;
+            user = await user.save();
+            // Send mail
+            mail({
+                email: user.email, 
+                subject: 'Password reset',
+                url: `http://localhost:3000/reset/${user.token}`,
+                view: 'password_reset'
+            });
+            // Ok
+            return res.json({
+                success: true,
+                description: 'Check your email to change password.',
+            });
+        }
+        // Unauthorized
+        return next({
+            status: 401,
+            description: 'Account does not exist. Go to create an account.'
+        });
+    },
+
+    /**
+     * Set password in case the token specified is valid
+     * @param {Request} req Request web
+     * @param {Response} res Response web
+     * @param {Middleware} next Siguiente middleware al que llamar
+     */
+    reset: async (req, res, next) => {
+        // Find user with the specified token
+        console.log(req.params.token);
+        let user = await User.findOne({
+            token: req.params.token, 
+            expire: { $gt: Date.now()}
+        });
+        // Si existe actualizo el password y lo guardo
+        if (user) {
+            user.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
+            user.token = null;
+            user.expire = null;
+            user.active = true;
+            user = await user.save();
+            // Ok
+            return res.json({
+                success: true,
+                description: 'Password updated successfully.',
+            });
+        }
+        // No autorizado
+        next({status: 401, error: 'No autorizado'});
+    }
 }

@@ -21,11 +21,6 @@ module.exports = () => {
         ], 
         UserCtrl.create
     );
-    // Activate user account
-    router.get(
-        '/activate/:token',
-        UserCtrl.activate
-    );
 
     // Return routes object
     return router;

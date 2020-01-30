@@ -31,7 +31,6 @@ module.exports = () => {
             query('skip').optional().isInt({ gt: 0 }).withMessage('must be a number greater than 0'),
             query('limit').optional().isInt({ gt: 0 }).withMessage('must be a number greater than 0')
         ],
-        AuthMiddleware, 
         WebAdvertCtrl.index); 
     /**
      * Render advert detail
@@ -40,7 +39,6 @@ module.exports = () => {
         '/advert/:id', 
         [   param('id').matches(/^[0-9a-fA-F]{24}$/).withMessage('wrong format'),
         ], 
-        AuthMiddleware, 
         WebAdvertCtrl.detail);
     
     // Return router

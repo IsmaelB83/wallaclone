@@ -13,7 +13,9 @@ const LocalStorage = {
      * Salvar sesión en local storage
      */
     saveLocalStorage: (session) => {
-        localStorage.setItem('wallafit', JSON.stringify(session));
+        if (session.name) {
+            localStorage.setItem('wallafit', JSON.stringify(session));
+        }
     },
 
     /**

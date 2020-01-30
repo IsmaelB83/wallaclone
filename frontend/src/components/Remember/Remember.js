@@ -11,7 +11,7 @@ import withForm from '../Forms/Form/withForm';
 import LoadingSmall from '../LoadingSmall';
 // Models
 // Own modules
-import LocalStorage from '../../utils/Storage';
+import AuthServices from '../../services/AuthServices';
 // Assets
 import imageLogo from '../../assets/images/logo2.png';
 // CSS
@@ -29,7 +29,7 @@ class Remember extends Component {
     return (
       <div className='Login'>
         <div className='Login__Wrapper'>
-          <Form className='Login__Form' onSubmit={this.login}>
+          <Form className='Login__Form' onSubmit={this.requestReset}>
             <img src={imageLogo} className='Login__Logo' alt='nodepop-logo' />
             <InputForm name='email' type='email' placeholder='type your email' required icon={<PermIdentityIcon/>}/>
             <p className='Login__Help'>enter your email to restart your password</p>
@@ -45,33 +45,22 @@ class Remember extends Component {
   }
 
   /**
-   * Did mount
-   */
-  componentDidUpdate() {
-    // Notificaciones
-    if (this.props.error) {
-      this.props.enqueueSnackbar(this.props.error, { variant: 'error', });
-    } else if (this.props.session) {
-      // Si el login ha sido exitoso
-      LocalStorage.saveLocalStorage(this.props.session);
-      this.props.history.push('/');
-    }
-  }
-
-  /**
    * Handle onSubmit event
    */
-  login = (inputs) => {
-    // Campos relevantes para generar el objeto sesión
-    const { email, password } = {...inputs};
-    // Son todos obligatorios, en caso de no estar no permito continuar
-    if (!email || !password) {
-      this.props.enqueueSnackbar('Rellene todos los campos del formulario', { variant: 'error', });
-      return;
+  requestReset = async (inputs) => {
+    // Campos relevantes del form
+    const { email } = {...inputs};
+    // Solicito resetear el password al API
+    try {
+      const user = await AuthServices.resetRequest(email);
+      if (user) {
+        this.props.enqueueSnackbar('Revise su email para resetear la contraseña.', { variant: 'success', });
+      } else {
+        this.props.enqueueSnackbar('Error solicitando reseteo de contraseña.', { variant: 'error', });
+      }        
+    } catch (error) {
+      this.props.enqueueSnackbar(error.response.data.data, { variant: 'error', });
     }
-    // Intento login en la API
-    this.props.login(email, password);
-   
   }
 }
 

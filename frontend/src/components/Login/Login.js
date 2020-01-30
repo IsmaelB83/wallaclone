@@ -13,6 +13,7 @@ import LoadingSmall from '../LoadingSmall';
 // Models
 // Own modules
 import LocalStorage from '../../utils/Storage';
+import AuthServices from '../../services/AuthServices';
 // Assets
 import imageLogo from '../../assets/images/logo2.png';
 // CSS
@@ -22,6 +23,23 @@ import './styles.css';
  * Login Form
  */
 class Login extends Component {
+
+  /**
+   * Constructor
+   */
+  constructor(props) {
+    super(props);
+      // Si se ha llamado con "token" es un reset de password
+      if (this.props.match.params.token) {
+        AuthServices.activate(this.props.match.params.token)
+        .then (result => {
+          this.props.enqueueSnackbar(result.data.description, { variant: 'success', });
+        })
+        .catch(error => {
+          this.props.enqueueSnackbar(error.response.data.data, { variant: 'error', });
+        })
+      }    
+  }
 
   /**
    * Render

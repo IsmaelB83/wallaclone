@@ -9,7 +9,7 @@ import App from './components/App';
 // Own modules
 import { configureStore } from './store';
 import LocalStorage from './utils/Storage';
-import { checkJWT } from './store/actions';
+import { loginWithToken } from './store/actions';
 // Assets
 // CSS
 import './index.css';
@@ -20,7 +20,7 @@ const store = configureStore();
 // Intento recuperar la sesión del storage, y si existe trato de hacer login con el token
 let session = LocalStorage.readLocalStorage();
 if (session && session.jwt) {
-    store.dispatch(checkJWT(session.jwt));
+    store.dispatch(loginWithToken(session.jwt));
 }
 
 // Render

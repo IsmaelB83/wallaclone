@@ -30,7 +30,7 @@ export default {
   */
   getAdverts: () => {
     // Endpoint
-    let baseURL = `${API_URL}/anuncios`;
+    let baseURL = `${API_URL}/adverts`;
     // Call endpoint and return
     return Axios.get(baseURL)
     .then(res => res.data.results.map(advert => new Advert(advert, API_URL)));
@@ -41,7 +41,7 @@ export default {
   */
   getAdvert: (advertId) => {
     // Endpoint
-    let baseURL = `${API_URL}/anuncios/${advertId}`;
+    let baseURL = `${API_URL}/adverts/${advertId}`;
     // Call endpoint and return
     return Axios.get(baseURL)
     .then(res => new Advert(res.data.result, API_URL));
@@ -52,7 +52,7 @@ export default {
   */
   searchAdverts: (filters) => {
     // Endpoint
-    let baseURL = `${API_URL}/anuncios?`;
+    let baseURL = `${API_URL}/adverts?`;
     if (filters.name) baseURL =`${baseURL}name=${filters.name}&`;
     if (filters.type && filters.type !== 'all') baseURL =`${baseURL}venta=${filters.type==='sell'?true:false}&`;
     if (filters.tag && filters.tag !== 'all') baseURL =`${baseURL}tag=${filters.tag}&`;

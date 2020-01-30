@@ -33,18 +33,15 @@ module.exports = {
             user = await User.insert(new User({...req.body}));
             if (user) {
                 // Send mail
-                const apiURL = `https://localhost:8443/apiv1/user/activate/${user.token}`;
-                const webURL = `https://localhost:8443/user/activate/${user.token}`;
                 mail({
                     email: user.email, 
                     subject: 'Activate account',
-                    apiURL,
-                    webURL,
+                    url: `http://localhost:3000/activate/${user.token}`,
                     view: 'new_user'
                 });
                 // Ok
                 return res.status(201).json({
-                    description: 'User created successfully. Check your email to activate the account.',
+                    description: 'Check your email to activate the account',
                     user: {
                         id: user._doc._id,
                         name: user._doc.name,
@@ -62,31 +59,4 @@ module.exports = {
             next(error);
         }
     },
-    /**
-     * Activate a user account via token
-     * @param {Request} req Request web
-     * @param {Response} res Response web
-     * @param {Middleware} next Next middleware
-     */
-    activate: async (req, res, next) => {
-        let user = await User.findOne({
-            token: req.params.token, 
-            active: false, 
-            expire: { $gt: Date.now()}
-        });
-        if (user) {
-            // Activo el usuario
-            user.token = '';
-            user.expire = '';
-            user.active = true;
-            user = await user.save();
-            // Ok
-            return res.json({
-                success: true,
-                description: 'Account activated succesfully. You can start using your credentials in nodepop.',
-            });
-        }
-        // No autorizado
-        next({status: 400, message: 'Token not valid or expired.'});
-    }
 }

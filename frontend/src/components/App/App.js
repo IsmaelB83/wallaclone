@@ -7,6 +7,7 @@ import AdvertEdit from '../AdvertEdit';
 import Login from '../Login';
 import Register from '../Register';
 import Remember from '../Remember';
+import Reset from '../Reset';
 import Profile from '../Profile';
 import Home from '../Home';
 // Components
@@ -33,6 +34,8 @@ export default function App(props) {
               <Route path='/login' exact component={Login} />
               <Route path='/register' exact component={Register} />
               <Route path='/remember' exact component={Remember} />
+              <Route path='/reset/:token' exact component={Reset} />
+              <Route path='/activate/:token' exact component={Login} />
               <PrivateRoute path='/profile' exact component={Profile} />
               <PrivateRoute path='/advert/display/:id' exact component={AdvertDetail} />
               <PrivateRoute path='/advert/create' exact render={(props) => <AdvertEdit {...props} mode='create'/>}/>

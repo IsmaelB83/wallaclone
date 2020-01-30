@@ -48,7 +48,7 @@ export default {
   /**
   * Trata de hacer login contra el API
   */
-  checkJWT: (jwt) => {
+  loginWithToken: (jwt) => {
     // Endpoint
     let baseURL = `${API_URL}/authenticate/checkjwt`;
     // Call endpoint and return
@@ -57,6 +57,49 @@ export default {
       { headers: { 'Authorization': `Bearer ${jwt}`} }
     )
     .then(res => new Session(res.data.user));
-  }
-  
+  },
+
+
+  /**
+  * Solicita reseteo de contraseña
+  */
+  activate: (token) => {
+    // Endpoint
+    let baseURL = `${API_URL}/authenticate/activate/${token}`;
+    // Call endpoint and return
+    return Axios.get(
+      baseURL,
+    )
+    .then(res => res);
+  },
+
+  /**
+  * Solicita reseteo de contraseña
+  */
+  resetRequest: (email) => {
+    // Endpoint
+    let baseURL = `${API_URL}/authenticate/reset`;
+    // Call endpoint and return
+    return Axios.post(
+      baseURL, 
+      Querystring.stringify({ email: email }),
+      { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
+    )
+    .then(res => res);
+  },
+
+  /**
+  * Resetea la contraseña
+  */
+  reset: (token, password) => {
+    // Endpoint
+    let baseURL = `${API_URL}/authenticate/reset/${token}`;
+    // Call endpoint and return
+    return Axios.post(
+      baseURL, 
+      Querystring.stringify({ password: password }),
+      { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
+    )
+    .then(res => res);
+  },
 }

@@ -188,6 +188,8 @@ export function ui(state = initialState.ui, action) {
             return { ...state, error: null, isFetching: true }
         case TYPES.LOGIN_FAILURE:
             return { ...state, error: action.error, isFetching: false }
+        case TYPES.LOGIN_WITH_TOKEN_FAILURE:
+            return { ...state, error: null, isFetching: false }
         case TYPES.LOGIN_SUCCESS:
             return { ...state, error: null, isFetching: false }
         case TYPES.SET_PAGE:

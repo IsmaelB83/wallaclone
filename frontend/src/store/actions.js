@@ -28,8 +28,9 @@ import {
     SET_PAGE,
     // User
     LOGIN_REQUEST,
-    LOGIN_FAILURE,
     LOGIN_SUCCESS,
+    LOGIN_FAILURE,
+    LOGIN_WITH_TOKEN_FAILURE,
     LOGOUT_REQUEST,
     LOGOUT_FAILURE,
     LOGOUT_SUCCESS,
@@ -46,20 +47,30 @@ export const login = (email, password, jwt) => {
             const user = await AuthServices.login(email, password);
             dispatch(loginSuccess(user));
         } catch (error) {
-            dispatch(loginFailure(error.message))
+            let message = error.message;
+            if (error.response && error.response.data) {
+                message = error.response.data.data
+            }
+            dispatch(loginFailure(message))
         }
     }
 };
 
-export const checkJWT = (jwt) => {   
+export const loginWithToken = (jwt) => {   
     return async function(dispatch, getState) {
         dispatch(loginRequest());
         try {
             // Authenticate (validation when login from Local storage) trough JWT
-            const user = await AuthServices.checkJWT(jwt);
+            const user = await AuthServices.loginWithToken(jwt);
             dispatch(loginSuccess(user));
         } catch (error) {
-            dispatch(loginFailure(error.message))
+            // In case login from JWT in Local storage fails --> clean local storage
+            LocalStorage.cleanLocalStorage();
+            let message = error.message;
+            if (error.response && error.response.data) {
+                message = error.response.data.data
+            }
+            dispatch(loginWithTokenFailure(message))
         }
     }
 };
@@ -181,14 +192,19 @@ const loginRequest = () => ({
     type: LOGIN_REQUEST
 });
 
+const loginSuccess = session => ({
+    type: LOGIN_SUCCESS,
+    session,
+});
+
 const loginFailure = error => ({
     type: LOGIN_FAILURE,
     error,
 });
 
-const loginSuccess = session => ({
-    type: LOGIN_SUCCESS,
-    session,
+const loginWithTokenFailure = error => ({
+    type: LOGIN_WITH_TOKEN_FAILURE,
+    error,
 });
 
 const logoutRequest = () => ({
