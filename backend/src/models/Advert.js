@@ -36,7 +36,19 @@ const AdvertSchema = new Schema(
         /**
         * Tags del anuncio
         */
-        tags: [{ type: String, enum: ['work', 'lifestyle', 'motor', 'mobile', 'comic'], index: true},]
+        tags: [{ type: String, enum: ['work', 'lifestyle', 'motor', 'mobile', 'comic'], index: true},],
+        /**
+         * Booked product true/false
+         */
+        booked: { type: Boolean, required: false, default: false },
+        /**
+         * Sold product true/false
+         */
+        sold: { type: Boolean, required: false, default: false },
+        /**
+         * User
+         */
+        user: { type: Schema.Types.ObjectId, ref: 'User' },
     },
     {
         /**
@@ -157,6 +169,8 @@ AdvertSchema.statics.updateAdvert = async function(id, newAdvert) {
             }
             advert.tags = newAdvert.tags || advert.tags;
             advert.description = newAdvert.description || advert.description;
+            advert.booked = newAdvert.booked || advert.booked;
+            advert.sold = newAdvert.sold || advert.sold;
             // Salvo datos en mongo
             advert = await advert.save();
             return advert;

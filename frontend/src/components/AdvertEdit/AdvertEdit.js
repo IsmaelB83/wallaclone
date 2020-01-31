@@ -21,6 +21,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import SaveIcon from '@material-ui/icons/Save';
 import CheckIcon from '@material-ui/icons/Check';
 import CancelIcon from '@material-ui/icons/Cancel';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 // Components
 import NavBar from '../NavBar';
 import Footer from '../Footer';
@@ -179,6 +181,18 @@ export default class AdvertEdit extends Component {
                   }}
                 />
               </FormControl> 
+              <FormControl fullWidth className='AdvertEdit__FormControl'>
+                <FormControlLabel
+                  control={ <Checkbox checked={this.props.advert.booked} onChange={this.handleChange('booked')} value="booked" /> }
+                  label="Reservado"
+                />
+              </FormControl>
+              <FormControl fullWidth className='AdvertEdit__FormControl'>
+                <FormControlLabel
+                  control={ <Checkbox checked={this.props.advert.sold} onChange={this.handleChange('sold')} value="sold" /> }
+                  label="Vendido"
+                />
+              </FormControl>
               <div className='AdvertEdit__Footer'>
                 <Button type='submit' variant='contained' startIcon={<SaveIcon />} className='ButtonWallakeep ButtonWallakeep__Green'>
                   Guardar
@@ -273,9 +287,9 @@ export default class AdvertEdit extends Component {
     if (advert.isValid()) {
       this.setState({submit: true});
       if (mode === 'create')
-        this.props.createAdvert(advert)
+        this.props.editAdvert(advert, this.props.session.jwt);
       else
-        this.props.editAdvert(advert);
+        this.props.editAdvert(advert, this.props.session.jwt);
     } else {
       // El anuncio no es completo. Error
       this.props.enqueueSnackbar('Los datos del anuncio no están completos', { variant: 'error' });

@@ -18,6 +18,7 @@ import {
  */
 const mapStateToProps = (state) => {
     return {
+        session: state.session,
         tags: state.tags,
         advert: state.advert,
         adverts: state.adverts,
@@ -33,8 +34,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         loadAdvert: (id) => dispatch(fetchAdvert(id)),
         clearAdvert: () => dispatch(clearAdvert()),
-        editAdvert: (advert) => dispatch(editAdvert(advert)),
-        createAdvert: (advert) => dispatch(createAdvert(advert))
+        editAdvert: (advert, jwt) => dispatch(editAdvert(advert, jwt)),
+        createAdvert: (advert, jwt) => dispatch(createAdvert(advert, jwt))
     }
 }
 

@@ -136,11 +136,11 @@ export const searchAdverts = (filters) => {
     }
 };
 
-export const editAdvert = (advert) => {   
+export const editAdvert = (advert, jwt) => {   
     return async function(dispatch, getState) {
         dispatch(editAdvertRequest());
         try {
-            const response = await AdvertServices.editAdvert(advert);
+            const response = await AdvertServices.editAdvert(advert, jwt);
             dispatch(editAdvertSuccess(response));
         } catch (error) {
             dispatch(editAdvertFailure(error.message))
@@ -148,12 +148,12 @@ export const editAdvert = (advert) => {
     }
 };
 
-export const createAdvert = (advert) => {   
+export const createAdvert = (advert, jwt) => {   
     return async function(dispatch, getState) {
         delete advert._id;
         dispatch(createAdvertRequest());
         try {
-            const response = await AdvertServices.postAdvert(advert);
+            const response = await AdvertServices.postAdvert(advert, jwt);
             dispatch(createAdvertSuccess(response));
         } catch (error) {
             dispatch(createAdvertFailure(error.message));

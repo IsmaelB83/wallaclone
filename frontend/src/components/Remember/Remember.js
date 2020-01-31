@@ -60,7 +60,7 @@ class Remember extends Component {
         this.props.enqueueSnackbar('Error solicitando reseteo de contraseña.', { variant: 'error', });
       }        
     } catch (error) {
-      this.props.enqueueSnackbar(error.response.data.data, { variant: 'error', });
+      this.props.enqueueSnackbar(error.message, { variant: 'error', });
     }
   }
 }

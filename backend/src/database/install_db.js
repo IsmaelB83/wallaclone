@@ -17,18 +17,21 @@ database.connect(process.env.MONGODB_URL)
     // Read JSON init data
     const dump = JSON.parse(fs.readFileSync('./src/database/data.json', 'utf8'));
     // Create default user
+    let id = '';
     for (let i = 0; i < dump.users.length; i++) {
         let user = new User(dump.users[i]);
         user = await User.insert(user);
         user.active = true;
         user.token = null;
         user.expire = null;
-        await user.save();
+        user = await user.save();
+        id = user._id;
     }
     // Create default adverts
     const adverts = [];
     for (let i = 0; i < dump.anuncios.length; i++) {
         const advert = new Advert({...dump.anuncios[i]});
+        advert.user = id;
         advert.thumbnail = advert.photo; // Default thumbnail is the original photo
         adverts.push (advert);
     }

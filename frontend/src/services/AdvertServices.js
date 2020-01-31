@@ -19,7 +19,7 @@ export default {
   */
   getTags: () => {
     // Endpoint
-    let baseURL = `${API_URL}/tags`;
+    let baseURL = `${API_URL}/adverts/tags`;
     // Call endpoint and return
     return Axios.get(baseURL)
     .then(res => res.data.results);
@@ -74,11 +74,14 @@ export default {
   * Llama a la API para crear un nuevo anuncio
   * @param {Advert} advert 
   */
-  postAdvert: (advert) => {
+  postAdvert: (advert, jwt) => {
     // Endpoint
-    const baseURL = `${API_URL}/anuncios`;
+    const baseURL = `${API_URL}/adverts`;
     // Call endpoint and return
-    return Axios.post(baseURL, null, { data: advert })
+    return Axios.post(
+      baseURL, 
+      { headers: { 'Authorization': `Bearer ${jwt}`} },
+      { data: advert })
     .then(res => new Advert(res.data.result, API_URL));
   },
   
@@ -86,11 +89,14 @@ export default {
   * Llama a la API para editar un anuncio
   * @param {Advert} advert 
   */
-  editAdvert: (advert) => {
+  editAdvert: (advert, jwt) => {
     // Endpoint
-    const baseURL = `${API_URL}/anuncios/${advert._id}`;
+    const baseURL = `${API_URL}/adverts/${advert._id}`;
     // Call endpoint and return
-    return Axios.put(baseURL, null, { data: advert })
+    return Axios.post(
+      baseURL, 
+      { headers: { 'Authorization': `Bearer ${jwt}`} },
+      { data: advert })
     .then(res => new Advert(res.data.result, API_URL));
   }
 }
