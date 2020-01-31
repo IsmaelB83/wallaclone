@@ -195,7 +195,6 @@ module.exports = {
      */
     reset: async (req, res, next) => {
         // Find user with the specified token
-        console.log(req.params.token);
         let user = await User.findOne({
             token: req.params.token, 
             expire: { $gt: Date.now()}

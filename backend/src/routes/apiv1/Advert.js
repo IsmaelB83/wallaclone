@@ -13,6 +13,7 @@ module.exports = () => {
     // Rutas de anuncios
     router.get(
         '/', 
+        AuthMiddleware,
         [   query('name').optional().isLength({min:1, max: 30}).withMessage('value must be between 1 and 30 characteres length'),
             query('skip').optional().isInt({ gt: 0 }).withMessage('must be a number greater than 0'),
             query('limit').optional().isInt({ gt: 0 }).withMessage('must be a number greater than 0'),
@@ -30,9 +31,11 @@ module.exports = () => {
         AdvertCtrl.select);
     router.get(
         '/tags', 
+        AuthMiddleware,
         AdvertCtrl.tags);
     router.get(
         '/:id', 
+        AuthMiddleware,
         [   param('id').matches(/^[0-9a-fA-F]{24}$/).withMessage('wrong format'),
         ], 
         AdvertCtrl.selectOne);

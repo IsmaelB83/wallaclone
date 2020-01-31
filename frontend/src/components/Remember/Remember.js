@@ -55,6 +55,7 @@ class Remember extends Component {
       const user = await AuthServices.resetRequest(email);
       if (user) {
         this.props.enqueueSnackbar('Revise su email para resetear la contraseña.', { variant: 'success', });
+        this.props.history.push('/login');
       } else {
         this.props.enqueueSnackbar('Error solicitando reseteo de contraseña.', { variant: 'error', });
       }        

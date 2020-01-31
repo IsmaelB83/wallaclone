@@ -71,12 +71,13 @@ class Register extends Component {
         const user = await AuthServices.reset(this.props.match.params.token, password);
         if (user) {
           this.props.enqueueSnackbar('Password reseteado con exito', { variant: 'success', });
-          this.props.history.push('/login');
         } else {
           this.props.enqueueSnackbar('Error reseteando password. Intenteló de nuevo o contacte con el administrador', { variant: 'error', });
         }        
       } catch (error) {
-        this.props.enqueueSnackbar(error.response.data.data, { variant: 'error', });
+        this.props.enqueueSnackbar(error.message, { variant: 'error', });
+      } finally {
+        this.props.history.push('/login');
       }
     }
   }
