@@ -10,11 +10,15 @@ import EditIcon from '@material-ui/icons/Edit';
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 // Models
+import Advert from '../../models/Advert'
 // Components
 import Loading from '../Loading';
 import NavBar from '../NavBar';
 import Footer from '../Footer';
 import Error from '../Error';
+// Assets
+import imgReserved from '../../assets/images/reserved.png'
+import imgSold from '../../assets/images/sold.png'
 // CSS
 import './styles.css';
 
@@ -31,15 +35,26 @@ export default function AdvertDetail(props) {
     loadAdvert(id);
   }, [id, loadAdvert]);
 
+  // Reservar producto
+  const bookAdvert = () => {
+    const advert = new Advert(props.advert);
+    advert.booked = !advert.booked;
+    props.editAdvert(advert, props.session.jwt);
+  }
+
+  // Sell advert
+  const sellAdvert = () => {
+    const advert = new Advert(props.advert);
+    advert.sold = !advert.sold;
+    props.editAdvert(advert, props.session.jwt); 
+  }
+
   // Render
   return (
     <React.Fragment>
       <NavBar/>
       <Container>
         <main className='Main__Section'>
-          <div className='Section__Title'>
-            <h2>Detalle del anuncio</h2>
-          </div>
           { props.advert && 
             <article className='AdvertDetail'>
               <div className='AdvertDetail__Main'>
@@ -49,6 +64,8 @@ export default function AdvertDetail(props) {
                   </Link>
                   <h1>{props.advert.name}</h1>
                   <img className='Caption' src={props.advert.photo} alt='caption'/>
+                  { props.advert.booked && <img src={imgReserved} className='AdvertCard__Status' alt='reserved'/> }
+                  { props.advert.sold && <img src={imgSold} className='AdvertCard__Status' alt='sold'/> }
                 </header>
                 <div className='AdvertDetail__Content'>
                   <h3 className='AdvertDetail__Type'>{props.advert.type==='buy'?'Compro':'Vendo'}</h3>
@@ -71,6 +88,12 @@ export default function AdvertDetail(props) {
                     <Link to={`/advert/edit/${props.advert._id}`}>
                       <Button type='button' variant='contained' color='secondary' startIcon={<EditIcon />} className='ButtonWallakeep ButtonWallakeep__Green'>Editar</Button>
                     </Link>
+                    <Button type='button' variant='contained' className='ButtonWallakeep ButtonWallakeep__Blue' disabled={props.advert.sold} onClick={bookAdvert}>
+                      {!props.advert.booked?'Reservar':'Anular reserva'}
+                    </Button>
+                    <Button type='button' variant='contained' className='ButtonWallakeep ButtonWallakeep__Red' onClick={sellAdvert}>
+                      {!props.advert.sold?'Vendido':'Anular venta'}
+                    </Button>
                   </div>
                   
                 </div>

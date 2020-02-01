@@ -65,6 +65,9 @@ export default class AdvertEdit extends Component {
     }
   }
 
+  /**
+   * Cuando el componente se actualiza
+   */
   componentDidUpdate() {
     const { mode } = this.props;
     // Para solucionar el caso en el que estando ya en editar, el usuario navega a crear. Al estar ambas opciones en el mismo componente, el flujo
@@ -183,13 +186,13 @@ export default class AdvertEdit extends Component {
               </FormControl> 
               <FormControl fullWidth className='AdvertEdit__FormControl'>
                 <FormControlLabel
-                  control={ <Checkbox checked={this.props.advert.booked} onChange={this.handleChange('booked')} value="booked" /> }
+                  control={ <Checkbox checked={this.props.advert.booked} onChange={this.handleCheck('booked')} value="booked" /> }
                   label="Reservado"
                 />
               </FormControl>
               <FormControl fullWidth className='AdvertEdit__FormControl'>
                 <FormControlLabel
-                  control={ <Checkbox checked={this.props.advert.sold} onChange={this.handleChange('sold')} value="sold" /> }
+                  control={ <Checkbox checked={this.props.advert.sold} onChange={this.handleCheck('sold')} value="sold" /> }
                   label="Vendido"
                 />
               </FormControl>
@@ -245,8 +248,20 @@ export default class AdvertEdit extends Component {
    * Cambio en un input tipo texto
    */
   handleChange = field => event => {
+    debugger;
     const aux = this.props.advert;
     aux[field] = event.target.value
+    this.setState({
+      advert: aux
+    });
+  }
+
+  /**
+   * Cambio en un input tipo check
+   */
+  handleCheck = field => event => {
+    const aux = this.props.advert;
+    aux[field] = event.target.checked
     this.setState({
       advert: aux
     });

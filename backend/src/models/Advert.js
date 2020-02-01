@@ -169,8 +169,8 @@ AdvertSchema.statics.updateAdvert = async function(id, newAdvert) {
             }
             advert.tags = newAdvert.tags || advert.tags;
             advert.description = newAdvert.description || advert.description;
-            advert.booked = newAdvert.booked || advert.booked;
-            advert.sold = newAdvert.sold || advert.sold;
+            advert.booked = newAdvert.booked;
+            advert.sold = newAdvert.sold;
             // Salvo datos en mongo
             advert = await advert.save();
             return advert;

@@ -28,6 +28,9 @@ export default function AdvertList (props) {
                         photo={advert.photo} 
                         tags={advert.tags} 
                         createdAt={advert.createdAt}
+                        booked={advert.booked}
+                        sold={advert.sold}
+                        user={advert.user}
             />
         )}
         </section>

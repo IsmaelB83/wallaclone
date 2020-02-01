@@ -93,7 +93,7 @@ export default {
     // Endpoint
     const baseURL = `${API_URL}/adverts/${advert._id}`;
     // Call endpoint and return
-    return Axios.post(
+    return Axios.put(
       baseURL, 
       { headers: { 'Authorization': `Bearer ${jwt}`} },
       { data: advert })

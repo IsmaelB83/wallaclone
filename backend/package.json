@@ -6,7 +6,7 @@
   "scripts": {
     "init": "node ./src/database/install_db.js",
     "start": "node ./src/index.js",
-    "dev": "cross-env DEBUG=nodepop:* nodemon",
+    "debug": "nodemon --nolazy --inspect-brk=9543 ./src/index.js",
     "prod": "cross-env NODE_ENV=production npm start",
     "cluster": "cross-env DEBUG=nodepop:* node ./src/cluster.js",
     "worker": "nodemon ./src/services/thumbnail/worker.js",

@@ -40,6 +40,10 @@ img, embed, object, video {
   --light-grey: rgba(216, 220, 224, .7);
   --main-white: rgb(250, 250, 250);
   --main-black: rgb(2, 2, 2);
+  --light-blue: rgb(70, 103, 250);
+  --dark-blue: rgb(61, 89, 216);
+  --light-red: rgb(255, 0, 0);
+  --dark-red: rgb(218, 13, 13);
 }
 
 /**
@@ -109,12 +113,17 @@ img, embed, object, video {
  * Buttons
  */
 .ButtonWallakeep {
+  color: white !important;
   padding-left: 1rem !important;
   padding-right: 1rem !important;
 }
 
+.ButtonWallakeep:disabled {
+  background-color: grey !important;
+  border: 1px solid lightgray !important;
+}
+
 .ButtonWallakeep__Green {
-  color: white !important;
   background-color: var(--main-color) !important;
 }
 
@@ -122,8 +131,18 @@ img, embed, object, video {
   background-color: var(--main-color-dark) !important;
 }
 
-.ButtonWallakeep__Green:disabled {
-  color: white !important;
-  background-color: grey !important;
-  border: 1px solid lightgray !important;
+.ButtonWallakeep__Blue {
+  background-color: var(--light-blue) !important;
+}
+
+.ButtonWallakeep__Blue:hover {
+  background-color: var(--dark-blue) !important;
+}
+
+.ButtonWallakeep__Red {
+  background-color: var(--light-red) !important;
+}
+
+.ButtonWallakeep__Red:hover {
+  background-color: var(--dark-red) !important;
 }

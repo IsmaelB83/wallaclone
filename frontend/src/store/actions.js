@@ -140,6 +140,7 @@ export const editAdvert = (advert, jwt) => {
     return async function(dispatch, getState) {
         dispatch(editAdvertRequest());
         try {
+            debugger;
             const response = await AdvertServices.editAdvert(advert, jwt);
             dispatch(editAdvertSuccess(response));
         } catch (error) {

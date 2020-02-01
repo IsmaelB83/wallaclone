@@ -13,6 +13,8 @@ import { ADVERT_CONSTANTS } from '../../models/Advert';
 // Assets
 import imgBuy from '../../assets/images/buy.png';
 import imgSell from '../../assets/images/sell.png';
+import imgReserved from '../../assets/images/reserved.png'
+import imgSold from '../../assets/images/sold.png'
 // CSS
 import './styles.css';
 
@@ -32,10 +34,13 @@ export default function AdvertCard (props) {
             </header>
             <div className='AdvertCard__Media'>
                 <img src={props.photo} alt='caption'/>
+                { props.booked && <img src={imgReserved} className='AdvertCard__Status' alt='reserved'/> }
+                { props.sold && <img src={imgSold} className='AdvertCard__Status' alt='sold'/> }
                 <p className='AdvertCard__Price'>
                     {props.price} 
                     <span className='AdvertCard__Currency'>€</span>
                 </p>
+                <p>Autor: {props.user}</p>
             </div>
             <div className='AdvertCard__Footer'>
                 <div className='AdvertCard__FooterActions'>

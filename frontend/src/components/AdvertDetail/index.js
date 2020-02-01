@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 // Own components
 import AdvertDetail from './AdvertDetail';
 // Own modules
-import { fetchAdvert } from '../../store/actions';
+import { fetchAdvert, editAdvert } from '../../store/actions';
 
 
 /**
@@ -12,6 +12,7 @@ import { fetchAdvert } from '../../store/actions';
  */
 const mapStateToProps = (state) => {
     return {
+        session: state.session,
         advert: state.advert,
         isFetching: state.ui.isFetching,
         error: state.ui.error
@@ -24,7 +25,8 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
-        loadAdvert: (id) => dispatch(fetchAdvert(id))
+        loadAdvert: (id) => dispatch(fetchAdvert(id)),
+        editAdvert: (advert, jwt) => dispatch(editAdvert(advert, jwt))
     }
 }
 

@@ -21,6 +21,9 @@ export default class Advert {
         this.type = ad.type;
         this.photo = ad.photo.startsWith('/images/')?`${apiUrl.replace('apiv1','')}${ad.photo}`:ad.photo;
         this.tags = ad.tags;
+        this.booked = ad.booked;
+        this.sold = ad.sold;
+        this.user = ad.user;
     }
 
     /**

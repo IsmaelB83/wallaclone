@@ -111,12 +111,25 @@ module.exports = {
             // Validations
             validationResult(req).throw();
             // Sólo se permiten modificar los anuncios propios
-            let advert = await Advert.findById(req.user.id);
-            if (advert.user !== req.user.id) {
-                return next({ status: 401, error: 'Not authorized to modify adverts other than yours' });
+            let advert = await Advert.findById(req.params.id);
+            if (!advert) {
+                // Anuncio no encontrado
+                return next({ 
+                    status: 404, 
+                    error: 'Not Found' 
+                });
+            } else if (advert.user._id.toString() !== req.user.id) {
+                // Un usuario sólo puede modificar sus anuncios
+                return next({ 
+                    status: 401, 
+                    error: 'No autorizado. Sólo puede modificar sus anuncios' 
+                });
             }
             // Update advert
             advert = new Advert({...req.body});
+            // Si está vendido desmarco el booked
+            if (advert.sold) advert.booked = false;
+            // Imagen
             if (req.file) {
                 advert.photo = `/images/anuncios/${req.file.filename}`;
                 advert.thumbnail = img.photo; // Initially the thumbnail points to the same photo
@@ -128,70 +141,18 @@ module.exports = {
                     success: true,
                     result: advert
                 });
-            }
+            } 
             // Error
-            next({ status: 404, error: 'Not Found' });
+            return next({
+                status: 500, 
+                result: 'Error no controlado actualizando anuncio.'
+            })
         } catch (error) {
+            console.log(req.user);
+            console.log(error.message);
             next(error);
         }
     },
-
-    /**
-     * Book advert
-     * @param {Request} req Request web
-     * @param {Response} res Response web
-     * @param {Middleware} next Next middleware
-     */
-    book: async (req, res, next) => {
-        try {
-            // Sólo se permiten modificar los anuncios propios
-            let advert = await Advert.findById(req.user.id);
-            if (advert.user !== req.user.id) {
-                return next({ status: 401, error: 'Not authorized to modify adverts other than yours' });
-            }
-            // Book advert
-            advert = await Advert.updateAdvert(req.params.id, { booked: req.body.booked || true });
-            if (advert) {
-                return res.json({
-                    success: true,
-                    result: advert
-                });
-            }
-            // Error
-            next({ status: 404, error: 'Not Found' });
-        } catch (error) {
-            next(error);
-        }
-    },
-
-    /**
-     * Sold advert
-     * @param {Request} req Request web
-     * @param {Response} res Response web
-     * @param {Middleware} next Next middleware
-     */
-    sold: async (req, res, next) => {
-        try {
-            // Sólo se permiten modificar los anuncios propios
-            let advert = await Advert.findById(req.user.id);
-            if (advert.user !== req.user.id) {
-                return next({ status: 401, error: 'Not authorized to modify adverts other than yours' });
-            }
-            // Sold advert
-            advert = await Advert.updateAdvert(req.params.id, { sold: req.body.sold || true });
-            if (advert) {
-                return res.json({
-                    success: true,
-                    result: advert
-                });
-            }
-            // Error
-            next({ status: 404, error: 'Not Found' });
-        } catch (error) {
-            next(error);
-        }
-    },
-    
 
     /**
      * Get all tags from database
