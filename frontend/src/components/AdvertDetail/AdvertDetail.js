@@ -1,5 +1,5 @@
 // NPM Modules
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
@@ -29,11 +29,25 @@ export default function AdvertDetail(props) {
   
   const id = props.match.params.id;
   const loadAdvert = props.loadAdvert;
+  const isDeleting = props.isDeleting;
+  const error = props.error
+
+  const [deleting, setDeleting] = useState(false);
 
   // Dispatch load advert action
   useEffect(() => {
     loadAdvert(id);
   }, [id, loadAdvert]);
+
+  // Controlar fin de acción de borrado
+  useEffect(() => {
+    if (deleting && !isDeleting && !error) {
+      props.enqueueSnackbar('Anuncio borrado con éxito', { variant: 'success' });
+      props.history.push('/');
+    } else if (deleting && !isDeleting && error) {
+      props.enqueueSnackbar(error, { variant: 'error' });
+    }
+  }, [isDeleting]);
 
   // Reservar producto
   const bookAdvert = () => {
@@ -49,6 +63,12 @@ export default function AdvertDetail(props) {
     props.editAdvert(advert, props.session.jwt); 
   }
 
+  // Delete advert
+  const deleteAdvert = () => {
+    setDeleting(true);
+    props.deleteAdvert(props.advert._id, props.session.jwt);
+  }
+ 
   // Render
   return (
     <React.Fragment>
@@ -94,6 +114,7 @@ export default function AdvertDetail(props) {
                     <Button type='button' variant='contained' className='ButtonWallakeep ButtonWallakeep__Red' onClick={sellAdvert}>
                       {!props.advert.sold?'Vendido':'Anular venta'}
                     </Button>
+                    <Button type='button' variant='contained' className='ButtonWallakeep ButtonWallakeep__Red' onClick={deleteAdvert}>Borrar</Button>
                   </div>
                   
                 </div>

@@ -20,7 +20,7 @@ export default function AdvertList (props) {
         <section className='AdvertList'>        
         { props.adverts.map((advert, index) => 
             <AdvertCard key={advert._id} 
-                        id={advert._id} 
+                        _id={advert._id} 
                         name={advert.name} 
                         description={advert.description}
                         price={advert.price}

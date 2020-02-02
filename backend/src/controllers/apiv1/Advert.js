@@ -148,8 +148,40 @@ module.exports = {
                 result: 'Error no controlado actualizando anuncio.'
             })
         } catch (error) {
-            console.log(req.user);
-            console.log(error.message);
+            next(error);
+        }
+    },
+
+    /**
+     * Delete advert
+     * @param {Request} req Request web
+     * @param {Response} res Response web
+     * @param {Middleware} next Next middleware
+     */
+    delete: async (req, res, next) => {
+        try {
+            // Sólo se permiten modificar los anuncios propios
+            let advert = await Advert.findById(req.params.id);
+            if (!advert) {
+                // Anuncio no encontrado
+                return next({ 
+                    status: 404, 
+                    error: 'Not Found' 
+                });
+            } else if (advert.user._id.toString() !== req.user.id) {
+                // Un usuario sólo puede modificar sus anuncios
+                return next({ 
+                    status: 401, 
+                    error: 'No autorizado. Sólo puede eliminar sus anuncios' 
+                });
+            }
+            // Ok
+            advert = await Advert.findByIdAndDelete(req.params.id);
+            return res.json({
+                success: true,
+                result: advert
+            });
+        } catch (error) {
             next(error);
         }
     },

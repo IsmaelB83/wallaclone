@@ -19,6 +19,9 @@ import {
     EDIT_ADVERT_REQUEST,
     EDIT_ADVERT_FAILURE,
     EDIT_ADVERT_SUCCESS,
+    DELETE_ADVERT_REQUEST,
+    DELETE_ADVERT_FAILURE,
+    DELETE_ADVERT_SUCCESS,
     CREATE_ADVERT_REQUEST,
     CREATE_ADVERT_FAILURE,
     CREATE_ADVERT_SUCCESS,
@@ -140,7 +143,6 @@ export const editAdvert = (advert, jwt) => {
     return async function(dispatch, getState) {
         dispatch(editAdvertRequest());
         try {
-            debugger;
             const response = await AdvertServices.editAdvert(advert, jwt);
             dispatch(editAdvertSuccess(response));
         } catch (error) {
@@ -158,6 +160,18 @@ export const createAdvert = (advert, jwt) => {
             dispatch(createAdvertSuccess(response));
         } catch (error) {
             dispatch(createAdvertFailure(error.message));
+        }
+    }
+};
+
+export const deleteAdvert = (id, jwt) => {   
+    return async function(dispatch, getState) {
+        dispatch(deleteAdvertRequest());
+        try {
+            const response = await AdvertServices.deleteAdvert(id, jwt);
+            dispatch(deleteAdvertSuccess(response));
+        } catch (error) {
+            dispatch(deleteAdvertFailure(error.message))
         }
     }
 };
@@ -274,6 +288,20 @@ const editAdvertFailure = error => ({
 
 const editAdvertSuccess = advert => ({
     type: EDIT_ADVERT_SUCCESS,
+    advert,
+});
+
+const deleteAdvertRequest = () => ({
+    type: DELETE_ADVERT_REQUEST
+});
+
+const deleteAdvertFailure = error => ({
+    type: DELETE_ADVERT_FAILURE,
+    error,
+});
+
+const deleteAdvertSuccess = advert => ({
+    type: DELETE_ADVERT_SUCCESS,
     advert,
 });
 

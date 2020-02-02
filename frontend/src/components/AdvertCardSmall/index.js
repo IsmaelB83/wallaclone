@@ -2,9 +2,9 @@
 import { connect } from 'react-redux';
 import { withSnackbar } from 'notistack';
 // Own components
-import AdvertDetail from './AdvertDetail';
+import AdvertCardSmall from './AdvertCardSmall';
 // Own modules
-import { fetchAdvert, editAdvert, deleteAdvert } from '../../store/actions';
+import { editAdvert, deleteAdvert } from '../../store/actions';
 
 
 /**
@@ -28,7 +28,6 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
-        loadAdvert: (id) => dispatch(fetchAdvert(id)),
         editAdvert: (advert, jwt) => dispatch(editAdvert(advert, jwt)),
         deleteAdvert: (id, jwt) => dispatch(deleteAdvert(id, jwt))
     }
@@ -37,4 +36,4 @@ const mapDispatchToProps = (dispatch) => {
 /**
  * Envuelvo el App en al función connect para conectar con el store recibido del provider
  */ 
-export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(AdvertDetail));
+export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(AdvertCardSmall));

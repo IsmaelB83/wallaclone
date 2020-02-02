@@ -8,6 +8,7 @@
  * Modelo de anuncio en nodepop
  */
 export default class Advert {
+    
     /**
      * Constructor
      * @param {Object} Advert 
@@ -15,6 +16,7 @@ export default class Advert {
     constructor(ad, apiUrl) {
         this._id = ad._id;
         this.createdAt = ad.createdAt;
+        this.updatedAt = ad.updatedAt;
         this.name = ad.name;
         this.description = ad.description;
         this.price = ad.price;

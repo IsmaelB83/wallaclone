@@ -98,5 +98,20 @@ export default {
       { headers: { 'Authorization': `Bearer ${jwt}`} },
       { data: advert })
     .then(res => new Advert(res.data.result, API_URL));
+  },
+
+  /**
+  * Llama a la API para editar un anuncio
+  * @param {Advert} advert 
+  */
+  deleteAdvert: (id, jwt) => {
+    // Endpoint
+    const baseURL = `${API_URL}/adverts/${id}`;
+    // Call endpoint and return
+    return Axios.delete(
+      baseURL, 
+      { headers: { 'Authorization': `Bearer ${jwt}`} }
+    )
+    .then(res => new Advert(res.data.result, API_URL));
   }
 }

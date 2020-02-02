@@ -1,0 +1,133 @@
+.AdvertCardSmall {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: .5rem;
+    transition: all 150ms ease-in;
+    width: 100%;
+    padding: 5px;
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: 10px;
+    background-color: white;
+}
+
+.AdvertCardSmall:hover {
+    transform: translateY(-2px);
+    box-shadow: 2px 3px 3px rgba(0, 0, 0, .3);
+}
+
+.AdvertCardSmall__Caption {
+    width: 125px;
+    height: 90px;
+    border-radius: 5px;
+    align-self: flex-start;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.AdvertCardSmall__Caption img, .AdvertCardSmall__Caption a {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.AdvertCardSmall__Body {
+    display: flex;
+    flex-direction: row !important;
+    align-content: space-around !important;
+    align-items: center;
+    margin-left: 1rem;
+    width: 100%;
+}
+
+.AdvertCardSmall__Actions {
+    display: flex;
+    justify-content: flex-end;
+    flex-grow: 1;
+}
+
+.AdvertCardSmall__Actions button {
+    background-color: transparent;
+    color: var(--medium-grey);
+    min-width: 0;
+    width: 35px;
+    height: 35px;
+    padding: 0;
+    font-size: .5rem;
+    border: 1px solid rgba(207,216,220,.5);;
+    margin-right: 3px;
+}
+
+.AdvertCardSmall__Actions button svg {
+    font-size: 1.1rem;
+    transition: all 200ms ease-in;
+}
+
+.AdvertCardSmall__Actions button:hover {
+    color: white;
+}
+
+.AdvertCardSmall__Status {
+    background: rgba(255, 255, 255, .8);
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 3px;
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+}
+
+.AdvertCardSmall__Status img {
+    width: 100%;
+    height: 100%;
+}
+
+.AdvertCardSmall__Date {
+    font-size: 1rem;
+    margin-right: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.AdvertCardSmall__Title {
+    font-size: 1rem;
+    margin: 0 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.AdvertCardSmall__Date .Title {
+    color: black;
+    font-size: .9rem;
+    font-weight: bold;
+    margin-bottom: .35rem;
+}
+
+.AdvertCardSmall__Date .SubTitle {
+    font-size: .85rem;
+    color: gray;
+}
+
+.AdvertCardSmall__Actions .Button__Green:hover {
+    background-color: var(--main-color) !important;
+}
+
+.AdvertCardSmall__Actions .Button__Blue:hover {
+    background-color: var(--light-blue) !important;
+}
+
+.AdvertCardSmall__Actions .Button__Red:hover {
+    background-color: var(--light-red) !important;
+}
+
+.AdvertCardSmall__Actions .Button__Gray:hover {
+    background-color: var(--dark-grey) !important;
+}
+  

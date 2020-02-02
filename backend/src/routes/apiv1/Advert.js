@@ -45,6 +45,11 @@ module.exports = () => {
             body('description').optional().optional().isLength({min:0, max: 100}).withMessage('length must be between 1 and 100 characters'),
         ],
         AdvertCtrl.update);
+    router.delete(
+        '/:id', 
+        AuthMiddleware,
+        MulterMiddleware,
+        AdvertCtrl.delete);
     router.post(
         '/', 
         AuthMiddleware,
