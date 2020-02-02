@@ -98,9 +98,9 @@
 
 .AdvertCardSmall__Title {
     font-size: 1rem;
-    margin: 0 1rem;
     display: flex;
     flex-direction: column;
+    margin-bottom: .35rem;
 }
 
 .AdvertCardSmall__Date .Title {
@@ -110,24 +110,20 @@
     margin-bottom: .35rem;
 }
 
+.AdvertCardSmall__Title a {
+    color: var(--medium-grey);
+    font-size: 1rem;
+}
+
 .AdvertCardSmall__Date .SubTitle {
     font-size: .85rem;
     color: gray;
 }
 
-.AdvertCardSmall__Actions .Button__Green:hover {
-    background-color: var(--main-color) !important;
+.AdvertCardSmall__Main {
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+    align-items: flex-start;
+    margin: 0 1rem;
 }
-
-.AdvertCardSmall__Actions .Button__Blue:hover {
-    background-color: var(--light-blue) !important;
-}
-
-.AdvertCardSmall__Actions .Button__Red:hover {
-    background-color: var(--light-red) !important;
-}
-
-.AdvertCardSmall__Actions .Button__Gray:hover {
-    background-color: var(--dark-grey) !important;
-}
-  

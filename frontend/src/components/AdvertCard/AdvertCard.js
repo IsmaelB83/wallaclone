@@ -61,7 +61,7 @@ export default function AdvertCard (props) {
 }
 
 AdvertCard.propTypes = {
-    id: PropTypes.string.isRequired,
+    _id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     photo: PropTypes.string,
     price: PropTypes.number.isRequired,

@@ -9,7 +9,7 @@ import App from './components/App';
 // Own modules
 import { configureStore } from './store';
 import LocalStorage from './utils/Storage';
-import { loginWithToken, fetchTags } from './store/actions';
+import { loginWithToken } from './store/actions';
 // Assets
 // CSS
 import './index.css';
@@ -22,9 +22,6 @@ let session = LocalStorage.readLocalStorage();
 if (session && session.jwt) {
     store.dispatch(loginWithToken(session.jwt));
 }
-
-// Recupero los tags
-store.dispatch(fetchTags());
 
 // Render
 ReactDOM.render(

@@ -4,12 +4,7 @@ import { withSnackbar } from 'notistack';
 // Own components
 import AdvertEdit from './AdvertEdit';
 // Own modules
-import { 
-    fetchAdvert,
-    editAdvert,
-    createAdvert,
-    clearAdvert
- } from '../../store/actions';
+import { fetchAdvert, editAdvert, createAdvert, clearAdvert } from '../../store/actions';
 
 
 /**

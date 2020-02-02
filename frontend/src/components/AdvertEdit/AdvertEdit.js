@@ -13,13 +13,7 @@ import Input from '@material-ui/core/Input';
 import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
 import Chip from '@material-ui/core/Chip';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import SaveIcon from '@material-ui/icons/Save';
-import CheckIcon from '@material-ui/icons/Check';
 import CancelIcon from '@material-ui/icons/Cancel';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -45,9 +39,9 @@ export default class AdvertEdit extends Component {
    */
   constructor(props) {
     super(props)
+    this.inputFile = React.createRef();
     this.state = {
       photoTemp: '',
-      openModal: false,   
       submit: false,
     }
   }
@@ -90,6 +84,25 @@ export default class AdvertEdit extends Component {
   }
 
   /**
+   * Open input file
+   */
+  openInputFile = () => {
+    this.inputFile.current.click();
+  }
+  
+  /**
+   * Hanle close modal
+   */
+  changeInputFile = (ev) => {
+    // Actualizo la imagen y cierro el modal
+    ev.stopPropagation();
+    ev.preventDefault();
+    const aux = this.props.advert;
+    aux.file = ev.target.files[0];
+    this.setState({ advert: aux });
+  }
+
+  /**
    * Render
    */
   render() {
@@ -100,13 +113,11 @@ export default class AdvertEdit extends Component {
         <NavBar/>
         <Container>
           <main className='Main__Section'>
-            <div className='Section__Title'>
-              <h2>{mode === 'edit' ? 'Editar anuncio' : 'Crear nuevo anuncio' }</h2>
-            </div>
             { this.props.advert &&
             <form onSubmit={this.handleSubmit} noValidate autoComplete='off' className='AdvertEdit__Form'>
-              <button type='button' className='AdvertEdit_Picture' onClick={this.handleSwitchOpen}>
-                <img src={this.props.advert.photo || imagePhoto} alt='dummy_photo'/>
+              <input type='file' id='file' ref={this.inputFile} style={{display: 'none'}} onChange={this.changeInputFile} />
+              <button type='button' className='AdvertEdit_Picture' onClick={this.openInputFile}>
+                <img src={imagePhoto} alt='dummy_photo'/>
               </button>
               <FormControl fullWidth className='AdvertEdit__FormControl'>
                 <InputLabel shrink htmlFor='type'>Nombre</InputLabel>
@@ -184,18 +195,22 @@ export default class AdvertEdit extends Component {
                   }}
                 />
               </FormControl> 
-              <FormControl fullWidth className='AdvertEdit__FormControl'>
-                <FormControlLabel
-                  control={ <Checkbox checked={this.props.advert.booked} onChange={this.handleCheck('booked')} value="booked" /> }
-                  label="Reservado"
-                />
-              </FormControl>
-              <FormControl fullWidth className='AdvertEdit__FormControl'>
-                <FormControlLabel
-                  control={ <Checkbox checked={this.props.advert.sold} onChange={this.handleCheck('sold')} value="sold" /> }
-                  label="Vendido"
-                />
-              </FormControl>
+              { mode === 'edit' && 
+                  <React.Fragment>
+                    <FormControl fullWidth className='AdvertEdit__FormControl'>
+                      <FormControlLabel
+                        control={ <Checkbox checked={this.props.advert.booked} onChange={this.handleCheck('booked')} value='booked' /> }
+                        label='Reservado'
+                      />
+                    </FormControl>
+                    <FormControl fullWidth className='AdvertEdit__FormControl'>
+                      <FormControlLabel
+                        control={ <Checkbox checked={this.props.advert.sold} onChange={this.handleCheck('sold')} value='sold' /> }
+                        label='Vendido'
+                      />
+                    </FormControl>
+                  </React.Fragment>
+              }
               <div className='AdvertEdit__Footer'>
                 <Button type='submit' variant='contained' startIcon={<SaveIcon />} className='ButtonWallakeep ButtonWallakeep__Green'>
                   Guardar
@@ -207,34 +222,6 @@ export default class AdvertEdit extends Component {
             </form>
             }
           </main>
-          <Dialog open={this.state.openModal} className='AdvertEdit__Modal'>
-            <DialogTitle className='Modal_Title'>
-              URL de la imagen
-            </DialogTitle>
-            <DialogContent className='Modal__Content'>
-              <DialogContentText>
-                La API de nodepop no admite carga de imagenes locales por el momento. Por favor, indique la URL a la imagen que desea añadir al anuncio
-              </DialogContentText>
-              <TextField
-                autoFocus
-                name='photoTemp'
-                value={this.state.photoTemp}
-                onChange={(ev)=>{this.setState({photoTemp: ev.target.value})}}
-                margin='dense'
-                label='URL Imagen'
-                type='text'
-                fullWidth
-              />
-            </DialogContent>
-            <DialogActions className='Modal__Actions'>
-              <Button onClick={this.handleChangePhoto} variant='contained' startIcon={<CheckIcon />} className='ButtonWallakeep ButtonWallakeep__Green'>
-                Aceptar
-              </Button>
-              <Button onClick={this.handleSwitchOpen} variant='contained' startIcon={<CancelIcon />} color='secondary'>
-                Cancelar
-              </Button>
-            </DialogActions>
-          </Dialog>
           { isFetching && <Loading text={'fetching advert'}/> }
           { isUpdating && <Loading text={mode === 'edit' ? 'Editando anuncio' : 'Creando anuncio' }/> }
           { error &&  <Error error={error}/> }
@@ -248,7 +235,6 @@ export default class AdvertEdit extends Component {
    * Cambio en un input tipo texto
    */
   handleChange = field => event => {
-    debugger;
     const aux = this.props.advert;
     aux[field] = event.target.value
     this.setState({
@@ -299,42 +285,21 @@ export default class AdvertEdit extends Component {
     ev.preventDefault();
     // Creo un anuncio con los datos del estado si es válido
     const advert = new Advert(this.props.advert);
+    advert.file = this.props.advert.file;
+    if (mode === 'create') {
+      advert.photo = advert.file.name;
+      advert.thumbnail = advert.file.name;
+    }
+    // Si los datos son completos continuo con la operación
     if (advert.isValid()) {
       this.setState({submit: true});
       if (mode === 'create')
-        this.props.editAdvert(advert, this.props.session.jwt);
+        this.props.createAdvert(advert, this.props.session.jwt);
       else
         this.props.editAdvert(advert, this.props.session.jwt);
     } else {
       // El anuncio no es completo. Error
       this.props.enqueueSnackbar('Los datos del anuncio no están completos', { variant: 'error' });
-    }
-  }
-
-  /**
-   * Handle open modal
-   */
-  handleSwitchOpen = () => {
-    this.setState({
-      photoTemp: this.props.advert.photo,
-      openModal: !this.state.openModal
-    });
-  }
-
-  /**
-   * Hanle close modal
-   */
-  handleChangePhoto = () => {
-    // Actualizo la imagen y cierro el modal
-    if (this.state.photoTemp) {
-      const aux = this.props.advert;
-      aux.photo = this.state.photoTemp;
-      this.setState({
-        advert: aux,
-        openModal: false
-      }); 
-    } else {
-      this.props.enqueueSnackbar('Debe indicar una URL a una imagen primero', { variant: 'error' });
     }
   }
 

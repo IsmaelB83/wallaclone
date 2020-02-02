@@ -78,7 +78,7 @@ module.exports = {
             validationResult(req).throw();
             // New Advert
             let advert = new Advert({...req.body});
-            advert.user. req.user.id;
+            advert.user = req.user.id;
             if (req.file) {
                 advert.photo = `/images/adverts/original/${req.file.filename}`;
                 advert.thumbnail = advert.photo; // Initially thumbnail refers to the same photo

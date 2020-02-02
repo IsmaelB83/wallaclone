@@ -65,6 +65,7 @@ export default class Home extends Component {
    * Component did mount
    */
   componentDidMount() {
+    this.props.fetchTags();
     this.props.loadAdverts();
   }
 

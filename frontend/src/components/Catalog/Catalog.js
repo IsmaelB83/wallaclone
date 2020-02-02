@@ -33,11 +33,11 @@ export default class Catalog extends Component {
             <div className='Catalog__Results'>
               <p className='Catalog__Count'>{this.props.advertsSelling.length} anuncios en venta.</p>
               { this.props.advertsSelling && this.props.advertsSelling.length > 0 &&
-                <AdvertListSmall adverts={this.props.advertsSelling} />
+                <AdvertListSmall adverts={this.props.advertsSelling} history={this.props.history}/>
               }
               <p className='Catalog__Count'>{this.props.advertsBuying.length} anuncios en búsqueda.</p>
               { this.props.advertsBuying && this.props.advertsBuying.length > 0 &&
-                <AdvertListSmall adverts={this.props.advertsBuying} />
+                <AdvertListSmall adverts={this.props.advertsBuying} history={this.props.history}/>
               }
             </div>
             { isFetching && <Loading text={'fetching data'}/> }

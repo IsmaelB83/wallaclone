@@ -77,11 +77,23 @@ export default {
   postAdvert: (advert, jwt) => {
     // Endpoint
     const baseURL = `${API_URL}/adverts`;
+    // Form Data
+    const formData = new FormData();
+    formData.append('name', advert.name);
+    formData.append('description', advert.description);
+    formData.append('price', advert.price);
+    formData.append('type', advert.type);
+    formData.append('tags', advert.tags);
+    formData.append('photo', advert.file);
+    // Config 
+    const config = {
+      headers: { 
+        'Authorization': `Bearer ${jwt}`,
+        'Content-Type': 'multipart/form-data'
+      }
+    }
     // Call endpoint and return
-    return Axios.post(
-      baseURL, 
-      { headers: { 'Authorization': `Bearer ${jwt}`} },
-      { data: advert })
+    return Axios.post( baseURL, formData, config )
     .then(res => new Advert(res.data.result, API_URL));
   },
   
@@ -92,11 +104,25 @@ export default {
   editAdvert: (advert, jwt) => {
     // Endpoint
     const baseURL = `${API_URL}/adverts/${advert._id}`;
+    // Form Data
+    const formData = new FormData();
+    formData.append('name', advert.name);
+    formData.append('description', advert.description);
+    formData.append('price', advert.price);
+    formData.append('type', advert.type);
+    formData.append('tags', advert.tags);
+    formData.append('booked', advert.booked);
+    formData.append('sold', advert.sold);
+    formData.append('photo', advert.file || advert.photo);
+    // Config 
+    const config = {
+      headers: { 
+        'Authorization': `Bearer ${jwt}`,
+        'Content-Type': 'multipart/form-data'
+      }
+    }
     // Call endpoint and return
-    return Axios.put(
-      baseURL, 
-      { headers: { 'Authorization': `Bearer ${jwt}`} },
-      { data: advert })
+    return Axios.put( baseURL, formData, config )
     .then(res => new Advert(res.data.result, API_URL));
   },
 
@@ -107,6 +133,7 @@ export default {
   deleteAdvert: (id, jwt) => {
     // Endpoint
     const baseURL = `${API_URL}/adverts/${id}`;
+    console.log(baseURL);
     // Call endpoint and return
     return Axios.delete(
       baseURL, 

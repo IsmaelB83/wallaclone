@@ -153,9 +153,9 @@ export const editAdvert = (advert, jwt) => {
 
 export const createAdvert = (advert, jwt) => {   
     return async function(dispatch, getState) {
-        delete advert._id;
         dispatch(createAdvertRequest());
         try {
+            delete advert._id;
             const response = await AdvertServices.postAdvert(advert, jwt);
             dispatch(createAdvertSuccess(response));
         } catch (error) {

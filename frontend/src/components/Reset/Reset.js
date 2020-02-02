@@ -43,8 +43,8 @@ class Register extends Component {
         <div className='Login__Wrapper'>
           <Form className='Login__Form' onSubmit={this.resetPassword}>
             <img src={imageLogo} className='Login__Logo' alt='nodepop-logo' />
-            <InputForm name='password' type='password' placeholder='type your password' required icon={<LockOpenIcon/>}/>
-            <InputForm name='password_2' type='password' placeholder='repeat your password' required icon={<LockOpenIcon/>}/>
+            <InputForm name='password' type='password' placeholder='type your password' autocomplete='on' required icon={<LockOpenIcon/>}/>
+            <InputForm name='password_2' type='password' placeholder='repeat your password' autocomplete='on' required icon={<LockOpenIcon/>}/>
             <p className='Login__Help'>enter your new password</p>
             <div className='Login__Buttons'>
               <Button className='button' type='submit' variant='contained' color='primary'> Reset password </Button>

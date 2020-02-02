@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import AdvertCardSmall from '../AdvertCardSmall';
 // Own modules
 // Models
-import Advert from '../../models/Advert';
 // Assets
 // CSS
 import './styles.css';
@@ -22,15 +21,16 @@ export default function AdvertListSmall (props) {
             <AdvertCardSmall    key={advert._id} 
                                 _id={advert._id} 
                                 name={advert.name} 
-                                description={advert.description}
                                 price={advert.price}
                                 type={advert.type} 
                                 photo={advert.photo} 
                                 tags={advert.tags} 
                                 createdAt={advert.createdAt}
+                                updatedAt={advert.updatedAt}
                                 booked={advert.booked}
                                 sold={advert.sold}
                                 user={advert.user}
+                                history={props.history}
             />
         )}
         </section>
@@ -38,5 +38,5 @@ export default function AdvertListSmall (props) {
 }
 
 AdvertListSmall.propTypes = {
-    adverts: PropTypes.arrayOf(Advert),
+    adverts: PropTypes.arrayOf(Object),
 }

@@ -1,14 +1,17 @@
 // NPM Modules
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from "react-router-dom";
 import Moment from 'react-moment';
+import { Link } from "react-router-dom";
 // Material UI
-import Button from '@material-ui/core/Button';
 import BookmarkBorderOutlinedIcon from '@material-ui/icons/BookmarkBorderOutlined';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import AttachMoneyOutlinedIcon from '@material-ui/icons/AttachMoneyOutlined';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import Button from '@material-ui/core/Button';
+import Chip from '@material-ui/core/Chip';
+// Own components
+import ModalConfirm from '../ModalConfirm';
 // Own modules
 // Models
 import { ADVERT_CONSTANTS } from '../../models/Advert';
@@ -24,6 +27,9 @@ import './styles.css';
  */
 export default function AdvertCardSmall (props) {
     
+    // Use state to show/hide modal
+    const [showModal, setShowModal] = useState(false);
+
     // Reservar producto
     const bookAdvert = () => {
         const advert = new Advert({...props});
@@ -38,66 +44,102 @@ export default function AdvertCardSmall (props) {
         props.editAdvert(advert, props.session.jwt); 
     }
 
+    // Go to edit
+    const toEdit = () => {
+        props.history.push(`/advert/edit/${props._id}`);
+    }
+
     // Delete advert
     const deleteAdvert = () => {
-        props.deleteAdvert(props.advert._id, props.session.jwt);
+        setShowModal(false);
+        props.deleteAdvert(props._id, props.session.jwt);
+    }
+
+    // Show modal
+    const showModalConfirmation = () => {
+        setShowModal(true);
+    }
+    // Hide modal
+    const hideModalConfirmation = () => {
+        setShowModal(false);
     }
 
     return(
-        <article className='AdvertCardSmall'>
-            <header className='AdvertCardSmall__Caption'>
-                <Link to={`/advert/edit/${props._id}`}>
-                    <img className='AdvertCardSmall__Img' src={props.photo} alt='caption'/>
-                </Link>
-                { ( props.booked || props.sold ) &&
-                    <div className='AdvertCardSmall__Status'>
-                        { props.booked && <img src={imgReserved} alt='reserved'/> }
-                        { props.sold && <img src={imgSold} alt='sold'/> }
-                    </div>
-                }
-            </header>
-            <div className='AdvertCardSmall__Body'>
-                <div className='AdvertCardSmall__Date'>
-                    <p className='Title'>Publicado</p>
-                    <Moment format="DD/MM/YYYY" className='SubTitle'>{props.createdAt}</Moment>
-                </div>
-                <div className='AdvertCardSmall__Date'>
-                    <p className='Title'>Actualizado</p>
-                    <Moment format="DD/MM/YYYY" className='SubTitle'>{props.updatedAt}</Moment>
-                </div>
-                <div className='AdvertCardSmall__Title'>
-                    <p>{props.price} €</p>
+        <React.Fragment>
+            <article className='AdvertCardSmall'>
+                <header className='AdvertCardSmall__Caption'>
                     <Link to={`/advert/edit/${props._id}`}>
-                        <h2>{props.name}</h2>
+                        <img className='AdvertCardSmall__Img' src={props.photo} alt='caption'/>
                     </Link>
-                </div>
-                <div className='AdvertCardSmall__Actions'>
-                    <Button type='button' className='Button__Blue' variant='contained' onClick={bookAdvert}>
-                      <BookmarkBorderOutlinedIcon/>
-                    </Button>
-                    <Button type='button' className='Button__Red' variant='contained' onClick={sellAdvert}>
-                      <AttachMoneyOutlinedIcon/>
-                    </Button>
-                    <Link to={`/advert/edit/${props._id}`}>
-                        <Button type='button' className='Button__Green' variant='contained'>
+                    { ( props.booked || props.sold ) &&
+                        <div className='AdvertCardSmall__Status'>
+                            { props.booked && <img src={imgReserved} alt='reserved'/> }
+                            { props.sold && <img src={imgSold} alt='sold'/> }
+                        </div>
+                    }
+                </header>
+                <div className='AdvertCardSmall__Body'>
+                    <div className='AdvertCardSmall__Date'>
+                        <p className='Title'>Publicado</p>
+                        <Moment format="DD/MM/YYYY" className='SubTitle'>{props.createdAt}</Moment>
+                    </div>
+                    <div className='AdvertCardSmall__Date'>
+                        <p className='Title'>Actualizado</p>
+                        <Moment format="DD/MM/YYYY" className='SubTitle'>{props.updatedAt}</Moment>
+                    </div>
+                    <div className='AdvertCardSmall__Main'>
+                        <div className='AdvertCardSmall__Title'>
+                            <p>{props.price} €</p>
+                            <Link to={`/advert/edit/${props._id}`}>
+                                <h2>{props.name}</h2>
+                            </Link>
+                        </div>
+                        <div className='AdvertCardSmall__Tags'>
+                            {   props.tags && 
+                                props.tags.map((value,i) => {
+                                    return  <Chip
+                                                key={i}
+                                                size="small"
+                                                label={value}
+                                                className={`Ad__Tag Ad__Tag--${value}`}
+                                            />
+                                })
+                            }
+                        </div>
+                    </div>
+                    
+                    <div className='AdvertCardSmall__Actions'>
+                        <Button type='button' className={`ButtonWallakeep ButtonWallakeep__Clear ButtonWallakeep__ClearToBlue ${props.booked && 
+                                'ButtonWallakeep__ClearToBlue--active'}`} disabled={props.sold} variant='contained' onClick={bookAdvert}>
+                        <BookmarkBorderOutlinedIcon/>
+                        </Button>
+                        <Button type='button' className={`ButtonWallakeep ButtonWallakeep__Clear ButtonWallakeep__ClearToRed 
+                                ${props.sold && 'ButtonWallakeep__ClearToRed--active'}`} variant='contained' onClick={sellAdvert}>
+                        <AttachMoneyOutlinedIcon/>
+                        </Button>
+                        <Button type='button' className='ButtonWallakeep ButtonWallakeep__Clear ButtonWallakeep__ClearToGreen' 
+                                disabled={props.sold} variant='contained' onClick={toEdit}>
                             <EditOutlinedIcon/>
                         </Button>
-                    </Link>
-                    <Button type='button' className='Button__Gray' variant='contained' onClick={deleteAdvert}>
-                      <DeleteOutlineOutlinedIcon/>
-                    </Button>
+                        <Button type='button' className='ButtonWallakeep ButtonWallakeep__Clear ButtonWallakeep__ClearToGray' 
+                                disabled={props.sold} variant='contained' onClick={showModalConfirmation}>
+                        <DeleteOutlineOutlinedIcon/>
+                        </Button>
+                    </div>
                 </div>
-            </div>
-        </article>
+            </article>
+            { showModal && <ModalConfirm onConfirm={deleteAdvert} onCancel={hideModalConfirmation}/> }
+        </React.Fragment>
     );
 }
 
 AdvertCardSmall.propTypes = {
-    id: PropTypes.string.isRequired,
+    _id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     photo: PropTypes.string,
     price: PropTypes.number.isRequired,
     createdAt: PropTypes.string.isRequired,
+    updatedAt: PropTypes.string.isRequired,
     tags: PropTypes.arrayOf(PropTypes.string).isRequired,
     type: PropTypes.oneOf([ADVERT_CONSTANTS.TYPE.BUY, ADVERT_CONSTANTS.TYPE.SELL]).isRequired,
 }

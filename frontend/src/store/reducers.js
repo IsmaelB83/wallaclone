@@ -69,7 +69,9 @@ export function advert(state = initialState.advert, action) {
         case TYPES.EDIT_ADVERT_SUCCESS:
             return action.advert;
         case TYPES.CREATE_ADVERT_SUCCESS:
-            return action.advert;
+            return initialState.advert;
+        case TYPES.CREATE_ADVERT_FAILURE:
+            return initialState.advert;
         case TYPES.DELETE_ADVERT_SUCCESS:
             return initialState.advert;
         case TYPES.CLEAR_ADVERT:

@@ -22,6 +22,9 @@ export default class Advert {
         this.price = ad.price;
         this.type = ad.type;
         this.photo = ad.photo.startsWith('/images/')?`${apiUrl.replace('apiv1','')}${ad.photo}`:ad.photo;
+        if (ad.thumbnail) {
+            this.thumbnail = ad.thumbnail.startsWith('/images/')?`${apiUrl.replace('apiv1','')}${ad.thumbnail}`:ad.thumbnail;
+        }
         this.tags = ad.tags;
         this.booked = ad.booked;
         this.sold = ad.sold;

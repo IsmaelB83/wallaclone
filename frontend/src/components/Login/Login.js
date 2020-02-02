@@ -51,7 +51,7 @@ class Login extends Component {
           <Form className='Login__Form' onSubmit={this.login}>
             <img src={imageLogo} className='Login__Logo' alt='nodepop-logo' />
             <InputForm name='email' type='email' placeholder='type your email' required icon={<MailOutlineIcon/>}/>
-            <InputForm name='password' type='password' placeholder='type your password' required icon={<LockOpenIcon/>}/>
+            <InputForm name='password' type='password' placeholder='type your password' autocomplete='on' required icon={<LockOpenIcon/>}/>
             <p className='Login__Help'>enter your credentials to login</p>
             <div className='Login__Buttons'>
               <Button className='button' type='submit' variant='contained' color='primary'> Login </Button>
