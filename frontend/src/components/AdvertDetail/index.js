@@ -28,9 +28,9 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
-        loadAdvert: (id) => dispatch(fetchAdvert(id)),
+        loadAdvert: (slug) => dispatch(fetchAdvert(slug)),
         editAdvert: (advert, jwt) => dispatch(editAdvert(advert, jwt)),
-        deleteAdvert: (id, jwt) => dispatch(deleteAdvert(id, jwt))
+        deleteAdvert: (slug, jwt) => dispatch(deleteAdvert(slug, jwt))
     }
 }
 

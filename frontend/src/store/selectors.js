@@ -30,5 +30,5 @@ export function getVisibleAdverts(adverts, filters) {
  * @param {String} type Advert type (buy/sell)
  */
 export function getOwnAdverts(adverts, session, type) {
-    return adverts.filter(advert => advert.user === session.id && advert.type === type);
+    return adverts.filter(advert => advert.user._id === session.id && advert.type === type);
 }

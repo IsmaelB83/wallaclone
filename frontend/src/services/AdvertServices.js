@@ -37,11 +37,11 @@ export default {
   },
   
   /**
-  * Obtener un anuncio por ID
+  * Obtener un anuncio por su slug
   */
-  getAdvert: (advertId) => {
+  getAdvert: (slug) => {
     // Endpoint
-    let baseURL = `${API_URL}/adverts/${advertId}`;
+    let baseURL = `${API_URL}/adverts/${slug}`;
     // Call endpoint and return
     return Axios.get(baseURL)
     .then(res => new Advert(res.data.result, API_URL));
@@ -103,7 +103,7 @@ export default {
   */
   editAdvert: (advert, jwt) => {
     // Endpoint
-    const baseURL = `${API_URL}/adverts/${advert._id}`;
+    const baseURL = `${API_URL}/adverts/${advert.slug}`;
     // Form Data
     const formData = new FormData();
     formData.append('name', advert.name);
@@ -130,9 +130,9 @@ export default {
   * Llama a la API para editar un anuncio
   * @param {Advert} advert 
   */
-  deleteAdvert: (id, jwt) => {
+  deleteAdvert: (slug, jwt) => {
     // Endpoint
-    const baseURL = `${API_URL}/adverts/${id}`;
+    const baseURL = `${API_URL}/adverts/${slug}`;
     console.log(baseURL);
     // Call endpoint and return
     return Axios.delete(

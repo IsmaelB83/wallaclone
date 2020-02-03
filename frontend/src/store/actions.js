@@ -103,11 +103,11 @@ export const fetchTags = () => {
     }
 };
 
-export const fetchAdvert = (id) => {   
+export const fetchAdvert = (slug) => {   
     return async function(dispatch, getState) {
         dispatch(fetchAdvertRequest());
         try {
-            const advert = await AdvertServices.getAdvert(id);
+            const advert = await AdvertServices.getAdvert(slug);
             dispatch(fetchAdvertSuccess(advert));
         } catch (error) {
             dispatch(fetchAdvertFailure(error.message))
@@ -164,11 +164,11 @@ export const createAdvert = (advert, jwt) => {
     }
 };
 
-export const deleteAdvert = (id, jwt) => {   
+export const deleteAdvert = (slug, jwt) => {   
     return async function(dispatch, getState) {
         dispatch(deleteAdvertRequest());
         try {
-            const response = await AdvertServices.deleteAdvert(id, jwt);
+            const response = await AdvertServices.deleteAdvert(slug, jwt);
             dispatch(deleteAdvertSuccess(response));
         } catch (error) {
             dispatch(deleteAdvertFailure(error.message))
@@ -314,7 +314,7 @@ const createAdvertFailure = error => ({
     error,
 });
 
-export const createAdvertSuccess = advert => ({
+const createAdvertSuccess = advert => ({
     type: CREATE_ADVERT_SUCCESS,
     advert,
 });

@@ -46,13 +46,13 @@ export default function AdvertCardSmall (props) {
 
     // Go to edit
     const toEdit = () => {
-        props.history.push(`/advert/edit/${props._id}`);
+        props.history.push(`/advert/edit/${props.slug}`);
     }
 
     // Delete advert
     const deleteAdvert = () => {
         setShowModal(false);
-        props.deleteAdvert(props._id, props.session.jwt);
+        props.deleteAdvert(props.slug, props.session.jwt);
     }
 
     // Show modal
@@ -68,7 +68,7 @@ export default function AdvertCardSmall (props) {
         <React.Fragment>
             <article className='AdvertCardSmall'>
                 <header className='AdvertCardSmall__Caption'>
-                    <Link to={`/advert/edit/${props._id}`}>
+                    <Link to={`/advert/edit/${props.slug}`}>
                         <img className='AdvertCardSmall__Img' src={props.photo} alt='caption'/>
                     </Link>
                     { ( props.booked || props.sold ) &&
@@ -90,7 +90,7 @@ export default function AdvertCardSmall (props) {
                     <div className='AdvertCardSmall__Main'>
                         <div className='AdvertCardSmall__Title'>
                             <p>{props.price} €</p>
-                            <Link to={`/advert/edit/${props._id}`}>
+                            <Link to={`/advert/edit/${props.slug}`}>
                                 <h2>{props.name}</h2>
                             </Link>
                         </div>
@@ -134,7 +134,7 @@ export default function AdvertCardSmall (props) {
 }
 
 AdvertCardSmall.propTypes = {
-    _id: PropTypes.string.isRequired,
+    slug: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     photo: PropTypes.string,
     price: PropTypes.number.isRequired,

@@ -39,9 +39,9 @@ export default function App(props) {
               <Route path='/activate/:token' exact component={Login} />
               <PrivateRoute path='/catalog' exact component={Catalog} />
               <PrivateRoute path='/profile' exact component={Profile} />
-              <PrivateRoute path='/advert/display/:id' exact component={AdvertDetail} />
+              <PrivateRoute path='/advert/display/:slug' exact component={AdvertDetail} />
               <PrivateRoute path='/advert/create' exact render={(props) => <AdvertEdit {...props} mode='create'/>}/>
-              <PrivateRoute path='/advert/edit/:id' exact render={(props) => <AdvertEdit {...props} mode='edit'/>}/>
+              <PrivateRoute path='/advert/edit/:slug' exact render={(props) => <AdvertEdit {...props} mode='edit'/>}/>
               <PrivateRoute path='/' exact component={Home} />
               <PrivateRoute component={Error404} />
           </Switch>

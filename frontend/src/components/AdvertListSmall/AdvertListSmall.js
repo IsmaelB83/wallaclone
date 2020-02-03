@@ -19,7 +19,7 @@ export default function AdvertListSmall (props) {
         <section className='AdvertListSmall'>        
         { props.adverts.map((advert, index) => 
             <AdvertCardSmall    key={advert._id} 
-                                _id={advert._id} 
+                                slug={advert.slug}
                                 name={advert.name} 
                                 price={advert.price}
                                 type={advert.type} 
@@ -29,7 +29,7 @@ export default function AdvertListSmall (props) {
                                 updatedAt={advert.updatedAt}
                                 booked={advert.booked}
                                 sold={advert.sold}
-                                user={advert.user}
+                                user={advert.user.name}
                                 history={props.history}
             />
         )}

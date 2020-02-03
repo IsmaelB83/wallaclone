@@ -52,8 +52,8 @@ export default class AdvertEdit extends Component {
   componentDidMount() {
     // En caso de ser una modificación cargo el anuncio a editar (para tener la versión más actualizada posible desde el backend)
     if (this.props.mode === 'edit' && this.props.match.params) {
-      const id = this.props.match.params.id;
-      this.props.loadAdvert(id);
+      const slug = this.props.match.params.slug;
+      this.props.loadAdvert(slug);
     } else {
       this.props.clearAdvert();
     }
@@ -99,7 +99,11 @@ export default class AdvertEdit extends Component {
     ev.preventDefault();
     const aux = this.props.advert;
     aux.file = ev.target.files[0];
-    this.setState({ advert: aux });
+    // Update state advert
+    this.setState({
+      advert: aux,
+      photoTemp: URL.createObjectURL(aux.file)
+    });
   }
 
   /**
@@ -117,7 +121,7 @@ export default class AdvertEdit extends Component {
             <form onSubmit={this.handleSubmit} noValidate autoComplete='off' className='AdvertEdit__Form'>
               <input type='file' id='file' ref={this.inputFile} style={{display: 'none'}} onChange={this.changeInputFile} />
               <button type='button' className='AdvertEdit_Picture' onClick={this.openInputFile}>
-                <img src={imagePhoto} alt='dummy_photo'/>
+                <img src={this.props.advert.photo || this.state.photoTemp || imagePhoto} alt='dummy_photo'/>
               </button>
               <FormControl fullWidth className='AdvertEdit__FormControl'>
                 <InputLabel shrink htmlFor='type'>Nombre</InputLabel>

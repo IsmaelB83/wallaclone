@@ -28,7 +28,7 @@ import './styles.css';
  */
 export default function AdvertDetail(props) {
   
-  const id = props.match.params.id;
+  const slug = props.match.params.slug;
   const { loadAdvert } = props;
 
   // Use states
@@ -37,8 +37,8 @@ export default function AdvertDetail(props) {
 
   // Dispatch load advert action
   useEffect(() => {
-    loadAdvert(id);
-  }, [id, loadAdvert]);
+    loadAdvert(slug);
+  }, [slug, loadAdvert]);
 
   // Controlar fin de acción de borrado
   useEffect(() => {
@@ -68,7 +68,7 @@ export default function AdvertDetail(props) {
   const deleteAdvert = () => {
     setShowModal(false);
     setDeleting(true);
-    props.deleteAdvert(props.advert._id, props.session.jwt);
+    props.deleteAdvert(props.advert.slug, props.session.jwt);
   }
 
   // Show modal
@@ -79,14 +79,14 @@ export default function AdvertDetail(props) {
   const hideModalConfirmation = () => {
       setShowModal(false);
   }
- 
+
   // Render
   return (
     <React.Fragment>
       <NavBar/>
       <Container>
         <main className='Main__Section'>
-          { props.advert && 
+          { props.advert && props.advert._id && 
             <article className='AdvertDetail'>
               <div className='AdvertDetail__Main'>
                 <header className='AdvertDetail__Header'>
@@ -115,9 +115,9 @@ export default function AdvertDetail(props) {
                       })
                   }
                   </div>
-                  { props.advert.user === props.session.id && 
+                  { props.advert.user._id === props.session.id && 
                     <div className='AdvertDetail__Actions'>
-                      <Link to={`/advert/edit/${props.advert._id}`}>
+                      <Link to={`/advert/edit/${props.advert.slug}`}>
                         <Button type='button' variant='contained' color='secondary' startIcon={<EditIcon />} className='ButtonWallakeep ButtonWallakeep__Green'>Editar</Button>
                       </Link>
                       <Button type='button' variant='contained' className='ButtonWallakeep ButtonWallakeep__Blue' disabled={props.advert.sold} onClick={bookAdvert}>

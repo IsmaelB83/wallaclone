@@ -32,21 +32,18 @@ module.exports = () => {
         '/tags', 
         AdvertCtrl.tags);
     router.get(
-        '/:id', 
-        [   param('id').matches(/^[0-9a-fA-F]{24}$/).withMessage('wrong format'),
-        ], 
+        '/:slug', 
         AdvertCtrl.selectOne);
     router.put(
-        '/:id', 
+        '/:slug', 
         AuthMiddleware,
         MulterMiddleware, 
-        [   param('id').matches(/^[0-9a-fA-F]{24}$/).withMessage('wrong format'),
-            body('name').optional().isLength({min:1, max: 30}).withMessage('value must be between 1 and 30 characteres length'),
+        [   body('name').optional().isLength({min:1, max: 30}).withMessage('value must be between 1 and 30 characteres length'),
             body('description').optional().optional().isLength({min:0, max: 100}).withMessage('length must be between 1 and 100 characters'),
         ],
         AdvertCtrl.update);
     router.delete(
-        '/:id', 
+        '/:slug', 
         AuthMiddleware,
         MulterMiddleware,
         AdvertCtrl.delete);

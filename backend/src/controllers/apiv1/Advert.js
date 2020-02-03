@@ -51,7 +51,7 @@ module.exports = {
             // Validations
             validationResult(req).throw();
             // Get one advert
-            let advert = await Advert.findById(req.params.id);   
+            let advert = await Advert.findOne({slug: req.params.slug}).populate('user');
             if (advert) {
                 // Ok
                 return res.json({
@@ -111,7 +111,7 @@ module.exports = {
             // Validations
             validationResult(req).throw();
             // Sólo se permiten modificar los anuncios propios
-            let advert = await Advert.findById(req.params.id);
+            const advert = await Advert.findOne({slug: req.params.slug});
             if (!advert) {
                 // Anuncio no encontrado
                 return next({ 
@@ -126,20 +126,20 @@ module.exports = {
                 });
             }
             // Update advert
-            advert = new Advert({...req.body});
+            const newAdvert = new Advert({...req.body});
             // Si está vendido desmarco el booked
-            if (advert.sold) advert.booked = false;
+            if (newAdvert.sold) newAdvert.booked = false;
             // Imagen
             if (req.file) {
-                advert.photo = `/images/anuncios/${req.file.filename}`;
-                advert.thumbnail = img.photo; // Initially the thumbnail points to the same photo
+                newAdvert.photo = `/images/anuncios/${req.file.filename}`;
+                newAdvert.thumbnail = img.photo; // Initially the thumbnail points to the same photo
             }
-            advert = await Advert.updateAdvert(req.params.id, advert);
-            if (advert) {
+            const resAdvert = await Advert.updateAdvert(advert.id, newAdvert);
+            if (resAdvert) {
                 // Ok
                 return res.json({
                     success: true,
-                    result: advert
+                    result: resAdvert
                 });
             } 
             // Error
@@ -161,7 +161,7 @@ module.exports = {
     delete: async (req, res, next) => {
         try {
             // Sólo se permiten modificar los anuncios propios
-            let advert = await Advert.findById(req.params.id);
+            let advert = await Advert.findOne({slug: req.params.slug});
             if (!advert) {
                 // Anuncio no encontrado
                 return next({ 
@@ -176,7 +176,7 @@ module.exports = {
                 });
             }
             // Ok
-            advert = await Advert.findByIdAndDelete(req.params.id);
+            advert = await Advert.findByIdAndDelete(advert._id);
             return res.json({
                 success: true,
                 result: advert

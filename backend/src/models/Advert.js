@@ -3,16 +3,22 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+// Generates slugs for Advert model
+const URLSlugs = require('mongoose-url-slugs');
 
 /**
 * Advert in the database
 */
 const AdvertSchema = new Schema(
     {  
-       /**
+        /**
         * Nombre del articulo en compra/venta
         */
         name: { type: String, required: true, max: 30, index: true },
+        /**
+        * SEO Friendly slug
+        */
+        slug: { type: String, slug: 'name', unique: true },
         /**
         * Descripcion del articulo en venta
         */
@@ -111,7 +117,7 @@ AdvertSchema.statics.list = function(name, venta, tag, precio, limit, skip, fiel
                 queryDB.sort(sort);
             }
         }
-        queryDB.exec(callback);        
+        queryDB.populate('user').exec(callback);        
     } catch (error) {
         // Error no controlado
         console.log('Error while executing query.');
@@ -172,8 +178,8 @@ AdvertSchema.statics.updateAdvert = async function(id, newAdvert) {
             advert.booked = newAdvert.booked;
             advert.sold = newAdvert.sold;
             // Salvo datos en mongo
-            advert = await advert.save();
-            return advert;
+            await advert.save();
+            return Advert.findById(id).populate('user');
         }
         return false;
     } catch (error) {
@@ -183,12 +189,13 @@ AdvertSchema.statics.updateAdvert = async function(id, newAdvert) {
     }
 };
 
-
 /**
 * Creo un indice compuesto por tipo de anuncio (buy/sell) + tags
 */
 AdvertSchema.index({ types: 1, tags: 1 });
 
+AdvertSchema.plugin(URLSlugs('name', { maxLength: 80 }));
 
 const Advert = mongoose.model('Advert', AdvertSchema);
+
 module.exports = Advert;

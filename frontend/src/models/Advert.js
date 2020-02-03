@@ -15,6 +15,7 @@ export default class Advert {
      */    
     constructor(ad, apiUrl) {
         this._id = ad._id;
+        this.slug = ad.slug;
         this.createdAt = ad.createdAt;
         this.updatedAt = ad.updatedAt;
         this.name = ad.name;
@@ -47,12 +48,16 @@ export default class Advert {
     static emptyAdvert() {
         return {
             _id: '',
+            slug: '',
             createdAt: Date.now(),
             name: '',
             description: '',
             price: 0,
             type: ADVERT_CONSTANTS.TYPE.BUY,
             photo: '',
+            thumbnail: '',
+            booked: false,
+            sold: false,
             tags: []
         };
     }
