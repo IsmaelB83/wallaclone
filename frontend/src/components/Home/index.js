@@ -5,6 +5,7 @@ import { withSnackbar } from 'notistack';
 import Home from './Home';
 // Own modules
 import { 
+    fetchTags,
     fetchAdverts,
     searchAdverts,
     setPage
@@ -31,6 +32,7 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
+        fetchTags: () => dispatch(fetchTags()),
         loadAdverts: () => dispatch(fetchAdverts()),
         searchAdverts: (filters) => dispatch(searchAdverts(filters)),
         setCurrentPage: pageNumber => dispatch(setPage(pageNumber))

@@ -19,7 +19,7 @@ export default {
   */
   getTags: () => {
     // Endpoint
-    let baseURL = `${API_URL}/tags`;
+    let baseURL = `${API_URL}/adverts/tags`;
     // Call endpoint and return
     return Axios.get(baseURL)
     .then(res => res.data.results);
@@ -37,11 +37,11 @@ export default {
   },
   
   /**
-  * Obtener un anuncio por ID
+  * Obtener un anuncio por su slug
   */
-  getAdvert: (advertId) => {
+  getAdvert: (slug) => {
     // Endpoint
-    let baseURL = `${API_URL}/adverts/${advertId}`;
+    let baseURL = `${API_URL}/adverts/${slug}`;
     // Call endpoint and return
     return Axios.get(baseURL)
     .then(res => new Advert(res.data.result, API_URL));
@@ -74,11 +74,26 @@ export default {
   * Llama a la API para crear un nuevo anuncio
   * @param {Advert} advert 
   */
-  postAdvert: (advert) => {
+  postAdvert: (advert, jwt) => {
     // Endpoint
-    const baseURL = `${API_URL}/anuncios`;
+    const baseURL = `${API_URL}/adverts`;
+    // Form Data
+    const formData = new FormData();
+    formData.append('name', advert.name);
+    formData.append('description', advert.description);
+    formData.append('price', advert.price);
+    formData.append('type', advert.type);
+    formData.append('tags', advert.tags);
+    formData.append('photo', advert.file);
+    // Config 
+    const config = {
+      headers: { 
+        'Authorization': `Bearer ${jwt}`,
+        'Content-Type': 'multipart/form-data'
+      }
+    }
     // Call endpoint and return
-    return Axios.post(baseURL, null, { data: advert })
+    return Axios.post( baseURL, formData, config )
     .then(res => new Advert(res.data.result, API_URL));
   },
   
@@ -86,11 +101,44 @@ export default {
   * Llama a la API para editar un anuncio
   * @param {Advert} advert 
   */
-  editAdvert: (advert) => {
+  editAdvert: (advert, jwt) => {
     // Endpoint
-    const baseURL = `${API_URL}/anuncios/${advert._id}`;
+    const baseURL = `${API_URL}/adverts/${advert.slug}`;
+    // Form Data
+    const formData = new FormData();
+    formData.append('name', advert.name);
+    formData.append('description', advert.description);
+    formData.append('price', advert.price);
+    formData.append('type', advert.type);
+    formData.append('tags', advert.tags);
+    formData.append('booked', advert.booked);
+    formData.append('sold', advert.sold);
+    formData.append('photo', advert.file || advert.photo);
+    // Config 
+    const config = {
+      headers: { 
+        'Authorization': `Bearer ${jwt}`,
+        'Content-Type': 'multipart/form-data'
+      }
+    }
     // Call endpoint and return
-    return Axios.put(baseURL, null, { data: advert })
+    return Axios.put( baseURL, formData, config )
+    .then(res => new Advert(res.data.result, API_URL));
+  },
+
+  /**
+  * Llama a la API para editar un anuncio
+  * @param {Advert} advert 
+  */
+  deleteAdvert: (slug, jwt) => {
+    // Endpoint
+    const baseURL = `${API_URL}/adverts/${slug}`;
+    console.log(baseURL);
+    // Call endpoint and return
+    return Axios.delete(
+      baseURL, 
+      { headers: { 'Authorization': `Bearer ${jwt}`} }
+    )
     .then(res => new Advert(res.data.result, API_URL));
   }
 }

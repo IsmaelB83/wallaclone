@@ -6,7 +6,7 @@
   "scripts": {
     "init": "node ./src/database/install_db.js",
     "start": "node ./src/index.js",
-    "dev": "cross-env DEBUG=nodepop:* nodemon",
+    "debug": "nodemon --nolazy --inspect-brk=9543 ./src/index.js",
     "prod": "cross-env NODE_ENV=production npm start",
     "cluster": "cross-env DEBUG=nodepop:* node ./src/cluster.js",
     "worker": "nodemon ./src/services/thumbnail/worker.js",
@@ -63,6 +63,7 @@
     "juice": "^5.2.0",
     "moment": "^2.24.0",
     "mongoose": "^5.7.5",
+    "mongoose-url-slugs": "^1.0.2",
     "morgan": "^1.9.1",
     "multer": "^1.4.2",
     "nodemailer": "^6.3.1"

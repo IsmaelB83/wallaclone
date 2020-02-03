@@ -1,9 +1,10 @@
 // Node modules
 import { connect } from 'react-redux';
+import { withSnackbar } from 'notistack';
 // Own components
 import AdvertDetail from './AdvertDetail';
 // Own modules
-import { fetchAdvert } from '../../store/actions';
+import { fetchAdvert, editAdvert, deleteAdvert } from '../../store/actions';
 
 
 /**
@@ -12,8 +13,11 @@ import { fetchAdvert } from '../../store/actions';
  */
 const mapStateToProps = (state) => {
     return {
+        session: state.session,
         advert: state.advert,
         isFetching: state.ui.isFetching,
+        isDeleting: state.ui.isDeleting,
+        isUpdating: state.ui.isUpdating,
         error: state.ui.error
     }
 }
@@ -24,11 +28,13 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
-        loadAdvert: (id) => dispatch(fetchAdvert(id))
+        loadAdvert: (slug) => dispatch(fetchAdvert(slug)),
+        editAdvert: (advert, jwt) => dispatch(editAdvert(advert, jwt)),
+        deleteAdvert: (slug, jwt) => dispatch(deleteAdvert(slug, jwt))
     }
 }
 
 /**
  * Envuelvo el App en al función connect para conectar con el store recibido del provider
  */ 
-export default connect(mapStateToProps, mapDispatchToProps)(AdvertDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(AdvertDetail));

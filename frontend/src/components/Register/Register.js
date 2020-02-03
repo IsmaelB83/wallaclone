@@ -46,8 +46,8 @@ class Register extends Component {
             <img src={imageLogo} className='Login__Logo' alt='nodepop-logo' />
             <InputForm name='name' type='name' placeholder='type your name' required icon={<PermIdentityIcon/>}/>
             <InputForm name='email' type='email' placeholder='type your email' required icon={<MailOutlineIcon/>}/>
-            <InputForm name='password' type='password' placeholder='type your password' required icon={<LockOpenIcon/>}/>
-            <InputForm name='password_2' type='password' placeholder='repeat your password' required icon={<LockOpenIcon/>}/>
+            <InputForm name='password' type='password' placeholder='type your password' autocomplete='on' required icon={<LockOpenIcon/>}/>
+            <InputForm name='password_2' type='password' placeholder='repeat your password' autocomplete='on' required icon={<LockOpenIcon/>}/>
             <p className='Login__Help'>enter your user information</p>
             <div className='Login__Buttons'>
               <Button className='button' type='submit' variant='contained' color='primary'> Create user </Button>

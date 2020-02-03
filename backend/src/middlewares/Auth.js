@@ -16,7 +16,7 @@ module.exports = async (req, res, next) => {
         return res.redirect('/user/login');
     }
     // JWT Authentication (API)
-    let reqToken = req.body['headers'] && req.body['headers']['Authorization'];
+    let reqToken = ( req.body['headers'] && req.body['headers']['Authorization']) || req.query.token || req.get('Authorization');
     if (!reqToken) {
         return res.status(401).json({
             data: 'Not Authorized'

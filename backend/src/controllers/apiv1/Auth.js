@@ -34,6 +34,7 @@ module.exports = {
             if (bcrypt.compareSync(req.body.password, user.password)) {
                 // Create the payload and JWT (expiration in 60 minutes after login)
                 const payload = {
+                    id: user._id,
                     name: user.name,
                     email: user.email,
                     expires: moment().add(60, 'minutes')
@@ -48,6 +49,7 @@ module.exports = {
                     success: true,
                     description: 'Authorization successful',
                     user: {
+                        id: user._id,
                         name: user.name,
                         email: user.email,
                         token: user.jwt,
@@ -82,6 +84,7 @@ module.exports = {
             success: true,
             description: 'Authorization successful',
             user: {
+                id: user._id,
                 name: user.name,
                 email: user.email,
                 token: user.jwt,

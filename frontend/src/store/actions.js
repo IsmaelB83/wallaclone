@@ -19,6 +19,9 @@ import {
     EDIT_ADVERT_REQUEST,
     EDIT_ADVERT_FAILURE,
     EDIT_ADVERT_SUCCESS,
+    DELETE_ADVERT_REQUEST,
+    DELETE_ADVERT_FAILURE,
+    DELETE_ADVERT_SUCCESS,
     CREATE_ADVERT_REQUEST,
     CREATE_ADVERT_FAILURE,
     CREATE_ADVERT_SUCCESS,
@@ -100,11 +103,11 @@ export const fetchTags = () => {
     }
 };
 
-export const fetchAdvert = (id) => {   
+export const fetchAdvert = (slug) => {   
     return async function(dispatch, getState) {
         dispatch(fetchAdvertRequest());
         try {
-            const advert = await AdvertServices.getAdvert(id);
+            const advert = await AdvertServices.getAdvert(slug);
             dispatch(fetchAdvertSuccess(advert));
         } catch (error) {
             dispatch(fetchAdvertFailure(error.message))
@@ -136,11 +139,11 @@ export const searchAdverts = (filters) => {
     }
 };
 
-export const editAdvert = (advert) => {   
+export const editAdvert = (advert, jwt) => {   
     return async function(dispatch, getState) {
         dispatch(editAdvertRequest());
         try {
-            const response = await AdvertServices.editAdvert(advert);
+            const response = await AdvertServices.editAdvert(advert, jwt);
             dispatch(editAdvertSuccess(response));
         } catch (error) {
             dispatch(editAdvertFailure(error.message))
@@ -148,15 +151,27 @@ export const editAdvert = (advert) => {
     }
 };
 
-export const createAdvert = (advert) => {   
+export const createAdvert = (advert, jwt) => {   
     return async function(dispatch, getState) {
-        delete advert._id;
         dispatch(createAdvertRequest());
         try {
-            const response = await AdvertServices.postAdvert(advert);
+            delete advert._id;
+            const response = await AdvertServices.postAdvert(advert, jwt);
             dispatch(createAdvertSuccess(response));
         } catch (error) {
             dispatch(createAdvertFailure(error.message));
+        }
+    }
+};
+
+export const deleteAdvert = (slug, jwt) => {   
+    return async function(dispatch, getState) {
+        dispatch(deleteAdvertRequest());
+        try {
+            const response = await AdvertServices.deleteAdvert(slug, jwt);
+            dispatch(deleteAdvertSuccess(response));
+        } catch (error) {
+            dispatch(deleteAdvertFailure(error.message))
         }
     }
 };
@@ -276,6 +291,20 @@ const editAdvertSuccess = advert => ({
     advert,
 });
 
+const deleteAdvertRequest = () => ({
+    type: DELETE_ADVERT_REQUEST
+});
+
+const deleteAdvertFailure = error => ({
+    type: DELETE_ADVERT_FAILURE,
+    error,
+});
+
+const deleteAdvertSuccess = advert => ({
+    type: DELETE_ADVERT_SUCCESS,
+    advert,
+});
+
 const createAdvertRequest = () => ({
     type: CREATE_ADVERT_REQUEST
 });
@@ -285,7 +314,7 @@ const createAdvertFailure = error => ({
     error,
 });
 
-export const createAdvertSuccess = advert => ({
+const createAdvertSuccess = advert => ({
     type: CREATE_ADVERT_SUCCESS,
     advert,
 });

@@ -8,19 +8,28 @@
  * Modelo de anuncio en nodepop
  */
 export default class Advert {
+    
     /**
      * Constructor
      * @param {Object} Advert 
      */    
     constructor(ad, apiUrl) {
         this._id = ad._id;
+        this.slug = ad.slug;
         this.createdAt = ad.createdAt;
+        this.updatedAt = ad.updatedAt;
         this.name = ad.name;
         this.description = ad.description;
         this.price = ad.price;
         this.type = ad.type;
         this.photo = ad.photo.startsWith('/images/')?`${apiUrl.replace('apiv1','')}${ad.photo}`:ad.photo;
+        if (ad.thumbnail) {
+            this.thumbnail = ad.thumbnail.startsWith('/images/')?`${apiUrl.replace('apiv1','')}${ad.thumbnail}`:ad.thumbnail;
+        }
         this.tags = ad.tags;
+        this.booked = ad.booked;
+        this.sold = ad.sold;
+        this.user = ad.user;
     }
 
     /**
@@ -39,12 +48,16 @@ export default class Advert {
     static emptyAdvert() {
         return {
             _id: '',
+            slug: '',
             createdAt: Date.now(),
             name: '',
             description: '',
             price: 0,
             type: ADVERT_CONSTANTS.TYPE.BUY,
             photo: '',
+            thumbnail: '',
+            booked: false,
+            sold: false,
             tags: []
         };
     }

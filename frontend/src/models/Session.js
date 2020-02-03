@@ -14,6 +14,7 @@ export default class Session {
      * @param {Object} Session 
      */    
     constructor(user, maxAdverts = 8) {
+        this.id = user.id;
         this.name = user.name;
         this.email = user.email;
         this.jwt = user.token;

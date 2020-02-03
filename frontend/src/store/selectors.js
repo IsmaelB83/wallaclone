@@ -1,6 +1,11 @@
 // Models
 import { ADVERT_CONSTANTS } from '../models/Advert';
 
+/**
+ * Devuelve los anuncios correspondientes a los filtros indicados
+ * @param {Array} adverts Array de anuncios del store 
+ * @param {Object} filters Filtros a aplicar a los anuncios del store
+ */
 export function getVisibleAdverts(adverts, filters) {
     let visibleAdverts = adverts;
     if (filters.name && filters.name !== '') {
@@ -16,4 +21,14 @@ export function getVisibleAdverts(adverts, filters) {
     if (filters.maxPrice && filters.maxPrice > 0)
         visibleAdverts = visibleAdverts.filter(advert => advert.price <= filters.maxPrice);
     return visibleAdverts;
+}
+
+/**
+ * Devuelve los anuncios del usuario logueado actualmente
+ * @param {Array} adverts Array de anuncios del store
+ * @param {Object} session Session del usuario actual 
+ * @param {String} type Advert type (buy/sell)
+ */
+export function getOwnAdverts(adverts, session, type) {
+    return adverts.filter(advert => advert.user._id === session.id && advert.type === type);
 }

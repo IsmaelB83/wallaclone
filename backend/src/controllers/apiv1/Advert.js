@@ -51,7 +51,7 @@ module.exports = {
             // Validations
             validationResult(req).throw();
             // Get one advert
-            let advert = await Advert.findById(req.params.id);   
+            let advert = await Advert.findOne({slug: req.params.slug}).populate('user');
             if (advert) {
                 // Ok
                 return res.json({
@@ -78,6 +78,7 @@ module.exports = {
             validationResult(req).throw();
             // New Advert
             let advert = new Advert({...req.body});
+            advert.user = req.user.id;
             if (req.file) {
                 advert.photo = `/images/adverts/original/${req.file.filename}`;
                 advert.thumbnail = advert.photo; // Initially thumbnail refers to the same photo
@@ -109,22 +110,77 @@ module.exports = {
         try {
             // Validations
             validationResult(req).throw();
-            // Update advert
-            let advert = new Advert({...req.body});
-            if (req.file) {
-                advert.photo = `/images/anuncios/${req.file.filename}`;
-                advert.thumbnail = img.photo; // Initially the thumbnail points to the same photo
+            // Sólo se permiten modificar los anuncios propios
+            const advert = await Advert.findOne({slug: req.params.slug});
+            if (!advert) {
+                // Anuncio no encontrado
+                return next({ 
+                    status: 404, 
+                    error: 'Not Found' 
+                });
+            } else if (advert.user._id.toString() !== req.user.id) {
+                // Un usuario sólo puede modificar sus anuncios
+                return next({ 
+                    status: 401, 
+                    error: 'No autorizado. Sólo puede modificar sus anuncios' 
+                });
             }
-            advert = await Advert.updateAdvert(req.params.id, advert);
-            if (advert) {
+            // Update advert
+            const newAdvert = new Advert({...req.body});
+            // Si está vendido desmarco el booked
+            if (newAdvert.sold) newAdvert.booked = false;
+            // Imagen
+            if (req.file) {
+                newAdvert.photo = `/images/anuncios/${req.file.filename}`;
+                newAdvert.thumbnail = img.photo; // Initially the thumbnail points to the same photo
+            }
+            const resAdvert = await Advert.updateAdvert(advert.id, newAdvert);
+            if (resAdvert) {
                 // Ok
                 return res.json({
                     success: true,
-                    result: advert
+                    result: resAdvert
+                });
+            } 
+            // Error
+            return next({
+                status: 500, 
+                result: 'Error no controlado actualizando anuncio.'
+            })
+        } catch (error) {
+            next(error);
+        }
+    },
+
+    /**
+     * Delete advert
+     * @param {Request} req Request web
+     * @param {Response} res Response web
+     * @param {Middleware} next Next middleware
+     */
+    delete: async (req, res, next) => {
+        try {
+            // Sólo se permiten modificar los anuncios propios
+            let advert = await Advert.findOne({slug: req.params.slug});
+            if (!advert) {
+                // Anuncio no encontrado
+                return next({ 
+                    status: 404, 
+                    error: 'Not Found' 
+                });
+            } else if (advert.user._id.toString() !== req.user.id) {
+                // Un usuario sólo puede modificar sus anuncios
+                return next({ 
+                    status: 401, 
+                    error: 'No autorizado. Sólo puede eliminar sus anuncios' 
                 });
             }
-            // Error
-            next({ status: 404, error: 'Not Found' });
+            // Ok
+            advert = await Advert.findByIdAndDelete(advert._id);
+            return res.json({
+                success: true,
+                result: advert
+            });
         } catch (error) {
             next(error);
         }

@@ -30,6 +30,7 @@ export const initialState = {
     ui: {
         apiConnected: false,
         error: null,
+        isDeleting: false,
         isFetching: false,
         isUpdating: false,
         lastAdvertsUpdated: null,
@@ -65,6 +66,18 @@ export function advert(state = initialState.advert, action) {
             return initialState.advert;
         case TYPES.FETCH_ADVERT_SUCCESS:
             return action.advert;
+        case TYPES.EDIT_ADVERT_SUCCESS:
+            return action.advert;
+        case TYPES.EDIT_ADVERT_FAILURE:
+            return initialState.advert
+        case TYPES.CREATE_ADVERT_SUCCESS:
+            return initialState.advert;
+        case TYPES.CREATE_ADVERT_FAILURE:
+            return initialState.advert;
+        case TYPES.DELETE_ADVERT_SUCCESS:
+            return initialState.advert;
+        case TYPES.DELETE_ADVERT_FAILURE:
+            return initialState.advert;
         case TYPES.CLEAR_ADVERT:
             return initialState.advert;
         default:
@@ -92,6 +105,12 @@ export function adverts(state = initialState.adverts, action) {
                 }
                 return advert;
             });
+        case TYPES.DELETE_ADVERT_SUCCESS:
+            const i = state.findIndex(advert => advert._id === action.advert._id);
+            return [
+                ...state.slice(0, i),
+                ...state.slice(i + 1)
+            ];
         case TYPES.CREATE_ADVERT_SUCCESS:
             return state.concat(action.advert);
         default:
@@ -172,6 +191,12 @@ export function ui(state = initialState.ui, action) {
             return { ...state, isUpdating: false, error: action.error }
         case TYPES.EDIT_ADVERT_SUCCESS:
             return { ...state, isUpdating: false, error: null }
+        case TYPES.DELETE_ADVERT_REQUEST:
+            return { ...state, isDeleting: true, error: null }
+        case TYPES.DELETE_ADVERT_FAILURE:
+            return { ...state, isDeleting: false, error: action.error }
+        case TYPES.DELETE_ADVERT_SUCCESS:
+            return { ...state, isDeleting: false, error: null }
         case TYPES.CREATE_ADVERT_REQUEST:
             return { ...state, isUpdating: true, error: null }
         case TYPES.CREATE_ADVERT_FAILURE:

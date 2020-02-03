@@ -15,6 +15,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import PostAddIcon from '@material-ui/icons/PostAdd';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText'
+import ViewListIcon from '@material-ui/icons/ViewList';
 // Own modules
 // Assets
 import imageLogo from '../../assets/images/logo2.png';
@@ -65,6 +66,12 @@ export default function NavBar(props) {
                 <PostAddIcon fontSize="small" />
               </ListItemIcon>
               <ListItemText className='NavBar__MenuItemText' primary="Añádir anuncio" />
+            </MenuItem>
+            <MenuItem className='NavBar__MenuItem' component={Link} to='/catalog' onClick={() => setAnchorUserMenu(null)}>
+              <ListItemIcon className='NavBar__MenuItemIcon'>
+                <ViewListIcon fontSize="small" />
+              </ListItemIcon>
+              <ListItemText className='NavBar__MenuItemText' primary="Mis anuncios" />
             </MenuItem>
             <MenuItem className='NavBar__MenuItem' component={Link} to='/profile' onClick={() => setAnchorUserMenu(null)}>
               <ListItemIcon className='NavBar__MenuItemIcon'>
