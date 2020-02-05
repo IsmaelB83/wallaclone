@@ -126,12 +126,28 @@ a {
 /**
  * Buttons
  */
+.ButtonTransparent {
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  outline:none;
+}
+
+.ButtonTransparent--Big .FavoriteIcon {
+  font-size: 3rem;
+}
+
 .ButtonWallakeep {
   color: white !important;
   padding-left: 1rem !important;
   padding-right: 1rem !important;
   background-color: white; 
 }
+
+.FavoriteIcon { transition: 300ms all ease-in; }
+.FavoriteIcon:hover { transform: scale(1.1); }
+.FavoriteIcon--Off { color: black; }
+.FavoriteIcon--On { color: red; }
 
 .ButtonWallakeep:disabled {
   background-color: var(--light-grey) !important;

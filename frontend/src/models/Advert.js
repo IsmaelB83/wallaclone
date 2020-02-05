@@ -1,8 +1,36 @@
-// NPM Modules
-// Material UI
-// Own modules
-// Assets
-// CSS
+// Constantes para el trabajo con el modelo de anuncio
+export const ADVERT_CONSTANTS = {
+    TYPE: {
+        ALL: 'all',
+        BUY: 'buy',
+        SELL: 'sell'
+    }, 
+    TAG: {
+        ALL: 'all',
+        WORK: 'work', 
+        LIFESTYLE: 'lifestyle', 
+        MOTOR: 'motor', 
+        MOBILE: 'mobile'
+    }
+}
+
+// Empty advert aux
+const EMPTY_ADVERT = {
+    _id: '',
+    slug: '',
+    name: '',
+    description: '',
+    price: 0,
+    type: ADVERT_CONSTANTS.TYPE.BUY,
+    tags: [],
+    photo: '',
+    thumbnail: '',
+    booked: false,
+    sold: false,
+    liked: false,
+    createdAt: undefined,
+    updatedAt: undefined
+}
 
 /**
  * Modelo de anuncio en nodepop
@@ -30,6 +58,9 @@ export default class Advert {
         this.booked = ad.booked;
         this.sold = ad.sold;
         this.user = ad.user;
+        // This property doesn't come from advert model. It is calculated in redux store when loading adverts 
+        // based on user session
+        this.liked = undefined 
     }
 
     /**
@@ -46,37 +77,6 @@ export default class Advert {
     }
 
     static emptyAdvert() {
-        return {
-            _id: '',
-            slug: '',
-            createdAt: Date.now(),
-            name: '',
-            description: '',
-            price: 0,
-            type: ADVERT_CONSTANTS.TYPE.BUY,
-            photo: '',
-            thumbnail: '',
-            booked: false,
-            sold: false,
-            tags: []
-        };
+        return EMPTY_ADVERT;
     }
-}
-
-/**
- * Constantes para el trabajo con el modelo de anuncio
- */
-export const ADVERT_CONSTANTS = {
-    TYPE: {
-        ALL: 'all',
-        BUY: 'buy',
-        SELL: 'sell'
-    }, 
-    TAG: {
-        ALL: 'all',
-        WORK: 'work', 
-        LIFESTYLE: 'lifestyle', 
-        MOTOR: 'motor', 
-        MOBILE: 'mobile'
-    },
 }

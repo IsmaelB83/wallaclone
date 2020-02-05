@@ -4,7 +4,7 @@ import { withSnackbar } from 'notistack';
 // Own components
 import AdvertDetail from './AdvertDetail';
 // Own modules
-import { fetchAdvert, editAdvert, deleteAdvert } from '../../store/actions';
+import { fetchAdvert, editAdvert, deleteAdvert, likeAdvert } from '../../store/actions';
 
 
 /**
@@ -28,9 +28,10 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
-        loadAdvert: (slug) => dispatch(fetchAdvert(slug)),
+        loadAdvert: (slug, likes) => dispatch(fetchAdvert(slug, likes)),
         editAdvert: (advert, jwt) => dispatch(editAdvert(advert, jwt)),
-        deleteAdvert: (slug, jwt) => dispatch(deleteAdvert(slug, jwt))
+        deleteAdvert: (slug, jwt) => dispatch(deleteAdvert(slug, jwt)),
+        likeAdvert: (slug, jwt) => dispatch(likeAdvert(slug, jwt))
     }
 }
 

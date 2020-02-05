@@ -53,6 +53,7 @@ module.exports = {
                         name: user.name,
                         email: user.email,
                         token: user.jwt,
+                        likes: user.likes,
                     },
                 });
             }
@@ -88,6 +89,7 @@ module.exports = {
                 name: user.name,
                 email: user.email,
                 token: user.jwt,
+                likes: user.likes,                
             },
         });
     },
@@ -152,7 +154,7 @@ module.exports = {
         // No autorizado
         next({
             status: 401, 
-            message: 'Token not valid or expired. Reset your password once again.'
+            description: 'Token not valid or expired. Reset your password once again.'
         });
     },
 

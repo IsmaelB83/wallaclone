@@ -18,7 +18,7 @@
             "request": "launch",
             "name": "Launch react in debug",
             "url": "http://localhost:3000",
-            "webRoot": "${workspaceFolder}/frontend/src/index.js"
+            "webRoot": "${workspaceFolder}/frontend/src/index.js",
         }
     ]
 }

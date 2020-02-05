@@ -18,6 +18,7 @@ export default class Session {
         this.name = user.name;
         this.email = user.email;
         this.jwt = user.token;
+        this.likes = user.likes;
         this.maxAdverts = maxAdverts;
         if (this.maxAdverts <= 0 || this.maxAdverts === '') {
             this.maxAdverts = 8;

@@ -38,6 +38,10 @@ const UserSchema = new Schema(
          * Expiration time of the JWT
          */
         expire: { type: Date, default: Date.now() + 3600000, select: false },
+        /**
+         * Likes de anuncios
+         */
+        likes: [{ type: Schema.Types.ObjectId, ref: 'Advert' }],
     },
     {
         timestamps: true, 
@@ -106,13 +110,7 @@ UserSchema.statics.activate = async function(id, token) {
 * Función estática para eliminar todos los usuarios
 */
 UserSchema.statics.deleteAll = async function() {
-    try {
-        await User.deleteMany({});
-    } catch (error) {
-        // Error no controlado
-        console.log('Error while deleting users.');
-        console.log(error);
-    }
+    return await User.deleteMany({});
 };
 
 const User = mongoose.model('User', UserSchema);

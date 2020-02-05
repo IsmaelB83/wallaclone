@@ -18,6 +18,8 @@ export const initialState = {
     adverts: [],
     // Available tags in the backend
     tags: [],
+    // Favorites
+    favorites: [],
     // Filters applied (text, tag, type, amounts)
     filters: {
         name: '',
@@ -70,6 +72,13 @@ export function advert(state = initialState.advert, action) {
             return action.advert;
         case TYPES.EDIT_ADVERT_FAILURE:
             return initialState.advert
+        case TYPES.LIKE_ADVERT_SUCCESS:
+            if (action.slug === state.slug) {
+                const aux = { ...state }
+                aux.liked = action.like
+                return aux;
+            }
+            return state;
         case TYPES.CREATE_ADVERT_SUCCESS:
             return initialState.advert;
         case TYPES.CREATE_ADVERT_FAILURE:
@@ -79,6 +88,8 @@ export function advert(state = initialState.advert, action) {
         case TYPES.DELETE_ADVERT_FAILURE:
             return initialState.advert;
         case TYPES.CLEAR_ADVERT:
+            return initialState.advert;
+        case TYPES.LOGOUT_SUCCESS:
             return initialState.advert;
         default:
             return state;
@@ -105,6 +116,14 @@ export function adverts(state = initialState.adverts, action) {
                 }
                 return advert;
             });
+        case TYPES.LIKE_ADVERT_SUCCESS:
+            return state.map(advert => {
+                const aux = { ...advert }
+                if (advert.slug === action.slug) {
+                    aux.liked = action.like
+                }
+                return aux;
+            });
         case TYPES.DELETE_ADVERT_SUCCESS:
             const i = state.findIndex(advert => advert._id === action.advert._id);
             return [
@@ -113,6 +132,8 @@ export function adverts(state = initialState.adverts, action) {
             ];
         case TYPES.CREATE_ADVERT_SUCCESS:
             return state.concat(action.advert);
+        case TYPES.LOGOUT_SUCCESS:
+            return initialState.adverts;
         default:
             return state;
     }
@@ -131,6 +152,8 @@ export function filters (state = initialState.filters, action) {
             newState.minPrice = parseFloat(action.filters.minPrice);
             newState.maxPrice = parseFloat(action.filters.maxPrice);
             return newState;
+        case TYPES.LOGOUT_SUCCESS:
+            return initialState.filters;
         default:
             return state;
     }
@@ -148,7 +171,7 @@ export function session (state = initialState.session, action) {
         case TYPES.LOGIN_FAILURE:
             return initialState.session;
         case TYPES.LOGIN_SUCCESS:
-            return {...action.session};
+            return {...action.session}
         case TYPES.SET_SESSION:
             return {...action.session};
         case TYPES.LOGOUT_SUCCESS:

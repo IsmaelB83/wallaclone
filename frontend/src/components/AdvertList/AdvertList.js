@@ -30,7 +30,8 @@ export default function AdvertList (props) {
                         createdAt={advert.createdAt}
                         booked={advert.booked}
                         sold={advert.sold}
-                        user={advert.user.name}
+                        user={advert.user}
+                        liked={advert.liked}
             />
         )}
         </section>

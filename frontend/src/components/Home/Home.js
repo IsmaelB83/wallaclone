@@ -45,7 +45,7 @@ export default class Home extends Component {
               <p className='Home__Count'>{this.props.adverts.length} resultados cumplen el filtro. {this.props.ui.totalAdvertsReturned} resultados en el store de redux</p>
               <p className='Home__Count'>Last API call <Moment fromNow>{this.props.ui.lastAdvertsUpdated}</Moment></p>
               { this.props.adverts.length > 0 &&
-                <AdvertList adverts={this.props.adverts.slice(minAdvert, maxAdvert)} />
+                <AdvertList adverts={this.props.adverts.slice(minAdvert, maxAdvert)} withLikes={true}/>
               }
               { this.props.adverts.length === 0 &&
                 <h2 className='Home__Subtitle'>No hay anuncios que cumplan con los criterios de búsqueda</h2>
@@ -66,7 +66,7 @@ export default class Home extends Component {
    */
   componentDidMount() {
     this.props.fetchTags();
-    this.props.loadAdverts();
+    this.props.loadAdverts(this.props.session.likes);
   }
 
   /**
@@ -74,8 +74,8 @@ export default class Home extends Component {
    */
   handleSearch = (filters) => {
     if (filters)
-      return this.props.searchAdverts(filters);
-    this.props.loadAdverts();
+      return this.props.searchAdverts(filters, this.props.session.likes);
+    this.props.loadAdverts(this.props.session.likes);
   }
 
   /**

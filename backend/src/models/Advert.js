@@ -119,9 +119,6 @@ AdvertSchema.statics.list = function(name, venta, tag, precio, limit, skip, fiel
         }
         queryDB.populate('user').exec(callback);        
     } catch (error) {
-        // Error no controlado
-        console.log('Error while executing query.');
-        console.log(error); 
         callback(error);
     }
 }
@@ -130,26 +127,14 @@ AdvertSchema.statics.list = function(name, venta, tag, precio, limit, skip, fiel
 * Función estática para eliminar todos los anuncios
 */
 AdvertSchema.statics.deleteAll = async function() {
-    try {
-        await Advert.deleteMany({});
-    } catch (error) {
-        // Error no controlado
-        console.log('Error while deleting advert.');
-        console.log(error);
-    }
+    return await Advert.deleteMany({});
 };
 
 /**
 * Función estática para insertar varios anuncios al mismo tiempo
 */
 AdvertSchema.statics.insertAll = async function(adverts) {
-    try {
-        await Advert.insertMany(adverts);
-    } catch (error) {
-        // Error no controlado
-        console.log('Error while inserting new advert.');
-        console.log(error);
-    }
+    return await Advert.insertMany(adverts);
 };
 
 /**
@@ -183,9 +168,7 @@ AdvertSchema.statics.updateAdvert = async function(id, newAdvert) {
         }
         return false;
     } catch (error) {
-        // Error no controlado
-        console.log('Error while inserting new advert.');
-        console.log(error);
+        return error;
     }
 };
 

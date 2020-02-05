@@ -34,6 +34,7 @@ export default function InputForm(props) {
             }
             endAdornment={props.endAdornment}
             required={props.required}
+            autoComplete={props.autoComplete}
             />
         </FormControl>
     )

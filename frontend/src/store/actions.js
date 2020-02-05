@@ -25,6 +25,9 @@ import {
     CREATE_ADVERT_REQUEST,
     CREATE_ADVERT_FAILURE,
     CREATE_ADVERT_SUCCESS,
+    LIKE_ADVERT_REQUEST,
+    LIKE_ADVERT_FAILURE,
+    LIKE_ADVERT_SUCCESS,
     CLEAR_ADVERT,
     // Navigation
     SET_FILTERS,
@@ -103,11 +106,17 @@ export const fetchTags = () => {
     }
 };
 
-export const fetchAdvert = (slug) => {   
+export const fetchAdvert = (slug, likes) => {   
     return async function(dispatch, getState) {
         dispatch(fetchAdvertRequest());
         try {
             const advert = await AdvertServices.getAdvert(slug);
+            // If likes is provided (users's favourites) check if it is included in the favourites
+            if (likes) {
+                advert.liked = false;
+                const i = likes.findIndex(like => like === advert._id);
+                if (i>=0) advert.liked = true;
+            }
             dispatch(fetchAdvertSuccess(advert));
         } catch (error) {
             dispatch(fetchAdvertFailure(error.message))
@@ -115,11 +124,22 @@ export const fetchAdvert = (slug) => {
     }
 };
 
-export const fetchAdverts = () => {   
+export const fetchAdverts = (likes) => {   
     return async function(dispatch, getState) {
         dispatch(fetchAdvertsRequest());
         try {
             const adverts = await AdvertServices.getAdverts();
+            // If likes is provided (users's favourites) check what adverts are in the favourites
+            if (likes) {
+                for (let i = 0; i < adverts.length; i++) {
+                    adverts[i].liked = false;   
+                    const j = likes.findIndex(like => like === adverts[i]._id);
+                    if (j >= 0) {
+                        likes.splice(j, 1); // Better performance next iterations
+                        adverts[i].liked = true;
+                    }
+                }
+            }
             dispatch(fetchAdvertsSuccess(adverts));
         } catch (error) {
             dispatch(fetchAdvertsFailure(error.message))
@@ -127,11 +147,22 @@ export const fetchAdverts = () => {
     }
 };
 
-export const searchAdverts = (filters) => {   
+export const searchAdverts = (filters, likes) => {   
     return async function(dispatch, getState) {
         dispatch(fetchAdvertsRequest());
         try {
             const adverts = await AdvertServices.searchAdverts(filters);
+            // If likes is provided (users's favourites) check what adverts are in the favourites
+            if (likes) {
+                for (let i = 0; i < adverts.length; i++) {
+                    adverts[i].liked = false;   
+                    const j = likes.findIndex(like => like === adverts[i]._id);
+                    if (j >= 0) {
+                        likes.splice(j, 1); // Better performance next iterations
+                        adverts[i].liked = true;
+                    }
+                }
+            }
             dispatch(fetchAdvertsSuccess(adverts));
         } catch (error) {
             dispatch(fetchAdvertsFailure(error.message));
@@ -150,6 +181,18 @@ export const editAdvert = (advert, jwt) => {
         }
     }
 };
+
+export const likeAdvert = (slug, jwt) => {
+    return async function(dispatch, getState) {
+        dispatch(likeAdvertRequest());
+        try {
+            const like = await AdvertServices.likeAdvert(slug, jwt);
+            dispatch(likeAdvertSuccess(slug, like));
+        } catch (error) {
+            dispatch(likeAdvertFailure(error.message))
+        }
+    }
+}
 
 export const createAdvert = (advert, jwt) => {   
     return async function(dispatch, getState) {
@@ -289,6 +332,21 @@ const editAdvertFailure = error => ({
 const editAdvertSuccess = advert => ({
     type: EDIT_ADVERT_SUCCESS,
     advert,
+});
+
+const likeAdvertRequest = () => ({
+    type: LIKE_ADVERT_REQUEST
+});
+
+const likeAdvertFailure = error => ({
+    type: LIKE_ADVERT_FAILURE,
+    error,
+});
+
+const likeAdvertSuccess = (slug, like) => ({
+    type: LIKE_ADVERT_SUCCESS,
+    slug,
+    like
 });
 
 const deleteAdvertRequest = () => ({

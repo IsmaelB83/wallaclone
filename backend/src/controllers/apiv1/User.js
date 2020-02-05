@@ -55,7 +55,6 @@ module.exports = {
                 description: 'Error creating user'
             });
         } catch (error) {
-            if (!error.array) console.log(`Uncontrolled error: ${error}`);
             next(error);
         }
     },

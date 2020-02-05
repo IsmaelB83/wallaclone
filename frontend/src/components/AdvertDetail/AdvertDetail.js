@@ -4,11 +4,13 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 // Material UI
-import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import Container from '@material-ui/core/Container';
 import EditIcon from '@material-ui/icons/Edit';
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
+// Own Modules
 // Models
 import Advert from '../../models/Advert'
 // Components
@@ -28,17 +30,14 @@ import './styles.css';
  */
 export default function AdvertDetail(props) {
   
-  const slug = props.match.params.slug;
-  const { loadAdvert } = props;
-
   // Use states
   const [deleting, setDeleting] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
   // Dispatch load advert action
   useEffect(() => {
-    loadAdvert(slug);
-  }, [slug, loadAdvert]);
+    props.loadAdvert(props.match.params.slug, props.session.likes);
+  }, []);
 
   // Controlar fin de acción de borrado
   useEffect(() => {
@@ -80,6 +79,11 @@ export default function AdvertDetail(props) {
       setShowModal(false);
   }
 
+  // Like del anuncio
+  const likeAdvert = () => {
+    props.likeAdvert(props.advert.slug, props.session.jwt);
+  }
+
   // Render
   return (
     <React.Fragment>
@@ -90,9 +94,6 @@ export default function AdvertDetail(props) {
             <article className='AdvertDetail'>
               <div className='AdvertDetail__Main'>
                 <header className='AdvertDetail__Header'>
-                  <Link to='/' className='AdvertDetail__Back'>
-                    <KeyboardBackspaceIcon/>
-                  </Link>
                   <h1>{props.advert.name}</h1>
                   <img className='Caption' src={props.advert.photo} alt='caption'/>
                   { props.advert.booked && <img src={imgReserved} className='AdvertCard__Status' alt='reserved'/> }
@@ -136,6 +137,12 @@ export default function AdvertDetail(props) {
                   <p className='Text'>Precio</p>
                   <p className='Price'>{props.advert.price} <span>€</span></p>
                 </div>
+                {   props.advert.user._id !== props.session.id && 
+                    <button className='ButtonTransparent ButtonTransparent--Big' onClick={likeAdvert}>
+                      { props.advert.liked && <FavoriteIcon className='FavoriteIcon FavoriteIcon--On'/> }
+                      { !props.advert.liked && <FavoriteBorderIcon className='FavoriteIcon FavoriteIcon--Off'/> }
+                    </button>
+                }
                 <Moment className='AdvertDetail__Date' fromNow>{props.advert.createdAt}</Moment>
               </div>
             </article>

@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 import Moment from 'react-moment';
 // Material UI
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import Chip from '@material-ui/core/Chip';
 // Own modules
 // Models
@@ -20,7 +22,13 @@ import './styles.css';
  * Functional component to render an advert card
  */
 export default function AdvertCard (props) {
-    
+
+    // Reservar producto
+    const likeAdvert = () => {
+        props.likeAdvert(props.slug, props.session.jwt);
+    }
+
+    // Render
     return(
         <article className='AdvertCard'>
             <header className='AdvertCard__Header'>
@@ -40,7 +48,7 @@ export default function AdvertCard (props) {
                     {props.price} 
                     <span className='AdvertCard__Currency'>€</span>
                 </p>
-                <p>Autor: {props.user}</p>
+                <p>Autor: {props.user.name}</p>
             </div>
             <div className='AdvertCard__Footer'>
                 <div className='Ad__Tags'>
@@ -55,6 +63,12 @@ export default function AdvertCard (props) {
                         })
                     }
                 </div>
+                {   props.user._id !== props.session.id && 
+                    <button className='ButtonTransparent' onClick={likeAdvert}>
+                        { props.liked && <FavoriteIcon className='FavoriteIcon FavoriteIcon--On'/> }
+                        { !props.liked && <FavoriteBorderIcon className='FavoriteIcon FavoriteIcon--Off'/> }
+                    </button>
+                }
             </div>
         </article>
     );

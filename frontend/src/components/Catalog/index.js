@@ -28,7 +28,7 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
-        loadAdverts: () => dispatch(fetchAdverts())
+        loadAdverts: (likes) => dispatch(fetchAdverts(likes))
     }
 }
 

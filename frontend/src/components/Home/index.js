@@ -33,8 +33,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         fetchTags: () => dispatch(fetchTags()),
-        loadAdverts: () => dispatch(fetchAdverts()),
-        searchAdverts: (filters) => dispatch(searchAdverts(filters)),
+        loadAdverts: (likes) => dispatch(fetchAdverts(likes)),
+        searchAdverts: (filters, likes) => dispatch(searchAdverts(filters, likes)),
         setCurrentPage: pageNumber => dispatch(setPage(pageNumber))
     }
 }
