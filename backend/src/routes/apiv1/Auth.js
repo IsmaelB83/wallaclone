@@ -23,9 +23,9 @@ module.exports = () => {
     );
     // Validates the JWT a user has. Used by frontend to validate the JWT in case it was in LS from previous sessions
     router.post(
-        '/checkjwt',
+        '/token',
         AuthMiddleware,
-        AuthCtrl.checkJWT
+        AuthCtrl.loginToken
     );
     // Logout (requires to be authenticated first). It invalidates the current JWT
     router.post(

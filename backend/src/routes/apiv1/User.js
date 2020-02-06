@@ -3,6 +3,7 @@
 const express = require('express');
 const { body } = require('express-validator');
 // Own imports
+const { AuthMiddleware } = require('../../middlewares');
 const { UserCtrl } = require('../../controllers');
 
 /**
@@ -21,6 +22,12 @@ module.exports = () => {
         ], 
         UserCtrl.create
     );
+
+    // Add/Remove advert from user favorites
+    router.put(
+        '/favorites/:slug', 
+        AuthMiddleware,
+        UserCtrl.setFavorite);
 
     // Return routes object
     return router;

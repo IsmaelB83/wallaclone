@@ -4,7 +4,7 @@ import { withSnackbar } from 'notistack';
 // Own components
 import AdvertCard from './AdvertCard';
 // Own modules
-import { likeAdvert } from '../../store/actions';
+import { setFavorite } from '../../store/actions';
 
 
 /**
@@ -23,7 +23,7 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
-        likeAdvert: (slug, jwt) => dispatch(likeAdvert(slug, jwt))
+        setFavorite: (slug, jwt) => dispatch(setFavorite(slug, jwt))
     }
 }
 

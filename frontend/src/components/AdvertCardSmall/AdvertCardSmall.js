@@ -66,7 +66,7 @@ export default function AdvertCardSmall (props) {
 
     return(
         <React.Fragment>
-            <article className='AdvertCardSmall'>
+            <article id={`adslug_${props.slug}`} className='AdvertCardSmall'>
                 <header className='AdvertCardSmall__Caption'>
                     <Link to={`/advert/edit/${props.slug}`}>
                         <img className='AdvertCardSmall__Img' src={props.photo} alt='caption'/>

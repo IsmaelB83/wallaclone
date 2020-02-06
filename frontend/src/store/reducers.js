@@ -18,7 +18,7 @@ export const initialState = {
     adverts: [],
     // Available tags in the backend
     tags: [],
-    // Favorites
+    // User favorites
     favorites: [],
     // Filters applied (text, tag, type, amounts)
     filters: {
@@ -72,11 +72,9 @@ export function advert(state = initialState.advert, action) {
             return action.advert;
         case TYPES.EDIT_ADVERT_FAILURE:
             return initialState.advert
-        case TYPES.LIKE_ADVERT_SUCCESS:
-            if (action.slug === state.slug) {
-                const aux = { ...state }
-                aux.liked = action.like
-                return aux;
+        case TYPES.SET_FAVORITE_SUCCESS:
+            if (action._id === state._id) {
+                return { ...state, favorite: action.favorite };
             }
             return state;
         case TYPES.CREATE_ADVERT_SUCCESS:
@@ -108,7 +106,7 @@ export function adverts(state = initialState.adverts, action) {
         case TYPES.FETCH_ADVERTS_FAILURE:
             return initialState.adverts;
         case TYPES.FETCH_ADVERTS_SUCCESS:
-            return action.adverts;
+            return [...action.adverts];
         case TYPES.EDIT_ADVERT_SUCCESS:
             return state.map(advert => {
                 if (advert._id === action.advert._id) {
@@ -116,13 +114,15 @@ export function adverts(state = initialState.adverts, action) {
                 }
                 return advert;
             });
-        case TYPES.LIKE_ADVERT_SUCCESS:
+        case TYPES.SET_FAVORITE_SUCCESS:
             return state.map(advert => {
-                const aux = { ...advert }
-                if (advert.slug === action.slug) {
-                    aux.liked = action.like
+                if (advert._id === action._id) {
+                    return {
+                        ...advert,
+                        favorite: action.favorite
+                    }
                 }
-                return aux;
+                return {...advert};
             });
         case TYPES.DELETE_ADVERT_SUCCESS:
             const i = state.findIndex(advert => advert._id === action.advert._id);
@@ -131,7 +131,7 @@ export function adverts(state = initialState.adverts, action) {
                 ...state.slice(i + 1)
             ];
         case TYPES.CREATE_ADVERT_SUCCESS:
-            return state.concat(action.advert);
+            return [...state, action.advert];
         case TYPES.LOGOUT_SUCCESS:
             return initialState.adverts;
         default:
@@ -147,11 +147,12 @@ export function adverts(state = initialState.adverts, action) {
 export function filters (state = initialState.filters, action) {
     switch (action.type) {
         case TYPES.SET_FILTERS:
-            const newState = {...action.filters};
-            newState.name = action.filters.name.toLowerCase();
-            newState.minPrice = parseFloat(action.filters.minPrice);
-            newState.maxPrice = parseFloat(action.filters.maxPrice);
-            return newState;
+            return {
+                ...action.filters,
+                name: action.filters.name.toLowerCase(),
+                minPrice: parseFloat(action.filters.minPrice),
+                maxPrice: parseFloat(action.filters.maxPrice)
+            };
         case TYPES.LOGOUT_SUCCESS:
             return initialState.filters;
         default:
@@ -176,6 +177,31 @@ export function session (state = initialState.session, action) {
             return {...action.session};
         case TYPES.LOGOUT_SUCCESS:
             return initialState.session;
+        default:
+            return state;
+    }
+}
+
+/**
+ * Reducer para gestionar las acciones sobre los favoritos del usuario
+ * @param {Array} state Anuncios
+ * @param {Object} action Action
+ */
+export function favorites (state = initialState.favorites, action) {
+    switch (action.type) {
+        case TYPES.SET_FAVORITES:
+            return [...action.favorites];
+        case TYPES.SET_FAVORITE_SUCCESS:
+            // If action.favorite === true tries to insert favorite
+            const i = state.findIndex(fav => fav === action._id);
+            if (action.favorite && i < 0) {
+                return [...state, action._id];
+            } else if (!action.favorite && i >= 0) {
+                return [...state.slice(0, i), ...state.slice(i + 1)];
+            }
+            return state;
+        case TYPES.LOGOUT_SUCCESS:
+            return initialState.favorites;
         default:
             return state;
     }

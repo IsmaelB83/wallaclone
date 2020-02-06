@@ -53,8 +53,8 @@ module.exports = {
                         name: user.name,
                         email: user.email,
                         token: user.jwt,
-                        likes: user.likes,
                     },
+                    favorites: user.favorites
                 });
             }
             return next({
@@ -77,7 +77,7 @@ module.exports = {
      * @param {Response} res Response web
      * @param {Middleware} next Next middleware
      */
-    checkJWT: async (req, res, next) => {
+    loginToken: async (req, res, next) => {
         // In case I am here I am authorized (because this controller is private and the middleware is who checks the JWT)
         const user = await User.findOne({email: req.user.email, active: true});
         // Return the JWT and user information
@@ -89,8 +89,8 @@ module.exports = {
                 name: user.name,
                 email: user.email,
                 token: user.jwt,
-                likes: user.likes,                
             },
+            favorites: user.favorites,
         });
     },
 
@@ -112,11 +112,6 @@ module.exports = {
             return res.json({
                 success: true,
                 description: 'User logged out',
-                user: {
-                    name: response.name,
-                    email: response.email,
-                    token: user.jwt
-                }
             })
         }
         // Unauthorized

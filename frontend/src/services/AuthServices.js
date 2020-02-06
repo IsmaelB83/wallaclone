@@ -28,7 +28,31 @@ export default {
       Querystring.stringify({ email: email, password: password }),
       { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
     )
-    .then(res => new Session(res.data.user));
+    .then(res => {
+      return {
+        favorites: res.data.favorites,
+        user: new Session(res.data.user)
+      }
+    });
+  },
+
+  /**
+  * Trata de hacer login contra el API
+  */
+  loginWithToken: (jwt) => {
+    // Endpoint
+    let baseURL = `${API_URL}/authenticate/token`;
+    // Call endpoint and return
+    return Axios.post(
+      baseURL, 
+      { headers: { 'Authorization': `Bearer ${jwt}`} }
+    )
+    .then(res => {
+      return {
+        favorites: res.data.favorites,
+        user: new Session(res.data.user)
+      }
+    });
   },
 
   /**
@@ -44,21 +68,6 @@ export default {
     )
     .then(res => 'JWT invalidated');
   },
-
-  /**
-  * Trata de hacer login contra el API
-  */
-  loginWithToken: (jwt) => {
-    // Endpoint
-    let baseURL = `${API_URL}/authenticate/checkjwt`;
-    // Call endpoint and return
-    return Axios.post(
-      baseURL, 
-      { headers: { 'Authorization': `Bearer ${jwt}`} }
-    )
-    .then(res => new Session(res.data.user));
-  },
-
 
   /**
   * Solicita reseteo de contraseña

@@ -127,22 +127,6 @@ export default {
   },
 
   /**
-   * Llama a la API para insertar un like del anuncio
-   * @param {Advert} slug Slug del anuncio del que quiero hacer like
-   * @param {String} jwt Token para autenticar en el API
-   */
-  likeAdvert: (slug, jwt) => {
-    // Endpoint
-    const baseURL = `${API_URL}/adverts/like/${slug}`;
-    // Call endpoint and return
-    return Axios.put(
-      baseURL, 
-      { headers: { 'Authorization': `Bearer ${jwt}`} }
-    )
-    .then(res => res.data.result);
-  },
-
-  /**
   * Llama a la API para editar un anuncio
   * @param {Advert} advert 
   */

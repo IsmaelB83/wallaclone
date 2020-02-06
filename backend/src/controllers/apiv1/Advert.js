@@ -3,7 +3,7 @@
 const { validationResult } = require('express-validator');
 // Node imports
 const Sender = require('../../services/thumbnail/sender');
-const { Advert, User } = require('../../models');
+const { Advert } = require('../../models');
 
 
 /**
@@ -146,60 +146,6 @@ module.exports = {
             return next({
                 status: 500, 
                 description: 'Error no controlado actualizando anuncio.'
-            })
-        } catch (error) {
-            next(error);
-        }
-    },
-
-    /**
-     * Like advert
-     * @param {Request} req Request web
-     * @param {Response} res Response web
-     * @param {Middleware} next Next middleware
-     */
-    like: async (req, res, next) => {
-        try {
-            // Sólo se permiten hacer like de un anuncio de otro usu ario
-            const advert = await Advert.findOne({slug: req.params.slug});
-            if (!advert) {
-                // Anuncio no encontrado
-                return next({ 
-                    status: 404, 
-                    description: 'Advert not Found' 
-                });
-            } else if (advert.user._id.toString() === req.user.id) {
-                // Un usuario sólo puede modificar sus anuncios
-                return next({ 
-                    status: 401, 
-                    description: 'Error. Sólo puede hacer like de otros anuncios' 
-                });
-            }
-            // Add to user likes
-            const user = await User.findById(req.user.id);
-            let like = false;
-            if (user) {
-                // Busco el like, si existe lo elimino
-                const index = user.likes.findIndex(like => like.toString() === advert._id.toString());
-                if (index >= 0) {
-                    // Lo elimino
-                    user.likes.splice(index, 1);
-                } else {
-                    // Si no existe lo añado
-                    user.likes.push(advert._id);                    
-                    like = true;
-                }
-                // Guardo los cambios y retorno
-                await user.save();
-                return res.json({
-                    success: true,
-                    result: like,
-                });
-            } 
-            // Error
-            return next({
-                status: 500, 
-                description: 'Error no controlado actualizando likes.'
             })
         } catch (error) {
             next(error);

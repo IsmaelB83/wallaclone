@@ -30,24 +30,27 @@ import './styles.css';
  */
 export default function AdvertDetail(props) {
   
+  // Dispatch load advert action
+  const { loadAdvert } = props;
+  const { slug } = props.match.params;
+  useEffect(() => {
+    loadAdvert(slug);
+  }, [slug, loadAdvert]);
+
   // Use states
   const [deleting, setDeleting] = useState(false);
   const [showModal, setShowModal] = useState(false);
-
-  // Dispatch load advert action
-  useEffect(() => {
-    props.loadAdvert(props.match.params.slug, props.session.likes);
-  }, []);
-
+  
   // Controlar fin de acción de borrado
+  const { isDeleting, error, enqueueSnackbar, history } = props;
   useEffect(() => {
-    if (deleting && !props.isDeleting && !props.error) {
-      props.enqueueSnackbar('Anuncio borrado con éxito', { variant: 'success' });
-      props.history.push('/');
-    } else if (deleting && !props.isDeleting && props.error) {
-      props.enqueueSnackbar(props.error, { variant: 'error' });
+    if (deleting && !isDeleting && !error) {
+      enqueueSnackbar('Anuncio borrado con éxito', { variant: 'success' });
+      history.push('/');
+    } else if (deleting && !isDeleting && error) {
+      enqueueSnackbar(error, { variant: 'error' });
     }
-  }, [props, deleting]);
+  }, [isDeleting, error, deleting, enqueueSnackbar, history]);
 
   // Reservar producto
   const bookAdvert = () => {
@@ -79,9 +82,9 @@ export default function AdvertDetail(props) {
       setShowModal(false);
   }
 
-  // Like del anuncio
-  const likeAdvert = () => {
-    props.likeAdvert(props.advert.slug, props.session.jwt);
+  // Add to favorites
+  const setFavorite = () => {
+    props.setFavorite(props.advert.slug, props.session.jwt);
   }
 
   // Render
@@ -91,7 +94,7 @@ export default function AdvertDetail(props) {
       <Container>
         <main className='Main__Section'>
           { props.advert && props.advert._id && 
-            <article className='AdvertDetail'>
+            <article id={`adslug_${props.advert.slug}`} className='AdvertDetail'>
               <div className='AdvertDetail__Main'>
                 <header className='AdvertDetail__Header'>
                   <h1>{props.advert.name}</h1>
@@ -138,9 +141,9 @@ export default function AdvertDetail(props) {
                   <p className='Price'>{props.advert.price} <span>€</span></p>
                 </div>
                 {   props.advert.user._id !== props.session.id && 
-                    <button className='ButtonTransparent ButtonTransparent--Big' onClick={likeAdvert}>
-                      { props.advert.liked && <FavoriteIcon className='FavoriteIcon FavoriteIcon--On'/> }
-                      { !props.advert.liked && <FavoriteBorderIcon className='FavoriteIcon FavoriteIcon--Off'/> }
+                    <button className='ButtonTransparent ButtonTransparent--Big' onClick={setFavorite}>
+                      { props.advert.favorite && <FavoriteIcon className='FavoriteIcon FavoriteIcon--On'/> }
+                      { !props.advert.favorite && <FavoriteBorderIcon className='FavoriteIcon FavoriteIcon--Off'/> }
                     </button>
                 }
                 <Moment className='AdvertDetail__Date' fromNow>{props.advert.createdAt}</Moment>

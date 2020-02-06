@@ -28,4 +28,26 @@ export default {
     )
     .then(res => res);
   },
+  
+  /**
+   * Llama a la API para insertar/eliminar un anuncio a favoritos
+   * @param {Advert} slug Slug del anuncio del que quiero añadir/quitar de favorito
+   * @param {String} jwt Token para autenticar en el API
+   */
+  setFavorite: (slug, jwt) => {
+    // Endpoint
+    const baseURL = `${API_URL}/user/favorites/${slug}`;
+    // Call endpoint and return
+    return Axios.put(
+      baseURL, 
+      { headers: { 'Authorization': `Bearer ${jwt}`} }
+    )
+    .then(res => {
+      return {
+        _id: res.data._id,
+        favorite: res.data.favorite
+      }}
+    );
+  },
+
 }

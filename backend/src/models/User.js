@@ -39,9 +39,9 @@ const UserSchema = new Schema(
          */
         expire: { type: Date, default: Date.now() + 3600000, select: false },
         /**
-         * Likes de anuncios
+         * Favorite adverts
          */
-        likes: [{ type: Schema.Types.ObjectId, ref: 'Advert' }],
+        favorites: [{ type: Schema.Types.ObjectId, ref: 'Advert' }],
     },
     {
         timestamps: true, 

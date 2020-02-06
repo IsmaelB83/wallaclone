@@ -7,7 +7,12 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import * as reducers from './reducers';
 
 const loggerMiddleware = createLogger();
-const componseEnhancers = composeWithDevTools;
+const componseEnhancers = composeWithDevTools({
+    name: `Redux`,
+    realtime: true,
+    trace: true,
+    traceLimit: 25
+});
 
 /**
  * Configura el store

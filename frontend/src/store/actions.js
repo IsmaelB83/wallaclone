@@ -1,6 +1,7 @@
 // API
 import AdvertServices from '../services/AdvertServices';
 import AuthServices from '../services/AuthServices';
+import UserServices from '../services/UserServices';
 // Own modules
 import LocalStorage from '../utils/Storage';
 // Actions
@@ -25,9 +26,6 @@ import {
     CREATE_ADVERT_REQUEST,
     CREATE_ADVERT_FAILURE,
     CREATE_ADVERT_SUCCESS,
-    LIKE_ADVERT_REQUEST,
-    LIKE_ADVERT_FAILURE,
-    LIKE_ADVERT_SUCCESS,
     CLEAR_ADVERT,
     // Navigation
     SET_FILTERS,
@@ -42,16 +40,21 @@ import {
     LOGOUT_SUCCESS,
     SET_SESSION,
     EDIT_SESSION,
+    SET_FAVORITES,
+    SET_FAVORITE_REQUEST,
+    SET_FAVORITE_FAILURE,
+    SET_FAVORITE_SUCCESS,
 } from './types';
 
 
-export const login = (email, password, jwt) => {   
+export const login = (email, password) => {   
     return async function(dispatch, getState) {
         dispatch(loginRequest());
         try {
             // Authenticate trough user/password
-            const user = await AuthServices.login(email, password);
+            const { user, favorites } = await AuthServices.login(email, password);
             dispatch(loginSuccess(user));
+            dispatch(setFavorites(favorites));
         } catch (error) {
             let message = error.message;
             if (error.response && error.response.data) {
@@ -67,8 +70,9 @@ export const loginWithToken = (jwt) => {
         dispatch(loginRequest());
         try {
             // Authenticate (validation when login from Local storage) trough JWT
-            const user = await AuthServices.loginWithToken(jwt);
+            const { user, favorites } = await AuthServices.loginWithToken(jwt);
             dispatch(loginSuccess(user));
+            dispatch(setFavorites(favorites));
         } catch (error) {
             // In case login from JWT in Local storage fails --> clean local storage
             LocalStorage.cleanLocalStorage();
@@ -106,16 +110,17 @@ export const fetchTags = () => {
     }
 };
 
-export const fetchAdvert = (slug, likes) => {   
+export const fetchAdvert = (slug) => {
     return async function(dispatch, getState) {
         dispatch(fetchAdvertRequest());
         try {
             const advert = await AdvertServices.getAdvert(slug);
-            // If likes is provided (users's favourites) check if it is included in the favourites
-            if (likes) {
-                advert.liked = false;
-                const i = likes.findIndex(like => like === advert._id);
-                if (i>=0) advert.liked = true;
+            // If there are favorites in state it means user is authenticated in the app. Identify favorites
+            const { favorites } = getState();
+            if (favorites) {
+                advert.favorite = false;
+                const i = favorites.findIndex(favorite => favorite === advert._id);
+                if (i>=0) advert.favorite = true;
             }
             dispatch(fetchAdvertSuccess(advert));
         } catch (error) {
@@ -124,19 +129,19 @@ export const fetchAdvert = (slug, likes) => {
     }
 };
 
-export const fetchAdverts = (likes) => {   
+export const fetchAdverts = () => {   
     return async function(dispatch, getState) {
         dispatch(fetchAdvertsRequest());
         try {
             const adverts = await AdvertServices.getAdverts();
-            // If likes is provided (users's favourites) check what adverts are in the favourites
-            if (likes) {
+            // If there are favorites in state it means user is authenticated in the app. Identify favorites
+            const { favorites } = getState();
+            if (favorites) {
                 for (let i = 0; i < adverts.length; i++) {
-                    adverts[i].liked = false;   
-                    const j = likes.findIndex(like => like === adverts[i]._id);
+                    adverts[i].favorite = false;   
+                    const j = favorites.findIndex(favorite => favorite === adverts[i]._id);
                     if (j >= 0) {
-                        likes.splice(j, 1); // Better performance next iterations
-                        adverts[i].liked = true;
+                        adverts[i].favorite = true;
                     }
                 }
             }
@@ -147,19 +152,19 @@ export const fetchAdverts = (likes) => {
     }
 };
 
-export const searchAdverts = (filters, likes) => {   
+export const searchAdverts = (filters) => {
     return async function(dispatch, getState) {
         dispatch(fetchAdvertsRequest());
         try {
             const adverts = await AdvertServices.searchAdverts(filters);
-            // If likes is provided (users's favourites) check what adverts are in the favourites
-            if (likes) {
+            // If there are favorites in state it means user is authenticated in the app. Identify favorites
+            const { favorites } = getState();
+            if (favorites) {
                 for (let i = 0; i < adverts.length; i++) {
-                    adverts[i].liked = false;   
-                    const j = likes.findIndex(like => like === adverts[i]._id);
+                    adverts[i].favorite = false;   
+                    const j = favorites.findIndex(favorite => favorite === adverts[i]._id);
                     if (j >= 0) {
-                        likes.splice(j, 1); // Better performance next iterations
-                        adverts[i].liked = true;
+                        adverts[i].favorite = true;
                     }
                 }
             }
@@ -182,14 +187,14 @@ export const editAdvert = (advert, jwt) => {
     }
 };
 
-export const likeAdvert = (slug, jwt) => {
+export const setFavorite = (slug, jwt) => {
     return async function(dispatch, getState) {
-        dispatch(likeAdvertRequest());
+        dispatch(setFavoriteRequest());
         try {
-            const like = await AdvertServices.likeAdvert(slug, jwt);
-            dispatch(likeAdvertSuccess(slug, like));
+            const { _id, favorite } = await UserServices.setFavorite(slug, jwt);
+            dispatch(setFavoriteSuccess(_id, favorite));
         } catch (error) {
-            dispatch(likeAdvertFailure(error.message))
+            dispatch(setFavoriteFailure(error.message))
         }
     }
 }
@@ -334,19 +339,24 @@ const editAdvertSuccess = advert => ({
     advert,
 });
 
-const likeAdvertRequest = () => ({
-    type: LIKE_ADVERT_REQUEST
+const setFavorites = favorites => ({
+    type: SET_FAVORITES,
+    favorites,
 });
 
-const likeAdvertFailure = error => ({
-    type: LIKE_ADVERT_FAILURE,
+const setFavoriteRequest = () => ({
+    type: SET_FAVORITE_REQUEST
+});
+
+const setFavoriteFailure = error => ({
+    type: SET_FAVORITE_FAILURE,
     error,
 });
 
-const likeAdvertSuccess = (slug, like) => ({
-    type: LIKE_ADVERT_SUCCESS,
-    slug,
-    like
+const setFavoriteSuccess = (_id, favorite) => ({
+    type: SET_FAVORITE_SUCCESS,
+    _id,
+    favorite
 });
 
 const deleteAdvertRequest = () => ({

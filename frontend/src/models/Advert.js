@@ -27,7 +27,7 @@ const EMPTY_ADVERT = {
     thumbnail: '',
     booked: false,
     sold: false,
-    liked: false,
+    favorite: false,
     createdAt: undefined,
     updatedAt: undefined
 }
@@ -60,7 +60,7 @@ export default class Advert {
         this.user = ad.user;
         // This property doesn't come from advert model. It is calculated in redux store when loading adverts 
         // based on user session
-        this.liked = undefined 
+        this.favorite = undefined 
     }
 
     /**
