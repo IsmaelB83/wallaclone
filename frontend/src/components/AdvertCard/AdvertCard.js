@@ -63,7 +63,7 @@ export default function AdvertCard (props) {
                         })
                     }
                 </div>
-                {   props.user._id !== props.session.id && 
+                {   props.user._id !== props.session._id && 
                     <button className='ButtonTransparent' onClick={setFavorite}>
                         { props.favorite && <FavoriteIcon className='FavoriteIcon FavoriteIcon--On'/> }
                         { !props.favorite && <FavoriteBorderIcon className='FavoriteIcon FavoriteIcon--Off'/> }

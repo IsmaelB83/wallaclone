@@ -127,8 +127,8 @@ a {
  * Buttons
  */
 .ButtonTransparent {
-  background-color: transparent;
-  border: 0;
+  background-color: transparent !important;
+  border: none !important;
   cursor: pointer;
   outline:none;
 }
@@ -168,3 +168,7 @@ a {
 .ButtonWallakeep__ClearToBlue:hover, .ButtonWallakeep__ClearToBlue--active { background-color: var(--light-blue) !important; color: white !important; }
 .ButtonWallakeep__ClearToRed:hover, .ButtonWallakeep__ClearToRed--active{ background-color: var(--light-red) !important; color: white !important; }
 .ButtonWallakeep__ClearToGray:hover { background-color: var(--dark-grey) !important; }
+
+.ml-1 {
+  margin-left: 10px;
+}

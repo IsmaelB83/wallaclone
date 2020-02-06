@@ -43,9 +43,9 @@ module.exports = {
                 return res.status(201).json({
                     description: 'Check your email to activate the account',
                     user: {
-                        id: user._doc._id,
-                        name: user._doc.name,
-                        email: user._doc.email
+                        _id: user._id,
+                        name: user.name,
+                        email: user.email
                     }
                 });
             }
@@ -54,6 +54,20 @@ module.exports = {
                 status: 400,
                 description: 'Error creating user'
             });
+        } catch (error) {
+            next(error);
+        }
+    },
+
+    /**
+     * Edit user
+     * @param {Request} req Request web
+     * @param {Response} res Response web
+     * @param {Middleware} next Next middleware
+     */
+    edit: async (req, res, next) => {
+        try {
+            next('Error');
         } catch (error) {
             next(error);
         }
@@ -75,7 +89,7 @@ module.exports = {
                     status: 404, 
                     description: 'Advert not Found' 
                 });
-            } else if (advert.user._id.toString() === req.user.id) {
+            } else if (advert.user._id.toString() === req.user._id) {
                 // Un usuario sólo puede modificar sus anuncios
                 return next({ 
                     status: 401, 
@@ -83,7 +97,7 @@ module.exports = {
                 });
             }
             // Add to user favorites
-            const user = await User.findById(req.user.id);
+            const user = await User.findById(req.user._id);
             let favorite = false;
             if (user) {
                 // Busco el favorite, si existe lo elimino. si no existe añado
@@ -112,4 +126,29 @@ module.exports = {
         }
     },
 
+
+    /**
+     * Get user's favorites
+     * @param {Request} req Request web
+     * @param {Response} res Response web
+     * @param {Middleware} next Next middleware
+     */
+    getFavorites: async (req, res, next) => {
+        try {
+            // List of adverts
+            const user = await User.findById(req.user._id).populate('favorites');
+            if (user) {
+                // Ok
+                return res.json({
+                    success: true,
+                    count: user.favorites.length,
+                    results: user.favorites
+                });
+            }
+            // Error
+            next({ status: 404, error: 'Not Found' });
+        } catch (error) {
+            next(error);
+        }
+    }
 }

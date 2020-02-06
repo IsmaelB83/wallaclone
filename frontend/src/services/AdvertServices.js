@@ -7,7 +7,7 @@ import Advert from '../models/Advert';
 // CSS
 
 // Endpoint
-const API_URL = 'https://127.0.0.1:8443/apiv1';
+const API_URL = `${process.env.REACT_APP_API_URL}/adverts`;
 
 /**
 * Objeto API
@@ -19,7 +19,7 @@ export default {
   */
   getTags: () => {
     // Endpoint
-    let baseURL = `${API_URL}/adverts/tags`;
+    let baseURL = `${API_URL}/tags`;
     // Call endpoint and return
     return Axios.get(baseURL)
     .then(res => res.data.results);
@@ -30,18 +30,29 @@ export default {
   */
   getAdverts: () => {
     // Endpoint
-    let baseURL = `${API_URL}/adverts`;
+    let baseURL = `${API_URL}`;
     // Call endpoint and return
     return Axios.get(baseURL)
-    .then(res => res.data.results.map(advert => new Advert(advert, API_URL)));
+    .then(res => res.data.results.map(advert => new Advert(advert)));
   },
   
+  /**
+  * Get published adverts for a specific user
+  */
+  getAdvertsByUser: (user) => {
+    // Endpoint
+    let baseURL = `${API_URL}?user=${user}`;
+    // Call endpoint and return
+    return Axios.get(baseURL)
+    .then(res => res.data.results.map(advert => new Advert(advert)));
+  },
+
   /**
   * Obtener un anuncio por su slug
   */
   getAdvert: (slug) => {
     // Endpoint
-    let baseURL = `${API_URL}/adverts/${slug}`;
+    let baseURL = `${API_URL}/${slug}`;
     // Call endpoint and return
     return Axios.get(baseURL)
     .then(res => new Advert(res.data.result, API_URL));
@@ -52,7 +63,7 @@ export default {
   */
   searchAdverts: (filters) => {
     // Endpoint
-    let baseURL = `${API_URL}/adverts?`;
+    let baseURL = `${API_URL}?`;
     if (filters.name) baseURL =`${baseURL}name=${filters.name}&`;
     if (filters.type && filters.type !== 'all') baseURL =`${baseURL}venta=${filters.type==='sell'?true:false}&`;
     if (filters.tag && filters.tag !== 'all') baseURL =`${baseURL}tag=${filters.tag}&`;
@@ -67,16 +78,16 @@ export default {
     }
     // Call endpoint and return
     return Axios.get(baseURL)
-    .then(res => res.data.results.map(advert => new Advert(advert, API_URL)));
+    .then(res => res.data.results.map(advert => new Advert(advert)));
   },
-  
+
   /**
   * Llama a la API para crear un nuevo anuncio
   * @param {Advert} advert 
   */
   postAdvert: (advert, jwt) => {
     // Endpoint
-    const baseURL = `${API_URL}/adverts`;
+    const baseURL = `${API_URL}`;
     // Form Data
     const formData = new FormData();
     formData.append('name', advert.name);
@@ -103,7 +114,7 @@ export default {
   */
   editAdvert: (advert, jwt) => {
     // Endpoint
-    const baseURL = `${API_URL}/adverts/${advert.slug}`;
+    const baseURL = `${API_URL}/${advert.slug}`;
     // Form Data
     const formData = new FormData();
     formData.append('name', advert.name);
@@ -132,7 +143,7 @@ export default {
   */
   deleteAdvert: (slug, jwt) => {
     // Endpoint
-    const baseURL = `${API_URL}/adverts/${slug}`;
+    const baseURL = `${API_URL}/${slug}`;
     // Call endpoint and return
     return Axios.delete(
       baseURL, 

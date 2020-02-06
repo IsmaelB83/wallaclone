@@ -49,7 +49,7 @@
     flex-grow: 1;
 }
 
-.AdvertCardSmall__Actions button {
+.AdvertCardSmall__Actions .ButtonWallakeep {
     background-color: transparent;
     color: var(--medium-grey);
     min-width: 0;
@@ -61,12 +61,12 @@
     margin-right: 3px;
 }
 
-.AdvertCardSmall__Actions button svg {
+.AdvertCardSmall__Actions .ButtonWallakeep svg {
     font-size: 1.1rem;
     transition: all 200ms ease-in;
 }
 
-.AdvertCardSmall__Actions button:hover {
+.AdvertCardSmall__Actions .ButtonWallakeep:hover {
     color: white;
 }
 

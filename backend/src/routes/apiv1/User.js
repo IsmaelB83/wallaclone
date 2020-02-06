@@ -23,11 +23,24 @@ module.exports = () => {
         UserCtrl.create
     );
 
+    // Edit user data
+    router.put(
+        '/',
+        AuthMiddleware,
+        UserCtrl.edit
+    );
+
     // Add/Remove advert from user favorites
     router.put(
         '/favorites/:slug', 
         AuthMiddleware,
         UserCtrl.setFavorite);
+
+    // Get user's favorites
+    router.get(
+        '/favorites/', 
+        AuthMiddleware,
+        UserCtrl.getFavorites);
 
     // Return routes object
     return router;

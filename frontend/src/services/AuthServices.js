@@ -9,7 +9,7 @@ import Session from '../models/Session';
 // CSS
 
 // Endpoint
-const API_URL = 'https://127.0.0.1:8443/apiv1';
+const API_URL = `${process.env.REACT_APP_API_URL}/authenticate`;
 
 /**
 * Objeto API
@@ -21,7 +21,7 @@ export default {
   */
   login: (email, password) => {
     // Endpoint
-    let baseURL = `${API_URL}/authenticate`;
+    let baseURL = `${API_URL}`;
     // Call endpoint and return
     return Axios.post(
       baseURL, 
@@ -41,7 +41,7 @@ export default {
   */
   loginWithToken: (jwt) => {
     // Endpoint
-    let baseURL = `${API_URL}/authenticate/token`;
+    let baseURL = `${API_URL}/token`;
     // Call endpoint and return
     return Axios.post(
       baseURL, 
@@ -60,7 +60,7 @@ export default {
   */
   logout: (jwt) => {
     // Endpoint
-    let baseURL = `${API_URL}/authenticate/logout`;
+    let baseURL = `${API_URL}/logout`;
     // Call endpoint and return
     return Axios.post(
       baseURL, 
@@ -74,7 +74,7 @@ export default {
   */
   activate: (token) => {
     // Endpoint
-    let baseURL = `${API_URL}/authenticate/activate/${token}`;
+    let baseURL = `${API_URL}/activate/${token}`;
     // Call endpoint and return
     return Axios.get(
       baseURL,
@@ -87,7 +87,7 @@ export default {
   */
   resetRequest: (email) => {
     // Endpoint
-    let baseURL = `${API_URL}/authenticate/reset`;
+    let baseURL = `${API_URL}/reset`;
     // Call endpoint and return
     return Axios.post(
       baseURL, 
@@ -102,7 +102,7 @@ export default {
   */
   reset: (token, password) => {
     // Endpoint
-    let baseURL = `${API_URL}/authenticate/reset/${token}`;
+    let baseURL = `${API_URL}/reset/${token}`;
     // Call endpoint and return
     return Axios.post(
       baseURL, 

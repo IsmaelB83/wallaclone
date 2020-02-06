@@ -1,6 +1,12 @@
-.AdvertList {
+.AdvertListTiles {
     padding: 1rem 0;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     grid-gap: 20px;
+}
+
+.AdvertListDetail {
+    padding: 1rem 0;
+    display: flex;
+    flex-direction: column;
 }

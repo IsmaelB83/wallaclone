@@ -167,14 +167,10 @@ export function filters (state = initialState.filters, action) {
  */
 export function session (state = initialState.session, action) {
     switch (action.type) {
-        case TYPES.EDIT_SESSION:
-            return {...action.session};
         case TYPES.LOGIN_FAILURE:
             return initialState.session;
         case TYPES.LOGIN_SUCCESS:
             return {...action.session}
-        case TYPES.SET_SESSION:
-            return {...action.session};
         case TYPES.LOGOUT_SUCCESS:
             return initialState.session;
         default:
@@ -274,6 +270,12 @@ export function ui(state = initialState.ui, action) {
             return { ...state, error: action.error, isFetching: false }
         case TYPES.LOGOUT_SUCCESS:
             return { ...state, error: null, isFetching: false }
+        case TYPES.EDIT_USER_REQUEST:
+            return { ...state, error: null, isUpdatng: true }
+        case TYPES.EDIT_USER_FAILURE:
+            return { ...state, error: action.error, isUpdatng: false }
+        case TYPES.EDIT_USER_SUCCESS:
+            return { ...state, error: null, isUpdatng: false }
         default:
             return state;
     }

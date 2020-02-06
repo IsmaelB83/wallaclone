@@ -8,6 +8,7 @@ import BookmarkBorderOutlinedIcon from '@material-ui/icons/BookmarkBorderOutline
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import AttachMoneyOutlinedIcon from '@material-ui/icons/AttachMoneyOutlined';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import DeleteIcon from '@material-ui/icons/Delete'; 
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 // Own components
@@ -27,8 +28,10 @@ import './styles.css';
  */
 export default function AdvertCardSmall (props) {
     
-    // Use state to show/hide modal
-    const [showModal, setShowModal] = useState(false);
+    // Reservar producto
+    const setFavorite = () => {
+        props.onDeleteFavorite(props.slug)
+    }
 
     // Reservar producto
     const bookAdvert = () => {
@@ -59,7 +62,9 @@ export default function AdvertCardSmall (props) {
     const showModalConfirmation = () => {
         setShowModal(true);
     }
+    
     // Hide modal
+    const [showModal, setShowModal] = useState(false);
     const hideModalConfirmation = () => {
         setShowModal(false);
     }
@@ -109,22 +114,32 @@ export default function AdvertCardSmall (props) {
                     </div>
                     
                     <div className='AdvertCardSmall__Actions'>
-                        <Button type='button' className={`ButtonWallakeep ButtonWallakeep__Clear ButtonWallakeep__ClearToBlue ${props.booked && 
-                                'ButtonWallakeep__ClearToBlue--active'}`} disabled={props.sold} variant='contained' onClick={bookAdvert}>
-                        <BookmarkBorderOutlinedIcon/>
-                        </Button>
-                        <Button type='button' className={`ButtonWallakeep ButtonWallakeep__Clear ButtonWallakeep__ClearToRed 
-                                ${props.sold && 'ButtonWallakeep__ClearToRed--active'}`} variant='contained' onClick={sellAdvert}>
-                        <AttachMoneyOutlinedIcon/>
-                        </Button>
-                        <Button type='button' className='ButtonWallakeep ButtonWallakeep__Clear ButtonWallakeep__ClearToGreen' 
-                                disabled={props.sold} variant='contained' onClick={toEdit}>
-                            <EditOutlinedIcon/>
-                        </Button>
-                        <Button type='button' className='ButtonWallakeep ButtonWallakeep__Clear ButtonWallakeep__ClearToGray' 
-                                disabled={props.sold} variant='contained' onClick={showModalConfirmation}>
-                        <DeleteOutlineOutlinedIcon/>
-                        </Button>
+                        { !props.edit &&    
+                            <Button type='button' className='ButtonWallakeep ButtonWallakeep__Clear ButtonWallakeep__ClearToGray' 
+                                    variant='contained' onClick={setFavorite}>
+                                <DeleteIcon/>
+                            </Button>
+                        }
+                        { props.edit &&
+                            <React.Fragment>
+                                <Button type='button' className={`ButtonWallakeep ButtonWallakeep__Clear ButtonWallakeep__ClearToBlue ${props.booked && 
+                                        'ButtonWallakeep__ClearToBlue--active'}`} disabled={props.sold} variant='contained' onClick={bookAdvert}>
+                                    <BookmarkBorderOutlinedIcon/>
+                                </Button>
+                                <Button type='button' className={`ButtonWallakeep ButtonWallakeep__Clear ButtonWallakeep__ClearToRed 
+                                        ${props.sold && 'ButtonWallakeep__ClearToRed--active'}`} variant='contained' onClick={sellAdvert}>
+                                    <AttachMoneyOutlinedIcon/>
+                                </Button>
+                                <Button type='button' className='ButtonWallakeep ButtonWallakeep__Clear ButtonWallakeep__ClearToGreen' 
+                                        disabled={props.sold} variant='contained' onClick={toEdit}>
+                                    <EditOutlinedIcon/>
+                                </Button>
+                                <Button type='button' className='ButtonWallakeep ButtonWallakeep__Clear ButtonWallakeep__ClearToGray' 
+                                        disabled={props.sold} variant='contained' onClick={showModalConfirmation}>
+                                    <DeleteOutlineOutlinedIcon/>
+                                </Button>
+                            </React.Fragment>
+                        }
                     </div>
                 </div>
             </article>

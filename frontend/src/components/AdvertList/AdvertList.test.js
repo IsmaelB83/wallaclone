@@ -32,6 +32,6 @@ describe('ADVERT LILST TESTS (using enzyme with a NON-redux component)', () => {
     });
 
     it('check props of the 4th AdvertCard', () => {
-        expect(wrapper.find('.AdvertList').childAt(3).props().id === '4');
+        expect(wrapper.find('.AdvertList').childAt(3).props()._id === '4');
     });
 });

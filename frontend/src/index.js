@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { SnackbarProvider } from 'notistack';
 // Material UI
 // Components
-import App from './components/App';
+import App from './containers/App';
 // Own modules
 import { configureStore } from './store';
 import LocalStorage from './utils/Storage';

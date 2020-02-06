@@ -38,8 +38,9 @@ import {
     LOGOUT_REQUEST,
     LOGOUT_FAILURE,
     LOGOUT_SUCCESS,
-    SET_SESSION,
-    EDIT_SESSION,
+    EDIT_USER_REQUEST,
+    EDIT_USER_FAILURE,
+    EDIT_USER_SUCCESS,
     SET_FAVORITES,
     SET_FAVORITE_REQUEST,
     SET_FAVORITE_FAILURE,
@@ -224,6 +225,19 @@ export const deleteAdvert = (slug, jwt) => {
     }
 };
 
+export const editUser = (user, jwt) => {   
+    return async function(dispatch, getState) {
+        dispatch(editUserRequest());
+        try {
+            const response = await UserServices.edit(user, jwt);
+            dispatch(editUserSuccess(response));
+        } catch (error) {
+            debugger;
+            dispatch(editUserFailure(error.message))
+        }
+    }
+};
+
 export const clearAdvert = () => ({
     type: CLEAR_ADVERT,
 });
@@ -231,16 +245,6 @@ export const clearAdvert = () => ({
 export const setFilters = filters => ({
     type: SET_FILTERS,
     filters,
-});
-
-export const setSession = session => ({
-    type: SET_SESSION,
-    session,
-});
-
-export const editSession = session => ({
-    type: EDIT_SESSION,
-    session,
 });
 
 export const setPage = pageNumber => ({
@@ -385,4 +389,18 @@ const createAdvertFailure = error => ({
 const createAdvertSuccess = advert => ({
     type: CREATE_ADVERT_SUCCESS,
     advert,
+});
+
+const editUserRequest = () => ({
+    type: EDIT_USER_REQUEST
+});
+
+const editUserFailure = error => ({
+    type: EDIT_USER_FAILURE,
+    error,
+});
+
+const editUserSuccess = user => ({
+    type: EDIT_USER_SUCCESS,
+    user,
 });

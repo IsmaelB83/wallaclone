@@ -1,7 +1,11 @@
+// Node modules
 import { connect } from 'react-redux';
+import { withSnackbar } from 'notistack';
+// Own components
+import Favorites from './Favorites';
 // Own modules
-import NavBar from './NavBar';
-import { logout } from '../../store/actions';
+import { setFavorite } from '../../store/actions';
+
 
 /**
  * Inyecta props en mi componente para acceder al state del store
@@ -19,11 +23,11 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
-        logout: (jwt) => dispatch(logout(jwt)),
+        setFavorite: (slug, jwt) => dispatch(setFavorite(slug, jwt))
     }
 }
 
 /**
  * Envuelvo el App en al función connect para conectar con el store recibido del provider
  */ 
-export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
+export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(Favorites));

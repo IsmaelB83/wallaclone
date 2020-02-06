@@ -27,8 +27,16 @@ export function getVisibleAdverts(adverts, filters) {
  * Devuelve los anuncios del usuario logueado actualmente
  * @param {Array} adverts Array de anuncios del store
  * @param {Object} session Session del usuario actual 
+ */
+export function getOwnAdverts(adverts, session) {
+    return adverts.filter(advert => advert.user._id === session._id);
+}
+
+/**
+ * Devuelve los anuncios del type indicado
+ * @param {Array} adverts Array de anuncios del store
  * @param {String} type Advert type (buy/sell)
  */
-export function getOwnAdverts(adverts, session, type) {
-    return adverts.filter(advert => advert.user._id === session.id && advert.type === type);
+export function getAdvertsByType(adverts, type) {
+    return adverts.filter(advert => advert.type === type);
 }

@@ -16,6 +16,7 @@ import PostAddIcon from '@material-ui/icons/PostAdd';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText'
 import ViewListIcon from '@material-ui/icons/ViewList';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 // Own modules
 // Assets
 import imageLogo from '../../assets/images/logo2.png';
@@ -40,60 +41,75 @@ export default function NavBar(props) {
           <img src={imageLogo} alt='logo' className='NavBar__Brand'/>
         </Link>
         { props.session.email &&
-        <div>
-          <IconButton
-            aria-label='account of current user'
-            aria-controls='menu-NavBar'
-            aria-haspopup='true'
-            onClick={ (ev) => setAnchorUserMenu(ev.currentTarget) }
-            color='inherit'
-            className='NavBar__User' 
-          >
-            <Avatar className='Avatar' alt={props.session.name} src={imageAvatar}/>
-            <span className='NavBar__User--hiddenXS'>{props.session.name}</span>
-            <KeyboardArrowDownIcon/>
-          </IconButton>
-          <Menu
-            className='NavBar__Menu'
-            id='menu-navbar'
-            anchorEl={anchorUserMenu}
-            keepMounted
-            open={anchorUserMenu?true:false}
-            onClose={ () => setAnchorUserMenu(null) }
-          >
-            <MenuItem className='NavBar__MenuItem' component={Link} to='/advert/create' onClick={() => setAnchorUserMenu(null)}>
-              <ListItemIcon className='NavBar__MenuItemIcon'>
-                <PostAddIcon fontSize="small" />
-              </ListItemIcon>
-              <ListItemText className='NavBar__MenuItemText' primary="Añádir anuncio" />
-            </MenuItem>
-            <MenuItem className='NavBar__MenuItem' component={Link} to='/catalog' onClick={() => setAnchorUserMenu(null)}>
-              <ListItemIcon className='NavBar__MenuItemIcon'>
-                <ViewListIcon fontSize="small" />
-              </ListItemIcon>
-              <ListItemText className='NavBar__MenuItemText' primary="Mis anuncios" />
-            </MenuItem>
-            <MenuItem className='NavBar__MenuItem' component={Link} to='/profile' onClick={() => setAnchorUserMenu(null)}>
-              <ListItemIcon className='NavBar__MenuItemIcon'>
-                <AccountCircleIcon fontSize="small" />
-              </ListItemIcon>
-              <ListItemText className='NavBar__MenuItemText' primary="Perfil" />
-            </MenuItem>
-            <MenuItem className='NavBar__MenuItem' component={Link} to='/login' onClick={() => props.logout(props.session.jwt)}>
-              <ListItemIcon className='NavBar__MenuItemIcon'>
-                <ExitToAppIcon fontSize="small" />
-              </ListItemIcon>
-              <ListItemText className='NavBar__MenuItemText' primary="Desconectar" />
-            </MenuItem>
-          </Menu>
-        </div>
+          <div>
+            <IconButton
+              aria-label='account of current user'
+              aria-controls='menu-NavBar'
+              aria-haspopup='true'
+              onClick={ (ev) => setAnchorUserMenu(ev.currentTarget) }
+              color='inherit'
+              className='NavBar__User' 
+            >
+              <Avatar className='Avatar' alt={props.session.name} src={imageAvatar}/>
+              <span className='NavBar__User--hiddenXS'>{props.session.name}</span>
+              <KeyboardArrowDownIcon/>
+            </IconButton>
+            <Menu
+              className='NavBar__Menu'
+              id='menu-navbar'
+              anchorEl={anchorUserMenu}
+              keepMounted
+              open={anchorUserMenu?true:false}
+              onClose={ () => setAnchorUserMenu(null) }
+            >
+              <MenuItem className='NavBar__MenuItem' component={Link} to='/advert/create' onClick={() => setAnchorUserMenu(null)}>
+                <ListItemIcon className='NavBar__MenuItemIcon'>
+                  <PostAddIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText className='NavBar__MenuItemText' primary="Añádir anuncio" />
+              </MenuItem>
+              <MenuItem className='NavBar__MenuItem' component={Link} to='/published' onClick={() => setAnchorUserMenu(null)}>
+                <ListItemIcon className='NavBar__MenuItemIcon'>
+                  <ViewListIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText className='NavBar__MenuItemText' primary="Mis anuncios" />
+              </MenuItem>
+              <MenuItem className='NavBar__MenuItem' component={Link} to='/favorites' onClick={() => setAnchorUserMenu(null)}>
+                <ListItemIcon className='NavBar__MenuItemIcon'>
+                  <FavoriteIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText className='NavBar__MenuItemText' primary="Favoritos" />
+              </MenuItem>
+              <MenuItem className='NavBar__MenuItem' component={Link} to='/profile' onClick={() => setAnchorUserMenu(null)}>
+                <ListItemIcon className='NavBar__MenuItemIcon'>
+                  <AccountCircleIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText className='NavBar__MenuItemText' primary="Perfil" />
+              </MenuItem>
+              <MenuItem className='NavBar__MenuItem' component={Link} to='/' onClick={() => props.logout(props.session.jwt)}>
+                <ListItemIcon className='NavBar__MenuItemIcon'>
+                  <ExitToAppIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText className='NavBar__MenuItemText' primary="Desconectar" />
+              </MenuItem>
+            </Menu>
+          </div>
         }
-        { !props.session &&
-        <div>
-          <IconButton color='inherit' className='NavBar__User'>
-            <AccountCircleIcon/>
-          </IconButton>
-        </div>
+        { !props.session.email &&
+          <div>
+            <IconButton
+              aria-label='account of current user'
+              aria-controls='menu-NavBar'
+              aria-haspopup='true'
+              color='inherit'
+              className='NavBar__User' 
+              component={Link} 
+              to='/login'
+            >
+              <AccountCircleIcon/>
+              <span className='NavBar__User--hiddenXS ml-1'>Login</span>
+            </IconButton>
+          </div>
         }
       </Toolbar>
       </Container>

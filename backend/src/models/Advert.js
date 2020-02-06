@@ -2,7 +2,7 @@
 // Node imports
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-
+const ObjectId = require('mongoose').Types.ObjectId; 
 // Generates slugs for Advert model
 const URLSlugs = require('mongoose-url-slugs');
 
@@ -70,6 +70,7 @@ const AdvertSchema = new Schema(
 * @param {String} venta Para filtrado por anuncios de venta o compra
 * @param {String} tag Para filtrado de anuncios con un tag específico
 * @param {String} precio Para filtrado por precios
+* @param {String} user User ID
 * @param {String} limit Para limitar el número de resultados a obtener
 * @param {String} skip Para inidicar el número de resultados a saltar
 * @param {String} fields Campos a obtener de la colección
@@ -81,7 +82,7 @@ const AdvertSchema = new Schema(
 * http://localhost:3001/apiv1/anuncios?fields=name
 * http://localhost:3001/apiv1/anuncios?fields=-_id
 */
-AdvertSchema.statics.list = function(name, venta, tag, precio, limit, skip, fields, sort, callback) {
+AdvertSchema.statics.list = function(name, venta, tag, precio, user, limit, skip, fields, sort, callback) {
     try {
         // Genero filtrado
         let filter = {}
@@ -100,6 +101,7 @@ AdvertSchema.statics.list = function(name, venta, tag, precio, limit, skip, fiel
                 }
             }
         }
+        if (user) filter.user = new ObjectId(user);
         // Realizo la query a Mongo
         let queryDB = Advert.find(filter);
         queryDB.limit(limit);

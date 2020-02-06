@@ -25,6 +25,7 @@ database.connect(process.env.MONGODB_URL)
         user.token = null;
         user.expire = null;
         user = await user.save();
+        // Todos los anuncios se asignan al ultimo usuario
         id = user._id;
     }
     // Create default adverts

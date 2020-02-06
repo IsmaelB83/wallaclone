@@ -22,8 +22,9 @@ module.exports = {
             // Validations
             validationResult(req).throw();
             // Get Adverts
-            Advert.list(req.query.name, req.query.venta, req.query.tag, req.query.price, parseInt(req.query.limit), 
-                parseInt(req.query.skip), req.query.fields, req.query.sort, function(error, results) {
+            Advert.list(req.query.name, req.query.venta, req.query.tag, req.query.price, req.query.user, 
+                parseInt(req.query.limit), parseInt(req.query.skip), req.query.fields, req.query.sort, 
+                function(error, results) {
                 if (!error) {
                     // Ok
                     return res.json({
@@ -36,6 +37,7 @@ module.exports = {
                 next({error});
             });
         } catch (error) {
+            debugger;
             next(error);
         }
     },
@@ -78,7 +80,7 @@ module.exports = {
             validationResult(req).throw();
             // New Advert
             let advert = new Advert({...req.body});
-            advert.user = req.user.id;
+            advert.user = req.user._id;
             if (req.file) {
                 advert.photo = `/images/adverts/original/${req.file.filename}`;
                 advert.thumbnail = advert.photo; // Initially thumbnail refers to the same photo
@@ -118,7 +120,7 @@ module.exports = {
                     status: 404, 
                     description: 'Not Found' 
                 });
-            } else if (advert.user._id.toString() !== req.user.id) {
+            } else if (advert.user._id.toString() !== req.user._id) {
                 // Un usuario sólo puede modificar sus anuncios
                 return next({ 
                     status: 401, 
@@ -134,7 +136,7 @@ module.exports = {
                 newAdvert.photo = `/images/anuncios/${req.file.filename}`;
                 newAdvert.thumbnail = img.photo; // Initially the thumbnail points to the same photo
             }
-            const resAdvert = await Advert.updateAdvert(advert.id, newAdvert);
+            const resAdvert = await Advert.updateAdvert(advert._id, newAdvert);
             if (resAdvert) {
                 // Ok
                 return res.json({
@@ -168,7 +170,7 @@ module.exports = {
                     status: 404, 
                     description: 'Not Found' 
                 });
-            } else if (advert.user._id.toString() !== req.user.id) {
+            } else if (advert.user._id.toString() !== req.user._id) {
                 // Un usuario sólo puede modificar sus anuncios
                 return next({ 
                     status: 401, 

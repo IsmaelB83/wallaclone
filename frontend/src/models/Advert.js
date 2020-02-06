@@ -32,6 +32,9 @@ const EMPTY_ADVERT = {
     updatedAt: undefined
 }
 
+// Endpoint
+const API_URL = process.env.REACT_APP_API_URL.replace('/apiv1','');
+
 /**
  * Modelo de anuncio en nodepop
  */
@@ -41,7 +44,7 @@ export default class Advert {
      * Constructor
      * @param {Object} Advert 
      */    
-    constructor(ad, apiUrl) {
+    constructor(ad) {
         this._id = ad._id;
         this.slug = ad.slug;
         this.createdAt = ad.createdAt;
@@ -50,9 +53,9 @@ export default class Advert {
         this.description = ad.description;
         this.price = ad.price;
         this.type = ad.type;
-        this.photo = ad.photo.startsWith('/images/')?`${apiUrl.replace('apiv1','')}${ad.photo}`:ad.photo;
+        this.photo = ad.photo.startsWith('/images/')?`${API_URL}${ad.photo}`:ad.photo;
         if (ad.thumbnail) {
-            this.thumbnail = ad.thumbnail.startsWith('/images/')?`${apiUrl.replace('apiv1','')}${ad.thumbnail}`:ad.thumbnail;
+            this.thumbnail = ad.thumbnail.startsWith('/images/')?`${API_URL}${ad.thumbnail}`:ad.thumbnail;
         }
         this.tags = ad.tags;
         this.booked = ad.booked;

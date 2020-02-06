@@ -1,7 +1,10 @@
+// Node modules
 import { connect } from 'react-redux';
+import { withSnackbar } from 'notistack';
+// Own Components
+import Published from './Published';
+// Model
 // Own modules
-import NavBar from './NavBar';
-import { logout } from '../../store/actions';
 
 /**
  * Inyecta props en mi componente para acceder al state del store
@@ -10,6 +13,7 @@ import { logout } from '../../store/actions';
 const mapStateToProps = (state) => {
     return {
         session: state.session,
+        ui: state.ui,
     }
 }
 
@@ -19,11 +23,10 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
-        logout: (jwt) => dispatch(logout(jwt)),
     }
 }
 
 /**
  * Envuelvo el App en al función connect para conectar con el store recibido del provider
  */ 
-export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
+export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(Published));
