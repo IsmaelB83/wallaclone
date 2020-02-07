@@ -18,7 +18,7 @@ import ModalConfirm from '../../components/ModalConfirm';
 import Loading from '../../components/Loading';
 import NavBar from '../../components/NavBar';
 import Footer from '../../components/Footer';
-import Error from '../Error';
+import Error from '../../components/Error';
 // Assets
 import imgReserved from '../../assets/images/reserved.png'
 import imgSold from '../../assets/images/sold.png'

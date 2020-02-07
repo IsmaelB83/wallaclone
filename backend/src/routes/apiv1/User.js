@@ -3,6 +3,7 @@
 const express = require('express');
 const { body } = require('express-validator');
 // Own imports
+const { MulterMiddleware } = require('../../middlewares')
 const { AuthMiddleware } = require('../../middlewares');
 const { UserCtrl } = require('../../controllers');
 
@@ -27,6 +28,7 @@ module.exports = () => {
     router.put(
         '/',
         AuthMiddleware,
+        MulterMiddleware, 
         UserCtrl.edit
     );
 

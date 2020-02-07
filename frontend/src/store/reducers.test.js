@@ -39,7 +39,6 @@ describe('REDUCERS TESTS', () => {
             // Estado esperato tras ejecutar la acción
             const expectedState = { 
                 name: 'Ismael',
-                surname: 'Bernal',
                 email: 'ismaelbernal83@gmail.com',
                 maxAdverts: 3
             };

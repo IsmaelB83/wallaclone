@@ -108,7 +108,7 @@ export default {
     .then(res => new Advert(res.data.result, API_URL));
   },
   
-  /**
+ /**
   * Llama a la API para editar un anuncio
   * @param {Advert} advert 
   */
@@ -134,6 +134,42 @@ export default {
     }
     // Call endpoint and return
     return Axios.put( baseURL, formData, config )
+    .then(res => new Advert(res.data.result, API_URL));
+  },
+
+  /**
+    * Llama a la API para marcar un anuncio como reservado
+    * @param {Advert} advert 
+    */
+  bookAdvert: (slug, jwt) => {
+    // Endpoint
+    const baseURL = `${API_URL}/book/${slug}`;
+    // Config 
+    const config = {
+      headers: { 
+        'Authorization': `Bearer ${jwt}`,
+      }
+    }
+    // Call endpoint and return
+    return Axios.get( baseURL, config )
+    .then(res => new Advert(res.data.result, API_URL));
+  },
+
+  /**
+    * Llama a la API para marcar un anuncio como reservado
+    * @param {Advert} advert 
+    */
+   sellAdvert: (slug, jwt) => {
+    // Endpoint
+    const baseURL = `${API_URL}/sell/${slug}`;
+    // Config 
+    const config = {
+      headers: { 
+        'Authorization': `Bearer ${jwt}`,
+      }
+    }
+    // Call endpoint and return
+    return Axios.get( baseURL, config )
     .then(res => new Advert(res.data.result, API_URL));
   },
 

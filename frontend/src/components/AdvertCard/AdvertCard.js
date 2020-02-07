@@ -23,11 +23,6 @@ import './styles.css';
  */
 export default function AdvertCard (props) {
 
-    // Reservar producto
-    const setFavorite = () => {
-        props.setFavorite(props.slug, props.session.jwt);
-    }
-
     // Render
     return(
         <article id={`adslug_${props.slug}`} className='AdvertCard'>
@@ -63,8 +58,8 @@ export default function AdvertCard (props) {
                         })
                     }
                 </div>
-                {   props.user._id !== props.session._id && 
-                    <button className='ButtonTransparent' onClick={setFavorite}>
+                {   props.showFavorite && 
+                    <button className='ButtonTransparent' onClick={()=>props.onFavoriteAdvert(props.slug)}>
                         { props.favorite && <FavoriteIcon className='FavoriteIcon FavoriteIcon--On'/> }
                         { !props.favorite && <FavoriteBorderIcon className='FavoriteIcon FavoriteIcon--Off'/> }
                     </button>

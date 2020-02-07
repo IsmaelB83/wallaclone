@@ -6,7 +6,6 @@ import Login from './Login';
 // Own modules
 import { login } from '../../store/actions';
 
- 
 /**
  * Inyecta props en mi componente para acceder al state del store
  * @param {Object} state Estado de mi store

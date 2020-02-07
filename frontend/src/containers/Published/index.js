@@ -5,6 +5,7 @@ import { withSnackbar } from 'notistack';
 import Published from './Published';
 // Model
 // Own modules
+import { deleteAdvert, bookAdvert, sellAdvert, setFavorite } from '../../store/actions';
 
 /**
  * Inyecta props en mi componente para acceder al state del store
@@ -23,6 +24,10 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
+        deleteAdvert: (slug, jwt) => dispatch(deleteAdvert(slug, jwt)),
+        bookAdvert: (slug, jwt) => dispatch(bookAdvert(slug, jwt)),
+        sellAdvert: (slug, jwt) => dispatch(sellAdvert(slug, jwt)),
+        setFavorite: (slug, jwt) => dispatch(setFavorite(slug, jwt))
     }
 }
 

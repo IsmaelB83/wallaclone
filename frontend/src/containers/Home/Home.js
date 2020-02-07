@@ -25,6 +25,17 @@ const MAX_ADVERTS = parseInt(process.env.REACT_APP_MAX_ADVERTS);
  * Main App
  */
 export default class Home extends Component {
+  
+  /**
+   * Constructor
+   * @param {*} props 
+   */
+  constructor(props) {
+    super(props);
+    this.state = {
+      favoriteClicked: false
+    };
+  }
 
   /**
    * Render
@@ -49,7 +60,12 @@ export default class Home extends Component {
               <p className='Home__Count'>{this.props.adverts.length} resultados cumplen el filtro. {this.props.ui.totalAdvertsReturned} resultados en el store de redux</p>
               <p className='Home__Count'>Last API call <Moment fromNow>{this.props.ui.lastAdvertsUpdated}</Moment></p>
               { this.props.adverts.length > 0 &&
-                <AdvertList type='tiles' adverts={this.props.adverts.slice(minAdvert, maxAdvert)}/>
+                <AdvertList 
+                  type='tiles' 
+                  adverts={this.props.adverts.slice(minAdvert, maxAdvert)}
+                  showFavorite={this.props.session.email?true:false}
+                  onFavoriteAdvert={this.favoriteAdvert}
+                />
               }
               { this.props.adverts.length === 0 &&
                 <h2 className='Home__Subtitle'>No hay anuncios que cumplan con los criterios de búsqueda</h2>
@@ -65,9 +81,7 @@ export default class Home extends Component {
     );
   }
 
-  /**
-   * Component did mount
-   */
+  // Component did mount
   componentDidMount() {
     // API Call only the first time user navigates to the component (i.e. redux-store is empty of advert)
     if (!this.props.adverts.length) {
@@ -76,6 +90,12 @@ export default class Home extends Component {
     }
   }
 
+  // Reservar producto
+  favoriteAdvert = (slug) => {
+    this.props.setFavorite(slug, this.props.session.jwt);
+    this.setState({favoriteClicked: true});
+  }
+  
   /**
    * Gestiona el evento de búsqueda de anuncios
    */

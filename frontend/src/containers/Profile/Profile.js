@@ -34,7 +34,6 @@ export default class Profile extends Component {
     this.state = {
       email: this.props.session.email,
       name: this.props.session.name,
-      surname: this.props.session.surname, 
       callUpdate: false,
     }
   }
@@ -48,9 +47,6 @@ export default class Profile extends Component {
         <NavBar/>
         <Container>
           <main className='Main__Section'>
-            <div className='Section__Title'>
-              <h2>Perfil de usuario</h2>
-            </div>
             <form onSubmit={this.handleSubmit} noValidate autoComplete='off' className='Profile__Form'>
               <div className='Profile_Picture'>
                 <img src={imagePhoto} alt='user_avatar'/>
@@ -60,16 +56,6 @@ export default class Profile extends Component {
                 <Input
                   name='name'
                   value={this.state.name}
-                  onChange={this.handleChange}
-                  type='text' 
-                  required
-                />
-              </FormControl>
-              <FormControl fullWidth className='Profile__FormControl'>
-                <InputLabel shrink htmlFor='type'>Apellido</InputLabel>
-                <Input
-                  name='surname'
-                  value={this.state.surname}
                   onChange={this.handleChange}
                   type='text' 
                   required
@@ -146,14 +132,12 @@ export default class Profile extends Component {
    */
   handleSubmit = (ev) => {
     ev.preventDefault();
-
     // Genero sesión y la guardo en LS
-    const { email, name, surname, password_old, password_new_1, password_new_2 } = this.state;    
+    const { email, name, password_old, password_new_1, password_new_2 } = this.state;    
     // Está intentando realizar una cambio de email
     const user = {
       email: email,
       name: name,
-      surname: surname
     }
     // ¿Está intenando realizar un cambio de contraseña?
     if (password_new_1 || password_new_2) {
@@ -167,7 +151,7 @@ export default class Profile extends Component {
     }
     // Dispatch update user
     this.setState({callUpdate: true}, () => {
-      this.props.editUser(user);
+      this.props.editUser(user, this.props.session.jwt);
     });
   }
 

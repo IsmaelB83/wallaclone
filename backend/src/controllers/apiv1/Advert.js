@@ -155,6 +155,80 @@ module.exports = {
     },
 
     /**
+     * Bookmark advert
+     * @param {Request} req Request web
+     * @param {Response} res Response web
+     * @param {Middleware} next Next middleware
+     */
+    book: async (req, res, next) => {
+        try {
+            // Sólo se permiten modificar los anuncios propios
+            let advert = await Advert.findOne({slug: req.params.slug});
+            if (!advert) {
+                // Anuncio no encontrado
+                return next({ 
+                    status: 404, 
+                    description: 'Error. Anuncio no encontrado.'
+                });
+            } else if (advert.user._id.toString() !== req.user._id) {
+                // Un usuario sólo puede modificar sus anuncios
+                return next({ 
+                    status: 401, 
+                    description: 'Error. El anuncio no es de su propiedad.' 
+                });
+            } else if (advert.sold) {
+                return next({ 
+                    status: 422, 
+                    description: 'Error. El anuncio ya está vendido.' 
+                });
+            }
+            advert.booked = !advert.booked;
+            advert = await advert.save();
+            return res.json({
+                success: true,
+                result: advert
+            });
+        } catch (error) {
+            next(error);
+        }
+    },
+
+    /**
+     * Bookmark advert
+     * @param {Request} req Request web
+     * @param {Response} res Response web
+     * @param {Middleware} next Next middleware
+     */
+    sell: async (req, res, next) => {
+        try {
+            debugger;
+            // Sólo se permiten modificar los anuncios propios
+            let advert = await Advert.findOne({slug: req.params.slug});
+            if (!advert) {
+                // Anuncio no encontrado
+                return next({ 
+                    status: 404, 
+                    description: 'Error. Anuncio no encontrado.'
+                });
+            } else if (advert.user._id.toString() !== req.user._id) {
+                // Un usuario sólo puede modificar sus anuncios
+                return next({ 
+                    status: 401, 
+                    description: 'Error. El anuncio no es de su propiedad.' 
+                });
+            }
+            advert.sold = !advert.sold;
+            advert = await advert.save();
+            return res.json({
+                success: true,
+                result: advert
+            });
+        } catch (error) {
+            next(error);
+        }
+    },
+
+    /**
      * Delete advert
      * @param {Request} req Request web
      * @param {Response} res Response web

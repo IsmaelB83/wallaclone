@@ -72,8 +72,7 @@ class Login extends Component {
     // Notificaciones
     if (this.props.error) {
       this.props.enqueueSnackbar(this.props.error, { variant: 'error', });
-    } else if (this.props.session) {
-      // Si el login ha sido exitoso
+    } else if (this.props.session.email) {
       LocalStorage.saveLocalStorage(this.props.session);
       this.props.history.push('/');
     }
@@ -89,10 +88,9 @@ class Login extends Component {
     if (!email || !password) {
       this.props.enqueueSnackbar('Rellene todos los campos del formulario', { variant: 'error', });
       return;
+    } else {
+      this.props.login(email, password);
     }
-    // Intento login en la API
-    this.props.login(email, password);
-   
   }
 }
 

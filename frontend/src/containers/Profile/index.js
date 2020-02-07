@@ -23,7 +23,7 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
-        editUser: (user) => dispatch(editUser(user)),
+        editUser: (user, jwt) => dispatch(editUser(user, jwt)),
         logout: () => dispatch(logout()),
     }
 }

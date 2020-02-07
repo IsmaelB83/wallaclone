@@ -3,11 +3,13 @@
 const express = require('express');
 const { query, param, body } = require('express-validator');
 // Own imports
+const { MulterMiddleware } = require('../../middlewares')
 const { AuthMiddleware } = require('../../middlewares');
 const { AdvertCtrl } = require('../../controllers');
-const { MulterMiddleware } = require('../../middlewares')
 
-
+/**
+ * Exports arrow function with the ADVERT routes
+ */
 module.exports = () => {
     const router = express.Router();
     // Rutas de anuncios
@@ -28,6 +30,14 @@ module.exports = () => {
             }).withMessage('must be numeric'),
         ],
         AdvertCtrl.select);
+    router.get(
+        '/book/:slug', 
+        AuthMiddleware,
+        AdvertCtrl.book);
+    router.get(
+        '/sell/:slug', 
+        AuthMiddleware,
+        AdvertCtrl.sell);        
     router.get(
         '/tags', 
         AdvertCtrl.tags);

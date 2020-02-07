@@ -7,7 +7,7 @@ import AdvertList from '../../components/AdvertList';
 import Loading from '../../components/Loading';
 import Footer from '../../components/Footer';
 import NavBar from '../../components/NavBar';
-import Error from '../Error';
+import Error from '../../components/Error';
 // Own modules
 import UserServices from '../../services/UserServices';
 // Models
@@ -62,7 +62,16 @@ export default function Published (props) {
         <Container className='Container__Fill'>
           <main className='Main__Section'>
             <div className='Catalog__Results'>
-              { adverts.length > 0 && <AdvertList type='list' adverts={adverts} history={props.history} onDeleteFavorite={deleteFavorite}/> }
+              { adverts.length > 0 && 
+                <AdvertList 
+                  type='list' 
+                  adverts={adverts}
+                  showEdit={false}
+                  showFavorite={true}
+                  onDeleteFavorite={deleteFavorite}
+                  history={props.history}
+                />
+              }
             </div>
             { isFetching && <Loading text={'fetching data'}/> }
             { error &&  <Error error={error}/> }

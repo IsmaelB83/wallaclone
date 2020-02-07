@@ -21,7 +21,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import NavBar from '../../components/NavBar';
 import Footer from '../../components/Footer';
 import Loading from '../../components/Loading';
-import Error from '../Error';
+import Error from '../../components/Error';
 // Models
 import Advert from '../../models/Advert';
 // Assets

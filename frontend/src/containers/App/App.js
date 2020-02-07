@@ -14,7 +14,7 @@ import RequestReset from '../RequestReset';
 import Reset from '../Reset';
 import Profile from '../Profile';
 import Home from '../Home';
-import PrivateRoute from '../PrivateRoute';
+import PrivateRoute from '../../components/PrivateRoute';
 import Error404 from '../Error404';
 // Models
 // Own modules

@@ -1,5 +1,5 @@
 // NPM Modules
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 import { Link } from "react-router-dom";
@@ -12,11 +12,9 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 // Own components
-import ModalConfirm from '../ModalConfirm';
 // Own modules
 // Models
 import { ADVERT_CONSTANTS } from '../../models/Advert';
-import Advert from '../../models/Advert';
 // Assets
 import imgReserved from '../../assets/images/reserved.png'
 import imgSold from '../../assets/images/sold.png'
@@ -28,47 +26,6 @@ import './styles.css';
  */
 export default function AdvertCardSmall (props) {
     
-    // Reservar producto
-    const setFavorite = () => {
-        props.onDeleteFavorite(props.slug)
-    }
-
-    // Reservar producto
-    const bookAdvert = () => {
-        const advert = new Advert({...props});
-        advert.booked = !advert.booked;
-        props.editAdvert(advert, props.session.jwt);
-    }
-
-    // Sell advert
-    const sellAdvert = () => {
-        const advert = new Advert({...props});
-        advert.sold = !advert.sold;
-        props.editAdvert(advert, props.session.jwt); 
-    }
-
-    // Go to edit
-    const toEdit = () => {
-        props.history.push(`/advert/edit/${props.slug}`);
-    }
-
-    // Delete advert
-    const deleteAdvert = () => {
-        setShowModal(false);
-        props.deleteAdvert(props.slug, props.session.jwt);
-    }
-
-    // Show modal
-    const showModalConfirmation = () => {
-        setShowModal(true);
-    }
-    
-    // Hide modal
-    const [showModal, setShowModal] = useState(false);
-    const hideModalConfirmation = () => {
-        setShowModal(false);
-    }
-
     return(
         <React.Fragment>
             <article id={`adslug_${props.slug}`} className='AdvertCardSmall'>
@@ -114,28 +71,28 @@ export default function AdvertCardSmall (props) {
                     </div>
                     
                     <div className='AdvertCardSmall__Actions'>
-                        { !props.edit &&    
+                        { props.showFavorite &&
                             <Button type='button' className='ButtonWallakeep ButtonWallakeep__Clear ButtonWallakeep__ClearToGray' 
-                                    variant='contained' onClick={setFavorite}>
+                                    variant='contained' onClick={()=>props.onDeleteFavorite(props.slug)}>
                                 <DeleteIcon/>
                             </Button>
                         }
-                        { props.edit &&
+                        { props.showEdit &&
                             <React.Fragment>
                                 <Button type='button' className={`ButtonWallakeep ButtonWallakeep__Clear ButtonWallakeep__ClearToBlue ${props.booked && 
-                                        'ButtonWallakeep__ClearToBlue--active'}`} disabled={props.sold} variant='contained' onClick={bookAdvert}>
+                                        'ButtonWallakeep__ClearToBlue--active'}`} disabled={props.sold} variant='contained' onClick={()=>props.onBookAdvert(props.slug)}>
                                     <BookmarkBorderOutlinedIcon/>
                                 </Button>
                                 <Button type='button' className={`ButtonWallakeep ButtonWallakeep__Clear ButtonWallakeep__ClearToRed 
-                                        ${props.sold && 'ButtonWallakeep__ClearToRed--active'}`} variant='contained' onClick={sellAdvert}>
+                                        ${props.sold && 'ButtonWallakeep__ClearToRed--active'}`} variant='contained' onClick={()=>props.onSellAdvert(props.slug)}>
                                     <AttachMoneyOutlinedIcon/>
                                 </Button>
                                 <Button type='button' className='ButtonWallakeep ButtonWallakeep__Clear ButtonWallakeep__ClearToGreen' 
-                                        disabled={props.sold} variant='contained' onClick={toEdit}>
+                                        disabled={props.sold} variant='contained' onClick={()=>props.history.push(`/advert/edit/${props.slug}`)}>
                                     <EditOutlinedIcon/>
                                 </Button>
                                 <Button type='button' className='ButtonWallakeep ButtonWallakeep__Clear ButtonWallakeep__ClearToGray' 
-                                        disabled={props.sold} variant='contained' onClick={showModalConfirmation}>
+                                        disabled={props.sold} variant='contained' onClick={()=>props.onDeleteAdvert(props.slug)}>
                                     <DeleteOutlineOutlinedIcon/>
                                 </Button>
                             </React.Fragment>
@@ -143,7 +100,6 @@ export default function AdvertCardSmall (props) {
                     </div>
                 </div>
             </article>
-            { showModal && <ModalConfirm onConfirm={deleteAdvert} onCancel={hideModalConfirmation}/> }
         </React.Fragment>
     );
 }

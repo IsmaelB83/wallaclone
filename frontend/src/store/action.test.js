@@ -311,7 +311,6 @@ describe('ACTION TESTS', () => {
             // Filtros pasadoa al action creator
             const session = {
                 name: 'Ismael',
-                surname: 'Bernal',
                 email: 'ismaelbernal83@gmail.com',
                 maxAdverts: 3
             };
@@ -332,7 +331,6 @@ describe('ACTION TESTS', () => {
             // Filtros pasadoa al action creator
             const session = {
                 name: 'Ismael',
-                surname: 'Bernal',
                 email: 'ismaelbernal83@gmail.com',
                 maxAdverts: 3
             };

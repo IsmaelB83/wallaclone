@@ -1,6 +1,7 @@
 "use strict";
 // Node imports
 const { validationResult } = require('express-validator');
+const bcrypt = require('bcrypt-nodejs');
 // Own imports
 const { User, Advert } = require('../../models');
 const { mail } = require('../../utils');
@@ -67,7 +68,43 @@ module.exports = {
      */
     edit: async (req, res, next) => {
         try {
-            next('Error');
+            // Obtengo el usuario que se está intentando modificar (el de la sesión activa)
+            let user = await User.findById(req.user._id);
+            user.name = req.body.name;
+            // Si se ha pasado email, y es distinto al actual lo chequeo primero
+            if (req.body.email && user.email !== req.body.email) {
+                let users = await User.find({ email: req.user.email });
+                if (users) {
+                    users.forEach(u => {
+                        if (u.email === req.user.email && u._id.toString() !== user._id.toString()) {
+                            return next({
+                                status: 422,
+                                description: 'El email indicado no está disponible'
+                            });
+                        }
+                    });
+                    user.email = req.body.email
+                }
+            }
+            // Si se ha indicado password lo encripto
+            if (req.body.password) {
+                user.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
+                user.token = '';
+                user.jwt = '';
+            }
+            // Intento guardar
+            user = await user.save();
+            if (user) {
+                // Ok
+                return res.status(200).json({
+                    description: 'Usuario actualizado con éxito',
+                    user: {
+                        _id: user._id,
+                        name: user.name,
+                        email: user.email
+                    }
+                });
+            }
         } catch (error) {
             next(error);
         }
@@ -88,12 +125,6 @@ module.exports = {
                 return next({ 
                     status: 404, 
                     description: 'Advert not Found' 
-                });
-            } else if (advert.user._id.toString() === req.user._id) {
-                // Un usuario sólo puede modificar sus anuncios
-                return next({ 
-                    status: 401, 
-                    description: 'Error. Sólo puede hacer favorite de otros anuncios' 
                 });
             }
             // Add to user favorites

@@ -27,7 +27,7 @@ export default {
     return Axios.post(
       baseURL, 
       Querystring.stringify({ name: name, email: email, password: password }),
-      { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
+      { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
     )
     .then(res => res);
   },
@@ -35,7 +35,7 @@ export default {
   /**
    * Editar los datos de un usuario
    */
-  edit: (user, jwt) => {
+  edit: async (user, jwt) => {
     // Endpoint
     const baseURL = `${API_URL}`;
     // Form Data
@@ -51,7 +51,7 @@ export default {
       }
     }
     // Call endpoint and return
-    return Axios.put( baseURL, formData, config )
+    Axios.put( baseURL, formData, config )
     .then(res => {
       debugger;
       return {id: ''}

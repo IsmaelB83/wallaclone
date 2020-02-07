@@ -48,6 +48,11 @@ import {
 } from './types';
 
 
+/**
+ * Login con usuario y password
+ * @param {String} email Email del usuario
+ * @param {String} password Password del usuario
+ */
 export const login = (email, password) => {   
     return async function(dispatch, getState) {
         dispatch(loginRequest());
@@ -66,6 +71,15 @@ export const login = (email, password) => {
     }
 };
 
+const loginRequest = () => ({ type: LOGIN_REQUEST });
+const loginSuccess = session => ({ type: LOGIN_SUCCESS, session });
+const loginFailure = error => ({ type: LOGIN_FAILURE, error });
+const setFavorites = favorites => ({ type: SET_FAVORITES, favorites });
+
+/**
+ * Login con token
+ * @param {String} jwt 
+ */
 export const loginWithToken = (jwt) => {   
     return async function(dispatch, getState) {
         dispatch(loginRequest());
@@ -86,6 +100,12 @@ export const loginWithToken = (jwt) => {
     }
 };
 
+const loginWithTokenFailure = error => ({ type: LOGIN_WITH_TOKEN_FAILURE, error });
+
+/**
+ * Logout
+ * @param {String} jwt Token del usuario
+ */
 export const logout = (jwt) => {
     return async function(dispatch, getState) {
         dispatch(logoutRequest());
@@ -99,6 +119,13 @@ export const logout = (jwt) => {
     }
 };
 
+const logoutRequest = () => ({ type: LOGOUT_REQUEST });
+const logoutFailure = (error) => ({ type: LOGOUT_FAILURE, error });
+const logoutSuccess = () => ({ type: LOGOUT_SUCCESS });
+
+/**
+ * Obtener tags disponibles para categorizar anuncios
+ */
 export const fetchTags = () => {   
     return async function(dispatch, getState) {
         dispatch(fetchTagsRequest());
@@ -111,6 +138,14 @@ export const fetchTags = () => {
     }
 };
 
+const fetchTagsRequest = () => ({ type: FETCH_TAGS_REQUEST });
+const fetchTagsFailure = error => ({ type: FETCH_TAGS_FAILURE, error });
+const fetchTagsSuccess = tags => ({ type: FETCH_TAGS_SUCCESS, tags });
+
+/**
+ * Obtener datos de un anuncio
+ * @param {String} slug Slug identificativo del anuncio
+ */
 export const fetchAdvert = (slug) => {
     return async function(dispatch, getState) {
         dispatch(fetchAdvertRequest());
@@ -130,6 +165,13 @@ export const fetchAdvert = (slug) => {
     }
 };
 
+const fetchAdvertRequest = () => ({ type: FETCH_ADVERT_REQUEST });
+const fetchAdvertFailure = error => ({ type: FETCH_ADVERT_FAILURE, error });
+const fetchAdvertSuccess = advert => ({ type: FETCH_ADVERT_SUCCESS, advert });
+
+/**
+ * Obtener anuncios de la base de datros sin ningún tipo de filtro
+ */
 export const fetchAdverts = () => {   
     return async function(dispatch, getState) {
         dispatch(fetchAdvertsRequest());
@@ -153,6 +195,14 @@ export const fetchAdverts = () => {
     }
 };
 
+const fetchAdvertsRequest = () => ({ type: FETCH_ADVERTS_REQUEST });
+const fetchAdvertsFailure = error => ({ type: FETCH_ADVERTS_FAILURE, error });
+const fetchAdvertsSuccess = adverts => ({ type: FETCH_ADVERTS_SUCCESS, adverts });
+
+/**
+ * Buscar anuncios mediante los filtros indicados
+ * @param {Object} filters Filtros a aplicar en la búsqueda
+ */
 export const searchAdverts = (filters) => {
     return async function(dispatch, getState) {
         dispatch(fetchAdvertsRequest());
@@ -176,6 +226,11 @@ export const searchAdverts = (filters) => {
     }
 };
 
+/**
+ * Editar datos de un anuncio
+ * @param {Object} advert Datos actualizados del anuncio
+ * @param {String} jwt Token para autenticar en la API
+ */
 export const editAdvert = (advert, jwt) => {   
     return async function(dispatch, getState) {
         dispatch(editAdvertRequest());
@@ -188,6 +243,49 @@ export const editAdvert = (advert, jwt) => {
     }
 };
 
+const editAdvertRequest = () => ({ type: EDIT_ADVERT_REQUEST });
+const editAdvertFailure = error => ({ type: EDIT_ADVERT_FAILURE, error });
+const editAdvertSuccess = advert => ({ type: EDIT_ADVERT_SUCCESS, advert });
+
+/**
+ * Reservar un producto
+ * @param {String} slug Slug identificativo del producto
+ * @param {String} jwt Token para autenticar en la API
+ */
+export const bookAdvert = (slug, jwt) => {   
+    return async function(dispatch, getState) {
+        dispatch(editAdvertRequest());
+        try {
+            const response = await AdvertServices.bookAdvert(slug, jwt);
+            dispatch(editAdvertSuccess(response));
+        } catch (error) {
+            dispatch(editAdvertFailure(error.message))
+        }
+    }
+};
+
+/**
+ * Marcar un producto como vendido
+ * @param {String} slug Slug identificativo del producto
+ * @param {String} jwt Token para autenticar en la API
+ */
+export const sellAdvert = (slug, jwt) => {   
+    return async function(dispatch, getState) {
+        dispatch(editAdvertRequest());
+        try {
+            const response = await AdvertServices.sellAdvert(slug, jwt);
+            dispatch(editAdvertSuccess(response));
+        } catch (error) {
+            dispatch(editAdvertFailure(error.message))
+        }
+    }
+};
+
+/**
+ * Guardar el anuncio en los favoritos del usuario
+ * @param {String} slug Slug del anuncio que queremos guardar como favorito
+ * @param {String} jwt Token para autenticar en la API
+ */
 export const setFavorite = (slug, jwt) => {
     return async function(dispatch, getState) {
         dispatch(setFavoriteRequest());
@@ -200,6 +298,15 @@ export const setFavorite = (slug, jwt) => {
     }
 }
 
+const setFavoriteRequest = () => ({ type: SET_FAVORITE_REQUEST });
+const setFavoriteFailure = error => ({ type: SET_FAVORITE_FAILURE, error });
+const setFavoriteSuccess = (_id, favorite) => ({ type: SET_FAVORITE_SUCCESS, _id, favorite });
+
+/**
+ * Crear un anuncio nuevo
+ * @param {Object} advert Objeto con los datos del anuncio a crear
+ * @param {String} jwt Token para autenticar en la API
+ */
 export const createAdvert = (advert, jwt) => {   
     return async function(dispatch, getState) {
         dispatch(createAdvertRequest());
@@ -213,6 +320,15 @@ export const createAdvert = (advert, jwt) => {
     }
 };
 
+const createAdvertRequest = () => ({ type: CREATE_ADVERT_REQUEST });
+const createAdvertFailure = error => ({ type: CREATE_ADVERT_FAILURE, error });
+const createAdvertSuccess = advert => ({ type: CREATE_ADVERT_SUCCESS, advert });
+
+/**
+ * Eliminar un anuncio de la base de datos
+ * @param {String} slug Slug del anuncio que queremos eliminar
+ * @param {String} jwt Token para autenticar en la API
+ */
 export const deleteAdvert = (slug, jwt) => {   
     return async function(dispatch, getState) {
         dispatch(deleteAdvertRequest());
@@ -225,6 +341,15 @@ export const deleteAdvert = (slug, jwt) => {
     }
 };
 
+const deleteAdvertRequest = () => ({ type: DELETE_ADVERT_REQUEST });
+const deleteAdvertFailure = error => ({ type: DELETE_ADVERT_FAILURE, error });
+const deleteAdvertSuccess = advert => ({ type: DELETE_ADVERT_SUCCESS, advert });
+
+/**
+ * Editar datos de usuario
+ * @param {Object} user Objeto con los nuevos datos del usuario
+ * @param {String} jwt Token para autenticar en la API
+ */
 export const editUser = (user, jwt) => {   
     return async function(dispatch, getState) {
         dispatch(editUserRequest());
@@ -232,175 +357,18 @@ export const editUser = (user, jwt) => {
             const response = await UserServices.edit(user, jwt);
             dispatch(editUserSuccess(response));
         } catch (error) {
-            debugger;
             dispatch(editUserFailure(error.message))
         }
     }
 };
 
-export const clearAdvert = () => ({
-    type: CLEAR_ADVERT,
-});
-
-export const setFilters = filters => ({
-    type: SET_FILTERS,
-    filters,
-});
-
-export const setPage = pageNumber => ({
-    type: SET_PAGE,
-    pageNumber
-});
+const editUserRequest = () => ({ type: EDIT_USER_REQUEST });
+const editUserFailure = error => ({ type: EDIT_USER_FAILURE, error });
+const editUserSuccess = user => ({ type: EDIT_USER_SUCCESS, user });
 
 /**
- * Action creators utilizados por los action creatos asincronos de redux-thunk
+ * Other minor action creators
  */
-const loginRequest = () => ({
-    type: LOGIN_REQUEST
-});
-
-const loginSuccess = session => ({
-    type: LOGIN_SUCCESS,
-    session,
-});
-
-const loginFailure = error => ({
-    type: LOGIN_FAILURE,
-    error,
-});
-
-const loginWithTokenFailure = error => ({
-    type: LOGIN_WITH_TOKEN_FAILURE,
-    error,
-});
-
-const logoutRequest = () => ({
-    type: LOGOUT_REQUEST
-});
-
-const logoutFailure = (error) => ({
-    type: LOGOUT_FAILURE,
-    error,
-});
-
-const logoutSuccess = () => ({
-    type: LOGOUT_SUCCESS,
-});
-
-const fetchTagsRequest = () => ({
-    type: FETCH_TAGS_REQUEST
-});
-
-const fetchTagsFailure = error => ({
-    type: FETCH_TAGS_FAILURE,
-    error,
-});
-
-const fetchTagsSuccess = tags => ({
-    type: FETCH_TAGS_SUCCESS,
-    tags,
-});
-
-const fetchAdvertRequest = () => ({
-    type: FETCH_ADVERT_REQUEST
-});
-
-const fetchAdvertFailure = error => ({
-    type: FETCH_ADVERT_FAILURE,
-    error,
-});
-
-const fetchAdvertSuccess = advert => ({
-    type: FETCH_ADVERT_SUCCESS,
-    advert,
-});
-
-const fetchAdvertsRequest = () => ({
-    type: FETCH_ADVERTS_REQUEST
-});
-
-const fetchAdvertsFailure = error => ({
-    type: FETCH_ADVERTS_FAILURE,
-    error,
-});
-
-const fetchAdvertsSuccess = adverts => ({
-    type: FETCH_ADVERTS_SUCCESS,
-    adverts,
-});
-
-const editAdvertRequest = () => ({
-    type: EDIT_ADVERT_REQUEST
-});
-
-const editAdvertFailure = error => ({
-    type: EDIT_ADVERT_FAILURE,
-    error,
-});
-
-const editAdvertSuccess = advert => ({
-    type: EDIT_ADVERT_SUCCESS,
-    advert,
-});
-
-const setFavorites = favorites => ({
-    type: SET_FAVORITES,
-    favorites,
-});
-
-const setFavoriteRequest = () => ({
-    type: SET_FAVORITE_REQUEST
-});
-
-const setFavoriteFailure = error => ({
-    type: SET_FAVORITE_FAILURE,
-    error,
-});
-
-const setFavoriteSuccess = (_id, favorite) => ({
-    type: SET_FAVORITE_SUCCESS,
-    _id,
-    favorite
-});
-
-const deleteAdvertRequest = () => ({
-    type: DELETE_ADVERT_REQUEST
-});
-
-const deleteAdvertFailure = error => ({
-    type: DELETE_ADVERT_FAILURE,
-    error,
-});
-
-const deleteAdvertSuccess = advert => ({
-    type: DELETE_ADVERT_SUCCESS,
-    advert,
-});
-
-const createAdvertRequest = () => ({
-    type: CREATE_ADVERT_REQUEST
-});
-
-const createAdvertFailure = error => ({
-    type: CREATE_ADVERT_FAILURE,
-    error,
-});
-
-const createAdvertSuccess = advert => ({
-    type: CREATE_ADVERT_SUCCESS,
-    advert,
-});
-
-const editUserRequest = () => ({
-    type: EDIT_USER_REQUEST
-});
-
-const editUserFailure = error => ({
-    type: EDIT_USER_FAILURE,
-    error,
-});
-
-const editUserSuccess = user => ({
-    type: EDIT_USER_SUCCESS,
-    user,
-});
+export const clearAdvert = () => ({ type: CLEAR_ADVERT, });
+export const setFilters = filters => ({ type: SET_FILTERS, filters });
+export const setPage = pageNumber => ({ type: SET_PAGE, pageNumber });
