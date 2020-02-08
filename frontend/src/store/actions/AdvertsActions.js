@@ -93,10 +93,10 @@ const fetchAdvertsSuccess = adverts => ({ type: ACTIONS.FETCH_ADVERTS_SUCCESS, a
 /**
  * Obtener anuncios de del usuario indicado
  */
-export const fetchUserAdverts = () => {   
+export const fetchUserAdverts = (_id) => {   
     return async function(dispatch, getState) {
         dispatch(fetchUserAdvertsRequest());
-        return AdvertServices.getAdverts()
+        return AdvertServices.getAdvertsByUser(_id)
         .then(adverts => {
             // If there are favorites in state it means user is authenticated in the app. Identify favorites
             const { favorites } = getState();
