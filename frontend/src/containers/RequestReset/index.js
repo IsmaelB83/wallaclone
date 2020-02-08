@@ -2,7 +2,7 @@
 import { withSnackbar } from 'notistack';
 import { connect } from 'react-redux';
 // Own components
-import withForm from '../../components/Form/withForm';
+import withForm from '../../components/forms/components/Form/withForm';
 import RequestReset from './RequestReset';
 // Own modules
 import { SessionActions } from '../../store/GlobalActions';

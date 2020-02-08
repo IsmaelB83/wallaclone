@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withSnackbar } from 'notistack';
 // Own components
 import Login from './Login';
-import withForm from '../../components/Form/withForm';
+import withForm from '../../components/forms/components/Form/withForm';
 // Own modules
 import { SessionActions } from '../../store/GlobalActions';
 
