@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 // Own modules
 import SearchPanel from './SearchPanel';
-import { setFilters } from '../../store/actions';
+import { FiltersActions } from '../../store/GlobalActions';
 
 /**
  * Inyecta props en mi componente para acceder al state del store
@@ -20,7 +20,7 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
-        setFilters: (filters) => dispatch(setFilters(filters))
+        setFilters: (filters) => dispatch(FiltersActions.setFilters(filters))
     }
 }
 

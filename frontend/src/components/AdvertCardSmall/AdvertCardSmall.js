@@ -29,17 +29,17 @@ export default function AdvertCardSmall (props) {
     return(
         <React.Fragment>
             <article id={`adslug_${props.slug}`} className='AdvertCardSmall'>
-                <header className='AdvertCardSmall__Caption'>
-                    <Link to={`/advert/edit/${props.slug}`}>
-                        <img className='AdvertCardSmall__Img' src={props.photo} alt='caption'/>
-                    </Link>
-                    { ( props.booked || props.sold ) &&
-                        <div className='AdvertCardSmall__Status'>
-                            { props.booked && <img src={imgReserved} alt='reserved'/> }
-                            { props.sold && <img src={imgSold} alt='sold'/> }
-                        </div>
-                    }
-                </header>
+                <Link to={`/advert/${props.slug}`}>
+                    <header className='AdvertCardSmall__Caption'>
+                            <img className='AdvertCardSmall__Img' src={props.photo} alt='caption'/>
+                        { ( props.booked || props.sold ) &&
+                            <div className='AdvertCardSmall__Status'>
+                                { props.booked && <img src={imgReserved} alt='reserved'/> }
+                                { props.sold && <img src={imgSold} alt='sold'/> }
+                            </div>
+                        }
+                    </header>
+                </Link>
                 <div className='AdvertCardSmall__Body'>
                     <div className='AdvertCardSmall__Date'>
                         <p className='Title'>Publicado</p>
@@ -52,7 +52,7 @@ export default function AdvertCardSmall (props) {
                     <div className='AdvertCardSmall__Main'>
                         <div className='AdvertCardSmall__Title'>
                             <p>{props.price} €</p>
-                            <Link to={`/advert/edit/${props.slug}`}>
+                            <Link to={`/advert/${props.slug}`}>
                                 <h2>{props.name}</h2>
                             </Link>
                         </div>

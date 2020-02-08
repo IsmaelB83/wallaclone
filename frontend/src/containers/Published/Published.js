@@ -10,8 +10,7 @@ import NavBar from '../../components/NavBar';
 import Error from '../../components/Error';
 import ModalConfirm from '../../components/ModalConfirm';
 // Own modules
-import AdvertServices from '../../services/AdvertServices';
-import { getAdvertsByType } from '../../store/selectors';
+import { getAdvertsByType } from '../../store/selectors/AdvertsSelectors';
 // Models
 import { ADVERT_CONSTANTS } from '../../models/Advert';
 // Assets
@@ -43,25 +42,24 @@ export default function Published (props) {
   }
 
   // Load adverts
+  const { fetchUserAdverts } = props;
   const { _id } = props.session;
   useEffect(() => {
     // Update UI
     setIsFetching(true);
     setError('');
-    // Call API
-    AdvertServices.getAdvertsByUser(_id)
+    // Dispatch get adverts
+    fetchUserAdverts(_id)
     .then(adverts => {
-      // Set Adverts
-      setSelling(getAdvertsByType(adverts, ADVERT_CONSTANTS.TYPE.SELL));
+        setIsFetching(false);
+        setSelling(getAdvertsByType(adverts, ADVERT_CONSTANTS.TYPE.SELL));
       setBuying(getAdvertsByType(adverts, ADVERT_CONSTANTS.TYPE.BUY));
     })
     .catch(error => {
-      setError(error.message);
-    })
-    .finally(() => {
-      setIsFetching(false);
+        setIsFetching(false);
+        setError(error);
     });
-  }, [_id]);
+  }, [_id, fetchUserAdverts]);
 
   // Render
   return (

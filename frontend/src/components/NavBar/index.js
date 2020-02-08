@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 // Own modules
 import NavBar from './NavBar';
-import { logout } from '../../store/actions';
+import { SessionActions } from '../../store/GlobalActions';
 
 /**
  * Inyecta props en mi componente para acceder al state del store
@@ -19,7 +19,7 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
-        logout: (jwt) => dispatch(logout(jwt)),
+        logout: (jwt) => dispatch(SessionActions.logout(jwt)),
     }
 }
 

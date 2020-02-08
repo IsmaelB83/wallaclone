@@ -202,6 +202,7 @@ module.exports = {
         // Si existe actualizo el password y lo guardo
         if (user) {
             user.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
+            user.jwt = null;
             user.token = null;
             user.expire = null;
             user.active = true;

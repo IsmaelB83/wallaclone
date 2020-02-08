@@ -29,12 +29,12 @@ export default function AdvertCard (props) {
             <header className='AdvertCard__Header'>
                 <img src={`${props.type==='buy'?imgBuy:imgSell}`} alt='avatar' />
                 <div className='AdvertCard__HeaderTitle'>
-                    <Link to={`/advert/display/${props.slug}`} className='AdvertCard__Link'><h2>{props.name}</h2></Link>
+                    <Link to={`advert/${props.slug}`} className='AdvertCard__Link'><h2>{props.name}</h2></Link>
                     <Moment className='AdvertCard__Date' fromNow>{props.createdAt}</Moment>
                 </div>
             </header>
             <div className='AdvertCard__Media'>
-                <Link to={`/advert/display/${props.slug}`} className='AdvertCard__Link'>
+                <Link to={`advert/${props.slug}`} className='AdvertCard__Link'>
                     <img src={props.photo} alt='caption'/>
                 </Link>
                 { props.booked && <img src={imgReserved} className='AdvertCard__Status' alt='reserved'/> }

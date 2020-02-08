@@ -22,19 +22,19 @@ export default function InputForm(props) {
     return (
         <FormControl>
             <Input
-            name={props.name}
-            value={context.inputs[props.name] || ''}
-            onChange={context.handleInputChange}
-            type={props.type}
-            placeholder={props.placeholder}
-            startAdornment={
-                <InputAdornment position='start' className='InputIcon__Icon'>
-                    {props.icon}
-                </InputAdornment>
-            }
-            endAdornment={props.endAdornment}
-            required={props.required}
-            autoComplete={props.autoComplete}
+                name={props.name}
+                value={context.inputs[props.name] || ''}
+                onChange={context.handleInputChange}
+                type={props.type}
+                placeholder={props.placeholder}
+                startAdornment={
+                    <InputAdornment position='start' className='InputIcon__Icon'>
+                        {props.icon}
+                    </InputAdornment>
+                }
+                endAdornment={props.endAdornment}
+                required={props.required}
+                autoComplete={props.autoComplete}
             />
         </FormControl>
     )

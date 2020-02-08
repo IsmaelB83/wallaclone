@@ -14,7 +14,7 @@ const LocalStorage = {
      */
     saveLocalStorage: (session) => {
         if (session.name) {
-            localStorage.setItem('wallafit', JSON.stringify(session));
+            localStorage.setItem(process.env.REACT_APP_LOCALSTORAGE_ID, JSON.stringify(session));
         }
     },
 
@@ -22,8 +22,13 @@ const LocalStorage = {
      * Recuperar sesión del local storage
      */
     readLocalStorage: () => {
-        const session = localStorage.getItem('wallafit');
-        return JSON.parse(session)
+        try {
+            const session = localStorage.getItem(process.env.REACT_APP_LOCALSTORAGE_ID);
+            return JSON.parse(session)               
+        } catch (error) {
+            localStorage.clear();
+            return undefined;
+        }
     },
     
     /**

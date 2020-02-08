@@ -4,7 +4,7 @@ import { withSnackbar } from 'notistack';
 // Own components
 import Favorites from './Favorites';
 // Own modules
-import { setFavorite } from '../../store/actions';
+import { SessionActions } from '../../store/GlobalActions';
 
 
 /**
@@ -23,7 +23,8 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
-        setFavorite: (slug, jwt) => dispatch(setFavorite(slug, jwt))
+        fetchFavorites: (jwt) => dispatch(SessionActions.fetchFavorites(jwt)),
+        setFavorite: (slug, jwt) => dispatch(SessionActions.setFavorite(slug, jwt))
     }
 }
 

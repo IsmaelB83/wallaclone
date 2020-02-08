@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { withSnackbar } from 'notistack';
 // Own modules
 import Profile from './Profile';
-import { editUser, logout } from '../../store/actions';
+import { SessionActions } from '../../store/GlobalActions';
 
 
 /**
@@ -23,8 +23,8 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
-        editUser: (user, jwt) => dispatch(editUser(user, jwt)),
-        logout: () => dispatch(logout()),
+        editUser: (user, jwt) => dispatch(SessionActions.editUser(user, jwt)),
+        logout: () => dispatch(SessionActions.logout()),
     }
 }
 

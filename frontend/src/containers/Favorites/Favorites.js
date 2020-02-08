@@ -9,7 +9,6 @@ import Footer from '../../components/Footer';
 import NavBar from '../../components/NavBar';
 import Error from '../../components/Error';
 // Own modules
-import UserServices from '../../services/UserServices';
 // Models
 // Assets
 // CSS
@@ -28,31 +27,34 @@ export default function Published (props) {
 
   // Load adverts
   const { jwt } = props.session;
+  const { fetchFavorites } = props;
   useEffect(() => {
     // Update UI
     setIsFetching(true);
     setError('');
     // Call API
-    UserServices.getFavorites(jwt)
+    fetchFavorites(jwt)
     .then(result => {
+      setIsFetching(false);
       setAdverts(result);
     })
     .catch(error => {
-      setError(error.message);
-    })
-    .finally(() => {
       setIsFetching(false);
-    });
-  }, [jwt]);
+      setError(error);
+    })
+  }, [jwt, fetchFavorites]);
 
   // Delete favorite
   const deleteFavorite = (slug) => {
     props.setFavorite(slug, props.session.jwt)
-    const i = adverts.findIndex(advert => advert.slug === slug);
-    if (i >= 0) {
-      const aux = [...adverts.slice(0, i), ...adverts.slice(i + 1)];
-      setAdverts(aux);
-    }
+    .then(() => {
+      const i = adverts.findIndex(advert => advert.slug === slug);
+      if (i >= 0) {
+        const aux = [...adverts.slice(0, i), ...adverts.slice(i + 1)];
+        setAdverts(aux);
+      }  
+    })
+    .catch(error => setError(error));
   }
 
   // Render

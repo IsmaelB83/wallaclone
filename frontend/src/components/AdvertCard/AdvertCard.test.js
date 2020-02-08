@@ -41,7 +41,7 @@ describe('ADVERT CARD TESTS', () => {
         });
     
         it('check props of display link', () => {
-            expect(wrapper.find('.AdvertCard__FooterActions').childAt(0).props().to === '/advert/display/1');
+            expect(wrapper.find('.AdvertCard__FooterActions').childAt(0).props().to === 'advert/1');
         });
     
         it('check type of advert', () => {

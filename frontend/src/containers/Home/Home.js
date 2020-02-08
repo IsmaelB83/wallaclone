@@ -1,6 +1,5 @@
 // NPM Modules
 import React, { Component } from 'react';
-import Moment from 'react-moment';
 // Material UI
 import Container from '@material-ui/core/Container';
 // Components
@@ -27,17 +26,6 @@ const MAX_ADVERTS = parseInt(process.env.REACT_APP_MAX_ADVERTS);
 export default class Home extends Component {
   
   /**
-   * Constructor
-   * @param {*} props 
-   */
-  constructor(props) {
-    super(props);
-    this.state = {
-      favoriteClicked: false
-    };
-  }
-
-  /**
    * Render
    */
   render() {   
@@ -57,8 +45,6 @@ export default class Home extends Component {
             <div className='Home__Results'>
               <SearchPanel tags={this.props.tags} handleAPISearch={this.handleSearch}/>
               <Paginator numPages={numPages} currentPage={currentPage} handleMovePaginator={this.handleMovePaginator}/>
-              <p className='Home__Count'>{this.props.adverts.length} resultados cumplen el filtro. {this.props.ui.totalAdvertsReturned} resultados en el store de redux</p>
-              <p className='Home__Count'>Last API call <Moment fromNow>{this.props.ui.lastAdvertsUpdated}</Moment></p>
               { this.props.adverts.length > 0 &&
                 <AdvertList 
                   type='tiles' 
@@ -92,8 +78,10 @@ export default class Home extends Component {
 
   // Reservar producto
   favoriteAdvert = (slug) => {
-    this.props.setFavorite(slug, this.props.session.jwt);
-    this.setState({favoriteClicked: true});
+      this.props.setFavorite(slug, this.props.session.jwt)
+      .catch(()=>{
+        this.props.enqueueSnackbar('Error marcando anuncio como favorito', { variant: 'error' });
+      });
   }
   
   /**

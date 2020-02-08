@@ -2,9 +2,9 @@
 import { connect } from 'react-redux';
 import { withSnackbar } from 'notistack';
 // Own components
-import AdvertEdit from './AdvertEdit';
+import Edit from './Edit';
 // Own modules
-import { fetchAdvert, editAdvert, createAdvert, clearAdvert } from '../../store/actions';
+import { AdvertsActions } from '../../store/GlobalActions';
 
 
 /**
@@ -14,10 +14,7 @@ import { fetchAdvert, editAdvert, createAdvert, clearAdvert } from '../../store/
 const mapStateToProps = (state) => {
     return {
         session: state.session,
-        tags: state.tags,
-        advert: state.advert,
-        adverts: state.adverts,
-        ui: state.ui
+        tags: state.tags
     }
 }
 
@@ -27,17 +24,16 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
-        loadAdvert: (slug) => dispatch(fetchAdvert(slug)),
-        clearAdvert: () => dispatch(clearAdvert()),
-        editAdvert: (advert, jwt) => dispatch(editAdvert(advert, jwt)),
-        createAdvert: (advert, jwt) => dispatch(createAdvert(advert, jwt))
+        fetchAdvert: (slug) => dispatch(AdvertsActions.fetchAdvert(slug)),
+        editAdvert: (advert, jwt) => dispatch(AdvertsActions.editAdvert(advert, jwt)),
+        createAdvert: (advert, jwt) => dispatch(AdvertsActions.createAdvert(advert, jwt))
     }
 }
 
 /**
  * Envuelvo el App en al función connect para conectar con el store recibido del provider
  */ 
-export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(AdvertEdit));
+export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(Edit));
 
 /*  Lo anterior es equivalente a esto. Porque uso exactamente el mismo nombre de función que en el dispatch.
     Y además uso exactamente los mismos parámetros:

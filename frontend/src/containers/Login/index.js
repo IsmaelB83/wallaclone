@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 import { withSnackbar } from 'notistack';
 // Own components
 import Login from './Login';
+import withForm from '../../components/Form/withForm';
 // Own modules
-import { login } from '../../store/actions';
+import { SessionActions } from '../../store/GlobalActions';
+
 
 /**
  * Inyecta props en mi componente para acceder al state del store
@@ -12,9 +14,7 @@ import { login } from '../../store/actions';
  */
 const mapStateToProps = (state) => {
     return {
-        session: state.session,
-        isFetching: state.ui.isFetching,
-        error: state.ui.error,
+        isAuthenticating: state.ui.isAuthenticating,
     }
 }
 
@@ -24,9 +24,11 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
-        login: (email, password) => dispatch(login(email, password))
+        login: (email, password) => dispatch(SessionActions.login(email, password)),
+        loginWithToken: (jtw) => dispatch(SessionActions.loginWithToken(jtw)),
+        activateAccount: (token) => dispatch(SessionActions.activateAccount(token)),
     }
 }
 
 // Retorno el componente envuelto en el "connect", y en un withSnackBar (para los tags de info de la app)
-export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(Login));
+export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(withForm(Login)));

@@ -147,6 +147,7 @@ a {
 .FavoriteIcon { transition: 300ms all ease-in; }
 .FavoriteIcon:hover { transform: scale(1.1); }
 .FavoriteIcon--Off { color: black; }
+.FavoriteIcon--White { color: white; }
 .FavoriteIcon--On { color: red; }
 
 .ButtonWallakeep:disabled {

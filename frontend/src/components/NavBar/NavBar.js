@@ -97,17 +97,11 @@ export default function NavBar(props) {
         }
         { !props.session.email &&
           <div>
-            <IconButton
-              aria-label='account of current user'
-              aria-controls='menu-NavBar'
-              aria-haspopup='true'
-              color='inherit'
-              className='NavBar__User' 
-              component={Link} 
-              to='/login'
-            >
-              <AccountCircleIcon/>
-              <span className='NavBar__User--hiddenXS ml-1'>Login</span>
+            <IconButton color='inherit' className='NavBar__User' component={Link} to='/login'>
+              <span className='NavBar__User--hiddenXS'>LOGIN</span>
+            </IconButton>
+            <IconButton color='inherit' className='NavBar__User' component={Link} to='/register'>
+              <span className='NavBar__User--hiddenXS'>SIGN IN</span>
             </IconButton>
           </div>
         }

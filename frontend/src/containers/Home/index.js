@@ -4,14 +4,8 @@ import { withSnackbar } from 'notistack';
 // Own Components
 import Home from './Home';
 // Own modules
-import { 
-    fetchTags,
-    fetchAdverts,
-    searchAdverts,
-    setFavorite,
-    setPage
- } from '../../store/actions';
-import { getVisibleAdverts } from '../../store/selectors';
+import { AdvertsActions, SessionActions, FiltersActions } from '../../store/GlobalActions';
+import { getVisibleAdverts } from '../../store/selectors/AdvertsSelectors';
 
 
 /**
@@ -33,11 +27,11 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchTags: () => dispatch(fetchTags()),
-        loadAdverts: () => dispatch(fetchAdverts()),
-        setFavorite: (slug, jwt) => dispatch(setFavorite(slug, jwt)),
-        searchAdverts: (filters) => dispatch(searchAdverts(filters)),
-        setCurrentPage: pageNumber => dispatch(setPage(pageNumber)),
+        fetchTags: () => dispatch(AdvertsActions.fetchTags()),
+        loadAdverts: () => dispatch(AdvertsActions.fetchAdverts()),
+        setFavorite: (slug, jwt) => dispatch(SessionActions.setFavorite(slug, jwt)),
+        searchAdverts: (filters) => dispatch(AdvertsActions.searchAdverts(filters)),
+        setCurrentPage: pageNumber => dispatch(FiltersActions.setPage(pageNumber)),
     }
 }
 

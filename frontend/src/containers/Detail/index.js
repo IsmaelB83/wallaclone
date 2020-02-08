@@ -2,9 +2,9 @@
 import { connect } from 'react-redux';
 import { withSnackbar } from 'notistack';
 // Own components
-import AdvertDetail from './AdvertDetail';
+import Detail from './Detail';
 // Own modules
-import { fetchAdvert, editAdvert, deleteAdvert, setFavorite } from '../../store/actions';
+import { AdvertsActions, SessionActions } from '../../store/GlobalActions';
 
 
 /**
@@ -14,11 +14,7 @@ import { fetchAdvert, editAdvert, deleteAdvert, setFavorite } from '../../store/
 const mapStateToProps = (state) => {
     return {
         session: state.session,
-        advert: state.advert,
         isFetching: state.ui.isFetching,
-        isDeleting: state.ui.isDeleting,
-        isUpdating: state.ui.isUpdating,
-        error: state.ui.error
     }
 }
 
@@ -28,14 +24,14 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
-        loadAdvert: (slug) => dispatch(fetchAdvert(slug)),
-        editAdvert: (advert, jwt) => dispatch(editAdvert(advert, jwt)),
-        deleteAdvert: (slug, jwt) => dispatch(deleteAdvert(slug, jwt)),
-        setFavorite: (slug, jwt) => dispatch(setFavorite(slug, jwt))
+        fetchAdvert: (slug) => dispatch(AdvertsActions.fetchAdvert(slug)),
+        bookAdvert: (slug, jwt) => dispatch(AdvertsActions.bookAdvert(slug, jwt)),
+        sellAdvert: (slug, jwt) => dispatch(AdvertsActions.sellAdvert(slug, jwt)),
+        setFavorite: (slug, jwt) => dispatch(SessionActions.setFavorite(slug, jwt))
     }
 }
 
 /**
  * Envuelvo el App en al función connect para conectar con el store recibido del provider
  */ 
-export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(AdvertDetail));
+export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(Detail));
