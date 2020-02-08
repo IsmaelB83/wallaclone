@@ -1,112 +1,111 @@
 // NPM Modules
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 // Material UI
 import Container from '@material-ui/core/Container';
 // Components
+import ModalConfirm from '../../components/ModalConfirm';
 import AdvertList from '../../components/AdvertList';
-import Loading from '../../components/Loading';
 import Footer from '../../components/Footer';
 import NavBar from '../../components/NavBar';
-import Error from '../../components/Error';
-import ModalConfirm from '../../components/ModalConfirm';
 // Own modules
-import { getAdvertsByType } from '../../store/selectors/AdvertsSelectors';
 // Models
-import { ADVERT_CONSTANTS } from '../../models/Advert';
 // Assets
 // CSS
 import './styles.css';
 
 /**
- * Main App
- */
+* Main App
+*/
 export default function Published (props) {
+    
+    // Destructure props
+    const { jwt } = props.session;
+    const { enqueueSnackbar, buying, selling } = props;
+    
+    // Marcar como reservado
+    const bookAdvert = slug => {
+        props.bookAdvert(slug, jwt)
+        .then(advert => enqueueSnackbar(`Anuncio '${advert.slug}' reservado`, { variant: 'success' }))
+        .catch(error => enqueueSnackbar(`Error reservando anuncio ${error}`, { variant: 'error' }));
+    };
 
-  // Listado de anuncios
-  const [selling, setSelling] = useState([]);
-  const [buying, setBuying] = useState([]);
-  // Variables para el UI
-  const [isFetching, setIsFetching] = useState(false);
-  const [error, setError] = useState('');
-  
-  // Marcar como reservado
-  const bookAdvert = slug => props.bookAdvert(slug, props.session.jwt);
-  const sellAdvert = slug => props.sellAdvert(slug, props.session.jwt);
+    // Marcar como reservado
+    const sellAdvert = slug => {
+        props.sellAdvert(slug, jwt)
+        .then(advert => enqueueSnackbar(`Anuncio '${advert.slug}' vendido`, { variant: 'success', }))
+        .catch(error => enqueueSnackbar(`Error vendiendo anuncio ${error}`, { variant: 'error', }));
+    };
+    
+    // Borrar anuncio
+    const [showModalDelete, setShowModalDelete] = useState(false);
+    const [slug, setSlug] = useState(undefined);
+    const deleteAdvertRequest = slug => {
+        setSlug(slug)
+        setShowModalDelete(true);
+    }
+    const confirmDeleteAdvert = () => {
+        setShowModalDelete(false);
+        if (slug) {
+            props.deleteAdvert(slug, jwt)
+            .then(advert => enqueueSnackbar(`Anuncio '${advert.slug}' eliminado`, { variant: 'success', }))
+            .catch(error => enqueueSnackbar(`Error eliminando anuncio ${error}`, { variant: 'error', }));    
+        } else {
+            enqueueSnackbar('Error. No se ha identificado el anuncio a eliminar', { variant: 'error', });    
+        }
+    };
+    const cancelDeleteAdvert = () => {
+        setSlug(undefined)
+        setShowModalDelete(false);
+    };
 
-  // Modal Delete
-  const [showModalDelete, setShowModalDelete] = useState(false);
-  const deleteAdvertRequest = () => { setShowModalDelete(true); }
-  const deleteAdvert = () => {
-    setShowModalDelete(false);
-    props.deleteAdvert(props.slug, props.session.jwt);
-  }
-
-  // Load adverts
-  const { fetchUserAdverts } = props;
-  const { _id } = props.session;
-  useEffect(() => {
-    // Update UI
-    setIsFetching(true);
-    setError('');
-    // Dispatch get adverts
-    fetchUserAdverts(_id)
-    .then(adverts => {
-        setIsFetching(false);
-        setSelling(getAdvertsByType(adverts, ADVERT_CONSTANTS.TYPE.SELL));
-      setBuying(getAdvertsByType(adverts, ADVERT_CONSTANTS.TYPE.BUY));
-    })
-    .catch(error => {
-        setIsFetching(false);
-        setError(error);
-    });
-  }, [_id, fetchUserAdverts]);
-
-  // Render
-  return (
-    <React.Fragment>
-        <NavBar/>
-        <Container className='Container__Fill'>
-          <main className='Main__Section'>
-            <div className='Catalog__Results'>
-              { selling.length > 0 &&
-                <div className='Catalog__ResultsSelling'>
-                  <p className='Catalog__Count'>{selling.length} anuncios en venta.</p>
-                  <AdvertList 
-                    type='list' 
-                    edit={true} 
-                    adverts={selling} 
-                    showEdit={true}
-                    showFavorite={false}
-                    onBookAdvert={bookAdvert}
-                    onSellAdvert={sellAdvert}
-                    onDeleteAdvert={deleteAdvertRequest}
-                    history={props.history}
-                  />
-                </div>
-              }
-              { buying.length > 0 &&
-                <div className='Catalog__ResultsBuying'>
-                  <p className='Catalog__Count'>{buying.length} anuncios en búsqueda.</p>
-                  <AdvertList 
-                    type='list' 
-                    edit={true} 
-                    adverts={buying} 
-                    showEdit={true}
-                    showFavorite={false}
-                    onBookAdvert={bookAdvert}
-                    onSellAdvert={sellAdvert}
-                    onDeleteAdvert={deleteAdvertRequest}
-                    history={props.history}
-                  />
-                </div>
-              }
-            </div>
-            { isFetching && <Loading text={'fetching data'}/> }
-            { error &&  <Error error={error}/> }
-          </main>
-          { showModalDelete && <ModalConfirm onConfirm={deleteAdvert} onCancel={()=>setShowModalDelete(false)}/> }
-        </Container>
-        <Footer/>
-      </React.Fragment>
-  );
-}
+    // Modal Delete
+    
+    // Render
+    return (
+        <React.Fragment>
+            <NavBar/>
+                <Container className='Container__Fill'>
+                <main className='Main__Section'>
+                    <div className='Catalog__Results'>
+                        <div className='Catalog__ResultsSelling'>
+                            <p className='Catalog__Count'>{selling.length} anuncios en venta.</p>
+                            <AdvertList 
+                                type='list' 
+                                edit={true} 
+                                adverts={selling} 
+                                showEdit={true}
+                                showFavorite={false}
+                                onBookAdvert={bookAdvert}
+                                onSellAdvert={sellAdvert}
+                                onDeleteAdvert={deleteAdvertRequest}
+                                history={props.history}
+                            />
+                        </div>
+                        <div className='Catalog__ResultsBuying'>
+                            <p className='Catalog__Count'>{buying.length} anuncios en búsqueda.</p>
+                            <AdvertList 
+                                type='list' 
+                                edit={true} 
+                                adverts={buying} 
+                                showEdit={true}
+                                showFavorite={false}
+                                onBookAdvert={bookAdvert}
+                                onSellAdvert={sellAdvert}
+                                onDeleteAdvert={deleteAdvertRequest}
+                                history={props.history}
+                            />
+                        </div>
+                    </div>
+                </main>
+                {   showModalDelete && 
+                    <ModalConfirm   onConfirm={confirmDeleteAdvert} 
+                                    onCancel={cancelDeleteAdvert} 
+                                    visible={true} type='warning'
+                                    title='¿Está seguro de borrar el anuncio?'
+                    /> 
+                }
+            </Container>
+            <Footer/>
+        </React.Fragment>
+        );
+    }

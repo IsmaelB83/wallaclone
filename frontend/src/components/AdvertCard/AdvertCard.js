@@ -23,6 +23,9 @@ import './styles.css';
  */
 export default function AdvertCard (props) {
 
+    // Click en borrar anuncio
+    const requestDeleteAdvert = () => props.onFavoriteAdvert(props.slug);
+
     // Render
     return(
         <article id={`adslug_${props.slug}`} className='AdvertCard'>
@@ -59,7 +62,7 @@ export default function AdvertCard (props) {
                     }
                 </div>
                 {   props.showFavorite && 
-                    <button className='ButtonTransparent' onClick={()=>props.onFavoriteAdvert(props.slug)}>
+                    <button className='ButtonTransparent' onClick={requestDeleteAdvert}>
                         { props.favorite && <FavoriteIcon className='FavoriteIcon FavoriteIcon--On'/> }
                         { !props.favorite && <FavoriteBorderIcon className='FavoriteIcon FavoriteIcon--Off'/> }
                     </button>

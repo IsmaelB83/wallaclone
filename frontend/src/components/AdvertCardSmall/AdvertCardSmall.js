@@ -34,7 +34,7 @@ export default function AdvertCardSmall (props) {
                             <img className='AdvertCardSmall__Img' src={props.photo} alt='caption'/>
                         { ( props.booked || props.sold ) &&
                             <div className='AdvertCardSmall__Status'>
-                                { props.booked && <img src={imgReserved} alt='reserved'/> }
+                                { !props.sold && props.booked && <img src={imgReserved} alt='reserved'/> }
                                 { props.sold && <img src={imgSold} alt='sold'/> }
                             </div>
                         }

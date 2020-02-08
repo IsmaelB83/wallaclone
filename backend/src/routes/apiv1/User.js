@@ -32,6 +32,13 @@ module.exports = () => {
         UserCtrl.edit
     );
 
+    // Delete user data
+    router.delete(
+        '/:id',
+        AuthMiddleware,
+        UserCtrl.delete
+    );
+
     // Add/Remove advert from user favorites
     router.put(
         '/favorites/:slug', 

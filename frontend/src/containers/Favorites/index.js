@@ -14,6 +14,7 @@ import { SessionActions } from '../../store/GlobalActions';
 const mapStateToProps = (state) => {
     return {
         session: state.session,
+        favorites: state.favorites,
     }
 }
 
@@ -23,7 +24,6 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchFavorites: (jwt) => dispatch(SessionActions.fetchFavorites(jwt)),
         setFavorite: (slug, jwt) => dispatch(SessionActions.setFavorite(slug, jwt))
     }
 }

@@ -1,1 +1,5 @@
-export * from './selectors/AdvertsSelectors';
+import * as AdvertsSelectors from './selectors/AdvertsSelectors';
+
+export {
+    AdvertsSelectors,
+}

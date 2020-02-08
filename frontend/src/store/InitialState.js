@@ -9,6 +9,8 @@ export const initialState = {
     adverts: [],
     // Available tags in the backend
     tags: [],
+    // User adverts
+    published: [],
     // User favorites
     favorites: [],
     // Filters applied (text, tag, type, amounts)

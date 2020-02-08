@@ -1,0 +1,29 @@
+.ModalConfirm div {
+    overflow-y: visible !important;
+}
+
+.ModalConfirm .ModalConfirm__Wrapper {
+    padding: 2rem !important;
+    position: relative;
+
+}
+
+.ModalConfirm .ModalConfirm__Image {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 99999;
+}
+
+.ModalConfirm .ModalConfirm__Actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.ModalConfirm button {
+    width: 50%;
+}

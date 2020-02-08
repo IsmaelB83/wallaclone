@@ -17,8 +17,11 @@ export function filters (state = initialState.filters, action) {
                 minPrice: parseFloat(action.filters.minPrice),
                 maxPrice: parseFloat(action.filters.maxPrice)
             };
+        // Logout
         case SESSION.LOGOUT_SUCCESS:
+        case SESSION.DELETE_ACCOUNT_SUCCESS:
             return initialState.filters;
+        // Default
         default:
             return state;
     }

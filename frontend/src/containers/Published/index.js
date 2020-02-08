@@ -3,9 +3,11 @@ import { connect } from 'react-redux';
 import { withSnackbar } from 'notistack';
 // Own Components
 import Published from './Published';
-// Model
+// Models
+import { ADVERT_CONSTANTS } from '../../models/Advert';
 // Own modules
-import { AdvertsActions, SessionActions } from '../../store/GlobalActions';
+import { AdvertsActions } from '../../store/GlobalActions';
+import { AdvertsSelectors } from '../../store/GlobalSelectors';
 
 /**
  * Inyecta props en mi componente para acceder al state del store
@@ -14,7 +16,8 @@ import { AdvertsActions, SessionActions } from '../../store/GlobalActions';
 const mapStateToProps = (state) => {
     return {
         session: state.session,
-        ui: state.ui,
+        selling: AdvertsSelectors.getAdvertsByType(state.published, ADVERT_CONSTANTS.TYPE.SELL),
+        buying: AdvertsSelectors.getAdvertsByType(state.published, ADVERT_CONSTANTS.TYPE.BUY),
     }
 }
 
@@ -24,11 +27,9 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchUserAdverts: (_id) => dispatch(AdvertsActions.fetchUserAdverts(_id)),
         deleteAdvert: (slug, jwt) => dispatch(AdvertsActions.deleteAdvert(slug, jwt)),
         bookAdvert: (slug, jwt) => dispatch(AdvertsActions.bookAdvert(slug, jwt)),
-        sellAdvert: (slug, jwt) => dispatch(AdvertsActions.sellAdvert(slug, jwt)),
-        setFavorite: (slug, jwt) => dispatch(SessionActions.setFavorite(slug, jwt))
+        sellAdvert: (slug, jwt) => dispatch(AdvertsActions.sellAdvert(slug, jwt))
     }
 }
 

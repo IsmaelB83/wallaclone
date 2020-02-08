@@ -29,7 +29,7 @@ export default function AdvertDetail(props) {
                 <header className='AdvertDetail__Header'>
                     <h1>{props.name}</h1>
                     <img className='Caption' src={props.photo} alt='caption'/>
-                    { props.booked && <img src={imgReserved} className='AdvertCard__Status' alt='reserved'/> }
+                    { !props.sold && props.booked && <img src={imgReserved} className='AdvertCard__Status' alt='reserved'/> }
                     { props.sold && <img src={imgSold} className='AdvertCard__Status' alt='sold'/> }
                 </header>
                 <div className='AdvertDetail__Content'>

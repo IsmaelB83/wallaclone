@@ -32,7 +32,7 @@ module.exports = {
             }
             // Compare hashes (use bcrypt to avoid timing attacks as well)
             if (bcrypt.compareSync(req.body.password, user.password)) {
-                // Create the payload and JWT (expiration in 60 minutes after login)
+                // Create the payload and jwt (expires in 60') and save in mongo
                 const payload = {
                     _id: user._id,
                     name: user.name,
@@ -42,9 +42,8 @@ module.exports = {
                 const jwtoken = jwt.sign({payload}, process.env.SECRET);
                 user.jwt = jwtoken;
                 user.expire = Date.now() + 3600000;
-                // Save JWT in the database
                 user.save();
-                // Return the JWT and user information
+                // Return jwt and user information
                 return res.json({
                     success: true,
                     description: 'Authorization successful',
@@ -53,8 +52,7 @@ module.exports = {
                         name: user.name,
                         email: user.email,
                         token: user.jwt,
-                    },
-                    favorites: user.favorites
+                    }
                 });
             }
             return next({
@@ -78,7 +76,7 @@ module.exports = {
      * @param {Middleware} next Next middleware
      */
     loginToken: async (req, res, next) => {
-        // In case I am here I am authorized (because this controller is private and the middleware is who checks the JWT)
+        // This is safe, becase in case I am already here, it means the auth middleware alrady validated the jwt
         const user = await User.findOne({email: req.user.email, active: true});
         // Return the JWT and user information
         return res.json({
@@ -89,8 +87,7 @@ module.exports = {
                 name: user.name,
                 email: user.email,
                 token: user.jwt,
-            },
-            favorites: user.favorites,
+            }
         });
     },
 

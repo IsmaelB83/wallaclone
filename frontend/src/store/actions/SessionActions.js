@@ -1,10 +1,12 @@
 // API
 import AuthServices from '../../services/AuthServices';
 import UserServices from '../../services/UserServices';
+import AdvertServices from '../../services/AdvertServices';
 // Own modules
 import LocalStorage from '../../utils/Storage';
 // Actions
 import * as ACTIONS from '../types/SessionTypes';
+
 
 /**
  * Login con usuario y password
@@ -16,11 +18,12 @@ export const login = (email, password) => {
         dispatch(loginRequest());
         return AuthServices.login(email, password)
         .then(response => {
-            dispatch(loginSuccess(response.user));
-            dispatch(setFavorites(response.favorites));
+            dispatch(loginSuccess(response));
+            dispatch(fetchFavorites(response.jwt));
+            dispatch(fetchPublished(response._id));
             const { session } = getState();
             LocalStorage.saveLocalStorage(session);
-            return response.user;
+            return response;
         })
         .catch (error => {
             let message = error.response && error.response.data ? error.response.data.data : error.message;
@@ -33,7 +36,6 @@ export const login = (email, password) => {
 const loginRequest = () => ({ type: ACTIONS.LOGIN_REQUEST });
 const loginSuccess = session => ({ type: ACTIONS.LOGIN_SUCCESS, session });
 const loginFailure = error => ({ type: ACTIONS.LOGIN_FAILURE, error });
-const setFavorites = favorites => ({ type: ACTIONS.SET_FAVORITES, favorites });
 
 /**
  * Login con token
@@ -44,11 +46,12 @@ export const loginWithToken = jwt => {
         dispatch(loginWithTokenRequest());
         return AuthServices.loginWithToken(jwt)
         .then(response => {
-            dispatch(loginWithTokenSuccess(response.user));
-            dispatch(setFavorites(response.favorites));
+            dispatch(loginWithTokenSuccess(response));
+            dispatch(fetchFavorites(response.jwt));
+            dispatch(fetchPublished(response._id));
             const { session } = getState();
             LocalStorage.saveLocalStorage(session);
-            return response.user;    
+            return response;    
         })
         .catch (error => {
             LocalStorage.cleanLocalStorage();
@@ -191,11 +194,12 @@ export const setFavorite = (slug, jwt) => {
         dispatch(setFavoriteRequest());
         return UserServices.setFavorite(slug, jwt)
         .then(response => {
-            dispatch(setFavoriteSuccess(response._id, response.favorite));
-            return response;
+            response.advert.favorite = response.favorite;
+            dispatch(setFavoriteSuccess(response.advert));
+            return response.advert;
         })
         .catch(error => {
-            let message = error.response && error.response.data ? error.response.data.data : error.message;            
+            let message = error.response && error.response.data ? error.response.data.data : error.message;
             dispatch(setFavoriteFailure(message));
             throw message;
         });
@@ -204,7 +208,7 @@ export const setFavorite = (slug, jwt) => {
 
 const setFavoriteRequest = () => ({ type: ACTIONS.SET_FAVORITE_REQUEST });
 const setFavoriteFailure = error => ({ type: ACTIONS.SET_FAVORITE_FAILURE, error });
-const setFavoriteSuccess = (_id, favorite) => ({ type: ACTIONS.SET_FAVORITE_SUCCESS, _id, favorite });
+const setFavoriteSuccess = advert => ({ type: ACTIONS.SET_FAVORITE_SUCCESS, advert });
 
 /**
  * Editar datos de usuario
@@ -232,6 +236,32 @@ const editUserFailure = error => ({ type: ACTIONS.EDIT_ACCOUNT_FAILURE, error })
 const editUserSuccess = user => ({ type: ACTIONS.EDIT_ACCOUNT_SUCCESS, user });
 
 /**
+ * Elimina una cuenta de usuario
+ * @param {String} id Id del usuario a eliminar
+ * @param {String} jwt Token para autenticar en la API
+ */
+export const deleteAccount = (id, jwt) => {   
+    return async function(dispatch, getState) {
+        dispatch(deleteAccountRequest());
+        return UserServices.delete(id, jwt)
+        .then (response => {
+            LocalStorage.cleanLocalStorage();
+            dispatch(deleteAccountSuccess(response))
+            return response;
+        })
+        .catch(error => {
+            let message = error.response && error.response.data ? error.response.data.data : error.message;            
+            dispatch(deleteAccountFailure(message));
+            throw message;
+        })
+    }
+};
+
+const deleteAccountRequest = () => ({ type: ACTIONS.DELETE_ACCOUNT_REQUEST });
+const deleteAccountFailure = error => ({ type: ACTIONS.DELETE_ACCOUNT_FAILURE, error });
+const deleteAccountSuccess = response => ({ type: ACTIONS.DELETE_ACCOUNT_SUCCESS, response });
+
+/**
  * Obtener favoritos del usuario
  * @param {String} jwt Token para autenticar en el API
  */
@@ -239,9 +269,9 @@ export const fetchFavorites = jwt => {
     return async function(dispatch, getState) {
         dispatch(fetchFavoritesRequest());
         return UserServices.getFavorites(jwt)
-        .then(result => {
-            dispatch(fetchFavoritesSuccess(result));
-            return result;
+        .then(favorites => {
+            dispatch(fetchFavoritesSuccess(favorites));
+            return favorites;
         })
         .catch(error => {
             let message = error.response && error.response.data ? error.response.data.data : error.message;            
@@ -253,4 +283,27 @@ export const fetchFavorites = jwt => {
 
 const fetchFavoritesRequest = () => ({ type: ACTIONS.FETCH_FAVORITES_REQUEST });
 const fetchFavoritesFailure = error => ({ type: ACTIONS.FETCH_FAVORITES_FAILURE, error });
-const fetchFavoritesSuccess = result => ({ type: ACTIONS.FETCH_FAVORITES_SUCCESS, result });
+const fetchFavoritesSuccess = favorites => ({ type: ACTIONS.FETCH_FAVORITES_SUCCESS, favorites });
+
+/**
+ * Obtener anuncios publicados por mi usuario
+ */
+export const fetchPublished = (_id) => {   
+    return async function(dispatch, getState) {
+        dispatch(fetchPublishedRequest());
+        return AdvertServices.getAdvertsByUser(_id)
+        .then(published => {
+            dispatch(fetchPublishedSuccess(published));
+            return published;
+        })
+        .catch(error => {
+            let message = error.response && error.response.data ? error.response.data.data : error.message;            
+            dispatch(fetchPublishedFailure(message));
+            throw message;
+        })
+    }
+};
+
+const fetchPublishedRequest = () => ({ type: ACTIONS.FETCH_PUBLISHED_REQUEST });
+const fetchPublishedFailure = error => ({ type: ACTIONS.FETCH_PUBLISHED_FAILURE, error });
+const fetchPublishedSuccess = published => ({ type: ACTIONS.FETCH_PUBLISHED_SUCCESS, published });

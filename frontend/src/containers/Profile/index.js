@@ -24,7 +24,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         editUser: (user, jwt) => dispatch(SessionActions.editUser(user, jwt)),
-        logout: () => dispatch(SessionActions.logout()),
+        deleteAccount: (id, jwt) => dispatch(SessionActions.deleteAccount(id, jwt)),
+        logout: (jwt) => dispatch(SessionActions.logout(jwt)),
     }
 }
 

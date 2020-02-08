@@ -41,7 +41,6 @@ export default {
     */
     getAdvertsByUser: (user) => {
         // Endpoint
-        debugger;
         let baseURL = `${API_URL}?user=${user}`;
         // Call endpoint and return
         return Axios.get(baseURL)

@@ -61,7 +61,25 @@ export default {
             return '';
         })
     },
-    
+
+        /**
+    * Editar los datos de un usuario
+    */
+   delete: async (id, jwt) => {
+        // Endpoint
+        const baseURL = `${API_URL}/${id}`;
+        // Config 
+        const config = { headers: { 'Authorization': `Bearer ${jwt}`, } };
+        // Call endpoint and return
+        Axios.delete( baseURL, config )
+        .then(res => {
+            return {id: ''}
+        })
+        .catch(error => {
+            return '';
+        })
+    },
+        
     /**
     * Llama a la API para insertar/eliminar un anuncio a favoritos
     * @param {Advert} slug Slug del anuncio del que quiero añadir/quitar de favorito
@@ -74,32 +92,31 @@ export default {
         return Axios.put(
             baseURL, 
             { headers: { 'Authorization': `Bearer ${jwt}`} }
-            )
-            .then(res => {
-                return {
-                    _id: res.data._id,
-                    favorite: res.data.favorite
-                }}
-                );
-            },
+        )
+        .then(res => {
+            return {
+                advert: new Advert(res.data.advert),
+                favorite: res.data.favorite
+            }                
+        });
+    },
         
-        /**
-        * Get favorite adverts for the user
-        */
-        getFavorites: (jwt) => {
-            // Endpoint
-            let baseURL = `${API_URL}/favorites`;
-            // Call endpoint and return
-            return Axios.get(
-                baseURL, 
-                { headers: { 'Authorization': `Bearer ${jwt}`} }
-                )
-                .then(res => res.data.results.map(advert => 
-                    { const aux = new Advert(advert)
-                        aux.favorite = true;
-                        return aux;
-                    }
-                    ));
-                },
-                
+    /**
+    * Get favorite adverts for the user
+    */
+    getFavorites: (jwt) => {
+        // Endpoint
+        let baseURL = `${API_URL}/favorites`;
+        // Call endpoint and return
+        return Axios.get(
+            baseURL, 
+            { headers: { 'Authorization': `Bearer ${jwt}`} }
+        )
+        .then(res => res.data.results.map(advert => 
+            { const aux = new Advert(advert)
+                aux.favorite = true;
+                return aux;
+            }
+        ));
+    },          
 }

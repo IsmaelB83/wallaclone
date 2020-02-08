@@ -119,7 +119,7 @@ AdvertSchema.statics.list = function(name, venta, tag, precio, user, limit, skip
                 queryDB.sort(sort);
             }
         }
-        queryDB.populate('user').exec(callback);        
+        queryDB.populate('user', '_id name email ').exec(callback);        
     } catch (error) {
         callback(error);
     }
@@ -166,7 +166,7 @@ AdvertSchema.statics.updateAdvert = async function(id, newAdvert) {
             advert.sold = newAdvert.sold;
             // Salvo datos en mongo
             await advert.save();
-            return Advert.findById(id).populate('user');
+            return Advert.findById(id).populate('user', '_id name email ');
         }
         return false;
     } catch (error) {

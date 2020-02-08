@@ -5,7 +5,6 @@ const { validationResult } = require('express-validator');
 const Sender = require('../../services/thumbnail/sender');
 const { Advert } = require('../../models');
 
-
 /**
  * Controller object
  */
@@ -53,7 +52,7 @@ module.exports = {
             // Validations
             validationResult(req).throw();
             // Get one advert
-            let advert = await Advert.findOne({slug: req.params.slug}).populate('user');
+            let advert = await Advert.findOne({slug: req.params.slug}).populate('user', '_id name email ');
             if (advert) {
                 // Ok
                 return res.json({
@@ -163,7 +162,7 @@ module.exports = {
     book: async (req, res, next) => {
         try {
             // Sólo se permiten modificar los anuncios propios
-            let advert = await Advert.findOne({slug: req.params.slug});
+            let advert = await Advert.findOne({slug: req.params.slug}).populate('user', '_id name email ');
             if (!advert) {
                 // Anuncio no encontrado
                 return next({ 
@@ -203,7 +202,7 @@ module.exports = {
         try {
             debugger;
             // Sólo se permiten modificar los anuncios propios
-            let advert = await Advert.findOne({slug: req.params.slug});
+            let advert = await Advert.findOne({slug: req.params.slug}).populate('user', '_id name email ');
             if (!advert) {
                 // Anuncio no encontrado
                 return next({ 
@@ -237,7 +236,7 @@ module.exports = {
     delete: async (req, res, next) => {
         try {
             // Sólo se permiten modificar los anuncios propios
-            let advert = await Advert.findOne({slug: req.params.slug});
+            let advert = await Advert.findOne({slug: req.params.slug}).populate('user', '_id name email ');
             if (!advert) {
                 // Anuncio no encontrado
                 return next({ 

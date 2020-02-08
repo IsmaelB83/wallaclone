@@ -2,6 +2,7 @@
 // Node imports
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcrypt-nodejs');
+const ObjectId = require('mongoose').Types.ObjectId; 
 // Own imports
 const { User, Advert } = require('../../models');
 const { mail } = require('../../utils');
@@ -111,6 +112,28 @@ module.exports = {
     },
 
     /**
+     * Delete user
+     * @param {Request} req Request web
+     * @param {Response} res Response web
+     * @param {Middleware} next Next middleware
+     */
+    delete: async (req, res, next) => {
+        try {
+            let response = await Advert.deleteMany({user: req.params.id});
+            if (response) {
+                response = await User.deleteOne({_id: ObjectId(req.params.id)});
+                return res.status(200).json({
+                    success: true,
+                    description: 'Usuario y todos sus anuncios eliminados'
+                });
+            }
+            next('error incontrolado')
+        } catch (error) {
+            next(error);
+        }
+    },
+
+    /**
      * Set/unset advert as a favorite
      * @param {Request} req Request web
      * @param {Response} res Response web
@@ -143,7 +166,7 @@ module.exports = {
                 await user.save();
                 return res.json({
                     success: true,
-                    _id: advert._id,
+                    advert: advert,
                     favorite: favorite
                 });
             } 
@@ -167,7 +190,7 @@ module.exports = {
     getFavorites: async (req, res, next) => {
         try {
             // List of adverts
-            const user = await User.findById(req.user._id).populate('favorites');
+            const user = await User.findById(req.user._id).populate('favorites', '-__v');
             if (user) {
                 // Ok
                 return res.json({

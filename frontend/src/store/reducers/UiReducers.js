@@ -40,10 +40,9 @@ export function ui(state = initialState.ui, action) {
         case SESSION.ACTIVATE_ACCOUNT_FAILURE:
         case SESSION.LOGIN_TOKEN_FAILURE:
         case SESSION.REQUEST_RESET_ACCOUNT_FAILURE:
-                return { ...state, error: action.error, isAuthenticating: false }
+            return { ...state, error: action.error, isAuthenticating: false }
         case SESSION.RESET_ACCOUNT_SUCCESS:
         case SESSION.LOGIN_SUCCESS:
-        case SESSION.LOGOUT_SUCCESS:
         case SESSION.ACTIVATE_ACCOUNT_SUCCESS:
         case SESSION.LOGIN_TOKEN_SUCCESS:
         case SESSION.REQUEST_RESET_ACCOUNT_SUCCESS:
@@ -78,6 +77,10 @@ export function ui(state = initialState.ui, action) {
         case SESSION.DELETE_ACCOUNT_SUCCESS:
         case ADVERTS.DELETE_ADVERT_SUCCESS:
             return { ...state, isDeleting: false, error: null }
+        // Logout
+        case SESSION.LOGOUT_SUCCESS:
+        case SESSION.DELETE_ACCOUNT_SUCCESS:
+            return initialState.ui;
         // Default
         default:
             return state;

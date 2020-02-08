@@ -18,7 +18,7 @@ const store = configureStore();
 // Render
 ReactDOM.render(
     <Provider store={store}>
-        <SnackbarProvider maxSnack={2}>
+        <SnackbarProvider maxSnack={3}>
             <App /> 
         </SnackbarProvider>
     </Provider>, document.getElementById('root')

@@ -37,9 +37,7 @@ export const fetchAdvert = slug => {
         .then(advert => {
             const { favorites } = getState();
             if (favorites) {
-                advert.favorite = false;
-                const i = favorites.findIndex(favorite => favorite === advert._id);
-                if (i>=0) advert.favorite = true;
+                advert.favorite = favorites.findIndex(fav => fav._id === advert._id) >= 0 ? true: false;
             }
             dispatch(fetchAdvertSuccess(advert));
             return advert;
@@ -64,16 +62,12 @@ export const fetchAdverts = () => {
         dispatch(fetchAdvertsRequest());
         return AdvertServices.getAdverts()
         .then(adverts => {
-            // If there are favorites in state it means user is authenticated in the app. Identify favorites
             const { favorites } = getState();
             if (favorites) {
-                for (let i = 0; i < adverts.length; i++) {
-                    adverts[i].favorite = false;   
-                    const j = favorites.findIndex(favorite => favorite === adverts[i]._id);
-                    if (j >= 0) {
-                        adverts[i].favorite = true;
-                    }
-                }
+                adverts.map(ad => {
+                    ad.favorite = favorites.findIndex(fav => fav._id === ad._id) >= 0 ? true: false;
+                    return ad;
+                });
             }
             dispatch(fetchAdvertsSuccess(adverts));
             return adverts;

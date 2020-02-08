@@ -67,43 +67,37 @@ export default class Home extends Component {
     );
   }
 
-  // Component did mount
-  componentDidMount() {
-    // API Call only the first time user navigates to the component (i.e. redux-store is empty of advert)
-    if (!this.props.adverts.length) {
-      this.props.fetchTags();
-      this.props.loadAdverts();
+    // Component did mount
+    componentDidMount() {
+        if (!this.props.adverts.length) {
+            this.props.fetchTags();
+            this.props.loadAdverts();
+        }
     }
-  }
 
-  // Reservar producto
-  favoriteAdvert = (slug) => {
-      this.props.setFavorite(slug, this.props.session.jwt)
-      .catch(()=>{
-        this.props.enqueueSnackbar('Error marcando anuncio como favorito', { variant: 'error' });
-      });
-  }
-  
-  /**
-   * Gestiona el evento de búsqueda de anuncios
-   */
-  handleSearch = (filters) => {
-    if (filters)
-      return this.props.searchAdverts(filters);
-    this.props.loadAdverts();
-  }
-
-  /**
-   * Retrocede una página
-   */
-  handleMovePaginator = increment => {
-    // Actualizo la pagina actual
-    let { currentPage } = this.props.ui;
-    const numPages = Math.ceil(this.props.adverts.length/MAX_ADVERTS);
-    currentPage += increment;
-    // Actualizo el state sólo si sigue dentro de los limites (realmente este chequeo también lo hace el componete paginator)
-    if (increment !== 0 && currentPage >= 0 && currentPage < numPages) {
-        this.props.setCurrentPage(currentPage);
+    // Reservar producto
+    favoriteAdvert = (slug) => {
+        this.props.setFavorite(slug, this.props.session.jwt)
+        .then(advert => this.props.enqueueSnackbar(`Anuncio ${advert.slug} añadido a favoritos`, { variant: 'success' }))
+        .catch(error => this.props.enqueueSnackbar(`Error marcando favorito ${error}`, { variant: 'error' }));
     }
+
+    // Gestiona el evento de búsqueda de anuncios
+    handleSearch = (filters) => {
+        if (filters)
+        return this.props.searchAdverts(filters);
+        this.props.loadAdverts();
+    }
+
+    // Retrocede una página
+    handleMovePaginator = increment => {
+        // Actualizo la pagina actual
+        let { currentPage } = this.props.ui;
+        const numPages = Math.ceil(this.props.adverts.length/MAX_ADVERTS);
+        currentPage += increment;
+        // Actualizo el state sólo si sigue dentro de los limites (realmente este chequeo también lo hace el componete paginator)
+        if (increment !== 0 && currentPage >= 0 && currentPage < numPages) {
+            this.props.setCurrentPage(currentPage);
+        }
   }
 }

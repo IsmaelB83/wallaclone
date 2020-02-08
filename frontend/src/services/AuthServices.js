@@ -1,7 +1,6 @@
 // NPM Modules
 import Axios from 'axios';
 import Querystring from 'querystring';
-
 // Material UI
 // Own modules
 import Session from '../models/Session';
@@ -28,12 +27,7 @@ export default {
       Querystring.stringify({ email: email, password: password }),
       { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
     )
-    .then(res => {
-      return {
-        favorites: res.data.favorites,
-        user: new Session(res.data.user)
-      }
-    });
+    .then(res => new Session(res.data.user));
   },
 
   /**
@@ -43,16 +37,8 @@ export default {
     // Endpoint
     let baseURL = `${API_URL}/token`;
     // Call endpoint and return
-    return Axios.post(
-      baseURL, 
-      { headers: { 'Authorization': `Bearer ${jwt}`} }
-    )
-    .then(res => {
-      return {
-        favorites: res.data.favorites,
-        user: new Session(res.data.user)
-      }
-    });
+    return Axios.post(baseURL,  { headers: { 'Authorization': `Bearer ${jwt}`}})
+    .then(res => new Session(res.data.user));
   },
 
   /**

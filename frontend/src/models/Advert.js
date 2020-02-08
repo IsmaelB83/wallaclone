@@ -60,10 +60,8 @@ export default class Advert {
         this.tags = ad.tags;
         this.booked = ad.booked;
         this.sold = ad.sold;
-        this.user = ad.user;
-        // This property doesn't come from advert model. It is calculated in redux store when loading adverts 
-        // based on user session
-        this.favorite = undefined 
+        this.user = {...ad.user};
+        this.favorite = ad.favorite 
     }
 
     /**
