@@ -108,7 +108,7 @@ export default class Edit extends Component {
         <NavBar/>
         <Container>
           <main className='Main__Section'>
-            <form onSubmit={this.handleSubmit} noValidate autoComplete='off' className='AdvertEdit__Form'>
+            <form onSubmit={this.handleSubmit} autoComplete='off' className='AdvertEdit__Form'>
               <input type='file' id='file' ref={this.inputFile} style={{display: 'none'}} onChange={this.changeInputFile} />
               <button type='button' className='AdvertEdit_Picture' onClick={this.openInputFile}>
                 <img src={advert.photo || this.state.photoTemp || imagePhoto} alt='dummy_photo'/>
@@ -173,6 +173,7 @@ export default class Edit extends Component {
                   value={advert.price}
                   onChange={this.handleChangeNumber('price')}
                   endAdornment={<InputAdornment position='start'>€</InputAdornment>}
+                  required
                 />
               </FormControl>
               <FormControl fullWidth className='AdvertEdit__FormControl'>
@@ -187,6 +188,7 @@ export default class Edit extends Component {
                   InputLabelProps={{
                     shrink: true,
                   }}
+                  required
                 />
               </FormControl> 
               { mode === 'edit' && 
@@ -295,8 +297,8 @@ export default class Edit extends Component {
           if (mode === 'create') {
             // Create
             this.props.createAdvert(advert, this.props.session.jwt)
-            .then (() => {
-              this.props.enqueueSnackbar('Anuncio creado con éxito', { variant: 'success' });
+            .then (advert => {
+              this.props.enqueueSnackbar(`Anuncio '${advert.slug}' con éxito`, { variant: 'success' });
               this.setState({advert: Advert.emptyAdvert()}, () => {
                 this.props.history.push('/');
               })

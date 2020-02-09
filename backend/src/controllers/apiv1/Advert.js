@@ -21,22 +21,21 @@ module.exports = {
             // Validations
             validationResult(req).throw();
             // Get Adverts
-            Advert.list(req.query.name, req.query.venta, req.query.tag, req.query.price, req.query.user, 
-                parseInt(req.query.limit), parseInt(req.query.skip), req.query.fields, req.query.sort, 
-                function(error, results) {
-                if (!error) {
-                    // Ok
-                    return res.json({
-                        success: true,
-                        count: results.length,
-                        results: results
-                    });
-                }
-                // Error
+            Advert.list(req.query.name, req.query.venta, req.query.tag, req.query.price, req.query.user, parseInt(req.query.limit), 
+                parseInt(req.query.skip), req.query.fields, req.query.sort)
+            .then (result => {
+                return res.json({
+                    success: true,
+                    limit: result.limit,
+                    totalCount: result.totalCount,
+                    count: result.results.length,
+                    results: result.results
+                });
+            }) 
+            .catch (error => {
                 next({error});
             });
         } catch (error) {
-            debugger;
             next(error);
         }
     },
@@ -84,8 +83,16 @@ module.exports = {
                 advert.photo = `/images/adverts/original/${req.file.filename}`;
                 advert.thumbnail = advert.photo; // Initially thumbnail refers to the same photo
             }
+            if (req.body.tags) {
+                advert.tags = [];
+                const tags = req.body.tags.split(',');
+                tags.forEach(tag => {
+                    advert.tags.push(tag);
+                });
+            }
             advert = await advert.save();
             if (advert) {
+                // Obtain al data
                 // Send work to rabbitmq
                 Sender(advert.photo, advert._id);
                 // Ok
@@ -126,16 +133,18 @@ module.exports = {
                     description: 'No autorizado. Sólo puede modificar sus anuncios' 
                 });
             }
-            // Update advert
-            const newAdvert = new Advert({...req.body});
-            // Si está vendido desmarco el booked
-            if (newAdvert.sold) newAdvert.booked = false;
-            // Imagen
-            if (req.file) {
-                newAdvert.photo = `/images/anuncios/${req.file.filename}`;
-                newAdvert.thumbnail = img.photo; // Initially the thumbnail points to the same photo
+            // Update advert model
+            const updated = {...advert, ...req.body}
+            updated.thumbnail = req.body.photo?req.body.photo:updated.thumbnail;
+            if (req.body.tags) {
+                updated.tags = [];
+                const tags = req.body.tags.split(',');
+                tags.forEach(tag => {
+                    updated.tags.push(tag);
+                });
             }
-            const resAdvert = await Advert.updateAdvert(advert._id, newAdvert);
+            // Update mongo
+            const resAdvert = await Advert.updateAdvert(advert._id, updated);
             if (resAdvert) {
                 // Ok
                 return res.json({
@@ -200,7 +209,6 @@ module.exports = {
      */
     sell: async (req, res, next) => {
         try {
-            debugger;
             // Sólo se permiten modificar los anuncios propios
             let advert = await Advert.findOne({slug: req.params.slug}).populate('user', '_id name email ');
             if (!advert) {

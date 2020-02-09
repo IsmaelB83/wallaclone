@@ -82,8 +82,8 @@ const AdvertSchema = new Schema(
 * http://localhost:3001/apiv1/anuncios?fields=name
 * http://localhost:3001/apiv1/anuncios?fields=-_id
 */
-AdvertSchema.statics.list = function(name, venta, tag, precio, user, limit, skip, fields, sort, callback) {
-    try {
+AdvertSchema.statics.list = (name, venta, tag, precio, user, limit, skip, fields, sort) => {
+    return new Promise((resolve, reject) => {
         // Genero filtrado
         let filter = {}
         if (name) filter.name = { '$regex': `^${name}`, '$options': 'i' };
@@ -104,7 +104,7 @@ AdvertSchema.statics.list = function(name, venta, tag, precio, user, limit, skip
         if (user) filter.user = new ObjectId(user);
         // Realizo la query a Mongo
         let queryDB = Advert.find(filter);
-        queryDB.limit(limit);
+        queryDB.limit(limit || process.env.API_LIMIT_COUNT);
         queryDB.skip(skip);
         queryDB.select(fields);
         // Permitir busquedas de mayor a menor
@@ -118,11 +118,19 @@ AdvertSchema.statics.list = function(name, venta, tag, precio, user, limit, skip
                 // Búsqueda de menor a mayor (por defecto)
                 queryDB.sort(sort);
             }
+        } else {
+            // Filtro por defecto de más nuevos a más antiguos
+            queryDB.sort({createdAt: -1});
         }
-        queryDB.populate('user', '_id name email ').exec(callback);        
-    } catch (error) {
-        callback(error);
-    }
+        
+        queryDB.populate('user', '_id name email ').exec()
+        .then (results => {
+            Advert.find(filter).countDocuments()
+            .then(count => resolve({results, totalCount: count, limit: limit || process.env.API_LIMIT_COUNT}))
+            .catch(error => reject(error));
+        })
+        .catch (error => reject(error));
+    });
 }
 
 /**
@@ -174,10 +182,12 @@ AdvertSchema.statics.updateAdvert = async function(id, newAdvert) {
     }
 };
 
-/**
-* Creo un indice compuesto por tipo de anuncio (buy/sell) + tags
-*/
+// Autopopulate user after save (mongoose middleware)
+AdvertSchema.post('save', (doc, next) => doc.populate('user', '_id name email ').execPopulate(()=>next()));
+
+// Indices más utilizados
 AdvertSchema.index({ types: 1, tags: 1 });
+AdvertSchema.index({ createdAt: -1 });
 
 AdvertSchema.plugin(URLSlugs('name', { maxLength: 80 }));
 

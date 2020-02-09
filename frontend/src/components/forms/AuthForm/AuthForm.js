@@ -63,7 +63,7 @@ function LoginForm() {
             <p className='Login__Help'>enter your credentials to login</p>
             <div className='Login__Buttons'>
                 <Button className='Button' type='submit' variant='contained' color='primary'> Login </Button>
-                <Link className='Button MuiButtonBase-root MuiButton-root MuiButton-contained Button MuiButton-containedSecondary' to='/reset'>Remember password</Link>
+                <Link className='Button MuiButtonBase-root MuiButton-root MuiButton-contained Button MuiButton-containedSecondary' to='/reset'>Reset Password</Link>
                 <Link className='Login__Link' to='/register'>Create an account</Link>
             </div>
         </React.Fragment>
@@ -98,7 +98,7 @@ function RequestResetForm() {
             <InputForm name='email' type='email' placeholder='type your email' required icon={<PermIdentityIcon/>}/>
             <p className='Login__Help'>enter your email to restart your password</p>
             <div className='Login__Buttons'>
-                <Button className='button' type='submit' variant='contained' color='primary'> Restart password </Button>
+                <Button className='button' type='submit' variant='contained' color='primary'> Send me an email </Button>
                 <Link className='Login__Link' to='/login'>Go to login</Link>
             </div>
         </React.Fragment>

@@ -145,7 +145,10 @@ a {
 }
 
 .FavoriteIcon { transition: 300ms all ease-in; }
-.FavoriteIcon:hover { transform: scale(1.1); }
+.FavoriteIcon:hover { 
+    color: red;
+    transform: scale(1.1); 
+}
 .FavoriteIcon--Off { color: black; }
 .FavoriteIcon--White { color: white; }
 .FavoriteIcon--On { color: red; }
@@ -165,6 +168,7 @@ a {
 .ButtonWallakeep__Blue:hover { background-color: var(--dark-blue) !important; }
 .ButtonWallakeep__Red { background-color: var(--light-red) !important; }
 .ButtonWallakeep__Red:hover { background-color: var(--dark-red) !important; }
+.ButtonWallakeep__ClearToNone:hover { background-color: transparent !important; }
 .ButtonWallakeep__ClearToGreen:hover { background-color: var(--main-color) !important; }
 .ButtonWallakeep__ClearToBlue:hover, .ButtonWallakeep__ClearToBlue--active { background-color: var(--light-blue) !important; color: white !important; }
 .ButtonWallakeep__ClearToRed:hover, .ButtonWallakeep__ClearToRed--active{ background-color: var(--light-red) !important; color: white !important; }

@@ -74,7 +74,6 @@ export function ui(state = initialState.ui, action) {
         case SESSION.DELETE_ACCOUNT_FAILURE:
         case ADVERTS.DELETE_ADVERT_FAILURE:
             return { ...state, isDeleting: false, error: action.error }
-        case SESSION.DELETE_ACCOUNT_SUCCESS:
         case ADVERTS.DELETE_ADVERT_SUCCESS:
             return { ...state, isDeleting: false, error: null }
         // Logout

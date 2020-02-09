@@ -32,7 +32,7 @@ export function adverts(state = initialState.adverts, action) {
         case ADVERTS.FETCH_ADVERTS_SUCCESS:
             return [...action.adverts];
         case ADVERTS.CREATE_ADVERT_SUCCESS:
-            return [...state, action.advert];
+            return [action.advert, ...state];
         case ADVERTS.EDIT_ADVERT_SUCCESS:
             return state.map(advert => {
                 if (advert._id === action.advert._id) return { ...action.advert }

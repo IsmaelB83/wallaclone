@@ -92,16 +92,12 @@ export const fetchUserAdverts = (_id) => {
         dispatch(fetchUserAdvertsRequest());
         return AdvertServices.getAdvertsByUser(_id)
         .then(adverts => {
-            // If there are favorites in state it means user is authenticated in the app. Identify favorites
             const { favorites } = getState();
             if (favorites) {
-                for (let i = 0; i < adverts.length; i++) {
-                    adverts[i].favorite = false;   
-                    const j = favorites.findIndex(favorite => favorite === adverts[i]._id);
-                    if (j >= 0) {
-                        adverts[i].favorite = true;
-                    }
-                }
+                adverts.map(ad => {
+                    ad.favorite = favorites.findIndex(fav => fav._id === ad._id) >= 0 ? true: false;
+                    return ad;
+                });
             }
             dispatch(fetchUserAdvertsSuccess(adverts));
             return adverts;
@@ -114,9 +110,9 @@ export const fetchUserAdverts = (_id) => {
     }
 };
 
-const fetchUserAdvertsRequest = () => ({ type: ACTIONS.FETCH_USERADVERTS_REQUEST });
-const fetchUserAdvertsFailure = error => ({ type: ACTIONS.FETCH_USERADVERTS_FAILURE, error });
-const fetchUserAdvertsSuccess = adverts => ({ type: ACTIONS.FETCH_USERADVERTS_SUCCESS, adverts });
+const fetchUserAdvertsRequest = () => ({ type: ACTIONS.FETCH_USER_ADVERTS_REQUEST });
+const fetchUserAdvertsFailure = error => ({ type: ACTIONS.FETCH_USER_ADVERTS_FAILURE, error });
+const fetchUserAdvertsSuccess = adverts => ({ type: ACTIONS.FETCH_USER_ADVERTS_SUCCESS, adverts });
 
 /**
  * Buscar anuncios mediante los filtros indicados
@@ -127,16 +123,12 @@ export const searchAdverts = filters => {
         dispatch(fetchAdvertsRequest());
         return AdvertServices.searchAdverts(filters)
         .then(adverts => {
-            // If there are favorites in state it means user is authenticated in the app. Identify favorites
             const { favorites } = getState();
             if (favorites) {
-                for (let i = 0; i < adverts.length; i++) {
-                    adverts[i].favorite = false;   
-                    const j = favorites.findIndex(favorite => favorite === adverts[i]._id);
-                    if (j >= 0) {
-                        adverts[i].favorite = true;
-                    }
-                }
+                adverts.map(ad => {
+                    ad.favorite = favorites.findIndex(fav => fav._id === ad._id) >= 0 ? true: false;
+                    return ad;
+                });
             }
             dispatch(fetchAdvertsSuccess(adverts));
             return adverts;

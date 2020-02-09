@@ -33,7 +33,7 @@ export function published (state = initialState.favorites, action) {
         case TYPES.FETCH_PUBLISHED_SUCCESS:
             return [...action.published];
         case ADVERTS.CREATE_ADVERT_SUCCESS:
-            return [...state, action.advert];
+            return [action.advert, ...state];
         case ADVERTS.DELETE_ADVERT_SUCCESS:
             const i = state.findIndex(ad => ad._id === action.advert._id);
             if (i >= 0) return [...state.slice(0, i), ...state.slice(i + 1)];
@@ -68,7 +68,7 @@ export function favorites (state = initialState.favorites, action) {
         case TYPES.SET_FAVORITE_SUCCESS: {
             const i = state.findIndex(f => f._id === action.advert._id);
             if (action.advert.favorite && i < 0) {
-                return [...state, action.advert];
+                return [action.advert, ...state];
             } else if (!action.advert.favorite && i >= 0) {
                 return [...state.slice(0, i), ...state.slice(i + 1)];
             }

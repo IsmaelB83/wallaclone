@@ -47,6 +47,7 @@ export default function AdvertList (props) {
                         history={props.history}
                         showEdit={props.showEdit}
                         showFavorite={props.showFavorite}
+                        showDeleteFavorite={props.showDeleteFavorite}
                         onBookAdvert={props.onBookAdvert}
                         onSellAdvert={props.onSellAdvert}
                         onDeleteFavorite={props.onDeleteFavorite}

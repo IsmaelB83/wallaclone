@@ -40,13 +40,15 @@ export default function AdvertCard (props) {
                 <Link to={`advert/${props.slug}`} className='AdvertCard__Link'>
                     <img src={props.photo} alt='caption'/>
                 </Link>
-                { props.booked && <img src={imgReserved} className='AdvertCard__Status' alt='reserved'/> }
+                { !props.sold && props.booked && <img src={imgReserved} className='AdvertCard__Status' alt='reserved'/> }
                 { props.sold && <img src={imgSold} className='AdvertCard__Status' alt='sold'/> }
                 <p className='AdvertCard__Price'>
                     {props.price} 
                     <span className='AdvertCard__Currency'>€</span>
                 </p>
-                <p>Autor: {props.user.name}</p>
+                <Link to={`published/${props.user._id}`} className='AdvertCard__Link'>
+                    <p>Autor: {props.user.name}</p>
+                </Link>
             </div>
             <div className='AdvertCard__Footer'>
                 <div className='Ad__Tags'>

@@ -17,7 +17,7 @@ database.connect(process.env.MONGODB_URL)
     // Read JSON init data
     const dump = JSON.parse(fs.readFileSync('./src/database/data.json', 'utf8'));
     // Create default user
-    let id = '';
+    const ids = [];
     for (let i = 0; i < dump.users.length; i++) {
         let user = new User(dump.users[i]);
         user = await User.insert(user);
@@ -25,14 +25,13 @@ database.connect(process.env.MONGODB_URL)
         user.token = null;
         user.expire = null;
         user = await user.save();
-        // Todos los anuncios se asignan al ultimo usuario
-        id = user._id;
+        ids.push(user._id);
     }
     // Create default adverts
     const adverts = [];
     for (let i = 0; i < dump.anuncios.length; i++) {
         const advert = new Advert({...dump.anuncios[i]});
-        advert.user = id;
+        advert.user = ids[Math.floor(Math.random()*2)];
         advert.thumbnail = advert.photo; // Default thumbnail is the original photo
         adverts.push (advert);
     }

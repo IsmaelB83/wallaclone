@@ -8,6 +8,7 @@ import BookmarkBorderOutlinedIcon from '@material-ui/icons/BookmarkBorderOutline
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import AttachMoneyOutlinedIcon from '@material-ui/icons/AttachMoneyOutlined';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import DeleteIcon from '@material-ui/icons/Delete'; 
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
@@ -72,6 +73,12 @@ export default function AdvertCardSmall (props) {
                     
                     <div className='AdvertCardSmall__Actions'>
                         { props.showFavorite &&
+                            <Button type='button' variant='contained' className='ButtonWallakeep ButtonWallakeep__Clear ButtonWallakeep__ClearToNone'
+                                onClick={()=>props.onFavoriteAdvert(props.slug)}>
+                                <FavoriteIcon className={`FavoriteIcon FavoriteIcon--${props.favorite?'On':'Off'}`}/>
+                            </Button>
+                        }
+                        { props.showDeleteFavorite &&
                             <Button type='button' className='ButtonWallakeep ButtonWallakeep__Clear ButtonWallakeep__ClearToGray' 
                                     variant='contained' onClick={()=>props.onDeleteFavorite(props.slug)}>
                                 <DeleteIcon/>

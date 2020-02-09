@@ -4,10 +4,8 @@ import { withSnackbar } from 'notistack';
 // Own Components
 import Published from './Published';
 // Models
-import { ADVERT_CONSTANTS } from '../../models/Advert';
 // Own modules
-import { AdvertsActions } from '../../store/GlobalActions';
-import { AdvertsSelectors } from '../../store/GlobalSelectors';
+import { AdvertsActions, SessionActions } from '../../store/GlobalActions';
 
 /**
  * Inyecta props en mi componente para acceder al state del store
@@ -15,9 +13,10 @@ import { AdvertsSelectors } from '../../store/GlobalSelectors';
  */
 const mapStateToProps = (state) => {
     return {
+        published: state.published,
         session: state.session,
-        selling: AdvertsSelectors.getAdvertsByType(state.published, ADVERT_CONSTANTS.TYPE.SELL),
-        buying: AdvertsSelectors.getAdvertsByType(state.published, ADVERT_CONSTANTS.TYPE.BUY),
+        isFetching: state.ui.isFetching,
+        error: state.ui.error,
     }
 }
 
@@ -29,7 +28,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         deleteAdvert: (slug, jwt) => dispatch(AdvertsActions.deleteAdvert(slug, jwt)),
         bookAdvert: (slug, jwt) => dispatch(AdvertsActions.bookAdvert(slug, jwt)),
-        sellAdvert: (slug, jwt) => dispatch(AdvertsActions.sellAdvert(slug, jwt))
+        sellAdvert: (slug, jwt) => dispatch(AdvertsActions.sellAdvert(slug, jwt)),
+        fetchUserAdverts: (slug) => dispatch(AdvertsActions.fetchUserAdverts(slug)),
+        setFavorite: (slug, jwt) => dispatch(SessionActions.setFavorite(slug, jwt)),
     }
 }
 

@@ -1,6 +1,5 @@
 // NPM Modules
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 // Material UI
 import Container from '@material-ui/core/Container';

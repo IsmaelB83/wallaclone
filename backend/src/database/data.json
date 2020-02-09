@@ -1,118 +1,238 @@
-{  
-   "users": [
-      {  
-         "name":"Fronning",
-         "email": "user@example.com",
-         "password": "1234"
-      }
-   ],
-   "anuncios": [
-      {  
-         "name":"PS4Pro",
-         "description": "Compro PS4 Pro con menos de 1 año de uso",
-         "price":200.99,
-         "type":"buy",
-         "photo":"/images/adverts/original/ps4pro.jpg",
-         "tags":[  
-            "lifestyle"
-         ]
-      },
-      {  
-         "name":"XBOX OneX",
-         "price":170.05,
-         "description": "Vendo XBOX One X como nueva. No tengo tiempo para jugar.",
-         "type":"sell",
-         "photo":"/images/adverts/original/xbox.jpg",
-         "tags":[  
-            "lifestyle"
-         ]
-      },
-      {  
-         "name":"Raton Gaming Razer Mamba",
-         "price":35.50,
-         "description": "El mejor ratón gamer del mercado. Como nuevo (1 año)",
-         "type":"sell",
-         "photo":"/images/adverts/original/ratonmamba.jpg",
-         "tags":[  
-            "lifestyle",
-            "work",
-            "mobile"
-         ]
-      },
-      {  
-         "name":"Teclado Gaming Razer Chroma",
-         "price":70.00,
-         "description": "Busco teclado razer en buen estado.",
-         "type":"buy",
-         "photo":"/images/adverts/original/tecladorazer.jpg",
-         "tags":[  
-            "lifestyle",
-            "work",
-            "mobile"
-         ]
-      },
-      {  
-         "name":"Gráfica Gaming 1080ti",
-         "price":400.00,
-         "description": "Todavía una bestia parda en el 2k.",
-         "type":"buy",
-         "photo":"/images/adverts/original/1080ti.jpg",
-         "tags":[  
-            "lifestyle",
-            "work"
-         ]
-      },
-      {  
-         "name":"PC Gaming (i7 6700K)",
-         "price":700.00,
-         "description": "Acabo de tener un hijo... se me acabo el gaming :)",
-         "type":"sell",
-         "photo":"/images/adverts/original/pcgaming.jpg",
-         "tags":[  
-            "lifestyle",
-            "work"
-         ]
-      },
-      {  
-         "name":"Apartamento en Marbella",
-         "price":5000000.00,
-         "description": "Vendo apartamento en primera linea de playa por no tener ni para pargar el seguro.",
-         "type":"sell",
-         "photo":"/images/adverts/original/apartamento.jpg",
-         "tags":[  
-            "lifestyle"
-         ]
-      },
-      {  
-         "name":"Calleras Crossfit",
-         "price": 15,
-         "description": "Dejate de romperte las manos en los WODs",
-         "type":"buy",
-         "photo":"/images/adverts/original/calleras.jpg",
-         "tags":[  
-            "lifestyle"
-         ]
-      },
-      {  
-         "name":"Comba de Crossfit",
-         "price": 8,
-         "description": "Soy el de las calleras.",
-         "type":"buy",
-         "photo":"/images/adverts/original/comba.jpg",
-         "tags":[  
-            "lifestyle"
-         ]
-      },
-      {  
-         "name":"BMW X6 M",
-         "price": 40000.00,
-         "description": "Soy el del apartamento. Con eso lo digo todo.",
-         "type":"sell",
-         "photo":"/images/adverts/original/x6.jpg",
-         "tags":[  
-            "lifestyle",
-            "motor"
-         ]
-      }
-   ]
- }
+{
+    "users": [
+        {
+            "name": "Demo User",
+            "email": "user@example.com",
+            "password": "12345678"
+        },
+        {
+            "name": "Ismael",
+            "email": "ismaelbernal83@gmail.com",
+            "password": "12345678"
+        }
+    ],
+    "anuncios": [
+        {
+            "createdAt": "2019-01-13",
+            "name": "PS4Pro",
+            "description": "Compro PS4 Pro con menos de 1 año de uso",
+            "price": 175.99,
+            "type": "buy",
+            "photo": "/images/adverts/original/ps4pro.jpg",
+            "tags": [
+                "lifestyle"
+            ]
+        },
+        {
+            "createdAt": "2018-01-13",
+            "name": "PS4Pro 2",
+            "description": "Compro PS4 Pro con menos de 1 año de uso",
+            "price": 198.99,
+            "type": "sell",
+            "photo": "/images/adverts/original/ps4pro.jpg",
+            "tags": [
+                "lifestyle"
+            ]
+        },
+        {
+            "createdAt": "2019-05-13",
+            "name": "PS4Pro 3",
+            "description": "Compro PS4 Pro con menos de 1 año de uso",
+            "price": 200.99,
+            "type": "buy",
+            "photo": "/images/adverts/original/ps4pro.jpg",
+            "tags": [
+                "lifestyle"
+            ]
+        },
+        {
+            "createdAt": "2019-12-31",
+            "name": "Red Dead Redemption 2",
+            "description": "Vendo juego de vaqueros del PS4",
+            "price": 23.5,
+            "type": "buy",
+            "photo": "https://media.rawg.io/media/games/511/5118aff5091cb3efec399c808f8c598f.jpg",
+            "tags": [
+                "lifestyle"
+            ]
+        },
+        {
+            "createdAt": "2020-01-05",
+            "name": "XBOX OneX",
+            "price": 170.05,
+            "description": "Vendo XBOX One X como nueva. No tengo tiempo para jugar.",
+            "type": "sell",
+            "photo": "/images/adverts/original/xbox.jpg",
+            "tags": [
+                "lifestyle"
+            ]
+        },
+        {
+            "createdAt": "2019-01-01",
+            "name": "XBOX OneX 10",
+            "price": 170.05,
+            "description": "Vendo XBOX One X como nueva. No tengo tiempo para jugar.",
+            "type": "sell",
+            "photo": "/images/adverts/original/xbox.jpg",
+            "tags": [
+                "lifestyle"
+            ]
+        },
+        {
+            "createdAt": "2019-01-13",
+            "name": "Raton Gaming Razer Mamba",
+            "price": 35.5,
+            "description": "El mejor ratón gamer del mercado. Como nuevo (1 año)",
+            "type": "sell",
+            "photo": "/images/adverts/original/ratonmamba.jpg",
+            "tags": [
+                "lifestyle",
+                "work",
+                "mobile"
+            ]
+        },
+        {
+            "createdAt": "2019-01-13",
+            "name": "Raton Gaming",
+            "price": 35.5,
+            "description": "El mejor ratón gamer del mercado. Como nuevo (1 año)",
+            "type": "sell",
+            "photo": "/images/adverts/original/ratonmamba.jpg",
+            "tags": [
+                "lifestyle",
+                "work",
+                "mobile"
+            ]
+        },
+        {
+            "createdAt": "2018-01-13",
+            "name": "Teclado Gaming Razer Chroma",
+            "price": 70,
+            "description": "Busco teclado razer en buen estado.",
+            "type": "buy",
+            "photo": "/images/adverts/original/tecladorazer.jpg",
+            "tags": [
+                "lifestyle",
+                "work",
+                "mobile"
+            ]
+        },
+        {
+            "createdAt": "2019-08-13",
+            "name": "Teclado Gaming",
+            "price": 70,
+            "description": "Busco teclado razer en buen estado.",
+            "type": "buy",
+            "photo": "/images/adverts/original/tecladorazer.jpg",
+            "tags": [
+                "lifestyle",
+                "work",
+                "mobile"
+            ]
+        },
+        {
+            "createdAt": "2019-03-03",
+            "name": "Gráfica Gaming 1080ti",
+            "price": 400,
+            "description": "Todavía una bestia parda en el 2k.",
+            "type": "buy",
+            "photo": "/images/adverts/original/1080ti.jpg",
+            "tags": [
+                "lifestyle",
+                "work"
+            ]
+        },
+        {
+            "createdAt": "2017-08-13",
+            "name": "Gráfica gtx 970",
+            "price": 400,
+            "description": "Todavía una bestia",
+            "type": "buy",
+            "photo": "/images/adverts/original/1080ti.jpg",
+            "tags": [
+                "lifestyle",
+                "work"
+            ]
+        },
+        {
+            "name": "Gráfica Gaming 2070",
+            "price": 400,
+            "description": "Todavía una bestia parda en el 2k.",
+            "type": "buy",
+            "photo": "/images/adverts/original/1080ti.jpg",
+            "tags": [
+                "lifestyle",
+                "work"
+            ]
+        },
+        {
+            "createdAt": "2020-01-13",
+            "name": "Gráfica Gaming 2080ti",
+            "price": 400,
+            "description": "Todavía una bestia parda en el 2k.",
+            "type": "buy",
+            "photo": "/images/adverts/original/1080ti.jpg",
+            "tags": [
+                "lifestyle",
+                "work"
+            ]
+        },
+        {
+            "createdAt": "2020-02-05",
+            "name": "PC Gaming (i7 6700K)",
+            "price": 700,
+            "description": "Acabo de tener un hijo... se me acabo el gaming :)",
+            "type": "sell",
+            "photo": "/images/adverts/original/pcgaming.jpg",
+            "tags": [
+                "lifestyle",
+                "work"
+            ]
+        },
+        {
+            "createdAt": "2015-02-13",
+            "name": "Apartamento en Marbella",
+            "price": 5000000,
+            "description": "Vendo apartamento en primera linea de playa por no tener ni para pargar el seguro.",
+            "type": "sell",
+            "photo": "/images/adverts/original/apartamento.jpg",
+            "tags": [
+                "lifestyle"
+            ]
+        },
+        {
+            "createdAt": "2016-02-13",
+            "name": "Calleras Crossfit",
+            "price": 15,
+            "description": "Dejate de romperte las manos en los WODs",
+            "type": "buy",
+            "photo": "/images/adverts/original/calleras.jpg",
+            "tags": [
+                "lifestyle"
+            ]
+        },
+        {
+            "createdAt": "2020-02-01",
+            "name": "Comba de Crossfit",
+            "price": 8,
+            "description": "Soy el de las calleras.",
+            "type": "buy",
+            "photo": "/images/adverts/original/comba.jpg",
+            "tags": [
+                "lifestyle"
+            ]
+        },
+        {
+            "createdAt": "2013-02-13",
+            "name": "BMW X6 M",
+            "price": 40000,
+            "description": "Soy el del apartamento. Con eso lo digo todo.",
+            "type": "sell",
+            "photo": "/images/adverts/original/x6.jpg",
+            "tags": [
+                "lifestyle",
+                "motor"
+            ]
+        }
+    ]
+}
