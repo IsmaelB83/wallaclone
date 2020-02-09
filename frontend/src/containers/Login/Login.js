@@ -26,7 +26,7 @@ export default function Login(props) {
             login('ismaelbernal83@gmail.com', '12345678')
             //loginWithToken(session.jwt)
             .then(response => {
-                enqueueSnackbar('Login automático con token. Redirigiendo al home', { variant: 'success', })
+                enqueueSnackbar('Login automático con token. Redirigiendo al home', { variant: 'info', })
                 push('/')
             })
             .catch (error => {
@@ -49,7 +49,7 @@ export default function Login(props) {
         const { email, password } = inputs;
         props.login(email, password)
         .then(response => {
-            enqueueSnackbar('Login correcto. Redirigiendo al home.', { variant: 'success', })
+            enqueueSnackbar('Login correcto. Redirigiendo al home.', { variant: 'info', })
             props.history.push('/')
         })
         .catch(error => enqueueSnackbar(error, { variant: 'error', }));

@@ -45,7 +45,7 @@ export default function Published (props) {
                 return ad;
             })
             setAdverts(newAdverts);
-            props.enqueueSnackbar(`Anuncio ${advert.slug} añadido a favoritos`, { variant: 'success' })
+            props.enqueueSnackbar(`Anuncio ${advert.slug} ${advert.favorite?'añadido a':'eliminado de'} favoritos`, { variant: 'success' })
         })
         .catch(error => props.enqueueSnackbar(`Error marcando favorito ${error}`, { variant: 'error' }));
     }
@@ -53,14 +53,14 @@ export default function Published (props) {
     // Marcar como reservado
     const bookAdvert = slug => {
         props.bookAdvert(slug, jwt)
-        .then(advert => enqueueSnackbar(`Anuncio '${advert.slug}' reservado`, { variant: 'success' }))
+        .then(advert => enqueueSnackbar(`Anuncio ${advert.slug} marcado como ${advert.booked?'reservado':'disponible'}`, { variant: 'success' }))
         .catch(error => enqueueSnackbar(`Error reservando anuncio ${error}`, { variant: 'error' }));
     };
 
     // Marcar como reservado
     const sellAdvert = slug => {
         props.sellAdvert(slug, jwt)
-        .then(advert => enqueueSnackbar(`Anuncio '${advert.slug}' vendido`, { variant: 'success', }))
+        .then(advert => enqueueSnackbar(`Anuncio ${advert.slug} marcado como ${advert.booked?'vendido':'disponible'}`, { variant: 'success' }))
         .catch(error => enqueueSnackbar(`Error vendiendo anuncio ${error}`, { variant: 'error', }));
     };
     
@@ -85,9 +85,7 @@ export default function Published (props) {
         setSlug(undefined)
         setShowModalDelete(false);
     };
-
-    // Modal Delete
-    
+   
     // Render
     return (
         <React.Fragment>

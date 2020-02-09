@@ -4,17 +4,13 @@ import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 import Moment from 'react-moment';
 // Material UI
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import Chip from '@material-ui/core/Chip';
+// Own components
+import AdvertChip from '../AdvertChip';
 // Own modules
 // Models
-import { ADVERT_CONSTANTS } from '../../models/Advert';
+import Advert, { ADVERT_CONSTANTS } from '../../models/Advert';
 // Assets
-import imgBuy from '../../assets/images/buy.png';
-import imgSell from '../../assets/images/sell.png';
-import imgReserved from '../../assets/images/reserved.png'
-import imgSold from '../../assets/images/sold.png'
 // CSS
 import './styles.css';
 
@@ -23,63 +19,46 @@ import './styles.css';
  */
 export default function AdvertCard (props) {
 
+    // Props destructuring
+    const { slug, name, photo, tags, price, sold, booked, type, favorite, user, createdAt } = props.advert;
+
     // Click en borrar anuncio
-    const requestDeleteAdvert = () => props.onFavoriteAdvert(props.slug);
+    const setFavorite = () => props.onFavoriteAdvert(slug);
 
     // Render
     return(
-        <article id={`adslug_${props.slug}`} className='AdvertCard'>
+        <article id={`adslug_${slug}`} className='AdvertCard'>
             <header className='AdvertCard__Header'>
-                <img src={`${props.type==='buy'?imgBuy:imgSell}`} alt='avatar' />
-                <div className='AdvertCard__HeaderTitle'>
-                    <Link to={`advert/${props.slug}`} className='AdvertCard__Link'><h2>{props.name}</h2></Link>
-                    <Moment className='AdvertCard__Date' fromNow>{props.createdAt}</Moment>
+                <div className='AdvertCard_Chips'>
+                    <AdvertChip type='type' value={type}/>
+                    { ( sold || booked ) && <AdvertChip type='status' value={sold?ADVERT_CONSTANTS.STATUS.SOLD:ADVERT_CONSTANTS.STATUS.BOOKED}/> } 
                 </div>
+                <Link to={`advert/${slug}`}><img src={photo} alt='caption'/></Link>
             </header>
-            <div className='AdvertCard__Media'>
-                <Link to={`advert/${props.slug}`} className='AdvertCard__Link'>
-                    <img src={props.photo} alt='caption'/>
-                </Link>
-                { !props.sold && props.booked && <img src={imgReserved} className='AdvertCard__Status' alt='reserved'/> }
-                { props.sold && <img src={imgSold} className='AdvertCard__Status' alt='sold'/> }
-                <p className='AdvertCard__Price'>
-                    {props.price} 
-                    <span className='AdvertCard__Currency'>€</span>
-                </p>
-                <Link to={`published/${props.user._id}`} className='AdvertCard__Link'>
-                    <p>Autor: {props.user.name}</p>
-                </Link>
+            <div className='AdvertCard__Content'>
+                <div className='AdvertCard__ContentHeader'>
+                    <Link to={`advert/${slug}`} className='AdvertCard__Title'><h2>{name}</h2></Link>
+                    <Moment className='AdvertCard__Date' fromNow>{createdAt}</Moment>
+                </div>
+                <div className='AdvertCard__ContentChips'>
+                {   tags.map((value,i) => <AdvertChip key={i} type='tag' value={value}/> ) }
+                </div>
             </div>
             <div className='AdvertCard__Footer'>
-                <div className='Ad__Tags'>
-                    {   props.tags && 
-                        props.tags.map((value,i) => {
-                            return  <Chip
-                                        key={i}
-                                        size="small"
-                                        label={value}
-                                        className={`Ad__Tag Ad__Tag--${value}`}
-                                    />
-                        })
-                    }
+                <p className='AdvertCard__Price'>{price} <span className='AdvertCard__Currency'>€</span></p>
+                <div className='AdvertCard__Author'>
+                    <Link to={`published/${user._id}`} className='AdvertCard__Link'><p>{user.name}</p></Link>
                 </div>
-                {   props.showFavorite && 
-                    <button className='ButtonTransparent' onClick={requestDeleteAdvert}>
-                        { props.favorite && <FavoriteIcon className='FavoriteIcon FavoriteIcon--On'/> }
-                        { !props.favorite && <FavoriteBorderIcon className='FavoriteIcon FavoriteIcon--Off'/> }
+                <div className='AdvertCard__Favorite'>
+                    <button className='ButtonTransparent' onClick={setFavorite}>
+                        <FavoriteIcon className={`FavoriteIcon FavoriteIcon--${favorite?'On':'Off'}`}/>
                     </button>
-                }
+                </div>
             </div>
         </article>
     );
 }
 
 AdvertCard.propTypes = {
-    slug: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    photo: PropTypes.string,
-    price: PropTypes.number.isRequired,
-    createdAt: PropTypes.string.isRequired,
-    tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-    type: PropTypes.oneOf([ADVERT_CONSTANTS.TYPE.BUY, ADVERT_CONSTANTS.TYPE.SELL]).isRequired,
+    advert: PropTypes.instanceOf(Advert).isRequired
 }

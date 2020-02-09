@@ -84,27 +84,6 @@ img, embed, object, video {
   text-shadow: 2px 2px 2px rgba(0,0,0,.5);
 }
 
-
-/**
-* Formato de los tags
-*/
-.Ad__Tag { margin-right: 5px; }
-.Ad__Tag.Ad__Tag--small { height: 1rem; }
-
-.Ad__Tag--buy,
-.Ad__Tag--sell,
-.Ad__Tag--lifestyle,
-.Ad__Tag--work,
-.Ad__Tag--mobile,
-.Ad__Tag--motor { color: white !important; }
-
-.Ad__Tag--buy { background-color: green !important; }
-.Ad__Tag--sell { background-color: red !important; }
-.Ad__Tag--lifestyle { background-color: orangered !important; }
-.Ad__Tag--work { background-color: purple !important; }
-.Ad__Tag--mobile { background-color: green !important; }
-.Ad__Tag--motor { background-color: blue !important; }
-
 /**
  * Links
  */

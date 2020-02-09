@@ -23,7 +23,7 @@ export default function Published (props) {
     // Delete favorite
     const deleteFavorite = slug => {
         setFavorite(slug, props.session.jwt)
-        .then(advert => enqueueSnackbar(`Anuncio ${advert.slug} eliminado de favoritos`, { variant: 'success' }))
+        .then(advert => enqueueSnackbar(`Anuncio ${advert.slug} ${advert.favorite?'añadido a':'eliminado de'} favoritos`, { variant: 'success' }))
         .catch(error => enqueueSnackbar(`Error eliminando favorito ${error}`, { variant: 'error' }));
     }
     
@@ -39,7 +39,7 @@ export default function Published (props) {
                             adverts={favorites}
                             showEdit={false}
                             showFavorite={true}
-                            onDeleteFavorite={deleteFavorite}
+                            onFavoriteAdvert={deleteFavorite}
                             history={props.history}
                             />
                     </div>

@@ -29,21 +29,8 @@ export default function AdvertList (props) {
     return(
         <section className={`${props.type==='tiles'?'AdvertListTiles':'AdvertListDetail'}`}>
         {   props.adverts.map((advert, index) => 
-                <Card   key={index} 
-                        _id={advert._id}
-                        slug={advert.slug}
-                        name={advert.name} 
-                        description={advert.description}
-                        price={advert.price}
-                        type={advert.type} 
-                        photo={advert.photo} 
-                        tags={advert.tags} 
-                        createdAt={advert.createdAt}
-                        updatedAt={advert.updatedAt}
-                        booked={advert.booked}
-                        sold={advert.sold}
-                        user={advert.user}
-                        favorite={advert.favorite}
+                <Card   key={index}
+                        advert={advert} 
                         history={props.history}
                         showEdit={props.showEdit}
                         showFavorite={props.showFavorite}
@@ -52,7 +39,6 @@ export default function AdvertList (props) {
                         onSellAdvert={props.onSellAdvert}
                         onDeleteFavorite={props.onDeleteFavorite}
                         onFavoriteAdvert={props.onFavoriteAdvert}
-                        onDeleteAdvert={props.onDeleteAdvert}
                 />
         )}
         </section>

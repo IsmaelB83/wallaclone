@@ -62,19 +62,7 @@ export default function Detail(props) {
                 <Container>
                     <main className='Main__Section'>
                         <AdvertDetail
-                            slug={advert.slug}
-                            name={advert.name} 
-                            description={advert.description}
-                            price={advert.price}
-                            type={advert.type} 
-                            photo={advert.photo} 
-                            tags={advert.tags} 
-                            createdAt={advert.createdAt}
-                            updatedAt={advert.updatedAt}
-                            booked={advert.booked}
-                            sold={advert.sold}
-                            user={advert.user}
-                            favorite={advert.favorite}
+                            advert={advert}
                             showEdit={advert.user && props.session._id === advert.user._id}
                             showFavorite={advert.user && props.session._id !== advert.user_id}
                             onSellAdvert={sellAdvert}

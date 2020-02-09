@@ -18,5 +18,6 @@ export default class Session {
         this.name = user.name;
         this.email = user.email;
         this.jwt = user.token;
+        this.avatar = 'https://material-ui.com/static/images/avatar/1.jpg'
     }
 }

@@ -77,8 +77,13 @@ export default class Home extends Component {
 
     // Reservar producto
     favoriteAdvert = (slug) => {
+        if (! this.props.session.jwt) {
+            this.props.enqueueSnackbar('Necesita hacer login para añadir a favoritos', { variant: 'info' });
+            this.props.history.push('/login');
+            return;
+        }
         this.props.setFavorite(slug, this.props.session.jwt)
-        .then(advert => this.props.enqueueSnackbar(`Anuncio ${advert.slug} añadido a favoritos`, { variant: 'success' }))
+        .then(advert => this.props.enqueueSnackbar(`Anuncio ${advert.slug} ${advert.favorite?'añadido a':'eliminado de'} favoritos`, { variant: 'success' }))
         .catch(error => this.props.enqueueSnackbar(`Error marcando favorito ${error}`, { variant: 'error' }));
     }
 

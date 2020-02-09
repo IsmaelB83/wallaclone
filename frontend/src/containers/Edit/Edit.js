@@ -12,18 +12,18 @@ import Button from '@material-ui/core/Button';
 import Input from '@material-ui/core/Input';
 import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
-import Chip from '@material-ui/core/Chip';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 // Components
+import AdvertChip from '../../components/AdvertChip';
 import NavBar from '../../components/NavBar';
 import Footer from '../../components/Footer';
 import Loading from '../../components/Loading';
 import Error from '../../components/Error';
 // Models
-import Advert from '../../models/Advert';
+import Advert, { ADVERT_CONSTANTS } from '../../models/Advert';
 // Assets
 import imagePhoto from '../../assets/images/photo.png'
 // CSS
@@ -132,8 +132,8 @@ export default class Edit extends Component {
                   value={advert.type}
                   displayEmpty
                 >
-                  <MenuItem key='buy' value='buy'><Chip size='small' label='buy' className='Ad__Tag Ad__Tag--small Ad__Tag--buy'/></MenuItem>
-                  <MenuItem key='sell' value='sell'><Chip size='small' label='sell' className='Ad__Tag Ad__Tag--small Ad__Tag--sell'/></MenuItem>                  
+                    <MenuItem key={ADVERT_CONSTANTS.TYPE.BUY} value={ADVERT_CONSTANTS.TYPE.BUY}><AdvertChip type='type' value={ADVERT_CONSTANTS.TYPE.BUY}/></MenuItem>
+                    <MenuItem key={ADVERT_CONSTANTS.TYPE.SELL} value={ADVERT_CONSTANTS.TYPE.SELL}><AdvertChip type='type' value={ADVERT_CONSTANTS.TYPE.SELL}/></MenuItem>
                 </Select>
               </FormControl>
               <FormControl fullWidth className='AdvertEdit__FormControl'>
@@ -143,26 +143,9 @@ export default class Edit extends Component {
                   name='tags'
                   value={advert.tags || ''}
                   onChange={this.handleChangeMultiple}
-                  renderValue={() =>
-                      <div> 
-                        { advert.tags.map(value => 
-                            <Chip key={value} size='small' label={value} className={`Ad__Tag Ad__Tag--small Ad__Tag--${value}`}/> 
-                        )}
-                      </div>
-                  }
+                  renderValue={()=> <div>{advert.tags.map(value => <AdvertChip type='tag' value={value}/>)}</div>} 
                 >
-                  {
-                    this.props.tags && 
-                    this.props.tags.map((value, key) => {
-                      return  <MenuItem key={key} value={value}>
-                                <Chip key={key}
-                                      size='small'
-                                      label={value}
-                                      className={`Ad__Tag Ad__Tag--small Ad__Tag--${value}`}
-                                />
-                              </MenuItem>
-                    })
-                  }
+                {   this.props.tags.map((value, key) => <MenuItem key={key} value={value}><AdvertChip type='tag' value={value}/></MenuItem>) }
                 </Select>
               </FormControl>
               <FormControl fullWidth className='AdvertEdit__FormControl'>
@@ -315,19 +298,6 @@ export default class Edit extends Component {
           }    
         });
     } 
-  }
-
-  renderValue = () => {
-    if (this.state.advert.tags) {
-      return (
-        <div> 
-        { this.state.advert.tags.map(value => 
-          <Chip key={value} size='small' label={value} className={`Ad__Tag Ad__Tag--small Ad__Tag--${value}`}/> 
-        )}
-        </div>
-      );        
-    }
-    return <div></div>;
   }
 }
 

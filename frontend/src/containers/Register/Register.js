@@ -25,7 +25,7 @@ export default function Register(props) {
         // Dispatch del create
         props.createAccount(name, email, password)
         .then(user => {
-            props.enqueueSnackbar('Usuario creado. Chequea el mail para activar la cuenta', { variant: 'success', });
+            props.enqueueSnackbar('Usuario creado. Chequea el mail para activar la cuenta', { variant: 'info', });
             props.history.push('/login');
         })
         .catch(error => {

@@ -1,5 +1,9 @@
 // Constantes para el trabajo con el modelo de anuncio
 export const ADVERT_CONSTANTS = {
+    STATUS: {
+        SOLD: 'sold',
+        BOOKED: 'booked'
+    },
     TYPE: {
         ALL: 'all',
         BUY: 'buy',

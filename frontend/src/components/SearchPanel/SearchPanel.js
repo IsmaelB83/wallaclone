@@ -10,10 +10,11 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Button from '@material-ui/core/Button';
 import SearchIcon from '@material-ui/icons/Search';
 import ClearIcon from '@material-ui/icons/Clear';
-import Chip from '@material-ui/core/Chip';
+// Own Components
+import AdvertChip from '../AdvertChip';
 // Own modules
 // Models
-import { ADVERT_CONSTANTS } from '../../models/Advert';
+import Advert, { ADVERT_CONSTANTS } from '../../models/Advert';
 // Assets
 // CSS
 import './styles.css';
@@ -93,13 +94,13 @@ export default function SearchPanel(props) {
             displayEmpty
           >
             <MenuItem key={ADVERT_CONSTANTS.TYPE.ALL} value={ADVERT_CONSTANTS.TYPE.ALL}>
-              <Chip size='small' label={ADVERT_CONSTANTS.TYPE.ALL} className='Ad__Tag Ad__Tag--small'/>
+                <AdvertChip type='type' value={ADVERT_CONSTANTS.TYPE.ALL}/>
             </MenuItem>
             <MenuItem key={ADVERT_CONSTANTS.TYPE.BUY} value={ADVERT_CONSTANTS.TYPE.BUY}>
-              <Chip size='small' label={ADVERT_CONSTANTS.TYPE.BUY} className='Ad__Tag Ad__Tag--small Ad__Tag--buy'/>
+                <AdvertChip type='type' value={ADVERT_CONSTANTS.TYPE.BUY}/>
             </MenuItem>
             <MenuItem key={ADVERT_CONSTANTS.TYPE.SELL} value={ADVERT_CONSTANTS.TYPE.SELL}>
-              <Chip size='small' label={ADVERT_CONSTANTS.TYPE.SELL} className='Ad__Tag Ad__Tag--small Ad__Tag--sell'/>
+                <AdvertChip type='type' value={ADVERT_CONSTANTS.TYPE.SELL}/>
             </MenuItem>
           </Select>
         </FormControl>
@@ -113,24 +114,9 @@ export default function SearchPanel(props) {
             displayEmpty
           >
             <MenuItem key={ADVERT_CONSTANTS.TAG.ALL} value={ADVERT_CONSTANTS.TAG.ALL}>
-              <Chip key={ADVERT_CONSTANTS.TAG.ALL}
-                    label={ADVERT_CONSTANTS.TAG.ALL}
-                    size='small'
-                    className='Ad__Tag Ad__Tag--small'
-              />
+                <AdvertChip type='tag' value={ADVERT_CONSTANTS.TAG.ALL}/>
             </MenuItem>
-            {
-              props.tags && 
-              props.tags.map((value, key) => {
-                return  <MenuItem key={key} value={value}>
-                          <Chip key={key}
-                                size='small'
-                                label={value}
-                                className={`Ad__Tag Ad__Tag--small Ad__Tag--${value}`}
-                          />
-                        </MenuItem>
-              })
-            }
+            {   props.tags.map((value, key) => <MenuItem key={key} value={value}><AdvertChip type='tag' value={value}/></MenuItem>) }
           </Select>
         </FormControl>
         <FormControl>

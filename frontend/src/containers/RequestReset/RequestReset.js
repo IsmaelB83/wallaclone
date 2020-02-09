@@ -20,7 +20,7 @@ export default function RequestReset(props) {
         const { email } = {...inputs};
         props.requestResetAccount(email)
         .then(user => {
-            props.enqueueSnackbar('Revise su email para resetear la contraseña.', { variant: 'success', });
+            props.enqueueSnackbar('Revise su email para resetear la contraseña.', { variant: 'info', });
             props.history.push('/login');
         })
         .catch(error => {

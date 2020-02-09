@@ -1,0 +1,23 @@
+/* Common styles */
+.AdvertChip.AdvertChip__type svg, .AdvertChip.AdvertChip__status svg {  color: white;  }
+.AdvertChip.AdvertChip__type, .AdvertChip.AdvertChip__status { color: white; }
+
+/* Advert type chips */
+.AdvertChip__type.AdvertChip__type--all { background-color:#303F9F !important; }
+.AdvertChip__type.AdvertChip__type--buy { background-color: red !important; }
+.AdvertChip__type.AdvertChip__type--sell { background-color: green !important; }
+
+/* Advert status chips */
+.AdvertChip.AdvertChip__status svg { color: #303F9F; }
+.AdvertChip.AdvertChip__status { 
+    color: #303F9F;
+    border: 1px solid #303F9F;
+    background-color: white;
+}
+
+/* Advert tag chips */
+.AdvertChip.AdvertChip__tag svg { color: var(--main-color-dark); }
+.AdvertChip.AdvertChip__tag { 
+    color: var(--main-color-dark);
+    border: 1px solid var(--main-color-dark);
+}

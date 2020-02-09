@@ -11,14 +11,12 @@ import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import DeleteIcon from '@material-ui/icons/Delete'; 
 import Button from '@material-ui/core/Button';
-import Chip from '@material-ui/core/Chip';
 // Own components
+import AdvertChip from '../AdvertChip';
 // Own modules
 // Models
-import { ADVERT_CONSTANTS } from '../../models/Advert';
+import Advert, { ADVERT_CONSTANTS } from '../../models/Advert';
 // Assets
-import imgReserved from '../../assets/images/reserved.png'
-import imgSold from '../../assets/images/sold.png'
 // CSS
 import './styles.css';
 
@@ -27,79 +25,67 @@ import './styles.css';
  */
 export default function AdvertCardSmall (props) {
     
+    const { slug, name, photo, tags, price, sold, booked, type, favorite, user, createdAt, updatedAt } = props.advert;
+
     return(
         <React.Fragment>
-            <article id={`adslug_${props.slug}`} className='AdvertCardSmall'>
-                <Link to={`/advert/${props.slug}`}>
+            <article id={`adslug_${slug}`} className='AdvertCardSmall'>
+                <Link to={`/advert/${slug}`}>
                     <header className='AdvertCardSmall__Caption'>
-                            <img className='AdvertCardSmall__Img' src={props.photo} alt='caption'/>
-                        { ( props.booked || props.sold ) &&
-                            <div className='AdvertCardSmall__Status'>
-                                { !props.sold && props.booked && <img src={imgReserved} alt='reserved'/> }
-                                { props.sold && <img src={imgSold} alt='sold'/> }
-                            </div>
-                        }
+                        <img className='AdvertCardSmall__Img' src={photo} alt='caption'/>
+                        { ( sold || booked ) && <AdvertChip type='status' value={type?ADVERT_CONSTANTS.STATUS.SOLD:ADVERT_CONSTANTS.STATUS.BOOKED}/> } 
                     </header>
                 </Link>
                 <div className='AdvertCardSmall__Body'>
                     <div className='AdvertCardSmall__Date'>
                         <p className='Title'>Publicado</p>
-                        <Moment format="DD/MM/YYYY" className='SubTitle'>{props.createdAt}</Moment>
+                        <Moment format="DD/MM/YYYY" className='SubTitle'>{createdAt}</Moment>
                     </div>
                     <div className='AdvertCardSmall__Date'>
                         <p className='Title'>Actualizado</p>
-                        <Moment format="DD/MM/YYYY" className='SubTitle'>{props.updatedAt}</Moment>
+                        <Moment format="DD/MM/YYYY" className='SubTitle'>{updatedAt}</Moment>
                     </div>
                     <div className='AdvertCardSmall__Main'>
                         <div className='AdvertCardSmall__Title'>
-                            <p>{props.price} €</p>
-                            <Link to={`/advert/${props.slug}`}>
-                                <h2>{props.name}</h2>
+                            <p>{price} €</p>
+                            <Link to={`/advert/${slug}`}>
+                                <h2>{name}</h2>
                             </Link>
                         </div>
                         <div className='AdvertCardSmall__Tags'>
-                            {   props.tags && 
-                                props.tags.map((value,i) => {
-                                    return  <Chip
-                                                key={i}
-                                                size="small"
-                                                label={value}
-                                                className={`Ad__Tag Ad__Tag--${value}`}
-                                            />
-                                })
-                            }
+                            {   tags.map((value,i) => <AdvertChip type='tag' value={value}/>) }
                         </div>
                     </div>
                     
                     <div className='AdvertCardSmall__Actions'>
                         { props.showFavorite &&
                             <Button type='button' variant='contained' className='ButtonWallakeep ButtonWallakeep__Clear ButtonWallakeep__ClearToNone'
-                                onClick={()=>props.onFavoriteAdvert(props.slug)}>
-                                <FavoriteIcon className={`FavoriteIcon FavoriteIcon--${props.favorite?'On':'Off'}`}/>
+                                onClick={()=>props.onFavoriteAdvert(slug)}>
+                                <FavoriteIcon className={`FavoriteIcon FavoriteIcon--${favorite?'On':'Off'}`}/>
                             </Button>
                         }
                         { props.showDeleteFavorite &&
                             <Button type='button' className='ButtonWallakeep ButtonWallakeep__Clear ButtonWallakeep__ClearToGray' 
-                                    variant='contained' onClick={()=>props.onDeleteFavorite(props.slug)}>
+                                    variant='contained' onClick={()=>props.onDeleteFavorite(slug)}>
                                 <DeleteIcon/>
                             </Button>
                         }
                         { props.showEdit &&
                             <React.Fragment>
-                                <Button type='button' className={`ButtonWallakeep ButtonWallakeep__Clear ButtonWallakeep__ClearToBlue ${props.booked && 
-                                        'ButtonWallakeep__ClearToBlue--active'}`} disabled={props.sold} variant='contained' onClick={()=>props.onBookAdvert(props.slug)}>
+                                <Button type='button' className={`ButtonWallakeep ButtonWallakeep__Clear ButtonWallakeep__ClearToBlue ${booked && 
+                                        'ButtonWallakeep__ClearToBlue--active'}`} disabled={sold} variant='contained' onClick={()=>props.onBookAdvert(slug)}>
                                     <BookmarkBorderOutlinedIcon/>
                                 </Button>
                                 <Button type='button' className={`ButtonWallakeep ButtonWallakeep__Clear ButtonWallakeep__ClearToRed 
-                                        ${props.sold && 'ButtonWallakeep__ClearToRed--active'}`} variant='contained' onClick={()=>props.onSellAdvert(props.slug)}>
+                                        ${sold && 'ButtonWallakeep__ClearToRed--active'}`} variant='contained' onClick={()=>props.onSellAdvert(slug)}>
                                     <AttachMoneyOutlinedIcon/>
                                 </Button>
                                 <Button type='button' className='ButtonWallakeep ButtonWallakeep__Clear ButtonWallakeep__ClearToGreen' 
-                                        disabled={props.sold} variant='contained' onClick={()=>props.history.push(`/advert/edit/${props.slug}`)}>
+                                        disabled={sold} variant='contained' onClick={()=>props.history.push(`/advert/edit/${slug}`)}>
                                     <EditOutlinedIcon/>
                                 </Button>
                                 <Button type='button' className='ButtonWallakeep ButtonWallakeep__Clear ButtonWallakeep__ClearToGray' 
-                                        disabled={props.sold} variant='contained' onClick={()=>props.onDeleteAdvert(props.slug)}>
+                                        disabled={sold} variant='contained' onClick={()=>props.onDeleteAdvert(slug)}>
                                     <DeleteOutlineOutlinedIcon/>
                                 </Button>
                             </React.Fragment>
@@ -112,12 +98,5 @@ export default function AdvertCardSmall (props) {
 }
 
 AdvertCardSmall.propTypes = {
-    slug: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    photo: PropTypes.string,
-    price: PropTypes.number.isRequired,
-    createdAt: PropTypes.string.isRequired,
-    updatedAt: PropTypes.string.isRequired,
-    tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-    type: PropTypes.oneOf([ADVERT_CONSTANTS.TYPE.BUY, ADVERT_CONSTANTS.TYPE.SELL]).isRequired,
+    advert: PropTypes.instanceOf(Advert).isRequired
 }
