@@ -23,9 +23,10 @@ export function ui(state = initialState.ui, action) {
         case ADVERTS.FETCH_ADVERTS_FAILURE:
         case ADVERTS.FETCH_TAGS_FAILURE:
             return { ...state, isFetching: false, error: action.error }
+        case ADVERTS.SEARCH_ADVERTS_SUCCESS:
         case ADVERTS.FETCH_ADVERTS_SUCCESS:
         case ADVERTS.FETCH_TAGS_SUCCESS:
-            return { ...state, isFetching: false, error: null, currentPage: 0 }
+            return { ...state, isFetching: false, error: null }
         // Authention related
         case SESSION.RESET_ACCOUNT_REQUEST:
         case SESSION.LOGIN_REQUEST:

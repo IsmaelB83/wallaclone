@@ -23,7 +23,7 @@ import './styles.css';
 export default function AdvertDetail(props) {
 
     // Props destructuring
-    const { slug, name, description, photo, tags, price, sold, booked, type, favorite, user, createdAt } = props.advert;
+    const { slug, name, description, photo, tags, price, sold, booked, type, favorite, createdAt } = props.advert;
 
     // Render
     return (
@@ -40,7 +40,7 @@ export default function AdvertDetail(props) {
                         <p>{description}</p>
                     </div>
                     <div className='AdvertDetail__Tags'>
-                    {   tags.map((value,i) => <AdvertChip type='tag' value={value}/>) }
+                    {   tags.map((value,i) => <AdvertChip key={i} type='tag' value={value}/>) }
                     </div>
                     <div className='AdvertDetail__Actions'>
                     {   props.showFavorite && 
@@ -49,7 +49,7 @@ export default function AdvertDetail(props) {
                             color='secondary' 
                             startIcon={<FavoriteIcon className={`FavoriteIcon FavoriteIcon--${favorite?'On':'White'}`}/>} 
                             className='ButtonWallakeep ButtonWallakeep__Green'
-                            onClick={props.onSetFavorite}>
+                            onClick={props.setFavoriteAdvert}>
                             Favorito
                         </Button>
                     }
@@ -68,15 +68,22 @@ export default function AdvertDetail(props) {
                                     variant='contained' 
                                     className='ButtonWallakeep ButtonWallakeep__Blue' 
                                     disabled={sold || props.isUpdating} 
-                                    onClick={props.onBookAdvert}>
+                                    onClick={props.setBookAdvert}>
                                     {!booked?'Reservar':'Anular reserva'}
                             </Button>
                             <Button type='button' 
                                     variant='contained' 
                                     className='ButtonWallakeep ButtonWallakeep__Red' 
                                     disabled={props.isUpdating} 
-                                    onClick={props.onSellAdvert}>
+                                    onClick={props.setSellAdvert}>
                                     {!sold?'Vendido':'Anular venta'}
+                            </Button>
+                            <Button type='button' 
+                                    variant='contained' 
+                                    className='ButtonWallakeep ButtonWallakeep__Red' 
+                                    disabled={props.isUpdating} 
+                                    onClick={props.setDeleteAdvert}>
+                                    Eliminar
                             </Button>
                         </React.Fragment>
                     }

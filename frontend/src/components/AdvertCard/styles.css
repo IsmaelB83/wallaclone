@@ -5,6 +5,7 @@
     border-radius: .5rem;
     box-shadow: 3px 3px 10px rgba(0, 0, 0, .30);
     min-width: 280px;
+    max-width: 300px;
     height: 350px;
     overflow: hidden;
     transition: 100ms all ease-in;

@@ -292,9 +292,9 @@ export const fetchPublished = (_id) => {
     return async function(dispatch, getState) {
         dispatch(fetchPublishedRequest());
         return AdvertServices.getAdvertsByUser(_id)
-        .then(published => {
-            dispatch(fetchPublishedSuccess(published));
-            return published;
+        .then(response => {
+            dispatch(fetchPublishedSuccess(response.adverts, response.apiCount));
+            return response;
         })
         .catch(error => {
             let message = error.response && error.response.data ? error.response.data.data : error.message;            
@@ -306,4 +306,4 @@ export const fetchPublished = (_id) => {
 
 const fetchPublishedRequest = () => ({ type: ACTIONS.FETCH_PUBLISHED_REQUEST });
 const fetchPublishedFailure = error => ({ type: ACTIONS.FETCH_PUBLISHED_FAILURE, error });
-const fetchPublishedSuccess = published => ({ type: ACTIONS.FETCH_PUBLISHED_SUCCESS, published });
+const fetchPublishedSuccess = (published, apiCount) => ({ type: ACTIONS.FETCH_PUBLISHED_SUCCESS, published, apiCount });

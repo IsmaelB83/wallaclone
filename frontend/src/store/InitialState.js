@@ -1,6 +1,3 @@
-// Models
-import { ADVERT_CONSTANTS } from '../models/Advert';
-
 // APP Initia State
 export const initialState = {
     // User session
@@ -15,11 +12,14 @@ export const initialState = {
     favorites: [],
     // Filters applied (text, tag, type, amounts)
     filters: {
-        name: '',
-        type: ADVERT_CONSTANTS.TYPE.ALL,
-        tag: ADVERT_CONSTANTS.TAG.ALL,
-        minPrice: 0,
-        maxPrice: 0
+        name: undefined,
+        minPrice: undefined,
+        maxPrice: undefined,
+        type: undefined, 
+        tag: undefined,
+        apiCount: -1,
+        start: -1,
+        end: -1,
     },
     // UI State
     ui: {

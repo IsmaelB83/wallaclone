@@ -1,0 +1,12 @@
+.AdvertList__Paginator {
+    margin-top: 10px;
+}
+
+.AdvertList__Paginator .Paginator {
+    background-color: transparent;
+    padding: 8px 0;
+}
+
+.AdvertList__Paginator .Paginator .ButtonWallakeep:disabled {
+    background-color: var(--medium-grey) !important;
+}

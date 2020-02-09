@@ -22,16 +22,23 @@ export default function Published (props) {
     const { enqueueSnackbar, fetchUserAdverts, published } = props;
     const { member } = props.match.params;
     const { _id, jwt } = props.session;
-    
+
+    // Anuncios propios (usuario logado) o de otro usuario?
+
     // Seteo de anuncios inicia);
     const [adverts, setAdverts] = useState([]);
+    const [totalCount, setTotalCount] = useState(0)
     useEffect(() => {
         if (member === _id) {
+            setTotalCount(published.length); // En published propios no limito las llamadas
             setAdverts(published);
         } else {
             // Other user adverts
             fetchUserAdverts(member)
-            .then(adverts => setAdverts(adverts))
+            .then(response => {
+                setTotalCount(response.apiCount);
+                setAdverts(response.adverts)
+            })
             .catch(error => enqueueSnackbar(`Error cargando anuncios de ${_id}`, { variant: 'error' }));
         }
     }, [_id, member, fetchUserAdverts, enqueueSnackbar, published]);
@@ -92,10 +99,12 @@ export default function Published (props) {
             <NavBar/>
                 <Container className='Container__Fill'>
                 <main className='Main__Section'>
-                    <div className='Catalog__Results'>
+                    { adverts.length &&
                         <AdvertList 
                             type='list' 
-                            adverts={adverts} 
+                            itemsPerPage={parseInt(process.env.REACT_APP_MAX_ADVERTS_LIST)}
+                            adverts={adverts}
+                            totalCount={totalCount}
                             showEdit={props.session._id && member === props.session._id}
                             showFavorite={props.session._id && member !== props.session._id}
                             onBookAdvert={bookAdvert}
@@ -104,7 +113,7 @@ export default function Published (props) {
                             onFavoriteAdvert={favoriteAdvert}
                             history={props.history}
                         />
-                    </div>
+                    }
                 </main>
                 {   showModalDelete && 
                     <ModalConfirm   onConfirm={confirmDeleteAdvert} 

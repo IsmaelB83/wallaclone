@@ -30,6 +30,7 @@ export function adverts(state = initialState.adverts, action) {
             return initialState.adverts;
         // Adverts related
         case ADVERTS.FETCH_ADVERTS_SUCCESS:
+        case ADVERTS.SEARCH_ADVERTS_SUCCESS:
             return [...action.adverts];
         case ADVERTS.CREATE_ADVERT_SUCCESS:
             return [action.advert, ...state];

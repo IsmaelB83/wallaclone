@@ -33,16 +33,18 @@ export default function Published (props) {
             <NavBar/>
             <Container className='Container__Fill'>
                 <main className='Main__Section'>
-                    <div className='Catalog__Results'>
+                    { favorites &&
                         <AdvertList 
                             type='list' 
+                            itemsPerPage={parseInt(process.env.REACT_APP_MAX_ADVERTS_LIST)}
+                            totalCount={favorites.length}
                             adverts={favorites}
                             showEdit={false}
                             showFavorite={true}
                             onFavoriteAdvert={deleteFavorite}
                             history={props.history}
-                            />
-                    </div>
+                        />
+                    }
                 </main>
             </Container>
             <Footer/>

@@ -33,7 +33,14 @@ export default {
         let baseURL = `${API_URL}`;
         // Call endpoint and return
         return Axios.get(baseURL)
-        .then(res => res.data.results.map(advert => new Advert(advert)));
+        .then(res => {
+            return {
+                end: res.data.end,
+                start: res.data.start,
+                apiCount: res.data.apiCount,
+                adverts:  res.data.results.map(advert => new Advert(advert))
+            }
+        });
     },
     
     /**
@@ -44,7 +51,14 @@ export default {
         let baseURL = `${API_URL}?user=${user}`;
         // Call endpoint and return
         return Axios.get(baseURL)
-        .then(res => res.data.results.map(advert => new Advert(advert)));
+        .then(res => {
+            return {
+                end: res.data.end,
+                start: res.data.start,
+                apiCount: res.data.apiCount,
+                adverts:  res.data.results.map(advert => new Advert(advert))
+            }
+        });
     },
     
     /**
@@ -78,7 +92,14 @@ export default {
         }
         // Call endpoint and return
         return Axios.get(baseURL)
-        .then(res => res.data.results.map(advert => new Advert(advert)));
+        .then(res => {
+            return {
+                end: res.data.end,
+                start: res.data.start,
+                apiCount: res.data.apiCount,
+                adverts:  res.data.results.map(advert => new Advert(advert))
+            }
+        });
     },
     
     /**

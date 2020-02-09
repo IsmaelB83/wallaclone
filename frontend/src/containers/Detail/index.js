@@ -27,7 +27,8 @@ const mapDispatchToProps = (dispatch) => {
         fetchAdvert: (slug) => dispatch(AdvertsActions.fetchAdvert(slug)),
         bookAdvert: (slug, jwt) => dispatch(AdvertsActions.bookAdvert(slug, jwt)),
         sellAdvert: (slug, jwt) => dispatch(AdvertsActions.sellAdvert(slug, jwt)),
-        setFavorite: (slug, jwt) => dispatch(SessionActions.setFavorite(slug, jwt))
+        setFavorite: (slug, jwt) => dispatch(SessionActions.setFavorite(slug, jwt)),
+        deleteAdvert: (slug, jwt) => dispatch(AdvertsActions.deleteAdvert(slug, jwt)),
     }
 }
 

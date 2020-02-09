@@ -104,7 +104,9 @@ AdvertSchema.statics.list = (name, venta, tag, precio, user, limit, skip, fields
         if (user) filter.user = new ObjectId(user);
         // Realizo la query a Mongo
         let queryDB = Advert.find(filter);
-        queryDB.limit(limit || process.env.API_LIMIT_COUNT);
+        limit = limit || process.env.MAX_API_ADVERTS;
+        skip = skip || 0;
+        queryDB.limit(limit);
         queryDB.skip(skip);
         queryDB.select(fields);
         // Permitir busquedas de mayor a menor
@@ -126,7 +128,12 @@ AdvertSchema.statics.list = (name, venta, tag, precio, user, limit, skip, fields
         queryDB.populate('user', '_id name email ').exec()
         .then (results => {
             Advert.find(filter).countDocuments()
-            .then(count => resolve({results, totalCount: count, limit: limit || process.env.API_LIMIT_COUNT}))
+            .then(count => resolve({
+                start: skip,
+                end: skip + results.length - 1,
+                apiCount: count, 
+                results 
+            }))
             .catch(error => reject(error));
         })
         .catch (error => reject(error));

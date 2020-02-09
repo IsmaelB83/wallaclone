@@ -8,6 +8,7 @@ import Container from '@material-ui/core/Container';
 import Advert from '../../models/Advert'
 // Components
 import AdvertDetail from '../../components/AdvertDetail';
+import ModalConfirm from '../../components/ModalConfirm';
 import Loading from '../../components/Loading';
 import NavBar from '../../components/NavBar';
 import Footer from '../../components/Footer';
@@ -35,25 +36,47 @@ export default function Detail(props) {
     }, [slug, enqueueSnackbar, fetchAdvert]);
 
     // Marcar como vendido un anuncio
-    const sellAdvert = () => {
+    const setSellAdvert = () => {
         props.sellAdvert(advert.slug, props.session.jwt)
         .then (ad => setAdvert({...advert, sold: ad.sold}))
         .catch(error => enqueueSnackbar(`Error vendiendo anuncio ${error}`, { variant: 'error' }));
     }
 
     // Marcar como reservado un anuncio
-    const bookAdvert = () => {
+    const setBookAdvert = () => {
         props.bookAdvert(advert.slug, props.session.jwt)
         .then (ad => setAdvert({...advert, booked: ad.booked}))
         .catch(error => enqueueSnackbar(`Error marcando reservado ${error}`, { variant: 'error' }));
     }
 
     // Marcar como favorito un anuncio  
-    const setFavorite = () => {
+    const setFavoriteAdvert = () => {
         props.setFavorite(advert.slug, props.session.jwt)
         .then (ad => setAdvert({...advert, favorite: ad.favorite}))
         .catch(error=> enqueueSnackbar(`Error añadiendo a favorito ${error}`, { variant: 'error' }));
     }
+
+    // Borrar anuncio
+    const [showModalDelete, setShowModalDelete] = useState(false);
+    const deleteAdvertRequest = () => {
+        setShowModalDelete(true);
+    }
+    const confirmDeleteAdvert = () => {
+        setShowModalDelete(false);
+        if (slug) {
+            props.deleteAdvert(slug, props.session.jwt)
+            .then(advert => {
+                enqueueSnackbar(`Anuncio '${advert.slug}' eliminado`, { variant: 'success', })  
+                props.history.push('/');
+            })
+            .catch(error => enqueueSnackbar(`Error eliminando anuncio ${error}`, { variant: 'error', }));    
+        } else {
+            enqueueSnackbar('Error. No se ha identificado el anuncio a eliminar', { variant: 'error', });    
+        }
+    };
+    const cancelDeleteAdvert = () => {
+        setShowModalDelete(false);
+    };
 
     // Render
     return (
@@ -65,13 +88,21 @@ export default function Detail(props) {
                             advert={advert}
                             showEdit={advert.user && props.session._id === advert.user._id}
                             showFavorite={advert.user && props.session._id !== advert.user_id}
-                            onSellAdvert={sellAdvert}
-                            onBookAdvert={bookAdvert}
-                            onSetFavorite={setFavorite}
+                            onSellAdvert={setSellAdvert}
+                            onBookAdvert={setBookAdvert}
+                            onFavoriteAdvert={setFavoriteAdvert}
+                            onDeleteAdvert={deleteAdvertRequest}
                         />
                         { props.isFetching && <Loading text={'fetching advert'}/> }
                         { error &&  <Error error={error}/> }
                     </main>
+                    {   showModalDelete && 
+                        <ModalConfirm   onConfirm={confirmDeleteAdvert} 
+                                        onCancel={cancelDeleteAdvert} 
+                                        visible={true} type='warning'
+                                        title='¿Está seguro de borrar el anuncio?'
+                        /> 
+                    }
                 </Container>
             <Footer/>
         </React.Fragment>

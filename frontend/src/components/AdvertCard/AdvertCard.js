@@ -22,9 +22,6 @@ export default function AdvertCard (props) {
     // Props destructuring
     const { slug, name, photo, tags, price, sold, booked, type, favorite, user, createdAt } = props.advert;
 
-    // Click en borrar anuncio
-    const setFavorite = () => props.onFavoriteAdvert(slug);
-
     // Render
     return(
         <article id={`adslug_${slug}`} className='AdvertCard'>
@@ -50,7 +47,7 @@ export default function AdvertCard (props) {
                     <Link to={`published/${user._id}`} className='AdvertCard__Link'><p>{user.name}</p></Link>
                 </div>
                 <div className='AdvertCard__Favorite'>
-                    <button className='ButtonTransparent' onClick={setFavorite}>
+                    <button className='ButtonTransparent' onClick={props.setFavoriteAdvert}>
                         <FavoriteIcon className={`FavoriteIcon FavoriteIcon--${favorite?'On':'Off'}`}/>
                     </button>
                 </div>

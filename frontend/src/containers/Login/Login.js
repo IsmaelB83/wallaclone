@@ -15,7 +15,7 @@ import LocalStorage from '../../utils/Storage';
 export default function Login(props) {
     
     // Props destructuring
-    const { login, loginWithToken, activateAccount, enqueueSnackbar, fetchAdverts } = props;
+    const { login, loginWithToken, activateAccount, enqueueSnackbar } = props;
     const { token } = props.match.params;
     const { push } = props.history;
     
@@ -33,7 +33,7 @@ export default function Login(props) {
                 enqueueSnackbar(error, { variant: 'error', })
             });
         }
-    }, [login, loginWithToken, push, enqueueSnackbar, token, fetchAdverts]);
+    }, [login, loginWithToken, push, enqueueSnackbar, token]);
 
     // Dispatch activate account
     useEffect(() => {

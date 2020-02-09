@@ -12,16 +12,13 @@
     align-items: center;
 }
 
-.Error h2 {
-    color: red;
-}
-
 .Error p {
     font-size: 2rem;
     margin-top: 1rem;
     font-weight: bold;
 }
 
-.Error h3 {
-    margin-top: 2rem;
-}
+.Error img { max-width: 700px; }
+.Error h1 { margin-top: 2rem; }
+.Error h2 { color: red; }
+.Error h3 { margin-top: 2rem; }

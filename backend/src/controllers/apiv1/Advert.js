@@ -24,10 +24,11 @@ module.exports = {
             Advert.list(req.query.name, req.query.venta, req.query.tag, req.query.price, req.query.user, parseInt(req.query.limit), 
                 parseInt(req.query.skip), req.query.fields, req.query.sort)
             .then (result => {
-                return res.json({
+                return res.status(200).json({
                     success: true,
-                    limit: result.limit,
-                    totalCount: result.totalCount,
+                    start: result.start,
+                    end: result.end,
+                    apiCount: result.apiCount,
                     count: result.results.length,
                     results: result.results
                 });
