@@ -27,10 +27,10 @@ export default function ModalConfirm (props) {
     return(
         <Dialog className='ModalConfirm' open={visible} onClose={cancel}>
             <div className='ModalConfirm__Wrapper'>
-                <img src={props.type==='warning'?imgWarning:imgConfirmation} className='ModalConfirm__Image' alt='nodepop-logo' />
+                <img src={props.type==='warning'?imgWarning:imgConfirmation} className='ModalConfirm__Image' alt='wallaclone-logo' />
                 <DialogTitle className='ModalConfirm__Title'>{props.title}</DialogTitle>
                 <DialogActions className='ModalConfirm__Actions'>
-                    <Button onClick={confirm} variant='contained' className='ButtonWallakeep ButtonWallakeep__Green'>Aceptar</Button>
+                    <Button onClick={confirm} variant='contained' className='ButtonWallaclone ButtonWallaclone__Green'>Aceptar</Button>
                     <Button onClick={cancel} variant='contained' color='secondary'>Cancelar</Button>
                 </DialogActions>
             </div>

@@ -11,30 +11,40 @@ import { initialState } from '../InitialState';
  */
 export function filters (state = initialState.filters, action) {
     switch (action.type) {
+        // Set filters
         case FILTERS.SET_FILTERS:
-            return {
-                ...action.filters,
-                name: action.filters.name.toLowerCase(),
-                minPrice: parseFloat(action.filters.minPrice),
-                maxPrice: parseFloat(action.filters.maxPrice)
-            };
-        case ADVERTS.FETCH_ADVERTS_SUCCESS:
-            return {
-                ...initialState.filters,
-                totalCount: action.apiCount,
-                lastCount: action.lastCount,
-                start: action.start,
-                end: action.end,
-            };
         case ADVERTS.SEARCH_ADVERTS_SUCCESS:
+            return { ...action.filters };
+        // Delete filters
+        case SESSION.LOGOUT_SUCCESS:
+        case SESSION.DELETE_ACCOUNT_SUCCESS:
+        case ADVERTS.FETCH_ADVERTS_SUCCESS:
+            return initialState.filters;
+        // Default
+        default:
+            return state;
+    }
+}
+
+/**
+ * Reducer para gestionar las acciones sobre los datos de la última llamada al API
+ * @param {Array} state objeto last call del estado
+ * @param {Object} action action recibida en el reducer
+ */
+export function lastCall (state = initialState.filters, action) {
+    switch (action.type) {
+        // Set api call statistics
+        case ADVERTS.FETCH_ADVERTS_SUCCESS:
+        case ADVERTS.SEARCH_ADVERTS_SUCCESS:
+        case ADVERTS.FETCH_ITERATE_ADVERTS_SUCCESS:
+        case ADVERTS.FETCH_FAVORITES_SUCCESS:
+        case ADVERTS.FETCH_USER_ADVERTS_SUCCESS:
             return {
-                ...action.filters,
-                totalCount: action.apiCount,
-                lastCount: action.lastCount,
+                totalCount: action.totalCount,
                 start: action.start,
                 end: action.end,
             };
-        // Logout
+        // Delete api call statistics
         case SESSION.LOGOUT_SUCCESS:
         case SESSION.DELETE_ACCOUNT_SUCCESS:
             return initialState.filters;

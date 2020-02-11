@@ -1,7 +1,10 @@
 // API
 import AdvertServices from '../../services/AdvertServices';
+import UserServices from '../../services/UserServices';
 // Actions
 import * as ACTIONS from '../types/AdvertsTypes';
+
+const SIZE_CALL = parseInt(process.env.REACT_APP_MAX_ADVERTS_API); 
 
 /**
  * Obtener tags disponibles para categorizar anuncios
@@ -69,7 +72,7 @@ export const fetchAdverts = () => {
                     return ad;
                 });
             }
-            dispatch(fetchAdvertsSuccess(response.adverts, response.apiCount, response.start, response.end, response.adverts.length));
+            dispatch(fetchAdvertsSuccess(response.adverts, response.totalCount, response.start, response.end));
             return response;
         })
         .catch (error => {
@@ -82,7 +85,7 @@ export const fetchAdverts = () => {
 
 const fetchAdvertsRequest = () => ({ type: ACTIONS.FETCH_ADVERTS_REQUEST });
 const fetchAdvertsFailure = error => ({ type: ACTIONS.FETCH_ADVERTS_FAILURE, error });
-const fetchAdvertsSuccess = (adverts, apiCount, start, end, lastCount) => ({ type: ACTIONS.FETCH_ADVERTS_SUCCESS, adverts, apiCount, start, end, lastCount });
+const fetchAdvertsSuccess = (adverts, totalCount, start, end) => ({ type: ACTIONS.FETCH_ADVERTS_SUCCESS, adverts, totalCount, start, end });
 
 /**
  * Obtener anuncios de del usuario indicado
@@ -90,7 +93,7 @@ const fetchAdvertsSuccess = (adverts, apiCount, start, end, lastCount) => ({ typ
 export const fetchUserAdverts = (_id) => {   
     return async function(dispatch, getState) {
         dispatch(fetchUserAdvertsRequest());
-        return AdvertServices.getAdvertsByUser(_id)
+        return AdvertServices.searchAdverts({user: _id})
         .then(response => {
             const { favorites } = getState();
             if (favorites) {
@@ -99,7 +102,7 @@ export const fetchUserAdverts = (_id) => {
                     return ad;
                 });
             }
-            dispatch(fetchUserAdvertsSuccess(response.adverts, response.apiCount, response.start, response.end, response.adverts.length));
+            dispatch(fetchUserAdvertsSuccess(response.adverts, response.totalCount, response.start, response.end));
             return response;
         })
         .catch(error => {
@@ -112,7 +115,31 @@ export const fetchUserAdverts = (_id) => {
 
 const fetchUserAdvertsRequest = () => ({ type: ACTIONS.FETCH_USER_ADVERTS_REQUEST });
 const fetchUserAdvertsFailure = error => ({ type: ACTIONS.FETCH_USER_ADVERTS_FAILURE, error });
-const fetchUserAdvertsSuccess = (adverts, apiCount, start, end, lastCount) => ({ type: ACTIONS.FETCH_USER_ADVERTS_SUCCESS, adverts, apiCount, start, end, lastCount });
+const fetchUserAdvertsSuccess = (adverts, totalCount, start, end) => ({ type: ACTIONS.FETCH_USER_ADVERTS_SUCCESS, adverts, totalCount, start, end });
+
+/**
+ * Obtener favoritos del usuario
+ * @param {String} jwt Token para autenticar en el API
+ */
+export const fetchFavorites = jwt => {
+    return async function(dispatch, getState) {
+        dispatch(fetchFavoritesRequest());
+        return UserServices.getFavorites(jwt)
+        .then(response => {
+            dispatch(fetchFavoritesSuccess(response.adverts, response.totalCount, response.start, response.end));
+            return response;
+        })
+        .catch(error => {
+            let message = error.response && error.response.data ? error.response.data.data : error.message;            
+            dispatch(fetchFavoritesFailure(message));
+            throw message;
+        });
+    }
+};
+
+const fetchFavoritesRequest = () => ({ type: ACTIONS.FETCH_FAVORITES_REQUEST });
+const fetchFavoritesFailure = error => ({ type: ACTIONS.FETCH_FAVORITES_FAILURE, error });
+const fetchFavoritesSuccess = (adverts, totalCount, start, end) => ({ type: ACTIONS.FETCH_FAVORITES_SUCCESS, adverts, totalCount, start, end });
 
 /**
  * Buscar anuncios mediante los filtros indicados
@@ -123,6 +150,9 @@ export const searchAdverts = filters => {
         dispatch(searchAdvertsRequest());
         return AdvertServices.searchAdverts(filters)
         .then(response => {
+            filters.name = filters.name.toLowerCase();
+            filters.minPrice = parseFloat(filters.minPrice);
+            filters.maxPrice = parseFloat(filters.maxPrice);
             const { favorites } = getState();
             if (favorites) {
                 response.adverts.map(ad => {
@@ -130,7 +160,7 @@ export const searchAdverts = filters => {
                     return ad;
                 });
             }
-            dispatch(searchAdvertsSuccess(response.adverts, response.apiCount, response.start, response.end, response.adverts.length, filters));
+            dispatch(searchAdvertsSuccess(response.adverts, response.totalCount, response.start, response.end, filters));
             return response;
         })
         .catch(error => {
@@ -143,15 +173,21 @@ export const searchAdverts = filters => {
 
 const searchAdvertsRequest = () => ({ type: ACTIONS.SEARCH_ADVERTS_REQUEST });
 const searchAdvertsFailure = error => ({ type: ACTIONS.SEARCH_ADVERTS_FAILURE, error });
-const searchAdvertsSuccess = (adverts, apiCount, start, end, lastCount, filters) => ({ type: ACTIONS.SEARCH_ADVERTS_SUCCESS, adverts, apiCount, start, end, lastCount, filters });
+const searchAdvertsSuccess = (adverts, totalCount, start, end, filters) => ({ type: ACTIONS.SEARCH_ADVERTS_SUCCESS, adverts, totalCount, start, end, filters });
 
 /**
- * Next/Previous iteration getting adverts
+ * Next/Previous iteration getting adverts ()
  */
-export const fetchNextAdverts = (direction) => {   
+export const fetchIterateAdverts = (direction) => {
     return async function(dispatch, getState) {
-        dispatch(fetchNextAdvertsRequest());
-        return AdvertServices.getAdverts()
+        dispatch(fetchIterateAdvertsRequest());
+        const { lastCall, filters } = getState();
+        const newFilters = {...filters};
+        newFilters.limit = SIZE_CALL
+        newFilters.skip = direction===1?lastCall.end + 1:lastCall.start - SIZE_CALL;
+        if (newFilters.limit <= 0) delete newFilters.limit;
+        if (newFilters.skip <= 0) delete newFilters.skip;
+        return AdvertServices.searchAdverts({...newFilters})
         .then(response => {
             const { favorites } = getState();
             if (favorites) {
@@ -160,20 +196,20 @@ export const fetchNextAdverts = (direction) => {
                     return ad;
                 });
             }
-            dispatch(fetchNextAdvertsSuccess(response.adverts, response.apiCount, response.start, response.end, response.adverts.length));
+            dispatch(fetchIterateAdvertsSuccess(response.adverts, response.totalCount, response.start, response.end));
             return response;
         })
         .catch (error => {
             let message = error.response && error.response.data ? error.response.data.data : error.message;            
-            dispatch(fetchNextAdvertsFailure(message));
+            dispatch(fetchIterateAdvertsFailure(message));
             throw message;
         });
     }
 };
 
-const fetchNextAdvertsRequest = () => ({ type: ACTIONS.FETCH_NEXT_ADVERTS_REQUEST });
-const fetchNextAdvertsFailure = error => ({ type: ACTIONS.FETCH_NEXT_ADVERTS_FAILURE, error });
-const fetchNextAdvertsSuccess = (adverts, apiCount, start, end, lastCount) => ({ type: ACTIONS.FETCH_NEXT_ADVERTS_SUCCESS, adverts, apiCount, start, end, lastCount });
+const fetchIterateAdvertsRequest = () => ({ type: ACTIONS.FETCH_ITERATE_ADVERTS_REQUEST });
+const fetchIterateAdvertsFailure = error => ({ type: ACTIONS.FETCH_ITERATE_ADVERTS_FAILURE, error });
+const fetchIterateAdvertsSuccess = (adverts, totalCount, start, end) => ({ type: ACTIONS.FETCH_ITERATE_ADVERTS_SUCCESS, adverts, totalCount, start, end });
 
 /**
  * Editar datos de un anuncio

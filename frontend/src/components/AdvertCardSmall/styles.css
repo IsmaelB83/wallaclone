@@ -65,7 +65,7 @@
     flex-wrap: wrap;
 }
 
-.CardList__Actions .ButtonWallakeep {
+.CardList__Actions .ButtonWallaclone {
     background-color: transparent;
     color: var(--medium-grey);
     min-width: 0;
@@ -77,16 +77,16 @@
     margin-right: 3px;
 }
 
-.CardList__Actions .ButtonWallakeep svg {
+.CardList__Actions .ButtonWallaclone svg {
     font-size: 1rem;
     transition: all 200ms ease-in;
 }
 
-.CardList__Actions .ButtonWallakeep:hover {
+.CardList__Actions .ButtonWallaclone:hover {
     color: white;
 }
 
-.CardList__Actions .ButtonWallakeep:hover .FavoriteIcon {
+.CardList__Actions .ButtonWallaclone:hover .FavoriteIcon {
     color: red;
     transform: scale(1.1); 
 }
@@ -161,7 +161,7 @@
         justify-content: flex-start;
         flex-basis: 100%;
     }
-    .CardList__Actions .ButtonWallakeep {
+    .CardList__Actions .ButtonWallaclone {
         height: 30px;
         width: 30px;
     }

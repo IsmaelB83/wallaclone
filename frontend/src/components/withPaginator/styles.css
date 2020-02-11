@@ -7,6 +7,6 @@
     padding: 8px 0;
 }
 
-.AdvertList__Paginator .Paginator .ButtonWallakeep:disabled {
+.AdvertList__Paginator .Paginator .ButtonWallaclone:disabled {
     background-color: var(--medium-grey) !important;
 }

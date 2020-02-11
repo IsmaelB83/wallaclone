@@ -6,10 +6,6 @@ export const initialState = {
     adverts: [],
     // Available tags in the backend
     tags: [],
-    // User adverts
-    published: [],
-    // User favorites
-    favorites: [],
     // Filters applied (text, tag, type, amounts)
     filters: {
         name: undefined,
@@ -17,9 +13,13 @@ export const initialState = {
         maxPrice: undefined,
         type: undefined, 
         tag: undefined,
-        apiCount: -1,
+        user: undefined,
+    },
+    // Last call statistics
+    lastCall: {
+        totalCount: -1,
         start: -1,
-        end: -1,
+        end: -1,        
     },
     // UI State
     ui: {

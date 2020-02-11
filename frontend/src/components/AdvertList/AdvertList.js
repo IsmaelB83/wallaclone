@@ -2,13 +2,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 // Material UI
-// Components
+// Own Components
 import AdvertCard from '../AdvertCard';
 import AdvertCardSmall from '../AdvertCardSmall';
 // Own modules
 // Models
 import Advert from '../../models/Advert';
-// Assets
+// Asset
+import imageSpinner from '../../assets/images/spinner.gif';
 // CSS
 import './styles.css';
 
@@ -27,10 +28,9 @@ export default function AdvertList (props) {
     const Card = CARD_TYPES[props.type];
     return(
         <section className={`${props.type==='tiles'?'AdvertListTiles':'AdvertListDetail'}`}>
-            {   props.adverts.map((advert, index) => 
+            {   !props.isFetching && props.adverts.length && props.adverts.map((advert, index) => 
                     <Card   key={index}
                             advert={advert} 
-                            history={props.history}
                             showEdit={props.showEdit}
                             showFavorite={props.showFavorite}
                             showDeleteFavorite={props.showDeleteFavorite}
@@ -40,7 +40,8 @@ export default function AdvertList (props) {
                             onFavoriteAdvert={props.onFavoriteAdvert}
                     />
             )}
-            { !props.adverts.length && <h2 className='Home__Subtitle'>No hay anuncios que cumplan con los criterios de búsqueda</h2> }
+            { !props.isFetching && !props.adverts.length && <h2 className='Home__Subtitle'>No hay anuncios que cumplan con los criterios de búsqueda</h2> }
+            { props.isFetching && <LoadingList text='Loading adverts'/> }
         </section>
 );
 }
@@ -53,3 +54,10 @@ AdvertCardSmall.propTypes = {
     adverts: PropTypes.arrayOf(Advert) 
 }
 
+function LoadingList (props) {
+    return <div className='LoadingList'>
+                <img src={imageSpinner} className='LoadingList__Spinner' alt='spinner'/>
+                <h2 className='LoadingList__Text'>{props.text}</h2>
+            </div>
+}
+        

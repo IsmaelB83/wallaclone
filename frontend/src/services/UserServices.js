@@ -52,17 +52,10 @@ export default {
         }
         // Call endpoint and return
         Axios.put( baseURL, formData, config )
-        .then(res => {
-            debugger;
-            return {id: ''}
-        })
-        .catch(error => {
-            debugger;
-            return '';
-        })
+        .then(res => res.data.user)
     },
 
-        /**
+    /**
     * Editar los datos de un usuario
     */
    delete: async (id, jwt) => {
@@ -72,12 +65,7 @@ export default {
         const config = { headers: { 'Authorization': `Bearer ${jwt}`, } };
         // Call endpoint and return
         Axios.delete( baseURL, config )
-        .then(res => {
-            return {id: ''}
-        })
-        .catch(error => {
-            return '';
-        })
+        .then(res => res.data)
     },
         
     /**
@@ -112,11 +100,17 @@ export default {
             baseURL, 
             { headers: { 'Authorization': `Bearer ${jwt}`} }
         )
-        .then(res => res.data.results.map(advert => 
-            { const aux = new Advert(advert)
-                aux.favorite = true;
-                return aux;
+        .then(res => {
+            const adverts = res.data.results.map(ad => {
+                ad.favorite = true;
+                return new Advert(ad);
+            });
+            return {
+                start: 0,
+                end: adverts.length - 1,
+                totalCount: adverts.length,
+                adverts: adverts
             }
-        ));
-    },          
+        });
+    },
 }

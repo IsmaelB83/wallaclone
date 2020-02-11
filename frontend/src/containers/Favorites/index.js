@@ -4,7 +4,7 @@ import { withSnackbar } from 'notistack';
 // Own components
 import Favorites from './Favorites';
 // Own modules
-import { SessionActions } from '../../store/GlobalActions';
+import { AdvertsActions, SessionActions, FiltersActions } from '../../store/GlobalActions';
 
 
 /**
@@ -13,8 +13,10 @@ import { SessionActions } from '../../store/GlobalActions';
  */
 const mapStateToProps = (state) => {
     return {
+        adverts: state.favorites,
+        lastCall: state.lastCall,
         session: state.session,
-        favorites: state.favorites,
+        ui: state.ui,
     }
 }
 
@@ -24,7 +26,10 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
-        setFavorite: (slug, jwt) => dispatch(SessionActions.setFavorite(slug, jwt))
+        setFavorite: (slug, jwt) => dispatch(SessionActions.setFavorite(slug, jwt)),
+        setCurrentPage: pageNumber => dispatch(FiltersActions.setCurrentPage(pageNumber)),
+        fetchFavorites: (jwt) => dispatch(AdvertsActions.fetchFavorites(jwt)),
+        fetchIterateAdverts: direction => dispatch(AdvertsActions.fetchIterateAdverts(direction)),
     }
 }
 

@@ -18,15 +18,23 @@ export function ui(state = initialState.ui, action) {
             return { ...state, currentPage: action.pageNumber }
         // Feching related
         case ADVERTS.FETCH_ADVERTS_REQUEST:
-        case ADVERTS.FETCH_TAGS_REQUEST:
+        case ADVERTS.SEARCH_ADVERTS_REQUEST:
+        case ADVERTS.FETCH_ITERATE_ADVERTS_REQUEST:
+        case ADVERTS.FETCH_FAVORITES_REQUEST:
+        case ADVERTS.FETCH_USER_ADVERTS_REQUEST:
             return { ...state, isFetching: true, error: null }
         case ADVERTS.FETCH_ADVERTS_FAILURE:
-        case ADVERTS.FETCH_TAGS_FAILURE:
-            return { ...state, isFetching: false, error: action.error }
-        case ADVERTS.SEARCH_ADVERTS_SUCCESS:
+        case ADVERTS.SEARCH_ADVERTS_FAILURE:
+        case ADVERTS.FETCH_ITERATE_ADVERTS_FAILURE:
+        case ADVERTS.FETCH_FAVORITES_FAILURE:
+        case ADVERTS.FETCH_USER_ADVERTS_FAILURE:
+                return { ...state, isFetching: false, error: action.error }
         case ADVERTS.FETCH_ADVERTS_SUCCESS:
-        case ADVERTS.FETCH_TAGS_SUCCESS:
-            return { ...state, isFetching: false, error: null }
+        case ADVERTS.SEARCH_ADVERTS_SUCCESS:
+        case ADVERTS.FETCH_FAVORITES_SUCCESS:
+        case ADVERTS.FETCH_ITERATE_ADVERTS_SUCCESS:
+        case ADVERTS.FETCH_USER_ADVERTS_SUCCESS:
+            return { ...state, currentPage: 0, isFetching: false, error: null }
         // Authention related
         case SESSION.RESET_ACCOUNT_REQUEST:
         case SESSION.LOGIN_REQUEST:

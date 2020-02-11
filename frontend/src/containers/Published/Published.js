@@ -19,29 +19,26 @@ import './styles.css';
 export default function Published (props) {
     
     // Destructure props
-    const { enqueueSnackbar, fetchUserAdverts, published } = props;
+    const { enqueueSnackbar, fetchUserAdverts, setCurrentPage, setAdverts, fetchIterateAdverts } = props;
+    const { start, end, totalCount } = props.lastCall;
     const { member } = props.match.params;
-    const { _id, jwt } = props.session;
+    const { currentPage, isFetching } = props.ui;
+    const { jwt } = props.session;
+    const { adverts, session } = props;
 
-    // Anuncios propios (usuario logado) o de otro usuario?
-
-    // Seteo de anuncios inicia);
-    const [adverts, setAdverts] = useState([]);
-    const [totalCount, setTotalCount] = useState(0)
+    // Cargo anuncios del usuario solicitado
     useEffect(() => {
-        if (member === _id) {
-            setTotalCount(published.length); // En published propios no limito las llamadas
-            setAdverts(published);
-        } else {
-            // Other user adverts
-            fetchUserAdverts(member)
-            .then(response => {
-                setTotalCount(response.apiCount);
-                setAdverts(response.adverts)
-            })
-            .catch(error => enqueueSnackbar(`Error cargando anuncios de ${_id}`, { variant: 'error' }));
-        }
-    }, [_id, member, fetchUserAdverts, enqueueSnackbar, published]);
+        fetchUserAdverts(member)
+        .then(response => enqueueSnackbar(`Resultados ${start + 1} a ${end + 1} cargados del total de ${totalCount}.`, { variant: 'info' }))
+        .catch(error => enqueueSnackbar(`Error cargando anuncios de ${member}`, { variant: 'error' }));
+    }, [session, fetchUserAdverts, enqueueSnackbar, end, start, totalCount]);
+
+    // Paginación sobre la colección de anuncios
+    const onFetchIterateAdverts = (direction) => {
+        return fetchIterateAdverts(direction)
+        .then (response => enqueueSnackbar(`Resultados ${this.props.lastCall.start + 1} a ${this.props.lastCall.end + 1} cargados del total de ${this.props.lastCall.totalCount}.`, { variant: 'info' }))
+        .catch(error => enqueueSnackbar(`Error obteniendo anuncios ${error}`, { variant: 'error' }));
+    }
 
     // Reservar producto
     const favoriteAdvert = (slug) => {
@@ -99,21 +96,23 @@ export default function Published (props) {
             <NavBar/>
                 <Container className='Container__Fill'>
                 <main className='Main__Section'>
-                    { adverts.length &&
-                        <AdvertList 
-                            type='list' 
-                            itemsPerPage={parseInt(process.env.REACT_APP_MAX_ADVERTS_LIST)}
-                            adverts={adverts}
-                            totalCount={totalCount}
-                            showEdit={props.session._id && member === props.session._id}
-                            showFavorite={props.session._id && member !== props.session._id}
-                            onBookAdvert={bookAdvert}
-                            onSellAdvert={sellAdvert}
-                            onDeleteAdvert={deleteAdvertRequest}
-                            onFavoriteAdvert={favoriteAdvert}
-                            history={props.history}
-                        />
-                    }
+                    <AdvertList 
+                        type='list' 
+                        start={start}
+                        end={end}
+                        totalCount={totalCount}
+                        currentPage={currentPage}
+                        adverts={adverts}
+                        showEdit={props.session._id && member === props.session._id}
+                        showFavorite={props.session._id && member !== props.session._id}
+                        isFetching={isFetching}
+                        onBookAdvert={bookAdvert}
+                        onSellAdvert={sellAdvert}
+                        onDeleteAdvert={deleteAdvertRequest}
+                        onFavoriteAdvert={favoriteAdvert}
+                        onSetCurrentPage={setCurrentPage}
+                        onfetchIterateAdverts={onFetchIterateAdverts}
+                    />
                 </main>
                 {   showModalDelete && 
                     <ModalConfirm   onConfirm={confirmDeleteAdvert} 
@@ -125,5 +124,5 @@ export default function Published (props) {
             </Container>
             <Footer/>
         </React.Fragment>
-        );
-    }
+    );
+}

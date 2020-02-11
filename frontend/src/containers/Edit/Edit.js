@@ -191,7 +191,7 @@ export default class Edit extends Component {
                   </React.Fragment>
               }
               <div className='AdvertEdit__Footer'>
-                <Button type='submit' variant='contained' startIcon={<SaveIcon />} className='ButtonWallakeep ButtonWallakeep__Green'>
+                <Button type='submit' variant='contained' startIcon={<SaveIcon />} className='ButtonWallaclone ButtonWallaclone__Green'>
                   Guardar
                 </Button>
                 <Button type='button' variant='contained' color='secondary' startIcon={<CancelIcon />} onClick={this.handleReset} component={Link} to='/'>

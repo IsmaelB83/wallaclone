@@ -26,11 +26,22 @@ export function adverts(state = initialState.adverts, action) {
     switch (action.type) {
         // Initialization
         case ADVERTS.FETCH_ADVERTS_REQUEST:
+        case ADVERTS.SEARCH_ADVERTS_REQUEST:
+        case ADVERTS.FETCH_ITERATE_ADVERTS_REQUEST:
+        case ADVERTS.FETCH_FAVORITES_REQUEST:
+        case ADVERTS.FETCH_USER_ADVERTS_REQUEST:
         case ADVERTS.FETCH_ADVERTS_FAILURE:
+        case ADVERTS.SEARCH_ADVERTS_FAILURE:
+        case ADVERTS.FETCH_ITERATE_ADVERTS_FAILURE:
+        case ADVERTS.FETCH_FAVORITES_FAILURE:
+        case ADVERTS.FETCH_USER_ADVERTS_FAILURE:
             return initialState.adverts;
         // Adverts related
         case ADVERTS.FETCH_ADVERTS_SUCCESS:
         case ADVERTS.SEARCH_ADVERTS_SUCCESS:
+        case ADVERTS.FETCH_ITERATE_ADVERTS_SUCCESS:
+        case ADVERTS.FETCH_FAVORITES_SUCCESS:
+        case ADVERTS.FETCH_USER_ADVERTS_SUCCESS:
             return [...action.adverts];
         case ADVERTS.CREATE_ADVERT_SUCCESS:
             return [action.advert, ...state];
@@ -53,11 +64,6 @@ export function adverts(state = initialState.adverts, action) {
             const i = state.findIndex(advert => advert._id === action.advert._id);
             return [ ...state.slice(0, i), ...state.slice(i + 1) ];
         // Favorites related
-        case SESSION.FETCH_FAVORITES_SUCCESS:
-            return state.map(a => {
-                const favorite = action.favorites.findIndex(f => f._id === a._id) >= 0 ? true : false;
-                return {...a, favorite};
-            });
         case SESSION.SET_FAVORITE_SUCCESS:
             return state.map(a => {
                 if (action.advert._id === a._id ) return {...a, favorite: action.advert.favorite};

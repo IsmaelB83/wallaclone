@@ -101,7 +101,7 @@ export default class Profile extends Component {
                         />
                     </FormControl>
                     <div className='Profile__Footer'>
-                        <Button type='submit' variant='contained' color='primary' startIcon={<SaveIcon />} className='ButtonWallakeep ButtonWallakeep__Green'>
+                        <Button type='submit' variant='contained' color='primary' startIcon={<SaveIcon />} className='ButtonWallaclone ButtonWallaclone__Green'>
                         Guardar
                         </Button>
                         <Button type='button' variant='contained' color='secondary' onClick={this.requestDeleteAccount} startIcon={<DeleteIcon />}>

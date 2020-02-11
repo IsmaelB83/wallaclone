@@ -37,25 +37,7 @@ export default {
             return {
                 end: res.data.end,
                 start: res.data.start,
-                apiCount: res.data.apiCount,
-                adverts:  res.data.results.map(advert => new Advert(advert))
-            }
-        });
-    },
-    
-    /**
-    * Get published adverts for a specific user
-    */
-    getAdvertsByUser: (user) => {
-        // Endpoint
-        let baseURL = `${API_URL}?user=${user}`;
-        // Call endpoint and return
-        return Axios.get(baseURL)
-        .then(res => {
-            return {
-                end: res.data.end,
-                start: res.data.start,
-                apiCount: res.data.apiCount,
+                totalCount: res.data.totalCount,
                 adverts:  res.data.results.map(advert => new Advert(advert))
             }
         });
@@ -90,13 +72,15 @@ export default {
         } else if (priceFrom && priceTo) {
             baseURL =`${baseURL}price=${priceFrom}-${priceTo}&`;
         }
+        if (filters.skip && filters.skip > 0) baseURL = `${baseURL}skip=${filters.skip}&`
+        if (filters.limit && filters.limit > 0) baseURL = `${baseURL}limit=${filters.limit}&`
         // Call endpoint and return
         return Axios.get(baseURL)
         .then(res => {
             return {
                 end: res.data.end,
                 start: res.data.start,
-                apiCount: res.data.apiCount,
+                totalCount: res.data.totalCount,
                 adverts:  res.data.results.map(advert => new Advert(advert))
             }
         });

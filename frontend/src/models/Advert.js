@@ -40,7 +40,7 @@ const EMPTY_ADVERT = {
 const API_URL = process.env.REACT_APP_API_URL.replace('/apiv1','');
 
 /**
- * Modelo de anuncio en nodepop
+ * Modelo de anuncio en wallaclone
  */
 export default class Advert {
     

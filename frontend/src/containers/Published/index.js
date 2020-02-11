@@ -5,7 +5,7 @@ import { withSnackbar } from 'notistack';
 import Published from './Published';
 // Models
 // Own modules
-import { AdvertsActions, SessionActions } from '../../store/GlobalActions';
+import { AdvertsActions, SessionActions, FiltersActions } from '../../store/GlobalActions';
 
 /**
  * Inyecta props en mi componente para acceder al state del store
@@ -13,10 +13,10 @@ import { AdvertsActions, SessionActions } from '../../store/GlobalActions';
  */
 const mapStateToProps = (state) => {
     return {
-        published: state.published,
+        adverts: state.adverts,
         session: state.session,
-        isFetching: state.ui.isFetching,
-        error: state.ui.error,
+        ui: state.ui,
+        lastCall: state.lastCall
     }
 }
 
@@ -31,6 +31,8 @@ const mapDispatchToProps = (dispatch) => {
         sellAdvert: (slug, jwt) => dispatch(AdvertsActions.sellAdvert(slug, jwt)),
         fetchUserAdverts: (slug) => dispatch(AdvertsActions.fetchUserAdverts(slug)),
         setFavorite: (slug, jwt) => dispatch(SessionActions.setFavorite(slug, jwt)),
+        setCurrentPage: pageNumber => dispatch(FiltersActions.setCurrentPage(pageNumber)),
+        fetchIterateAdverts: direction => dispatch(AdvertsActions.fetchIterateAdverts(direction)),
     }
 }
 

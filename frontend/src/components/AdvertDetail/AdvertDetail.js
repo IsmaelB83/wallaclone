@@ -1,6 +1,5 @@
 // NPM Modules
 import React from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 // Material UI
@@ -48,39 +47,37 @@ export default function AdvertDetail(props) {
                             variant='contained' 
                             color='secondary' 
                             startIcon={<FavoriteIcon className={`FavoriteIcon FavoriteIcon--${favorite?'On':'White'}`}/>} 
-                            className='ButtonWallakeep ButtonWallakeep__Green'
+                            className='ButtonWallaclone ButtonWallaclone__Green'
                             onClick={props.setFavoriteAdvert}>
                             Favorito
                         </Button>
                     }
                     {   props.showEdit && 
                         <React.Fragment>
-                            <Link to={`/advert/edit/${slug}`}>
-                                <Button type='button' 
-                                        variant='contained' 
-                                        color='secondary' 
-                                        startIcon={<EditIcon />} 
-                                        className='ButtonWallakeep ButtonWallakeep__Green'>
-                                        Editar
-                                </Button>
-                            </Link>
                             <Button type='button' 
                                     variant='contained' 
-                                    className='ButtonWallakeep ButtonWallakeep__Blue' 
+                                    className='ButtonWallaclone ButtonWallaclone__Green'
+                                    startIcon={<EditIcon />} 
+                                    href={`/advert/edit/${slug}`}>
+                                    Editar
+                            </Button>
+                            <Button type='button' 
+                                    variant='contained' 
+                                    className='ButtonWallaclone ButtonWallaclone__Blue' 
                                     disabled={sold || props.isUpdating} 
                                     onClick={props.setBookAdvert}>
                                     {!booked?'Reservar':'Anular reserva'}
                             </Button>
                             <Button type='button' 
                                     variant='contained' 
-                                    className='ButtonWallakeep ButtonWallakeep__Red' 
+                                    className='ButtonWallaclone ButtonWallaclone__Red' 
                                     disabled={props.isUpdating} 
                                     onClick={props.setSellAdvert}>
                                     {!sold?'Vendido':'Anular venta'}
                             </Button>
                             <Button type='button' 
                                     variant='contained' 
-                                    className='ButtonWallakeep ButtonWallakeep__Red' 
+                                    className='ButtonWallaclone ButtonWallaclone__Red' 
                                     disabled={props.isUpdating} 
                                     onClick={props.setDeleteAdvert}>
                                     Eliminar

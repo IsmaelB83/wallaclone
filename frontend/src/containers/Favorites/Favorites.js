@@ -1,5 +1,5 @@
 // NPM Modules
-import React from 'react';
+import React, { useEffect } from 'react';
 // Material UI
 import Container from '@material-ui/core/Container';
 // Components
@@ -18,8 +18,25 @@ import './styles.css';
 export default function Published (props) {
     
     // Destructuring index props
-    const { enqueueSnackbar, setFavorite, favorites} = props;
-    
+    const { enqueueSnackbar, setFavorite, setCurrentPage, fetchFavorites, fetchIterateAdverts} = props;
+    const { start, end, totalCount} = props.lastCall;
+    const { adverts, session } = props;
+    const { currentPage, isFetching } = props.ui;
+
+    // Cargo favoritos del usuario
+    useEffect(() => {
+        fetchFavorites(session.jwt)
+        .then(response => enqueueSnackbar(`Resultados ${start + 1} a ${end + 1} cargados del total de ${totalCount}.`, { variant: 'info' }))
+        .catch(error => enqueueSnackbar(`Error cargando favorios de ${session.name}`, { variant: 'error' }));
+    }, [session, fetchFavorites, enqueueSnackbar, end, start, totalCount]);
+
+    // Paginación sobre la colección de anuncios
+    const onFetchIterateAdverts = (direction) => {
+        return fetchIterateAdverts(direction)
+        .then (response => enqueueSnackbar(`Resultados ${this.props.lastCall.start + 1} a ${this.props.lastCall.end + 1} cargados del total de ${this.props.lastCall.totalCount}.`, { variant: 'info' }))
+        .catch(error => enqueueSnackbar(`Error obteniendo anuncios ${error}`, { variant: 'error' }));
+    }
+
     // Delete favorite
     const deleteFavorite = slug => {
         setFavorite(slug, props.session.jwt)
@@ -33,18 +50,20 @@ export default function Published (props) {
             <NavBar/>
             <Container className='Container__Fill'>
                 <main className='Main__Section'>
-                    { favorites &&
-                        <AdvertList 
-                            type='list' 
-                            itemsPerPage={parseInt(process.env.REACT_APP_MAX_ADVERTS_LIST)}
-                            totalCount={favorites.length}
-                            adverts={favorites}
-                            showEdit={false}
-                            showFavorite={true}
-                            onFavoriteAdvert={deleteFavorite}
-                            history={props.history}
-                        />
-                    }
+                    <AdvertList 
+                        type='list' 
+                        start={start}
+                        end={end}
+                        totalCount={totalCount}
+                        currentPage={currentPage}
+                        adverts={adverts}
+                        showEdit={false}
+                        showFavorite={true}
+                        isFetching={isFetching}
+                        onFavoriteAdvert={deleteFavorite}
+                        onSetCurrentPage={setCurrentPage}
+                        onfetchIterateAdverts={onFetchIterateAdverts}
+                    />
                 </main>
             </Container>
             <Footer/>

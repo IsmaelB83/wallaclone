@@ -41,7 +41,7 @@ export default function AuthForm(props) {
                 <Form className='Login__Form' onSubmit={submit}>
                     <Link to='/'>
                         <div className='Login__ImageWrapper'>
-                            <img src={imageLogo} className='Login__Logo' alt='nodepop-logo' />
+                            <img src={imageLogo} className='Login__Logo' alt='wallaclone-logo' />
                         </div>
                     </Link>
                     <Content/>
@@ -63,7 +63,7 @@ function LoginForm() {
             <p className='Login__Help'>enter your credentials to login</p>
             <div className='Login__Buttons'>
                 <Button className='Button' type='submit' variant='contained' color='primary'> Login </Button>
-                <Link className='Button MuiButtonBase-root MuiButton-root MuiButton-contained Button MuiButton-containedSecondary' to='/reset'>Reset Password</Link>
+                <Button className='Button' variant='contained' color='secondary' href='/reset'> Reset password </Button>
                 <Link className='Login__Link' to='/register'>Create an account</Link>
             </div>
         </React.Fragment>

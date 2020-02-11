@@ -1,5 +1,5 @@
 // Node modules
-import React, { Component } from 'react';
+import React from 'react';
 // Material UI
 import MobileStepper from '@material-ui/core/MobileStepper';
 import Button from '@material-ui/core/Button';
@@ -12,77 +12,70 @@ import './styles.css';
 // Proporciona funcionalidad de paginado a cualquier lista de objetos
 const withPaginator = (WrappedComponent) => {
 
-    return class AdvertListWithPaginator extends Component {
+    return function AdvertListWithPaginator(props) {
 
-        // Constructor
-        constructor(props) {
-            super(props);
-            this.state = {
-                currentPage: 0,
-                numPages: Math.ceil(props.adverts.length/props.itemsPerPage),
-                minAdvert: 0,                         
-                maxAdvert: this.props.itemsPerPage,
-                callNextAPI: false,
-                callPrevAPI: false,
-            };
-        }
+        // Destructuring props
+        const { adverts, start, end, totalCount } = props;
+        let { currentPage, isFetching } = props;
 
-        handleNext = () => this.handleMovePaginator(1);
-        handleBack = () => this.handleMovePaginator(-1);
-        handleMovePaginator = increment => {
-            let currentPage = this.state.currentPage;
+        // Local variables
+        const itemsPerPage=parseInt(process.env.REACT_APP_MAX_ADVERTS_UI);
+        const numPages = Math.ceil(adverts.length/itemsPerPage);
+        const minAdvert = currentPage * itemsPerPage;
+        const maxAdvert = currentPage * itemsPerPage + itemsPerPage;
+
+        // Next/Previous page
+        const handleMovePaginator = increment => {
             currentPage += increment;
-            if (currentPage > -1 && currentPage < this.state.numPages) {
-                this.setState({
-                    minAdvert: currentPage * this.props.itemsPerPage,
-                    maxAdvert: currentPage * this.props.itemsPerPage + this.props.itemsPerPage,
-                    currentPage: currentPage
-                }, () => {
-                    this.props.onSetCurrentPage(currentPage);
-                });
+            if (currentPage > -1 && currentPage < numPages) {
+                props.onSetCurrentPage(currentPage);
             }
         }
 
-        // Render
-        render() {
-            return (
-                <React.Fragment>
+        // Previous page button
+        const renderButtonBack = () => {
+            let callAPI = !currentPage && start > 0
+            let disableBack = !currentPage && !callAPI;
+            let Icon = !callAPI?KeyboardArrowLeft:RotateLeftIcon;
+            return  <Button size='small' onClick={()=>!callAPI?handleMovePaginator(-1):props.onfetchIterateAdverts(-1)} 
+                            disabled={disableBack} className='ButtonWallaclone ButtonWallaclone__Green'>
+                        <Icon />more
+                    </Button>
+        }
+
+        // Next page button
+        const renderButtonNext = () => {
+           
+            let callAPI = ( numPages <= currentPage + 1 ) && ( end + 1 < totalCount );
+            let disableNext = ( numPages <= currentPage + 1 ) && !callAPI;
+            let Icon = !callAPI?KeyboardArrowRight:RotateLeftIcon;
+            return  <Button size='small' onClick={()=>!callAPI?handleMovePaginator(1):props.onfetchIterateAdverts(1)} 
+                            disabled={disableNext} className='ButtonWallaclone ButtonWallaclone__Green'>
+                        <Icon />more
+                    </Button>
+        }
+
+        return (
+            <React.Fragment>
+                { adverts.length > 0 &&
                     <div className='AdvertList__Paginator'>
                         <MobileStepper
                             className='Paginator'
-                            variant='text'
-                            steps={this.state.numPages}
+                            variant='dots'
+                            steps={numPages}
                             position='static'
-                            activeStep={this.state.currentPage}
-                            backButton={this.renderButtonBack()}
-                            nextButton={this.renderButtonNext()}
+                            activeStep={currentPage}
+                            backButton={renderButtonBack()}
+                            nextButton={renderButtonNext()}
                         />
                     </div>
-                    <WrappedComponent {...this.props} adverts={this.props.adverts.slice(this.state.minAdvert, this.state.maxAdvert)}/> 
-                </React.Fragment>
-            );
-        }
-
-        renderButtonBack = () => {
-            let callAPI = !this.state.currentPage && this.props.start > 0
-            let disableBack = !this.state.currentPage && !callAPI;
-            let click = !callAPI?this.handleBack:this.props.onFetchMoreAdverts;
-            let Icon = !callAPI?KeyboardArrowLeft:RotateLeftIcon;
-            let text = !callAPI?'Back':'Load Previous Ads';
-            return  <Button size='small' onClick={()=>click()} disabled={disableBack} className={`ButtonWallakeep ButtonWallakeep__${!callAPI?'Green':'Blue'}`}><Icon />{text} </Button>
-        }
-
-        renderButtonNext = () => {
-            let callAPI = ( this.state.numPages <= this.state.currentPage + 1 ) && ( this.props.end < this.props.totalCount );
-            let disableNext = ( this.state.numPages <= this.state.currentPage + 1 ) && !callAPI;
-            let click = !callAPI?this.handleNext:this.props.onFetchMoreAdverts;
-            let Icon = !callAPI?KeyboardArrowRight:RotateLeftIcon;
-            let text = !callAPI?'Next':'Load Next Ads';
-            return  <Button size='small' onClick={()=>click()} disabled={disableNext} className={`ButtonWallakeep ButtonWallakeep__${!callAPI?'Green':'Blue'}`}><Icon />{text} </Button>
-        }
+                }
+                <WrappedComponent {...props} adverts={adverts.slice(minAdvert, maxAdvert)} isFetching={isFetching}/> 
+            </React.Fragment>
+        );
+        
+        
     }
 }
-
-
 
 export default withPaginator;

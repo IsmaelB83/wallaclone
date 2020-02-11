@@ -19,8 +19,6 @@ export const login = (email, password) => {
         return AuthServices.login(email, password)
         .then(response => {
             dispatch(loginSuccess(response));
-            dispatch(fetchFavorites(response.jwt));
-            dispatch(fetchPublished(response._id));
             const { session } = getState();
             LocalStorage.saveLocalStorage(session);
             return response;
@@ -47,8 +45,6 @@ export const loginWithToken = jwt => {
         return AuthServices.loginWithToken(jwt)
         .then(response => {
             dispatch(loginWithTokenSuccess(response));
-            dispatch(fetchFavorites(response.jwt));
-            dispatch(fetchPublished(response._id));
             const { session } = getState();
             LocalStorage.saveLocalStorage(session);
             return response;    
@@ -260,50 +256,3 @@ export const deleteAccount = (id, jwt) => {
 const deleteAccountRequest = () => ({ type: ACTIONS.DELETE_ACCOUNT_REQUEST });
 const deleteAccountFailure = error => ({ type: ACTIONS.DELETE_ACCOUNT_FAILURE, error });
 const deleteAccountSuccess = response => ({ type: ACTIONS.DELETE_ACCOUNT_SUCCESS, response });
-
-/**
- * Obtener favoritos del usuario
- * @param {String} jwt Token para autenticar en el API
- */
-export const fetchFavorites = jwt => {
-    return async function(dispatch, getState) {
-        dispatch(fetchFavoritesRequest());
-        return UserServices.getFavorites(jwt)
-        .then(favorites => {
-            dispatch(fetchFavoritesSuccess(favorites));
-            return favorites;
-        })
-        .catch(error => {
-            let message = error.response && error.response.data ? error.response.data.data : error.message;            
-            dispatch(fetchFavoritesFailure(message));
-            throw message;
-        });
-    }
-};
-
-const fetchFavoritesRequest = () => ({ type: ACTIONS.FETCH_FAVORITES_REQUEST });
-const fetchFavoritesFailure = error => ({ type: ACTIONS.FETCH_FAVORITES_FAILURE, error });
-const fetchFavoritesSuccess = favorites => ({ type: ACTIONS.FETCH_FAVORITES_SUCCESS, favorites });
-
-/**
- * Obtener anuncios publicados por mi usuario
- */
-export const fetchPublished = (_id) => {   
-    return async function(dispatch, getState) {
-        dispatch(fetchPublishedRequest());
-        return AdvertServices.getAdvertsByUser(_id)
-        .then(response => {
-            dispatch(fetchPublishedSuccess(response.adverts, response.apiCount));
-            return response;
-        })
-        .catch(error => {
-            let message = error.response && error.response.data ? error.response.data.data : error.message;            
-            dispatch(fetchPublishedFailure(message));
-            throw message;
-        })
-    }
-};
-
-const fetchPublishedRequest = () => ({ type: ACTIONS.FETCH_PUBLISHED_REQUEST });
-const fetchPublishedFailure = error => ({ type: ACTIONS.FETCH_PUBLISHED_FAILURE, error });
-const fetchPublishedSuccess = (published, apiCount) => ({ type: ACTIONS.FETCH_PUBLISHED_SUCCESS, published, apiCount });

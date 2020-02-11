@@ -19,6 +19,7 @@ const mapStateToProps = (state) => {
         tags: state.tags,
         ui: state.ui,
         filters: state.filters,
+        lastCall: state.lastCall
     }
 }
 
@@ -30,10 +31,11 @@ const mapDispatchToProps = (dispatch) => {
     return {
         fetchTags: () => dispatch(AdvertsActions.fetchTags()),
         fetchAdverts: () => dispatch(AdvertsActions.fetchAdverts()),
+        fetchIterateAdverts: direction => dispatch(AdvertsActions.fetchIterateAdverts(direction)),
         setFilters: filters => dispatch(FiltersActions.setFilters(filters)),
         setFavorite: (slug, jwt) => dispatch(SessionActions.setFavorite(slug, jwt)),
         searchAdverts: filters => dispatch(AdvertsActions.searchAdverts(filters)),
-        setCurrentPage: pageNumber => dispatch(FiltersActions.setPage(pageNumber)),
+        setCurrentPage: pageNumber => dispatch(FiltersActions.setCurrentPage(pageNumber)),
     }
 }
 

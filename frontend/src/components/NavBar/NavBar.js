@@ -34,7 +34,7 @@ export default function NavBar(props) {
   
   // Render del componente
   return (
-    <AppBar title='Wallakeep' position='static' className='NavBar'>
+    <AppBar title='Wallaclone' position='static' className='NavBar'>
       <Container>
       <Toolbar className='NavBar__Toolbar'>
         <Link to='/' className='NavBar__Brand'>

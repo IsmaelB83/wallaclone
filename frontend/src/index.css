@@ -118,7 +118,7 @@ a {
   font-size: 3rem;
 }
 
-.ButtonWallakeep {
+.ButtonWallaclone {
   color: white !important;
   padding-left: 1rem !important;
   padding-right: 1rem !important;
@@ -134,26 +134,26 @@ a {
 .FavoriteIcon--White { color: white; }
 .FavoriteIcon--On { color: red; }
 
-.ButtonWallakeep:disabled {
+.ButtonWallaclone:disabled {
   background-color: var(--light-grey) !important;
   color: white !important;
   cursor: not-allowed !important;
   opacity: .5;
 }
 
-.ButtonWallakeep__Clear { color: var(--medium-grey) !important; }
-.ButtonWallakeep__Clear:Hover { color: white !important; }
-.ButtonWallakeep__Green { background-color: var(--main-color) !important; }
-.ButtonWallakeep__Green:hover { background-color: var(--main-color-dark) !important; }
-.ButtonWallakeep__Blue { background-color: var(--light-blue) !important; }
-.ButtonWallakeep__Blue:hover { background-color: var(--dark-blue) !important; }
-.ButtonWallakeep__Red { background-color: var(--light-red) !important; }
-.ButtonWallakeep__Red:hover { background-color: var(--dark-red) !important; }
-.ButtonWallakeep__ClearToNone:hover { background-color: transparent !important; }
-.ButtonWallakeep__ClearToGreen:hover { background-color: var(--main-color) !important; }
-.ButtonWallakeep__ClearToBlue:hover, .ButtonWallakeep__ClearToBlue--active { background-color: var(--light-blue) !important; color: white !important; }
-.ButtonWallakeep__ClearToRed:hover, .ButtonWallakeep__ClearToRed--active{ background-color: var(--light-red) !important; color: white !important; }
-.ButtonWallakeep__ClearToGray:hover { background-color: var(--dark-grey) !important; }
+.ButtonWallaclone__Clear { color: var(--medium-grey) !important; }
+.ButtonWallaclone__Clear:Hover { color: white !important; }
+.ButtonWallaclone__Green { background-color: var(--main-color) !important; }
+.ButtonWallaclone__Green:hover { background-color: var(--main-color-dark) !important; }
+.ButtonWallaclone__Blue { background-color: var(--light-blue) !important; }
+.ButtonWallaclone__Blue:hover { background-color: var(--dark-blue) !important; }
+.ButtonWallaclone__Red { background-color: var(--light-red) !important; }
+.ButtonWallaclone__Red:hover { background-color: var(--dark-red) !important; }
+.ButtonWallaclone__ClearToNone:hover { background-color: transparent !important; }
+.ButtonWallaclone__ClearToGreen:hover { background-color: var(--main-color) !important; }
+.ButtonWallaclone__ClearToBlue:hover, .ButtonWallaclone__ClearToBlue--active { background-color: var(--light-blue) !important; color: white !important; }
+.ButtonWallaclone__ClearToRed:hover, .ButtonWallaclone__ClearToRed--active{ background-color: var(--light-red) !important; color: white !important; }
+.ButtonWallaclone__ClearToGray:hover { background-color: var(--dark-grey) !important; }
 
 .ml-1 {
   margin-left: 10px;
