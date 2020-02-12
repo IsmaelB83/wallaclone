@@ -44,3 +44,19 @@ export function getOwnAdverts(adverts, session) {
 export function getAdvertsByType(adverts, type) {
     return adverts.filter(advert => advert.type === type);
 }
+
+/**
+ * Devuelve el array con el favorite seteado
+ * @param {Array} adverts Array de anuncios
+ * @param {Function} getState Función para acceder al estado
+ */
+export function getAdvertsWithFavoriteSet(adverts, getState){
+    const { session } = getState();
+    if (session.favorites) {
+        return adverts.map(ad => {
+            ad.favorite = session.favorites.indexOf(ad._id) >= 0 ? true: false;
+            return ad;
+        });
+    } 
+    return adverts;
+}

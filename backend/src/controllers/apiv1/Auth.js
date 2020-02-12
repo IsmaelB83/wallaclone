@@ -37,7 +37,7 @@ module.exports = {
                     _id: user._id,
                     name: user.name,
                     email: user.email,
-                    expires: moment().add(60, 'minutes')
+                    expires: moment().add(60, 'minutes'),
                 };
                 const jwtoken = jwt.sign({payload}, process.env.SECRET);
                 user.jwt = jwtoken;
@@ -52,6 +52,7 @@ module.exports = {
                         name: user.name,
                         email: user.email,
                         token: user.jwt,
+                        favorites: user.favorites
                     }
                 });
             }
@@ -87,6 +88,7 @@ module.exports = {
                 name: user.name,
                 email: user.email,
                 token: user.jwt,
+                favorites: user.favorites
             }
         });
     },

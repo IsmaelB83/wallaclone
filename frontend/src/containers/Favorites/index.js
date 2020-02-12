@@ -13,7 +13,7 @@ import { AdvertsActions, SessionActions, FiltersActions } from '../../store/Glob
  */
 const mapStateToProps = (state) => {
     return {
-        adverts: state.favorites,
+        adverts: state.adverts,
         lastCall: state.lastCall,
         session: state.session,
         ui: state.ui,

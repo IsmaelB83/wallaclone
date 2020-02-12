@@ -72,6 +72,7 @@ export default {
         } else if (priceFrom && priceTo) {
             baseURL =`${baseURL}price=${priceFrom}-${priceTo}&`;
         }
+        if (filters.user) baseURL = `${baseURL}user=${filters.user}&`
         if (filters.skip && filters.skip > 0) baseURL = `${baseURL}skip=${filters.skip}&`
         if (filters.limit && filters.limit > 0) baseURL = `${baseURL}limit=${filters.limit}&`
         // Call endpoint and return

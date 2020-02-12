@@ -154,7 +154,7 @@ module.exports = {
             const user = await User.findById(req.user._id);
             let favorite = false;
             if (user) {
-                // Busco el favorite, si existe lo elimino. si no existe añado
+                // Busco el favorite, si existe lo elimino. si no existe añado. y guardo
                 const index = user.favorites.findIndex(favorite => favorite.toString() === advert._id.toString());
                 if (index >= 0) {
                     user.favorites.splice(index, 1);
@@ -162,8 +162,8 @@ module.exports = {
                     user.favorites.push(advert._id);                    
                     favorite = true;
                 }
-                // Guardo los cambios y retorno
                 await user.save();
+                // Retorno 
                 return res.json({
                     success: true,
                     advert: advert,
@@ -190,18 +190,29 @@ module.exports = {
     getFavorites: async (req, res, next) => {
         try {
             // List of adverts
-            const user = await User.findById(req.user._id).populate('favorites', '-__v');
-            if (user) {
-                // Ok
-                return res.json({
-                    success: true,
-                    count: user.favorites.length,
-                    results: user.favorites
+            User.findById(req.user._id)
+            .populate('favorites', '-__v')
+            .exec((err, result) => {
+                if (err) {
+                    return next({ status: 404, error: 'Not Found' });
+                }
+                // Populate de user
+                const options = {
+                    path: 'favorites.user',
+                    model: 'User',
+                    select: { '_id': 1,'name':1, 'email': 1},
+                };
+                User.populate(result, options, (err, respop) => {
+                    return res.json({
+                        success: true,
+                        count: respop.favorites.length,
+                        results: respop.favorites
+                    });
                 });
-            }
-            // Error
-            next({ status: 404, error: 'Not Found' });
+                
+            })
         } catch (error) {
+            debugger;
             next(error);
         }
     }

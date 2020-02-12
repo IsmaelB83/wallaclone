@@ -19,7 +19,7 @@ import './styles.css';
 export default function Published (props) {
     
     // Destructure props
-    const { enqueueSnackbar, fetchUserAdverts, setCurrentPage, setAdverts, fetchIterateAdverts } = props;
+    const { enqueueSnackbar, fetchUserAdverts, setCurrentPage, fetchIterateAdverts } = props;
     const { start, end, totalCount } = props.lastCall;
     const { member } = props.match.params;
     const { currentPage, isFetching } = props.ui;
@@ -29,15 +29,18 @@ export default function Published (props) {
     // Cargo anuncios del usuario solicitado
     useEffect(() => {
         fetchUserAdverts(member)
-        .then(response => enqueueSnackbar(`Resultados ${start + 1} a ${end + 1} cargados del total de ${totalCount}.`, { variant: 'info' }))
+        .then(response => enqueueSnackbar(`Resultados ${response.start + 1} a ${response.end + 1} cargados del total de ${response.totalCount}.`, { variant: 'info' }))
         .catch(error => enqueueSnackbar(`Error cargando anuncios de ${member}`, { variant: 'error' }));
-    }, [session, fetchUserAdverts, enqueueSnackbar, end, start, totalCount]);
+    }, []);
 
     // Paginación sobre la colección de anuncios
     const onFetchIterateAdverts = (direction) => {
         return fetchIterateAdverts(direction)
-        .then (response => enqueueSnackbar(`Resultados ${this.props.lastCall.start + 1} a ${this.props.lastCall.end + 1} cargados del total de ${this.props.lastCall.totalCount}.`, { variant: 'info' }))
-        .catch(error => enqueueSnackbar(`Error obteniendo anuncios ${error}`, { variant: 'error' }));
+        .then (response => enqueueSnackbar(`Resultados ${response.start + 1} a ${response.end + 1} cargados del total de ${response.totalCount}.`, { variant: 'info' }))
+        .catch(error =>{
+            debugger;
+            enqueueSnackbar(`Error obteniendo anuncios ${error}`, { variant: 'error' })
+        } );
     }
 
     // Reservar producto
@@ -48,7 +51,6 @@ export default function Published (props) {
                 if (ad._id === advert._id) ad.favorite = advert.favorite;
                 return ad;
             })
-            setAdverts(newAdverts);
             props.enqueueSnackbar(`Anuncio ${advert.slug} ${advert.favorite?'añadido a':'eliminado de'} favoritos`, { variant: 'success' })
         })
         .catch(error => props.enqueueSnackbar(`Error marcando favorito ${error}`, { variant: 'error' }));

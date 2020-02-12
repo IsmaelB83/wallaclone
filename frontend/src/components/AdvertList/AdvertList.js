@@ -28,7 +28,8 @@ export default function AdvertList (props) {
     const Card = CARD_TYPES[props.type];
     return(
         <section className={`${props.type==='tiles'?'AdvertListTiles':'AdvertListDetail'}`}>
-            {   !props.isFetching && props.adverts.length && props.adverts.map((advert, index) => 
+            {   !props.isFetching && props.adverts.length > 0 &&
+                props.adverts.map((advert, index) => 
                     <Card   key={index}
                             advert={advert} 
                             showEdit={props.showEdit}

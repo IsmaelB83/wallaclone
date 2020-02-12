@@ -26,7 +26,7 @@ import './styles.css';
 export default function AdvettCardSmall (props) {
     
     // Props destructuring
-    const { slug, name, thumbnail, tags, price, sold, type, booked, favorite, createdAt, updatedAt } = props.advert;
+    const { slug, name, thumbnail, tags, price, sold, type, booked, favorite, createdAt, updatedAt, user } = props.advert;
 
     // Render
     return(
@@ -50,10 +50,13 @@ export default function AdvettCardSmall (props) {
                     </div>
                     <div className='CardList__Main'>
                         <div className='CardList__Title'>
-                            <p>{price} €</p>
                             <Link to={`/advert/${slug}`}>
                                 <h2>{name}</h2>
                             </Link>
+                            <div className='CardList__Price'>
+                                <p>{price} €</p><span>-</span><p>{user.name}</p>
+                            </div>
+                            
                         </div>
                         <div className='CardList__Tags'>
                             {   tags.map((value,i) => <AdvertChip key={i} type='tag' value={value}/>) }

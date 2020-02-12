@@ -28,7 +28,9 @@ export default function Home(props) {
     // On load
     useEffect(() => {        
         fetchTags();
-        onHandleSearchAdverts();
+        fetchAdverts()
+        .then (response => enqueueSnackbar(`Resultados ${response.start + 1} a ${response.end + 1} cargados del total de ${response.totalCount}.`, { variant: 'info' }))
+        .catch (error => enqueueSnackbar(`Error obteniendo anuncios ${error}`, { variant: 'error' }));
     }, []);
 
     // Reservar producto
@@ -45,22 +47,20 @@ export default function Home(props) {
 
     // Gestiona el evento de búsqueda de anuncios
     const onHandleSearchAdverts = (filters) => {
-        // Search
         if (filters) {
             return searchAdverts(filters)
             .then (response => enqueueSnackbar(`Resultados ${response.start + 1} a ${response.end + 1} cargados del total de ${response.totalCount}.`, { variant: 'info' }))
             .catch(error => enqueueSnackbar(`Error obteniendo anuncios ${error}`, { variant: 'error' }));
         }
-        // No filters
         fetchAdverts()
         .then (response => enqueueSnackbar(`Resultados ${response.start + 1} a ${response.end + 1} cargados del total de ${response.totalCount}.`, { variant: 'info' }))
-        .catch (error => enqueueSnackbar(`Error obteniendo anuncios ${error}`, { variant: 'error' }));
+        .catch(error => enqueueSnackbar(`Error obteniendo anuncios ${error}`, { variant: 'error' }));
     }
 
     // Paginación sobre la colección de anuncios
     const onfetchIterateAdverts = (direction) => {
         return fetchIterateAdverts(direction)
-        .then (response => enqueueSnackbar(`Resultados ${start + 1} a ${end + 1} cargados del total de ${totalCount}.`, { variant: 'info' }))
+        .then (response => enqueueSnackbar(`Resultados ${response.start + 1} a ${response.end + 1} cargados del total de ${response.totalCount}.`, { variant: 'info' }))
         .catch(error => enqueueSnackbar(`Error obteniendo anuncios ${error}`, { variant: 'error' }));
     }
 
@@ -71,7 +71,7 @@ export default function Home(props) {
             <Container className='Container__Fill'>
             <main className='Main__Section'>
                 <div className='Home__Results'>
-                <SearchPanel tags={tags} onSearchAdverts={onHandleSearchAdverts} onSetFilters={setFilters} filters={filters} lastCall={lastCall} />             
+                <SearchPanel tags={tags} onSearchAdverts={onHandleSearchAdverts} onSetFilters={setFilters} filters={filters} />
                     <AdvertList 
                         type='tiles' 
                         start={start}

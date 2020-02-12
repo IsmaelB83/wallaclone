@@ -1,3 +1,5 @@
+// Utils
+import { getAdvertsWithFavoriteSet }  from '../selectors/AdvertsSelectors';
 // API
 import AdvertServices from '../../services/AdvertServices';
 import UserServices from '../../services/UserServices';
@@ -65,18 +67,12 @@ export const fetchAdverts = () => {
         dispatch(fetchAdvertsRequest());
         return AdvertServices.getAdverts()
         .then(response => {
-            const { favorites } = getState();
-            if (favorites) {
-                response.adverts.map(ad => {
-                    ad.favorite = favorites.findIndex(fav => fav._id === ad._id) >= 0 ? true: false;
-                    return ad;
-                });
-            }
-            dispatch(fetchAdvertsSuccess(response.adverts, response.totalCount, response.start, response.end));
+            const adverts = getAdvertsWithFavoriteSet(response.adverts, getState);
+            dispatch(fetchAdvertsSuccess(adverts, response.totalCount, response.start, response.end));
             return response;
         })
         .catch (error => {
-            let message = error.response && error.response.data ? error.response.data.data : error.message;            
+            let message = error.response && error.response.data ? error.response.data.data : error.message;
             dispatch(fetchAdvertsFailure(message));
             throw message;
         });
@@ -95,14 +91,8 @@ export const fetchUserAdverts = (_id) => {
         dispatch(fetchUserAdvertsRequest());
         return AdvertServices.searchAdverts({user: _id})
         .then(response => {
-            const { favorites } = getState();
-            if (favorites) {
-                response.adverts.map(ad => {
-                    ad.favorite = favorites.findIndex(fav => fav._id === ad._id) >= 0 ? true: false;
-                    return ad;
-                });
-            }
-            dispatch(fetchUserAdvertsSuccess(response.adverts, response.totalCount, response.start, response.end));
+            const adverts = getAdvertsWithFavoriteSet(response.adverts, getState);
+            dispatch(fetchUserAdvertsSuccess(adverts, response.totalCount, response.start, response.end));
             return response;
         })
         .catch(error => {
@@ -153,18 +143,12 @@ export const searchAdverts = filters => {
             filters.name = filters.name.toLowerCase();
             filters.minPrice = parseFloat(filters.minPrice);
             filters.maxPrice = parseFloat(filters.maxPrice);
-            const { favorites } = getState();
-            if (favorites) {
-                response.adverts.map(ad => {
-                    ad.favorite = favorites.findIndex(fav => fav._id === ad._id) >= 0 ? true: false;
-                    return ad;
-                });
-            }
-            dispatch(searchAdvertsSuccess(response.adverts, response.totalCount, response.start, response.end, filters));
+            const adverts = getAdvertsWithFavoriteSet(response.adverts, getState);
+            dispatch(searchAdvertsSuccess(adverts, response.totalCount, response.start, response.end, filters));
             return response;
         })
         .catch(error => {
-            let message = error.response && error.response.data ? error.response.data.data : error.message;            
+            let message = error.response && error.response.data ? error.response.data.data : error.message;
             dispatch(searchAdvertsFailure(message));;
             throw message;
         });
@@ -189,14 +173,8 @@ export const fetchIterateAdverts = (direction) => {
         if (newFilters.skip <= 0) delete newFilters.skip;
         return AdvertServices.searchAdverts({...newFilters})
         .then(response => {
-            const { favorites } = getState();
-            if (favorites) {
-                response.adverts.map(ad => {
-                    ad.favorite = favorites.findIndex(fav => fav._id === ad._id) >= 0 ? true: false;
-                    return ad;
-                });
-            }
-            dispatch(fetchIterateAdvertsSuccess(response.adverts, response.totalCount, response.start, response.end));
+            const adverts = getAdvertsWithFavoriteSet(response.adverts, getState);
+            dispatch(fetchIterateAdvertsSuccess(adverts, response.totalCount, response.start, response.end));
             return response;
         })
         .catch (error => {

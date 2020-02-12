@@ -1,7 +1,6 @@
 // API
 import AuthServices from '../../services/AuthServices';
 import UserServices from '../../services/UserServices';
-import AdvertServices from '../../services/AdvertServices';
 // Own modules
 import LocalStorage from '../../utils/Storage';
 // Actions

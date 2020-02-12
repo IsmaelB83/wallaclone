@@ -142,10 +142,6 @@ export default function SearchPanel(props) {
                 />
                 </FormControl>
             </div> 
-            <div className='SearchPanel__Statistics'> 
-                <p>Resultados {props.lastCall.start + 1} a {props.lastCall.end + 1} recuperados en la última llamada.</p>
-                <p>{props.lastCall.totalCount} registros existentes para el filtro actual.</p>
-            </div> 
             <div className='SearchPanel__Footer'>
                 <Button type='submit' variant='contained' color='primary' startIcon={<SearchIcon />}> Search API </Button>
                 <Button variant='contained' color='secondary' onClick={handleInputReset} startIcon={<ClearIcon/>}> Reset </Button>

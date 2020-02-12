@@ -54,23 +54,28 @@ const withPaginator = (WrappedComponent) => {
                         <Icon />more
                     </Button>
         }
-
+       
         return (
             <React.Fragment>
                 { adverts.length > 0 &&
-                    <div className='AdvertList__Paginator'>
-                        <MobileStepper
-                            className='Paginator'
-                            variant='dots'
-                            steps={numPages}
-                            position='static'
-                            activeStep={currentPage}
-                            backButton={renderButtonBack()}
-                            nextButton={renderButtonNext()}
-                        />
-                    </div>
+                    <React.Fragment>
+                        <div className='AdvertList__Paginator'>
+                            <MobileStepper
+                                className='Paginator'
+                                variant='dots'
+                                steps={numPages}
+                                position='static'
+                                activeStep={currentPage}
+                                backButton={renderButtonBack()}
+                                nextButton={renderButtonNext()}
+                            />
+                        </div>
+                        <div className='SearchPanel__Statistics'> 
+                            <p>Resultados {props.start + 1} a {props.end + 1} recuperados en la última llamada de un total de {props.totalCount}</p>
+                        </div> 
+                    </React.Fragment>
                 }
-                <WrappedComponent {...props} adverts={adverts.slice(minAdvert, maxAdvert)} isFetching={isFetching}/> 
+                <WrappedComponent {...props} adverts={adverts.slice(minAdvert, maxAdvert || 1)} isFetching={isFetching}/> 
             </React.Fragment>
         );
         

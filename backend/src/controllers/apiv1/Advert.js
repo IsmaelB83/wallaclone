@@ -28,8 +28,7 @@ module.exports = {
                     success: true,
                     start: result.start,
                     end: result.end,
-                    apiCount: result.apiCount,
-                    count: result.results.length,
+                    totalCount: result.totalCount,
                     results: result.results
                 });
             }) 

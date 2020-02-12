@@ -25,11 +25,6 @@ export function tags(state = initialState.tags, action) {
 export function adverts(state = initialState.adverts, action) {
     switch (action.type) {
         // Initialization
-        case ADVERTS.FETCH_ADVERTS_REQUEST:
-        case ADVERTS.SEARCH_ADVERTS_REQUEST:
-        case ADVERTS.FETCH_ITERATE_ADVERTS_REQUEST:
-        case ADVERTS.FETCH_FAVORITES_REQUEST:
-        case ADVERTS.FETCH_USER_ADVERTS_REQUEST:
         case ADVERTS.FETCH_ADVERTS_FAILURE:
         case ADVERTS.SEARCH_ADVERTS_FAILURE:
         case ADVERTS.FETCH_ITERATE_ADVERTS_FAILURE:

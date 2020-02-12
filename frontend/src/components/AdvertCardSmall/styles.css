@@ -151,6 +151,14 @@
     flex-grow: 1;
 }
 
+.CardList__Main .CardList__Price {
+    display: flex;
+    flex-direction: row;
+}
+
+.CardList__Main .CardList__Price span { margin: 0 5px; }
+.CardList__Tags .AdvertChip:not(:last-child) { margin-right: 3px; }
+
 @media (max-width: 500px) {
     .CardList { font-size: 13x; }
     .CardList__Main { margin: 0 !important; }

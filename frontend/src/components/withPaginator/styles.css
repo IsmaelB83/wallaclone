@@ -10,3 +10,8 @@
 .AdvertList__Paginator .Paginator .ButtonWallaclone:disabled {
     background-color: var(--medium-grey) !important;
 }
+
+.SearchPanel__Statistics p { 
+    font-size: .7rem; 
+    color: rgb(15, 15, 15); 
+}
