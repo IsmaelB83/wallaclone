@@ -3,6 +3,7 @@
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcrypt-nodejs');
 const ObjectId = require('mongoose').Types.ObjectId; 
+const isValidUsername = require('is-valid-username');
 // Own imports
 const { User, Advert } = require('../../models');
 const { mail } = require('../../utils');
@@ -25,11 +26,17 @@ module.exports = {
             // Check first if the email already exists
             let user = await User.findOne({email: req.body.email});
             if (user) {
-                // Error
-                return next({
-                    status: 400,
-                    description: 'Error creating user: email already exists'
-                });
+                return next({status: 400, description: 'Error creating user: email already exists'});
+            }
+            // Check login if the email already exists
+            user = await User.findOne({login: req.body.login});
+            if (user) {
+                return next({status: 400, description: 'Error creating user: login already exists'});
+            }
+            // Valid user name
+            const aux = isValidUsername(req.body.login);
+            if (!aux) {
+                return next({status: 400, description: 'Nombre de usuario incorrecto.'});
             }
             // User creation
             user = await User.insert(new User({...req.body}));
@@ -46,6 +53,7 @@ module.exports = {
                     description: 'Check your email to activate the account',
                     user: {
                         _id: user._id,
+                        login: user.login,
                         name: user.name,
                         email: user.email
                     }
@@ -72,6 +80,21 @@ module.exports = {
             // Obtengo el usuario que se está intentando modificar (el de la sesión activa)
             let user = await User.findById(req.user._id);
             user.name = req.body.name;
+            // Si se ha pasado login, y es distinto al actual lo chequeo primero
+            if (req.body.login && user.login !== req.body.login) {
+                let users = await User.find({ login: req.user.login });
+                if (users) {
+                    users.forEach(u => {
+                        if (u.login === req.user.email && u._id.toString() !== user._id.toString()) {
+                            return next({
+                                status: 422,
+                                description: 'El login indicado no está disponible'
+                            });
+                        }
+                    });
+                    user.login = req.body.login
+                }
+            }
             // Si se ha pasado email, y es distinto al actual lo chequeo primero
             if (req.body.email && user.email !== req.body.email) {
                 let users = await User.find({ email: req.user.email });
@@ -101,6 +124,7 @@ module.exports = {
                     description: 'Usuario actualizado con éxito',
                     user: {
                         _id: user._id,
+                        login: user.login,
                         name: user.name,
                         email: user.email
                     }
@@ -200,7 +224,7 @@ module.exports = {
                 const options = {
                     path: 'favorites.user',
                     model: 'User',
-                    select: { '_id': 1,'name':1, 'email': 1},
+                    select: { '_id': 1, 'login': 1, 'name':1, 'email': 1},
                 };
                 User.populate(result, options, (err, respop) => {
                     return res.json({

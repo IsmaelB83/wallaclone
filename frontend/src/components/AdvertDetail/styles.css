@@ -77,6 +77,10 @@
     margin-top: 1rem;
 }
 
+.AdvertDetail__Tags .AdvertChip:not(:last-child) {
+    margin-right: 4px;
+}
+
 .AdvertDetail__Content .AdvertDetail__Actions {
     margin-top: 2rem;
     justify-self: flex-end;

@@ -11,6 +11,10 @@ const crypto = require('crypto');
  */
 const UserSchema = new Schema(
     {   /**
+         * Nick name
+         */
+        login: { type: String, required: true, maxlength: 15, unique: true },
+        /**
          * User name
          */
         name: { type: String, required: true, maxlength: 30 },
@@ -74,6 +78,7 @@ UserSchema.statics.update = async function(id, newUser) {
     try {
         let oldUser = await User.findById(id);
         if (oldUser) {
+            oldUser.login = newUser.login || oldUser.login;
             oldUser.name = newUser.name || oldUser.name;
             oldUser.email = newUser.email || oldUser.email;
             return await oldUser.save();

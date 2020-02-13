@@ -18,13 +18,13 @@ export default {
   /**
   * Trata de hacer login contra el API
   */
-  login: (email, password) => {
+  login: (login, password) => {
     // Endpoint
     let baseURL = `${API_URL}`;
     // Call endpoint and return
     return Axios.post(
       baseURL, 
-      Querystring.stringify({ email: email, password: password }),
+      Querystring.stringify({ login, password }),
       { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
     )
     .then(res => new Session(res.data.user));
@@ -77,7 +77,7 @@ export default {
     // Call endpoint and return
     return Axios.post(
       baseURL, 
-      Querystring.stringify({ email: email }),
+      Querystring.stringify({ email }),
       { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
     )
     .then(res => res);
@@ -92,7 +92,7 @@ export default {
     // Call endpoint and return
     return Axios.post(
       baseURL, 
-      Querystring.stringify({ password: password }),
+      Querystring.stringify({ password }),
       { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
     )
     .then(res => res);

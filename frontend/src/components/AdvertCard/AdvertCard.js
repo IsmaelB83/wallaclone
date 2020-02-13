@@ -44,7 +44,7 @@ export default function AdvertCard (props) {
             <div className='AdvertCard__Footer'>
                 <p className='AdvertCard__Price'>{price} <span className='AdvertCard__Currency'>€</span></p>
                 <div className='AdvertCard__Author'>
-                    <Link to={`published/${user._id}`} className='AdvertCard__Link'><p>{user.name}</p></Link>
+                    <Link to={`published/${user.login}`} className='AdvertCard__Link'><p>{user.name}</p></Link>
                 </div>
                 <div className='AdvertCard__Favorite'>
                     <button className='ButtonTransparent' onClick={props.setFavoriteAdvert}>

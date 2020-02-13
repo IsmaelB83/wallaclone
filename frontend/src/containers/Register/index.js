@@ -23,7 +23,7 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
-        createAccount: (name, email, password) => dispatch(SessionActions.createAccount(name, email, password)),
+        createAccount: (login, name, email, password) => dispatch(SessionActions.createAccount(login, name, email, password)),
     }
 }
 

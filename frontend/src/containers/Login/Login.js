@@ -23,7 +23,7 @@ export default function Login(props) {
     useEffect(() => {
         let session = LocalStorage.readLocalStorage();
         if (!token && session && session.jwt) {
-            login('ismaelbernal83@gmail.com', '12345678')
+            login('ismab83', '12345678')
             //loginWithToken(session.jwt)
             .then(response => {
                 enqueueSnackbar('Login automático con token. Redirigiendo al home', { variant: 'info', })
@@ -46,8 +46,8 @@ export default function Login(props) {
     
     // Dispatch login action
     const submitLogin = (inputs) => {
-        const { email, password } = inputs;
-        props.login(email, password)
+        const { login, password } = inputs;
+        props.login(login, password)
         .then(response => {
             enqueueSnackbar('Login correcto. Redirigiendo al home.', { variant: 'info', })
             props.history.push('/')

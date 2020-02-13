@@ -22,7 +22,7 @@ export default function Home(props) {
     // Destructuring de props
     const { start, end, totalCount } = props.lastCall
     const { currentPage, isFetching } = props.ui;
-    const { adverts, session, filters, lastCall, tags } = props;
+    const { adverts, session, filters, tags } = props;
     const { fetchTags, setCurrentPage, fetchIterateAdverts, enqueueSnackbar, setFilters, setFavorite, searchAdverts, fetchAdverts } = props;
 
     // On load

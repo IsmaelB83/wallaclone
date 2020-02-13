@@ -15,6 +15,7 @@ export default class Session {
      */    
     constructor(user) {
         this._id = user._id;
+        this.login = user.login;
         this.name = user.name;
         this.email = user.email;
         this.jwt = user.token;

@@ -9,13 +9,13 @@ import * as ACTIONS from '../types/SessionTypes';
 
 /**
  * Login con usuario y password
- * @param {String} email Email del usuario
+ * @param {String} login Login del usuario
  * @param {String} password Password del usuario
  */
-export const login = (email, password) => {   
+export const login = (login, password) => {   
     return async function(dispatch, getState) {
         dispatch(loginRequest());
-        return AuthServices.login(email, password)
+        return AuthServices.login(login, password)
         .then(response => {
             dispatch(loginSuccess(response));
             const { session } = getState();
@@ -112,10 +112,10 @@ const activateAccountSuccess = () => ({ type: ACTIONS.ACTIVATE_ACCOUNT_SUCCESS }
 /**
  * Activate Account
  */
-export const createAccount = (email, name, password) => {
+export const createAccount = (login, name, email, password) => {
     return async function(dispatch, getState) {
         dispatch(createAccountRequest());
-        return UserServices.create(email, name, password)
+        return UserServices.create(login, name, email, password)
         .then(user => {
             LocalStorage.cleanLocalStorage();
             dispatch(createAccountSuccess());

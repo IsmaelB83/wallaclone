@@ -21,7 +21,7 @@ module.exports = {
      */
     login: async (req, res, next) => {
         // Find user by email
-        const user = await User.findOne({email: req.body.email});
+        const user = await User.findOne({login: req.body.login});
         if (user) {
             // User account inactive
             if (!user.active) {
@@ -36,6 +36,7 @@ module.exports = {
                 const payload = {
                     _id: user._id,
                     name: user.name,
+                    login: user.login,
                     email: user.email,
                     expires: moment().add(60, 'minutes'),
                 };
@@ -50,6 +51,7 @@ module.exports = {
                     user: {
                         _id: user._id,
                         name: user.name,
+                        login: user.login,
                         email: user.email,
                         token: user.jwt,
                         favorites: user.favorites
@@ -86,6 +88,7 @@ module.exports = {
             user: {
                 _id: user._id,
                 name: user.name,
+                login: user.login,
                 email: user.email,
                 token: user.jwt,
                 favorites: user.favorites

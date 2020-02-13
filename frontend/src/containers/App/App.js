@@ -37,7 +37,7 @@ export default function App(props) {
             <Route path='/reset' exact component={RequestReset} />
             <Route path='/reset/:token' exact component={Reset} />
             <Route path='/activate/:token' exact component={Login} />
-            <Route path='/published/:member' exact component={Published} />
+            <Route path='/published/:login' exact component={Published} />
             <PrivateRoute path='/favorites' exact component={Favorites} />
             <PrivateRoute path='/profile' exact component={Profile} />
             <PrivateRoute path='/advert/create' exact render={(props) => <Edit {...props} mode='create'/>}/>

@@ -68,7 +68,7 @@ export default function NavBar(props) {
                 </ListItemIcon>
                 <ListItemText className='NavBar__MenuItemText' primary="Añádir anuncio" />
               </MenuItem>
-              <MenuItem className='NavBar__MenuItem' component={Link} to={`/published/${props.session._id}`} onClick={() => setAnchorUserMenu(null)}>
+              <MenuItem className='NavBar__MenuItem' component={Link} to={`/published/${props.session.login}`} onClick={() => setAnchorUserMenu(null)}>
                 <ListItemIcon className='NavBar__MenuItemIcon'>
                   <ViewListIcon fontSize="small" />
                 </ListItemIcon>

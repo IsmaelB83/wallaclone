@@ -3,7 +3,7 @@
 const { validationResult } = require('express-validator');
 // Node imports
 const Sender = require('../../services/thumbnail/sender');
-const { Advert } = require('../../models');
+const { Advert, User } = require('../../models');
 
 /**
  * Controller object
@@ -20,8 +20,14 @@ module.exports = {
         try {
             // Validations
             validationResult(req).throw();
+            // Filtrado por login de usuario
+            let user = undefined;
+            if (req.query.user) {
+                const aux = await User.findOne({login: req.query.user});
+                if(aux) user = aux._id;
+            } 
             // Get Adverts
-            Advert.list(req.query.name, req.query.venta, req.query.tag, req.query.price, req.query.user, parseInt(req.query.limit), 
+            Advert.list(req.query.name, req.query.venta, req.query.tag, req.query.price, user, parseInt(req.query.limit), 
                 parseInt(req.query.skip), req.query.fields, req.query.sort)
             .then (result => {
                 return res.status(200).json({
@@ -51,7 +57,7 @@ module.exports = {
             // Validations
             validationResult(req).throw();
             // Get one advert
-            let advert = await Advert.findOne({slug: req.params.slug}).populate('user', '_id name email ');
+            let advert = await Advert.findOne({slug: req.params.slug}).populate('user', '_id login name email');
             if (advert) {
                 // Ok
                 return res.json({
@@ -171,7 +177,7 @@ module.exports = {
     book: async (req, res, next) => {
         try {
             // Sólo se permiten modificar los anuncios propios
-            let advert = await Advert.findOne({slug: req.params.slug}).populate('user', '_id name email ');
+            let advert = await Advert.findOne({slug: req.params.slug}).populate('user', '_id login name email ');
             if (!advert) {
                 // Anuncio no encontrado
                 return next({ 
@@ -210,7 +216,7 @@ module.exports = {
     sell: async (req, res, next) => {
         try {
             // Sólo se permiten modificar los anuncios propios
-            let advert = await Advert.findOne({slug: req.params.slug}).populate('user', '_id name email ');
+            let advert = await Advert.findOne({slug: req.params.slug}).populate('user', '_id login name email ');
             if (!advert) {
                 // Anuncio no encontrado
                 return next({ 
@@ -244,7 +250,7 @@ module.exports = {
     delete: async (req, res, next) => {
         try {
             // Sólo se permiten modificar los anuncios propios
-            let advert = await Advert.findOne({slug: req.params.slug}).populate('user', '_id name email ');
+            let advert = await Advert.findOne({slug: req.params.slug}).populate('user', '_id login name email ');
             if (!advert) {
                 // Anuncio no encontrado
                 return next({ 

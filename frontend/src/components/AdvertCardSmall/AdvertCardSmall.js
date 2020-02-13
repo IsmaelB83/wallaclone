@@ -86,7 +86,7 @@ export default function AdvettCardSmall (props) {
                                     <AttachMoneyOutlinedIcon/>
                                 </Button>
                                 <Button type='button' className='ButtonWallaclone ButtonWallaclone__Clear ButtonWallaclone__ClearToGreen' 
-                                        disabled={sold} variant='contained' href={`#/advert/edit/${slug}`}>
+                                        disabled={sold} variant='contained' component={Link} to={`/advert/edit/${slug}`}>
                                     <EditOutlinedIcon/>
                                 </Button>
                                 <Button type='button' className='ButtonWallaclone ButtonWallaclone__Clear ButtonWallaclone__ClearToGray' 

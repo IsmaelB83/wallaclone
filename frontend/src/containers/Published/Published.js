@@ -21,16 +21,16 @@ export default function Published (props) {
     // Destructure props
     const { enqueueSnackbar, fetchUserAdverts, setCurrentPage, fetchIterateAdverts } = props;
     const { start, end, totalCount } = props.lastCall;
-    const { member } = props.match.params;
+    const { login } = props.match.params;
     const { currentPage, isFetching } = props.ui;
     const { jwt } = props.session;
-    const { adverts, session } = props;
+    const { adverts } = props;
 
     // Cargo anuncios del usuario solicitado
     useEffect(() => {
-        fetchUserAdverts(member)
+        fetchUserAdverts(login)
         .then(response => enqueueSnackbar(`Resultados ${response.start + 1} a ${response.end + 1} cargados del total de ${response.totalCount}.`, { variant: 'info' }))
-        .catch(error => enqueueSnackbar(`Error cargando anuncios de ${member}`, { variant: 'error' }));
+        .catch(error => enqueueSnackbar(`Error cargando anuncios de ${login}`, { variant: 'error' }));
     }, []);
 
     // Paginación sobre la colección de anuncios
@@ -46,13 +46,7 @@ export default function Published (props) {
     // Reservar producto
     const favoriteAdvert = (slug) => {
         props.setFavorite(slug, jwt)
-        .then(advert => {
-            const newAdverts = adverts.map(ad => {
-                if (ad._id === advert._id) ad.favorite = advert.favorite;
-                return ad;
-            })
-            props.enqueueSnackbar(`Anuncio ${advert.slug} ${advert.favorite?'añadido a':'eliminado de'} favoritos`, { variant: 'success' })
-        })
+        .then(advert => props.enqueueSnackbar(`Anuncio ${advert.slug} ${advert.favorite?'añadido a':'eliminado de'} favoritos`, { variant: 'success' }))
         .catch(error => props.enqueueSnackbar(`Error marcando favorito ${error}`, { variant: 'error' }));
     }
 
@@ -105,8 +99,8 @@ export default function Published (props) {
                         totalCount={totalCount}
                         currentPage={currentPage}
                         adverts={adverts}
-                        showEdit={props.session._id && member === props.session._id}
-                        showFavorite={props.session._id && member !== props.session._id}
+                        showEdit={props.session.login && login === props.session.login}
+                        showFavorite={props.session.login && login !== props.session.login}
                         isFetching={isFetching}
                         onBookAdvert={bookAdvert}
                         onSellAdvert={sellAdvert}

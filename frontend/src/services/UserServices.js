@@ -20,13 +20,13 @@ export default {
     /**
     * Create a new user
     */
-    create: (name, email, password) => {
+    create: (login, name, email, password) => {
         // Endpoint
         let baseURL = `${API_URL}`;
         // Call endpoint and return
         return Axios.post(
             baseURL, 
-            Querystring.stringify({ name: name, email: email, password: password }),
+            Querystring.stringify({login, name, email, password }),
             { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
         )
         .then(res => res);
@@ -40,6 +40,7 @@ export default {
         const baseURL = `${API_URL}`;
         // Form Data
         const formData = new FormData();
+        formData.append('login', user.login);
         formData.append('name', user.name);
         formData.append('email', user.email);
         formData.append('password', user.password);

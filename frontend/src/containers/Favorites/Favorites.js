@@ -68,5 +68,5 @@ export default function Published (props) {
             </Container>
             <Footer/>
         </React.Fragment>
-        );
-    }
+    );
+}

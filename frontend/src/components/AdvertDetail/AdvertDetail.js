@@ -1,5 +1,6 @@
 // NPM Modules
 import React from 'react';
+import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 // Material UI
@@ -58,7 +59,8 @@ export default function AdvertDetail(props) {
                                     variant='contained' 
                                     className='ButtonWallaclone ButtonWallaclone__Green'
                                     startIcon={<EditIcon />} 
-                                    href={`/advert/edit/${slug}`}>
+                                    component={Link} 
+                                    to={`/advert/edit/${slug}`}>
                                     Editar
                             </Button>
                             <Button type='button' 

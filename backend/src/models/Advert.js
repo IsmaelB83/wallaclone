@@ -86,7 +86,7 @@ AdvertSchema.statics.list = (name, venta, tag, precio, user, limit, skip, fields
     return new Promise((resolve, reject) => {
         // Genero filtrado
         let filter = {}
-        if (name) filter.name = { '$regex': `^${name}`, '$options': 'i' };
+        if (name) filter.name = `/^${name}$/i`;
         if (venta) filter.type = venta==='true'?'sell':'buy';
         if (tag) filter.tags = tag.toLowerCase();
         if (precio) {
@@ -125,12 +125,12 @@ AdvertSchema.statics.list = (name, venta, tag, precio, user, limit, skip, fields
             queryDB.sort({createdAt: -1});
         }
 
-        queryDB.populate('user', '_id name email ').exec()
+        queryDB.populate('user', '_id login name email ').exec()
         .then (results => {
             Advert.find(filter).countDocuments()
             .then(count => resolve({
                 start: skip,
-                end: skip + results.length - 1,
+                end: skip + results.length,
                 totalCount: count, 
                 results 
             }))
@@ -181,7 +181,7 @@ AdvertSchema.statics.updateAdvert = async function(id, newAdvert) {
             advert.sold = newAdvert.sold;
             // Salvo datos en mongo
             await advert.save();
-            return Advert.findById(id).populate('user', '_id name email ');
+            return Advert.findById(id).populate('user', '_id login name email ');
         }
         return false;
     } catch (error) {
@@ -190,7 +190,7 @@ AdvertSchema.statics.updateAdvert = async function(id, newAdvert) {
 };
 
 // Autopopulate user after save (mongoose middleware)
-AdvertSchema.post('save', (doc, next) => doc.populate('user', '_id name email ').execPopulate(()=>next()));
+AdvertSchema.post('save', (doc, next) => doc.populate('user', '_id login name email ').execPopulate(()=>next()));
 
 // Indices más utilizados
 AdvertSchema.index({ types: 1, tags: 1 });

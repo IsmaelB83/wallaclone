@@ -17,13 +17,13 @@ export default function Register(props) {
     // Handle onSubmit event
     const createUser = async (inputs) => {
         // Campos relevantes para generar el objeto sesión
-        const { name, email, password, password_2 } = {...inputs};
+        const { login, name, email, password, password_2 } = {...inputs};
         // Ambos passwords iguales
         if ( password !== password_2 ) {
             return props.enqueueSnackbar('Ambos passwords deben ser iguales', { variant: 'error', });
         }
         // Dispatch del create
-        props.createAccount(name, email, password)
+        props.createAccount(login, name, email, password)
         .then(user => {
             props.enqueueSnackbar('Usuario creado. Chequea el mail para activar la cuenta', { variant: 'info', });
             props.history.push('/login');
