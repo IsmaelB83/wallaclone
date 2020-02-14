@@ -9,7 +9,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session')
 const mongoStore = require('connect-mongo')(session);  // persist web session in mongodb
 // Own imports
-const { AuthRoutes, UserRoutes, AdvertRoutes, WebUserRoutes, WebAdvertRoutes } = require('./routes');
+const { AuthRoutes, UserRoutes, AdvertRoutes, WebUserRoutes, WebAdvertRoutes, ChatRouter } = require('./routes');
 const { ErrorMiddleware, AuthMiddleware } = require('./middlewares');
 const { i18nConfig } = require('./utils');
 const database = require('./database');
@@ -51,6 +51,7 @@ database.connect(process.env.MONGODB_URL)
         app.use('/', WebAdvertRoutes());
         app.use('/user', WebUserRoutes());
         // Routes API version
+        app.use('/apiv1/user/chat', ChatRouter());
         app.use('/apiv1/user', UserRoutes());
         app.use('/apiv1/adverts', AdvertRoutes());
         app.use('/apiv1/authenticate', AuthRoutes());

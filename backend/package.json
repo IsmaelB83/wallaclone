@@ -10,6 +10,7 @@
     "prod": "cross-env NODE_ENV=production npm start",
     "cluster": "cross-env DEBUG=nodepop:* node ./src/cluster.js",
     "worker": "nodemon ./src/services/thumbnail/worker.js",
+    "chat": "nodemon ./src/services/chat/server.js",
     "test": "jest",
     "test:watch": "jest --watch"
   },
@@ -67,6 +68,7 @@
     "mongoose-url-slugs": "^1.0.2",
     "morgan": "^1.9.1",
     "multer": "^1.4.2",
-    "nodemailer": "^6.3.1"
+    "nodemailer": "^6.3.1",
+    "socket.io": "^2.3.0"
   }
 }

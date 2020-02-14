@@ -2,7 +2,6 @@
 // Node imports
 // Own imports
 const connectionPromise = require('../connect');
-
 // Queue name in rabbitmq
 const queueName = 'thumbnails';
 let connected = false;
