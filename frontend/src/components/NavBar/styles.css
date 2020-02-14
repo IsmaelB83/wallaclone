@@ -18,7 +18,10 @@
 
 .NavBar__Toolbar .NavBar__User { border-radius: 0; }
 .NavBar__Toolbar .NavBar__User:hover { border-radius: 0; }
-.NavBar__User .Avatar { margin-right: 5px; }
+.NavBar__User .Avatar { 
+    margin-right: 5px;
+    box-shadow: 0 0 0 3px #fff, 0 0 0 4px #999, 0 2px 5px 4px rgba(0,0,0,.3);
+}
 
 .NavBar__User .NavBar__User--hiddenXS {
   font-size: 1rem;
@@ -26,12 +29,8 @@
 }
 
 @media only screen and (min-device-width : 768px){
-  .NavBar__Toolbar .NavBar__User .Avatar {
-    margin-right: 5px;
-  }
-  .NavBar__User .NavBar__User--hiddenXS {
-    display: block;
-  }    
+  .NavBar__Toolbar .NavBar__User .Avatar { margin-right: 5px; }
+  .NavBar__User .NavBar__User--hiddenXS { display: block; }    
 }
 
 .NavBar__Menu .NavBar__MenuItem:hover {
@@ -50,4 +49,21 @@
 
 .NavBar__MenuItem .NavBar__MenuItemText span {
   font-size: .9rem;
+}
+
+.NavBar__Right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.NavBar__Right .NavBar__Flags button:hover,
+.NavBar__Right .NavBar__Flags button:active,
+.NavBar__Right .NavBar__Flags button:focus {
+    border-radius: 0;
+}
+
+.NavBar__Right .NavBar__Flags img {
+    width: 35px;
+    height: 25px;
 }

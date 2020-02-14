@@ -1,6 +1,7 @@
 // NPM Modules
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { withNamespaces } from 'react-i18next';
 // Material UI
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
@@ -29,9 +30,9 @@ const FORM_TYPES = {
 /**
 * Componente para renderizar cualquiera de los formularios de la sección de autenticación:
 */
-export default function AuthForm(props) {
+function AuthForm(props) {
    
-    // Call container handler
+    const { t } = props;
     const submit = (inputs) => props.onSubmit(inputs);
 
     // Render
@@ -46,7 +47,7 @@ export default function AuthForm(props) {
                         </div>
                     </Link>
                     <Content/>
-                    { props.isLoading && <LoadingSmall text={'authenticating...'}/> }
+                    { props.isLoading && <LoadingSmall text={t('authenticating...')}/> }
                 </Form>
             </div>
         </div>
@@ -56,16 +57,17 @@ export default function AuthForm(props) {
 /**
  * Login form
  */
-function LoginForm() {
+function LoginForm(props) {
+    const { t } = props;
     return (
         <React.Fragment>
             <InputForm name='login' type='login' placeholder='type your login' required icon={<PermIdentityIcon/>}/>
             <InputForm name='password' type='password' placeholder='type your password' autocomplete='on' required icon={<LockOpenIcon/>}/>
-            <p className='Login__Help'>enter your credentials to login</p>
+            <p className='Login__Help'>{t('enter your credentials to login')}</p>
             <div className='Login__Buttons'>
-                <Button className='Button' type='submit' variant='contained' color='primary'> Login </Button>
-                <Button className='Button' variant='contained' color='secondary' href='/reset'> Reset password </Button>
-                <Link className='Login__Link' to='/register'>Create an account</Link>
+                <Button className='Button' type='submit' variant='contained' color='primary'> {t('Login')} </Button>
+                <Button className='Button' variant='contained' color='secondary' href='/reset'> {t('Reset password')} </Button>
+                <Link className='Login__Link' to='/register'>{t('Create an account')}</Link>
             </div>
         </React.Fragment>
     );
@@ -74,7 +76,8 @@ function LoginForm() {
 /**
  * Create new user form
  */
-function RegisterForm() {
+function RegisterForm(props) {
+    const { t } = props;
     return (
         <React.Fragment>
             <InputForm name='login' type='login' placeholder='type your login' required icon={<PermIdentityIcon/>}/>
@@ -82,10 +85,10 @@ function RegisterForm() {
             <InputForm name='email' type='email' placeholder='type your email' required icon={<MailOutlineIcon/>} helperText="Utilice una cuenta gmail par evitar problemas de spam"/>
             <InputForm name='password' type='password' placeholder='type your password' autoComplete='on' required icon={<LockOpenIcon/>}/>
             <InputForm name='password_2' type='password' placeholder='repeat your password' autoComplete='on' required icon={<LockOpenIcon/>}/>
-            <p className='Login__Help'>better use a gmail account to receive our emails</p>
+            <p className='Login__Help'>{t('better use a gmail account to receive our emails')}</p>
             <div className='Login__Buttons'>
-                <Button className='button' type='submit' variant='contained' color='primary'> Create user </Button>
-                <Link className='Login__Link' to='/login'>Go to login</Link>
+                <Button className='button' type='submit' variant='contained' color='primary'>{t('Create user')}</Button>
+                <Link className='Login__Link' to='/login'>{t('Go to login')}</Link>
             </div>
         </React.Fragment>
     );
@@ -94,14 +97,15 @@ function RegisterForm() {
 /**
  * Request reset password form
  */
-function RequestResetForm() {
+function RequestResetForm(props) {
+    const { t } = props;
     return (
         <React.Fragment>
             <InputForm name='email' type='email' placeholder='type your email' required icon={<PermIdentityIcon/>}/>
-            <p className='Login__Help'>enter your email to restart your password</p>
+            <p className='Login__Help'>{t('enter your email to restart your password')}</p>
             <div className='Login__Buttons'>
-                <Button className='button' type='submit' variant='contained' color='primary'> Send me an email </Button>
-                <Link className='Login__Link' to='/login'>Go to login</Link>
+                <Button className='button' type='submit' variant='contained' color='primary'>{t('Send me an email')}</Button>
+                <Link className='Login__Link' to='/login'>{t('Go to login')}</Link>
             </div>
         </React.Fragment>
     );
@@ -110,16 +114,23 @@ function RequestResetForm() {
 /**
  * Reset password form
  */
-function ResetForm() {
+function ResetForm(props) {
+    const { t } = props;
     return (
         <React.Fragment>
             <InputForm name='password' type='password' placeholder='type your password' autocomplete='on' required icon={<LockOpenIcon/>}/>
             <InputForm name='password_2' type='password' placeholder='repeat your password' autocomplete='on' required icon={<LockOpenIcon/>}/>
-            <p className='Login__Help'>enter your new password</p>
+            <p className='Login__Help'>{t('enter your new password')}</p>
             <div className='Login__Buttons'>
-                <Button className='button' type='submit' variant='contained' color='primary'> Reset password </Button>
-                <Link className='Login__Link' to='/login'>Go to login</Link>
+                <Button className='button' type='submit' variant='contained' color='primary'>{t('Reset password')}</Button>
+                <Link className='Login__Link' to='/login'>{t('Go to login')}</Link>
             </div>
         </React.Fragment>
     );
 }
+
+withNamespaces()(LoginForm);
+withNamespaces()(RegisterForm);
+withNamespaces()(RequestResetForm);
+withNamespaces()(ResetForm);
+export default withNamespaces()(AuthForm);

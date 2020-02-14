@@ -1,5 +1,6 @@
 // NPM Modules
 import React, { Component } from 'react';
+import { withNamespaces } from 'react-i18next';
 // Material UI
 import Container from '@material-ui/core/Container';
 // Own modules
@@ -9,34 +10,28 @@ import Container from '@material-ui/core/Container';
 /**
  * Error Boundary (mantengo el class component de react)
  */
-export default class ErrorBoundary extends Component {
+class ErrorBoundary extends Component {
 
-    /**
-     * Constructor
-     */
+    // Constructor
     constructor(props) {
         super(props);
         this.state = { error: null };
     }
 
-    /**
-     * Component did catch (necesario para el error boundary)
-     */
+    // Component did catch (necesario para el error boundary)
     componentDidCatch(error, errorInfo) {
         this.setState({ error });
     }
 
-    /**
-     * Render
-     */
+    // Render
     render() {
         if (this.state.error) {
             return (
             <React.Fragment>
                 <Container>
                     <main className='Home'>
-                        <h1>Se ha producido un error incontrolado en la aplicación.</h1>
-                        <h2>Contacte con el administrador de la app.</h2>
+                        <h1>{this.props.t('An uncontrolled error has been detected in the application.')}</h1>
+                        <h2>{this.props.t('Contact the admin.')}</h2>
                         <h3>{this.state.error}</h3>
                     </main>
                 </Container>
@@ -47,3 +42,5 @@ export default class ErrorBoundary extends Component {
         }
     }
 }
+
+export default withNamespaces()(ErrorBoundary);

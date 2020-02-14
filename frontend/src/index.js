@@ -8,6 +8,10 @@ import { SnackbarProvider } from 'notistack';
 import App from './containers/App';
 // Own modules
 import { configureStore } from './store';
+import './utils/i18n';
+import 'moment/locale/es';
+import 'moment/locale/en-gb';
+
 // Assets
 // CSS
 import './index.css';

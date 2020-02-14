@@ -1,6 +1,7 @@
 // NPM Modules
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withNamespaces } from 'react-i18next';
 // Material UI
 // Own Components
 import AdvertCard from '../AdvertCard';
@@ -22,8 +23,11 @@ const CARD_TYPES = {
 /**
  * Functional component to render an advert card
  */
-export default function AdvertList (props) {
+function AdvertList (props) {
     
+    // Translate
+    const { t } = props;
+
     // Determina el tipo de Card a renderizar
     const Card = CARD_TYPES[props.type];
     return(
@@ -41,8 +45,8 @@ export default function AdvertList (props) {
                             onFavoriteAdvert={props.onFavoriteAdvert}
                     />
             )}
-            { !props.isFetching && !props.adverts.length && <h2 className='Home__Subtitle'>No hay anuncios que cumplan con los criterios de búsqueda</h2> }
-            { props.isFetching && <LoadingList text='Loading adverts'/> }
+            { !props.isFetching && !props.adverts.length && <h2 className='Home__Subtitle'>{t('Sorry, we couldn\'t find any results matching the filter criteria')}</h2> }
+            { props.isFetching && <LoadingList text={t('Loading adverts')}/> }
         </section>
 );
 }
@@ -61,4 +65,5 @@ function LoadingList (props) {
                 <h2 className='LoadingList__Text'>{props.text}</h2>
             </div>
 }
-        
+
+export default withNamespaces()(AdvertList);

@@ -6,15 +6,8 @@ import { Redirect, Route } from 'react-router-dom';
 // Assets
 // CSS
 
-/**
- * Main App
- */
+// Main App
 const PrivateRoute = ({...props}) =>
   props.session.email ? <Route {...props} /> : <Redirect to="/login" />;
 
 export default PrivateRoute;
-
-/*
-import { withUserContext } from '../../context/UserContext';
-export default withUserContext(PrivateRoute); 
-*/

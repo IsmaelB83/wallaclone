@@ -11,36 +11,23 @@
 */
 .AdvertDetail__Header {
     position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.AdvertDetail__Header .AdvertDetail__Back {
-    clip-path: polygon(0 0, 0% 100%, 100% 0);
-    background-color: var(--main-color);
-    padding: .75rem 2rem 1rem .5rem;
-    color: white;
-    width: 100px;
-    align-self: flex-start;
-    transition: .3s all ease;
-}
-
-.AdvertDetail__Header .AdvertDetail__Back:hover {
-    background-color: var(--main-color-dark);
-}
-
-.AdvertDetail__Header h1 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-    text-transform: capitalize;
-    text-shadow: 3px 4px 5px rgba(0, 0, 0, .3);
-    text-align: center;
+    width: 200px;
+    height: 200px;
+    min-height: 150px;
 }
 
 .AdvertDetail__Header .Caption {
     border-radius: 1rem;
     width: auto;
+}
+
+.AdvertDetail__Header .AdvertDetail__Chips {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: absolute;
+    top: 10px;
+    left: 10px;
 }
 
 /**
@@ -56,7 +43,15 @@
     flex-direction: column;
     justify-content: flex-end;
     align-items: flex-start;
-    width: 100%;
+    flex-grow: 1;
+}
+
+.AdvertDetail__Content h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    text-transform: capitalize;
+    text-shadow: 3px 4px 5px rgba(0, 0, 0, .3);
+    text-align: center;
 }
 
 .AdvertDetail__Content .AdvertDetail__Type {
@@ -81,8 +76,8 @@
     margin-right: 4px;
 }
 
-.AdvertDetail__Content .AdvertDetail__Actions {
-    margin-top: 2rem;
+.AdvertDetail__Actions {
+    margin: 1rem 0;
     justify-self: flex-end;
 }
 
@@ -154,10 +149,6 @@
         flex-direction: row;
     }
     
-    .AdvertDetail__Content {
-        padding: 3rem 3rem 1rem 3rem;
-    }
-
     .AdvertDetail__Footer { 
         margin: 0;
     }

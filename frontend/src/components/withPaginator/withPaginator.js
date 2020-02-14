@@ -1,5 +1,6 @@
 // Node modules
 import React from 'react';
+import { withNamespaces } from 'react-i18next';
 // Material UI
 import MobileStepper from '@material-ui/core/MobileStepper';
 import Button from '@material-ui/core/Button';
@@ -13,6 +14,9 @@ import './styles.css';
 const withPaginator = (WrappedComponent) => {
 
     return function AdvertListWithPaginator(props) {
+
+        // Translate
+        const { t } = props;
 
         // Destructuring props
         const { adverts, start, end, totalCount } = props;

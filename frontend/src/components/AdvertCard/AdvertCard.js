@@ -1,8 +1,10 @@
 // NPM Modules
 import React from 'react';
 import PropTypes from 'prop-types';
+import i18n from '../../utils/i18n';
 import { Link } from "react-router-dom";
 import Moment from 'react-moment';
+import { withNamespaces } from 'react-i18next';
 // Material UI
 import FavoriteIcon from '@material-ui/icons/Favorite';
 // Own components
@@ -14,11 +16,15 @@ import Advert, { ADVERT_CONSTANTS } from '../../models/Advert';
 // CSS
 import './styles.css';
 
+
 /**
  * Functional component to render an advert card
  */
-export default function AdvertCard (props) {
+function AdvertCard (props) {
 
+    // Translate
+    const { t } = props;
+    
     // Props destructuring
     const { slug, name, photo, tags, price, sold, booked, type, favorite, user, createdAt } = props.advert;
 
@@ -35,7 +41,7 @@ export default function AdvertCard (props) {
             <div className='AdvertCard__Content'>
                 <div className='AdvertCard__ContentHeader'>
                     <Link to={`advert/${slug}`} className='AdvertCard__Title'><h2>{name}</h2></Link>
-                    <Moment className='AdvertCard__Date' fromNow>{createdAt}</Moment>
+                    <Moment className='AdvertCard__Date' locale={i18n.language} fromNow>{createdAt}</Moment>
                 </div>
                 <div className='AdvertCard__ContentChips'>
                 {   tags.map((value,i) => <AdvertChip key={i} type='tag' value={value}/> ) }
@@ -59,3 +65,5 @@ export default function AdvertCard (props) {
 AdvertCard.propTypes = {
     advert: PropTypes.instanceOf(Advert).isRequired
 }
+
+export default withNamespaces()(AdvertCard);

@@ -1,5 +1,6 @@
 // NPM Modules
 import React, { useState } from 'react';
+import { withNamespaces } from 'react-i18next';
 // Material UI
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -22,7 +23,10 @@ import './styles.css';
 /**
  * Main App
  */
-export default function SearchPanel(props) {
+function SearchPanel(props) {
+
+    // Translate
+    const { t } = props;
 
     // Initial state del componente
     const initialState = {
@@ -79,12 +83,12 @@ export default function SearchPanel(props) {
                     onChange={handleInputChange}
                     className='InputSearch__Input'
                     autoComplete='off'
-                    placeholder='Buscar productos por nombre'
+                    placeholder={t('Search adverts by name')}
                 />
             </div>   
             <div className='SearchPanel__Filters'>
                 <FormControl>
-                    <InputLabel shrink htmlFor='type'>Tipo</InputLabel>
+                    <InputLabel shrink htmlFor='type'>{t('Type')}</InputLabel>
                     <Select
                         id='filter_type'
                         name= 'type'
@@ -105,7 +109,7 @@ export default function SearchPanel(props) {
                     </Select>
                 </FormControl>
                 <FormControl>
-                    <InputLabel shrink htmlFor='tag'>Tag</InputLabel>
+                    <InputLabel shrink htmlFor='tag'>{t('Tag')}</InputLabel>
                     <Select
                         id='filter_tag'
                         name='tag'
@@ -120,7 +124,7 @@ export default function SearchPanel(props) {
                     </Select>
                 </FormControl>
                 <FormControl>
-                    <InputLabel htmlFor='minPrice'>Precio desde</InputLabel>
+                    <InputLabel htmlFor='minPrice'>{t('Price from')}</InputLabel>
                     <Input
                         id='filter_minPrice'
                         name='minPrice'
@@ -131,7 +135,7 @@ export default function SearchPanel(props) {
                     />
                 </FormControl>
                 <FormControl>
-                    <InputLabel htmlFor='maxPrice'>Precio hasta</InputLabel>
+                    <InputLabel htmlFor='maxPrice'>{t('Precio hasta')}</InputLabel>
                     <Input
                         id='filter_maxPrice'
                         name='maxPrice'
@@ -143,9 +147,11 @@ export default function SearchPanel(props) {
                 </FormControl>
             </div> 
             <div className='SearchPanel__Footer'>
-                <Button type='submit' variant='contained' color='primary' startIcon={<SearchIcon />}> Search API </Button>
-                <Button variant='contained' color='secondary' onClick={handleInputReset} startIcon={<ClearIcon/>}> Reset </Button>
+                <Button type='submit' variant='contained' color='primary' startIcon={<SearchIcon />}>{t('Search')}</Button>
+                <Button variant='contained' color='secondary' onClick={handleInputReset} startIcon={<ClearIcon/>}> {t('Reset')} </Button>
             </div>
         </form>
     );
 }
+
+export default withNamespaces()(SearchPanel);

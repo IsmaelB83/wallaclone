@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 import { Link } from "react-router-dom";
+import { withNamespaces } from 'react-i18next';
 // Material UI
 import BookmarkBorderOutlinedIcon from '@material-ui/icons/BookmarkBorderOutlined';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
@@ -20,11 +21,12 @@ import Advert, { ADVERT_CONSTANTS as CONSTANTS } from '../../models/Advert';
 // CSS
 import './styles.css';
 
-/**
- * Functional component to render an advert card
- */
-export default function AdvettCardSmall (props) {
+// Functional component to render an advert card
+function AdvertCardSmall (props) {
     
+    // Translate
+    const { t } = props;
+
     // Props destructuring
     const { slug, name, thumbnail, tags, price, sold, type, booked, favorite, createdAt, updatedAt, user } = props.advert;
 
@@ -40,11 +42,11 @@ export default function AdvettCardSmall (props) {
                 <div className='CardList__Body'>
                     <div className='CardList__Dates'>
                         <div className='CardList__Date'>
-                            <p className='Title'>Publicado</p>
+                            <p className='Title'>{t('Created')}</p>
                             <Moment format="DD/MM/YYYY" className='SubTitle'>{createdAt}</Moment>
                         </div>
                         <div className='CardList__Date'>
-                            <p className='Title'>Actualizado</p>
+                            <p className='Title'>{t('Updated')}</p>
                             <Moment format="DD/MM/YYYY" className='SubTitle'>{updatedAt}</Moment>
                         </div>
                     </div>
@@ -102,6 +104,8 @@ export default function AdvettCardSmall (props) {
     );
 }
 
-AdvettCardSmall.propTypes = {
+AdvertCardSmall.propTypes = {
     advert: PropTypes.instanceOf(Advert).isRequired
 }
+
+export default withNamespaces()(AdvertCardSmall);
