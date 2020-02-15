@@ -9,13 +9,6 @@ const { User } = require('../models');
  */ 
 module.exports = async (req, res, next) => {
     try {
-        // Session authentication (web)
-        if (!isAPI(req)) {
-            if (req.session.authUser) {
-                return next();
-            }
-            return res.redirect('/user/login');
-        }
         // JWT Authentication (API)
         let reqToken = ( req.body['headers'] && req.body['headers']['Authorization']) || req.query.token || req.get('Authorization');
         if (!reqToken) {
@@ -52,11 +45,3 @@ module.exports = async (req, res, next) => {
         next(error);
     }
 };
-
-/**
- * Check if URL provides from a request from the API or the Web 
- * @param {Request} req Request
- */
-function isAPI(req) {
-    return req.originalUrl.indexOf('/api') === 0;
-}

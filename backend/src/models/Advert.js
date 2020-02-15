@@ -11,49 +11,27 @@ const URLSlugs = require('mongoose-url-slugs');
 */
 const AdvertSchema = new Schema(
     {  
-        /**
-        * Nombre del articulo en compra/venta
-        */
+        // Nombre del articulo en compra/venta
         name: { type: String, required: true, max: 40, index: true },
-        /**
-        * SEO Friendly slug
-        */
+        // SEO Friendly slug
         slug: { type: String, slug: 'name', unique: true },
-        /**
-        * Descripcion del articulo en venta
-        */
+        // Descripcion del articulo en venta
         description: { type: String, max: 150, required: true},
-        /**
-        * Precio del artículo
-        */
+        // Precio del artículo
         price: { type: Number, required: true },
-        /**
-        * Tipo de anuncio: compra o venta
-        */
+        // Tipo de anuncio: compra o venta
         type: { type: String, enum: ['buy', 'sell'], required: true, index: true },
-        /**
-        * Foto del artículo
-        */
+        // Foto del artículo
         photo: { type: String, required: true },
-        /**
-        * Thumbnail
-        */
+        // Thumbnail
         thumbnail: { type: String, required: true },
-        /**
-        * Tags del anuncio
-        */
+        // Tags del anuncio
         tags: [{ type: String, enum: ['games', 'sports', 'hardware', 'motor', 'clothes', 'comics', 'houses'], index: true},],
-        /**
-         * Booked product true/false
-         */
+        // Booked product true/false
         booked: { type: Boolean, default: false },
-        /**
-         * Sold product true/false
-         */
+        // Sold product true/false
         sold: { type: Boolean, default: false },
-        /**
-         * User
-         */
+        // User
         user: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
     },
     {
@@ -125,7 +103,7 @@ AdvertSchema.statics.list = (name, venta, tag, precio, user, limit, skip, fields
             queryDB.sort({createdAt: -1});
         }
 
-        queryDB.populate('user', '_id login name email ').exec()
+        queryDB.populate('user', '_id login name email avatar').exec()
         .then (results => {
             Advert.find(filter).countDocuments()
             .then(count => resolve({
@@ -199,7 +177,7 @@ AdvertSchema.statics.udpateThumbnail = async function(id, thumbnail) {
 };
 
 // Autopopulate user after save (mongoose middleware)
-AdvertSchema.post('save', (doc, next) => doc.populate('user', '_id login name email ').execPopulate(()=>next()));
+AdvertSchema.post('save', (doc, next) => doc.populate('user', '_id login name email avatar').execPopulate(()=>next()));
 
 // Indices más utilizados
 AdvertSchema.index({ types: 1, tags: 1 });

@@ -54,7 +54,7 @@ module.exports = {
             // Validations
             validationResult(req).throw();
             // Get one advert
-            Advert.findOne({slug: req.params.slug}).populate('user', '_id login name email')
+            Advert.findOne({slug: req.params.slug}).populate('user', '_id login name email avatar')
             .then(advert => {
                 if (!advert) return next({ status: 404, error: 'Not Found' });
                 return res.json({success: true, result: advert});
@@ -152,7 +152,7 @@ module.exports = {
     book: async (req, res, next) => {
         try {
             // Sólo se permiten modificar los anuncios propios
-            Advert.findOne({slug: req.params.slug, user: req.user._id}).populate('user', '_id login name email ')
+            Advert.findOne({slug: req.params.slug, user: req.user._id}).populate('user', '_id login name email avatar')
             .then(advert => {
                 // Chequeos
                 if (!advert) return next({status: 401, description: 'No autorizado. Sólo puede tratar sus anuncios'});
@@ -175,7 +175,7 @@ module.exports = {
     sell: async (req, res, next) => {
         try {
             // Sólo se permiten modificar los anuncios propios
-            Advert.findOne({slug: req.params.slug, user: req.user._id}).populate('user', '_id login name email ')
+            Advert.findOne({slug: req.params.slug, user: req.user._id}).populate('user', '_id login name email avatar')
             .then(advert => {
                 // Chequeos
                 if (!advert) return next({ status: 401, description: 'No autorizado. Sólo puede tratar sus anuncios' });
@@ -197,7 +197,7 @@ module.exports = {
     delete: async (req, res, next) => {
         try {
             // Sólo se permiten modificar los anuncios propios
-            Advert.findOne({slug: req.params.slug, user: req.user._id}).populate('user', '_id login name email ')
+            Advert.findOne({slug: req.params.slug, user: req.user._id}).populate('user', '_id login name email avatar')
             .then(advert => {
                 // Chequeps
                 if (!advert) return next({status: 401, description: 'No autorizado. Sólo puede tratar sus anuncios'});

@@ -53,6 +53,7 @@ module.exports = {
                         name: user.name,
                         login: user.login,
                         email: user.email,
+                        avatar: user.avatar,
                         token: user.jwt,
                         favorites: user.favorites
                     }
@@ -90,6 +91,7 @@ module.exports = {
                 name: user.name,
                 login: user.login,
                 email: user.email,
+                avatar: user.avatar,
                 token: user.jwt,
                 favorites: user.favorites
             }

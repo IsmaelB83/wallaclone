@@ -9,40 +9,24 @@ const Schema = mongoose.Schema;
 */
 const ChatSchema = new Schema(
     {  
-       /**
-        * Anuncio relacionado con el chat
-        */
+        // Anuncio relacionado con el chat
         advertId: { type: Schema.Types.ObjectId, ref: 'Advert', required: true},
-        /**
-        * Creator of the chat
-        */
+        // Creator of the chat
         chatOwnerId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-        /**
-        * Creator of the chat
-        */
+        // Creator of the chat
         advertOwnerId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-        /**
-         * Messages
-         */
+        // Messages
         conversation: [{
-            /**
-             * Message date
-             */
+            // Message date
             date: { type: Schema.Types.Date, required: true, default: Date.now},
-            /**
-             * User
-             */
+            // User
             userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-            /**
-             * Message message
-             */
+            // Message message
             message: { type: Schema.Types.String, required: true}
         }]
     },
     {
-        /**
-        * Añade las propiedades de created y updated
-        */
+        // Añade las propiedades de created y updated
         timestamps: true,
     }    
 );

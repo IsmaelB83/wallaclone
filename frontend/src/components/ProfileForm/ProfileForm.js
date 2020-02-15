@@ -22,18 +22,26 @@ import './styles.css';
 function ProfileForm(props) {
    
     const { t } = props;
-    const submit = (inputs) => props.onSubmit(inputs);
+    const submit = (inputs) => {
+        if (fileTemp) {
+            inputs.file = fileTemp;
+            inputs.avatar = '';
+        }
+        props.onSubmit(inputs);
+    }
 
     // Open input file
     const openInputFile = () => refInputFile.current.click();
   
     // Handle close modal
     const refInputFile = useRef(undefined);
-    const [photoTemp, setPhotoTemp] = useState(props.user.photo);
+    const [fileTemp, setFileTemp] = useState();
+    const [photoTemp, setPhotoTemp] = useState(props.user.avatar);
     const changeInputFile = (ev) => {
         ev.stopPropagation();
         ev.preventDefault();
         const aux = ev.target.files[0];
+        setFileTemp(aux);
         setPhotoTemp(URL.createObjectURL(aux));
     }
 

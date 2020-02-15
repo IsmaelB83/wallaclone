@@ -7,9 +7,9 @@ const { MulterMiddleware } = require('../../middlewares')
 const { AuthMiddleware } = require('../../middlewares');
 const { UserCtrl } = require('../../controllers');
 
-/**
- * Exports arrow function with the USER routes
- */
+const multerAdverts = MulterMiddleware.uploadAvatars;
+
+// Exports arrow function with the USER routes
 module.exports = () => {
 
     const router = express.Router();
@@ -29,7 +29,7 @@ module.exports = () => {
     router.put(
         '/',
         AuthMiddleware,
-        MulterMiddleware, 
+        multerAdverts, 
         UserCtrl.edit
     );
 

@@ -24,7 +24,6 @@ import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 // Own modules
 // Assets
 import imageLogo from '../../assets/images/logo2.png';
-import imageAvatar from '../../assets/images/user.png';
 import imageES from '../../assets/images/es.png';
 import imageGB from '../../assets/images/gb.png';
 // CSS
@@ -68,7 +67,7 @@ function NavBar(props) {
                             color='inherit'
                             className='NavBar__User' 
                             >
-                                <Avatar className='Avatar' alt={props.session.name} src={imageAvatar}/>
+                                <Avatar className='Avatar' alt={props.session.name} src={props.session.avatar}/>
                                 <span className='NavBar__User--hiddenXS'>{props.session.name}</span>
                             <KeyboardArrowDownIcon/>
                         </IconButton>

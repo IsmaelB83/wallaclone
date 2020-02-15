@@ -54,8 +54,8 @@ module.exports = {
             // Every chat is attached to an advert
             const chats = await Chat
             .find({chatOwnerId: req.user._id})
-            .populate('chatOwnerId', 'login name email')
-            .populate('advertOwnerId', 'login name email')
+            .populate('chatOwnerId', 'login name email avatar')
+            .populate('advertOwnerId', 'login name email avatar')
             .populate('advertId', 'slug name thumbnail');
             if (chats) {
                 // Ok

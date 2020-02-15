@@ -6,10 +6,8 @@ const morgan = require('morgan');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const session = require('express-session')
-const mongoStore = require('connect-mongo')(session);  // persist web session in mongodb
 // Own imports
-const { AuthRoutes, UserRoutes, AdvertRoutes, WebUserRoutes, WebAdvertRoutes, ChatRouter } = require('./routes');
+const { AuthRoutes, UserRoutes, AdvertRoutes, ChatRouter } = require('./routes');
 const { ErrorMiddleware, AuthMiddleware } = require('./middlewares');
 const { i18nConfig } = require('./utils');
 const database = require('./database');
@@ -34,22 +32,6 @@ database.connect(process.env.MONGODB_URL)
         app.use(bodyParser.urlencoded({extended: true}));
         app.use(cookieParser());
         app.use(i18nConfig().init);
-        app.use(session({
-            name: 'nodeapi-session',
-            secret: process.env.SECRET,
-            resave: false,
-            saveUninitialized: true,
-            cookie: { 
-                secure: true, // only send trough https
-                maxAge: 1000 * 3600 * 24 * 2 // expire time is 2 days
-            },
-            store: new mongoStore({
-                mongooseConnection: conn
-            })
-        }));
-        // Routes web version
-        app.use('/', WebAdvertRoutes());
-        app.use('/user', WebUserRoutes());
         // Routes API version
         app.use('/apiv1/user/chat', ChatRouter());
         app.use('/apiv1/user', UserRoutes());

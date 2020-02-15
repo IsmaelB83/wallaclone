@@ -1,8 +1,8 @@
 const multer = require('multer');
 
-const storage = multer.diskStorage({
+const storage = (folder) => multer.diskStorage({
     destination: (req, file, callback) => {
-        callback(null, 'public/images/adverts/original');
+        callback(null, `public/images/${folder}/original`);
     },
     filename: (req, file, callback) => {
         let aux = new Date().toLocaleString()
@@ -14,10 +14,10 @@ const storage = multer.diskStorage({
     }
 })
 
-const upload = multer({
-    storage: storage,
+const upload = (folder) => multer({
+    storage: storage(folder),
     limits: {
-        fileSize: 1024 * 1024 * 5 // max 5MB
+        fileSize: 1024 * 1024 * 10 // max 10MB
     },
     fileFilter: (req, file, callback) => {
         switch (file.mimetype) {
@@ -36,4 +36,10 @@ const upload = multer({
     }
 });
 
-module.exports = upload.single('photoFile');
+const uploadAvatars = upload('avatars').single('photoFile');
+const uploadAdverts = upload('adverts').single('photoFile');
+
+module.exports = {
+    uploadAvatars,
+    uploadAdverts
+}

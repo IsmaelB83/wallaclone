@@ -14,6 +14,7 @@ export function session (state = initialState.session, action) {
             return initialState.session;
         case TYPES.LOGIN_SUCCESS:
         case TYPES.LOGIN_TOKEN_SUCCESS:
+        case TYPES.EDIT_ACCOUNT_SUCCESS:
             return {...action.session}
         case TYPES.LOGOUT:
             return initialState.session;

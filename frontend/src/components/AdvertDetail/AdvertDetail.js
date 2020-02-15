@@ -37,7 +37,7 @@ function AdvertDetail(props) {
     // Chip
     const renderStatus = () => <AdvertChip type='status' value={sold?ADVERT_CONSTANTS.STATUS.SOLD:ADVERT_CONSTANTS.STATUS.BOOKED}/>
     const renderTags = () => tags.map((value,i) => <AdvertChip key={i} type='tag' value={value}/>);
-
+    
     // Render
     return (
         <article id={`adslug_${slug}`} className='AdvertDetail'>
@@ -57,7 +57,7 @@ function AdvertDetail(props) {
                     <div className='AdvertDetail__AuthorAvatar'>
                         <Link to={`/published/${user.login}`} className=''>
                             <div>
-                                <Avatar className='Avatar' alt='avatar' src={user && user.photo}/>
+                                <Avatar className='Avatar' alt='avatar' src={user && user.avatar}/>
                                 <span className='AdvertDetail__Author'>{user && user.name}</span>
                             </div>
                         </Link>

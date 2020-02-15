@@ -2,15 +2,16 @@
 // Material UI
 // Own modules
 // Assets
+import defaultAvatar from '../assets/images/user.png';
 // CSS
 
-/**
- * Modelo sesión de usuario
- */
+// Endpoint
+const API_URL = process.env.REACT_APP_API_URL.replace('/apiv1','');
+
+// Modelo sesión de usuario
 export default class Session {
     
-    /**
-     * Constructor
+    /** Constructor
      * @param {Object} Session 
      */    
     constructor(user) {
@@ -19,7 +20,8 @@ export default class Session {
         this.name = user.name;
         this.email = user.email;
         this.jwt = user.token;
-        this.avatar = 'https://material-ui.com/static/images/avatar/1.jpg';
+        this.avatar = user.avatar.startsWith('/images/')?`${API_URL}${user.avatar}`:defaultAvatar;
+        this.file = user.file;
         this.favorites = user.favorites;
     }
 }

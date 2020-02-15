@@ -25,19 +25,13 @@ module.exports = {
             validationResult(req).throw();
             // Check first if the email already exists
             let user = await User.findOne({email: req.body.email});
-            if (user) {
-                return next({status: 400, description: 'Error creating user: email already exists'});
-            }
+            if (user) return next({status: 400, description: 'Error creating user: email already exists'});
             // Check login if the email already exists
             user = await User.findOne({login: req.body.login});
-            if (user) {
-                return next({status: 400, description: 'Error creating user: login already exists'});
-            }
+            if (user) return next({status: 400, description: 'Error creating user: login already exists'});
             // Valid user name
             const aux = isValidUsername(req.body.login);
-            if (!aux) {
-                return next({status: 400, description: 'Nombre de usuario incorrecto.'});
-            }
+            if (!aux) return next({status: 400, description: 'Nombre de usuario incorrecto.'});
             // User creation
             user = await User.insert(new User({...req.body}));
             if (user) {
@@ -98,6 +92,10 @@ module.exports = {
                 if (users) return next({status: 401, description: 'El email indicado no está disponible'});
                 user.email = req.body.email
             }
+            // Avatar
+            if (req.file) {
+                user.avatar = `/images/avatars/original/${req.file.filename}`;
+            }
             // Si se ha indicado password lo encripto e invalido tokens
             if (req.body.password) {
                 user.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
@@ -112,7 +110,8 @@ module.exports = {
                         _id: user._id,
                         login: user.login,
                         name: user.name,
-                        email: user.email
+                        email: user.email,
+                        avatar: user.avatar
                     }
                 });
             });

@@ -7,9 +7,9 @@ const { MulterMiddleware } = require('../../middlewares')
 const { AuthMiddleware } = require('../../middlewares');
 const { AdvertCtrl } = require('../../controllers');
 
-/**
- * Exports arrow function with the ADVERT routes
- */
+const multerAdverts = MulterMiddleware.uploadAdverts;
+
+// Exports arrow function with the ADVERT routes
 module.exports = () => {
     const router = express.Router();
     // Rutas de anuncios
@@ -47,17 +47,17 @@ module.exports = () => {
     router.delete(
         '/:slug', 
         AuthMiddleware,
-        MulterMiddleware,
+        multerAdverts,
         AdvertCtrl.delete);
     router.put(
         '/:slug', 
         AuthMiddleware,
-        MulterMiddleware, 
+        multerAdverts, 
         AdvertCtrl.update);
     router.post(
         '/', 
         AuthMiddleware,
-        MulterMiddleware, 
+        multerAdverts, 
         [   body('name').isLength({min:1, max: 40}).withMessage('value must be between 1 and 30 characteres length'),
             body('description').optional().isLength({min:0, max: 150}).withMessage('length must be between 1 and 100 characters'),
             body('price').isNumeric().withMessage('must be numeric')

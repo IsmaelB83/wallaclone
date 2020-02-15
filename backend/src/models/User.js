@@ -10,41 +10,25 @@ const crypto = require('crypto');
  * User Schema in the database
  */
 const UserSchema = new Schema(
-    {   /**
-         * Nick name
-         */
+    {   // Nick name
         login: { type: String, required: true, maxlength: 15, unique: true },
-        /**
-         * User name
-         */
+        // User name
         name: { type: String, required: true, maxlength: 30 },
-        /**
-         * User email
-         */
+        // User email
         email: { type: String, required: true, maxlength: 150, unique: true },
-        /**
-         * Encrypted password
-         */
+        // Encrypted password
         password: { type: String, required: true, minlength: 4 },
-        /**
-         * JSON Web Token to authenticate in the API
-         */
+        // JSON Web Token to authenticate in the API
         jwt: { type: String },
-        /**
-         * Token used to activate a user, restart password, etc.
-         */
+        // Token used to activate a user, restart password, etc.
         token: { type: String},
-        /**
-         * By default a new user will be inactive
-         */
+        // By default a new user will be inactive
         active: { type: Boolean, default: false },
-        /**
-         * Expiration time of the JWT
-         */
+        // Foto del artículo
+        avatar: { type: String, required: false },
+        // Expiration time of the JWT
         expire: { type: Date, default: Date.now() + 3600000, select: false },
-        /**
-         * Favorite adverts
-         */
+        // Favorite adverts
         favorites: [{ type: Schema.Types.ObjectId, ref: 'Advert' }],
     },
     {
@@ -81,6 +65,7 @@ UserSchema.statics.update = async function(id, newUser) {
             oldUser.login = newUser.login || oldUser.login;
             oldUser.name = newUser.name || oldUser.name;
             oldUser.email = newUser.email || oldUser.email;
+            oldUser.avatar = newUser.avatar || oldUser.avatar;
             return await oldUser.save();
         }
         return false;

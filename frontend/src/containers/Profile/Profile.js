@@ -11,6 +11,7 @@ import NavBar from '../../components/NavBar';
 import Footer from '../../components/Footer';
 import Loading from '../../components/Loading';
 // Models
+import Session from '../../models/Session';
 // Own modules
 // Assets
 // CSS
@@ -40,19 +41,14 @@ function Profile(props) {
      
     // Submit (save data)
     const submitProfile = (inputs) => {
-      // Genero sesión y la guardo en LS
-      const { login, email, name, password_old, password_new_1, password_new_2 } = inputs;
-      // Datos del usuario editado
-      const user = {
-        login: login,
-        email: email,
-        name: name,
-        password: password_new_1 === password_new_2 && password_new_1 !== '' ?  password_new_1 : password_old
-      }
+      // Creo usuario desde inputs
+      const { password_old, password_new_1, password_new_2 } = inputs;
+      const user = new Session(inputs);
       // ¿Está intentando realizar un cambio de contraseña?
       if (password_new_1 || password_new_2) {
         if (password_new_1 !== password_new_2) return props.enqueueSnackbar(t('Error. Both passwords should match'), { variant: 'error' });        
         if (password_old === '') return props.enqueueSnackbar(t('You should enter your current password to change it'), { variant: 'error' });        
+        user.password = password_new_1;
       }
       // Dispatch update user
       props.editUser(user, props.session.jwt)

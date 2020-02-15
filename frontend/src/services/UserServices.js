@@ -40,9 +40,11 @@ export default {
         const baseURL = `${API_URL}`;
         // Form Data
         const formData = new FormData();
-        for (const k in user) {
-            if (user[k]) formData.append(k, user[k]);
-        }
+        formData.append('login', user.login);
+        formData.append('name', user.name);
+        formData.append('email', user.email);
+        if (user.password) formData.append('password', user.password);
+        if (user.file) formData.append('photoFile', user.file);
         // Config 
         const config = {
             headers: { 
