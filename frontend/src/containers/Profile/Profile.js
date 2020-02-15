@@ -66,7 +66,7 @@ function Profile(props) {
     return (
         <React.Fragment>
         <NavBar/>
-        <Container>
+        <Container className='Container__Fill'>
             <main className='Main__Section Profile'>
                 <ProfileForm    noValidate 
                                 autoComplete='off' 

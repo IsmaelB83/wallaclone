@@ -38,17 +38,12 @@ async function main() {
         Jimp.read(`public${message.photo}`)
         .then(image => {
             // Create thumbnail
-            image.resize(100, 100).quality(60).write(`public${thumbnail}`);
-            console.log(`Thumbnail generated: ${thumbnail}`);
+            image.resize(350, 350).quality(80).write(`public${thumbnail}`);
             channel.ack(msg);
             // Update advert
-            Advert.updateAdvert(message.id, new Advert({thumbnail: thumbnail}))
-            .then (result => {
-                console.log(`Advert ${result._id} updated: ${result.thumbnail}`);
-            });
+            Advert.udpateThumbnail(message.id, thumbnail)
+            .then (console.log(`Advert ${message.id} updated: ${thumbnail}`))
         })
-        .catch(error => {
-            console.error(error);
-        });
+        .catch(error => console.log(error));
     });
 }

@@ -101,7 +101,7 @@ export default {
         formData.append('price', advert.price);
         formData.append('type', advert.type);
         formData.append('tags', advert.tags);
-        formData.append('photo', advert.file);
+        formData.append('photoFile', advert.file);
         // Config 
         const config = {
             headers: { 
@@ -110,7 +110,7 @@ export default {
             }
         }
         // Call endpoint and return
-        return Axios.post( baseURL, formData, config )
+        return Axios.post(baseURL, formData, config)
         .then(res => new Advert(res.data.result, API_URL));
     },
     
@@ -130,7 +130,7 @@ export default {
         formData.append('tags', advert.tags);
         formData.append('booked', advert.booked);
         formData.append('sold', advert.sold);
-        formData.append('photo', advert.file || advert.photo);
+        formData.append('photoFile', advert.file);
         // Config 
         const config = {
             headers: { 
@@ -139,7 +139,7 @@ export default {
             }
         }
         // Call endpoint and return
-        return Axios.put( baseURL, formData, config )
+        return Axios.put(baseURL, formData, config)
         .then(res => new Advert(res.data.result, API_URL));
     },
     

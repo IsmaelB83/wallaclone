@@ -14,7 +14,7 @@ const AdvertSchema = new Schema(
         /**
         * Nombre del articulo en compra/venta
         */
-        name: { type: String, required: true, max: 30, index: true },
+        name: { type: String, required: true, max: 40, index: true },
         /**
         * SEO Friendly slug
         */
@@ -22,7 +22,7 @@ const AdvertSchema = new Schema(
         /**
         * Descripcion del articulo en venta
         */
-        description: { type: String, max: 100 },
+        description: { type: String, max: 150, required: true},
         /**
         * Precio del artículo
         */
@@ -42,19 +42,19 @@ const AdvertSchema = new Schema(
         /**
         * Tags del anuncio
         */
-        tags: [{ type: String, enum: ['work', 'lifestyle', 'motor', 'mobile', 'comic'], index: true},],
+        tags: [{ type: String, enum: ['games', 'sports', 'hardware', 'motor', 'clothes', 'comics', 'houses'], index: true},],
         /**
          * Booked product true/false
          */
-        booked: { type: Boolean, required: false, default: false },
+        booked: { type: Boolean, default: false },
         /**
          * Sold product true/false
          */
-        sold: { type: Boolean, required: false, default: false },
+        sold: { type: Boolean, default: false },
         /**
          * User
          */
-        user: { type: Schema.Types.ObjectId, ref: 'User' },
+        user: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
     },
     {
         /**
@@ -180,13 +180,22 @@ AdvertSchema.statics.updateAdvert = async function(id, newAdvert) {
             advert.booked = newAdvert.booked;
             advert.sold = newAdvert.sold;
             // Salvo datos en mongo
-            await advert.save();
-            return Advert.findById(id).populate('user', '_id login name email ');
+            return advert.save();
         }
         return false;
     } catch (error) {
         return error;
     }
+};
+
+/**
+* Función estática para actualizar el thumbnail de un anuncio (utilizada por el worker de thumbnails)
+* @param {String} id ID que representa a un anuncio en MongoDB
+* @param {String} thumbnail String a la ruta del thumbnail
+*/
+AdvertSchema.statics.udpateThumbnail = async function(id, thumbnail) {
+    // Find and update
+    return Advert.updateOne({ _id: ObjectId(id)}, { $set: { 'thumbnail': thumbnail}});
 };
 
 // Autopopulate user after save (mongoose middleware)

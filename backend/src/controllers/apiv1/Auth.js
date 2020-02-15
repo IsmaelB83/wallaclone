@@ -66,7 +66,7 @@ module.exports = {
         // Unauthorized
         return next({
             status: 401,
-            description: 'Account does not exist. Go to create an account.'
+            description: 'Account not exists. Go to create an account.'
         });
     },
 

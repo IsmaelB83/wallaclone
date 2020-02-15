@@ -66,32 +66,32 @@ function AdvertCardSmall (props) {
                     </div>
                     <div className='CardList__Actions'>
                         { props.showFavorite &&
-                            <Button type='button' variant='contained' className='ButtonWallaclone ButtonWallaclone__Clear ButtonWallaclone__ClearToNone'
+                            <Button type='button' variant='contained' className='ButtonWc ButtonWc__Clear ButtonWc__ClearToNone'
                                 onClick={props.setFavoriteAdvert}>
                                 <FavoriteIcon className={`FavoriteIcon FavoriteIcon--${favorite?'On':'Off'}`}/>
                             </Button>
                         }
                         { props.showDeleteFavorite &&
-                            <Button type='button' className='ButtonWallaclone ButtonWallaclone__Clear ButtonWallaclone__ClearToGray' 
+                            <Button type='button' className='ButtonWc ButtonWc__Clear ButtonWc__ClearToGray' 
                                     variant='contained' onClick={()=>props.onDeleteFavorite(slug)}>
                                 <DeleteIcon/>
                             </Button>
                         }
                         { props.showEdit &&
                             <React.Fragment>
-                                <Button type='button' className={`ButtonWallaclone ButtonWallaclone__Clear ButtonWallaclone__ClearToBlue ${booked && 
-                                        'ButtonWallaclone__ClearToBlue--active'}`} disabled={sold} variant='contained' onClick={props.setBookAdvert}>
+                                <Button type='button' className={`ButtonWc ButtonWc__Clear ButtonWc__ClearToBlue ${booked && 
+                                        'ButtonWc__ClearToBlue--active'}`} disabled={sold} variant='contained' onClick={props.setBookAdvert}>
                                     <BookmarkBorderOutlinedIcon/>
                                 </Button>
-                                <Button type='button' className={`ButtonWallaclone ButtonWallaclone__Clear ButtonWallaclone__ClearToRed 
-                                        ${sold && 'ButtonWallaclone__ClearToRed--active'}`} variant='contained' onClick={props.setSellAdvert}>
+                                <Button type='button' className={`ButtonWc ButtonWc__Clear ButtonWc__ClearToRed 
+                                        ${sold && 'ButtonWc__ClearToRed--active'}`} variant='contained' onClick={props.setSellAdvert}>
                                     <AttachMoneyOutlinedIcon/>
                                 </Button>
-                                <Button type='button' className='ButtonWallaclone ButtonWallaclone__Clear ButtonWallaclone__ClearToGreen' 
+                                <Button type='button' className='ButtonWc ButtonWc__Clear ButtonWc__ClearToGreen' 
                                         disabled={sold} variant='contained' component={Link} to={`/advert/edit/${slug}`}>
                                     <EditOutlinedIcon/>
                                 </Button>
-                                <Button type='button' className='ButtonWallaclone ButtonWallaclone__Clear ButtonWallaclone__ClearToGray' 
+                                <Button type='button' className='ButtonWc ButtonWc__Clear ButtonWc__ClearToGray' 
                                         disabled={sold} variant='contained' onClick={props.setDeleteAdvert}>
                                     <DeleteOutlineOutlinedIcon/>
                                 </Button>

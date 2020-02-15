@@ -32,7 +32,7 @@ function ModalConfirm (props) {
                 <img src={props.type==='warning'?imgWarning:imgConfirmation} className='ModalConfirm__Image' alt='wallaclone-logo' />
                 <DialogTitle className='ModalConfirm__Title'>{props.title}</DialogTitle>
                 <DialogActions className='ModalConfirm__Actions'>
-                    <Button onClick={confirm} variant='contained' className='ButtonWallaclone ButtonWallaclone__Green'>{t('Aceptar')}</Button>
+                    <Button onClick={confirm} variant='contained' className='ButtonWc ButtonWc__Green'>{t('Aceptar')}</Button>
                     <Button onClick={cancel} variant='contained' color='secondary'>{t('Cancelar')}</Button>
                 </DialogActions>
             </div>

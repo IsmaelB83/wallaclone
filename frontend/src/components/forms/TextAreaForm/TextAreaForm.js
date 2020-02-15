@@ -1,11 +1,12 @@
 // NPM Modules
 import React, {useContext} from 'react';
 // Material UI
-import { TextField, FormControl } from '@material-ui/core';
+import { TextField, FormControl, InputLabel } from '@material-ui/core';
 // Models
 // Own modules
 import { Context } from '../Form';
 // CSS
+import './styles.css'
 
 
 // Componente reutilizable de tipo Input (usando material)
@@ -16,17 +17,16 @@ export default function TextAreaForm(props) {
 
     // Render
     return (
-        <FormControl className='InputForm'>
+        <FormControl className='InputForm TextAreaForm'>
+            { props.label && <InputLabel shrink htmlFor={props.name}>{props.label}</InputLabel> }
             <TextField
                 name={props.name}
-                label={props.label}
                 value={context.inputs[props.name] || ''}
                 onChange={context.handleInputChange}
                 required={props.required}
-                multiline={props.rows>1}
-                rows={props.rows}
-                placeholder={props.placeholder}
-                helpertext={props.helperText}
+                multiline={true}
+                rows={3}
+                inputProps={{ maxLength: props.maxLength }}
             />
         </FormControl>
     )

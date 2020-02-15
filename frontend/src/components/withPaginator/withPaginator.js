@@ -38,7 +38,7 @@ const withPaginator = (WrappedComponent) => {
             let disableBack = !currentPage && !callAPI;
             let Icon = !callAPI?KeyboardArrowLeft:RotateLeftIcon;
             return  <Button size='small' onClick={()=>!callAPI?handleMovePaginator(-1):props.onfetchIterateAdverts(-1)} 
-                            disabled={disableBack} className='ButtonWallaclone ButtonWallaclone__Green'>
+                            disabled={disableBack} className='ButtonWc ButtonWc__Green'>
                         <Icon />
                     </Button>
         }
@@ -50,7 +50,7 @@ const withPaginator = (WrappedComponent) => {
             let disableNext = ( numPages <= currentPage + 1 ) && !callAPI;
             let Icon = !callAPI?KeyboardArrowRight:RotateLeftIcon;
             return  <Button size='small' onClick={()=>!callAPI?handleMovePaginator(1):props.onfetchIterateAdverts(1)} 
-                            disabled={disableNext} className='ButtonWallaclone ButtonWallaclone__Green'>
+                            disabled={disableNext} className='ButtonWc ButtonWc__Green'>
                         <Icon />
                     </Button>
         }
@@ -71,7 +71,7 @@ const withPaginator = (WrappedComponent) => {
                             />
                         </div>
                         <div className='SearchPanel__Statistics'> 
-                            <p>Resultados {props.start + 1} a {props.end + 1} recuperados en la última llamada de un total de {props.totalCount}</p>
+                            <p>Resultados {props.start} a {props.end} recuperados en la última llamada de un total de {props.totalCount}</p>
                         </div> 
                     </React.Fragment>
                 }

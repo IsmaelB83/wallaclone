@@ -50,7 +50,7 @@ function NavBar(props) {
     // Render del componente
     return (
         <AppBar title='Wallaclone' position='static' className='NavBar'>
-        <Container>
+        <Container className='Container__Fill'>
         <Toolbar className='NavBar__Toolbar'>
             <Link to='/' className='NavBar__Brand'><img src={imageLogo} alt='logo' className='NavBar__Brand'/></Link>
             <div className='NavBar__Right'>

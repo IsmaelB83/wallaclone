@@ -65,7 +65,7 @@
     flex-wrap: wrap;
 }
 
-.CardList__Actions .ButtonWallaclone {
+.CardList__Actions .ButtonWc {
     background-color: transparent;
     color: var(--medium-grey);
     min-width: 0;
@@ -77,16 +77,16 @@
     margin-right: 3px;
 }
 
-.CardList__Actions .ButtonWallaclone svg {
+.CardList__Actions .ButtonWc svg {
     font-size: 1rem;
     transition: all 200ms ease-in;
 }
 
-.CardList__Actions .ButtonWallaclone:hover {
+.CardList__Actions .ButtonWc:hover {
     color: white;
 }
 
-.CardList__Actions .ButtonWallaclone:hover .FavoriteIcon {
+.CardList__Actions .ButtonWc:hover .FavoriteIcon {
     color: red;
     transform: scale(1.1); 
 }
@@ -169,7 +169,7 @@
         justify-content: flex-start;
         flex-basis: 100%;
     }
-    .CardList__Actions .ButtonWallaclone {
+    .CardList__Actions .ButtonWc {
         height: 30px;
         width: 30px;
     }

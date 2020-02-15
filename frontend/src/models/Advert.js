@@ -18,6 +18,23 @@ export const ADVERT_CONSTANTS = {
     }
 }
 
+// Empty advert aux
+export const EMPTY_ADVERT = {
+    _id: '',
+    slug: '',
+    name: '',
+    description: '',
+    price: 0,
+    type: ADVERT_CONSTANTS.TYPE.BUY,
+    photo: '',
+    thumbnail: '',
+    booked: false,
+    sold: false,
+    favorite: false,
+    createdAt: undefined,
+    updatedAt: undefined
+}
+
 // Endpoint
 const API_URL = process.env.REACT_APP_API_URL.replace('/apiv1','');
 
@@ -47,7 +64,8 @@ export default class Advert {
         this.booked = ad.booked;
         this.sold = ad.sold;
         this.user = {...ad.user};
-        this.favorite = ad.favorite 
+        this.file = ad.file;
+        this.favorite = ad.favorite;
     }
 
     /**
@@ -58,7 +76,6 @@ export default class Advert {
                 this.description && 
                 this.price > 0 && 
                 this.type && 
-                this.photo && 
                 this.tags && 
                 this.tags.length >= 1;
     }

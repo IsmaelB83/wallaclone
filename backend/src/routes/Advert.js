@@ -17,7 +17,7 @@ module.exports = () => {
      */
     router.get(
         '/', 
-        [   query('name').optional().isLength({min:1, max: 30}).withMessage('value must be between 1 and 30 characteres length'),
+        [   query('name').optional().isLength({min:1, max: 40}).withMessage('value must be between 1 and 30 characteres length'),
             query('price').optional().custom(value => {
                 let aux = value.split('-');
                 let result = true;

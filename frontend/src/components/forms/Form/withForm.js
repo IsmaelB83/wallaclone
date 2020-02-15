@@ -56,7 +56,9 @@ const withForm = (WrappedComponent) => {
                 <Context.Provider value={{
                     inputs: this.state, 
                     handleInputChange: this.handleInputChange, 
-                    handleCheckChange: this.handleCheckChange 
+                    handleCheckChange: this.handleCheckChange,
+                    handleChangeMultiple: this.handleChangeMultiple, 
+                    handleChangeNumber: this.handleChangeNumber
                 }}>
                     <WrappedComponent 
                         {...this.props}

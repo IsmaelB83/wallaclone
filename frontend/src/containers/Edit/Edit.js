@@ -11,7 +11,7 @@ import Footer from '../../components/Footer';
 import Loading from '../../components/Loading';
 import Error from '../../components/Error';
 // Models
-import Advert from '../../models/Advert';
+import Advert, { EMPTY_ADVERT } from '../../models/Advert';
 // Assets
 // CSS
 import './styles.css';
@@ -31,19 +31,16 @@ function Edit(props) {
             props.fetchAdvert(props.match.params.slug)
             .then (advert => setAdvert(advert))
             .catch(error  => null);
+        } else {
+            setAdvert(new Advert(EMPTY_ADVERT))
         }
     }, [mode])
 
     // Manejador del submit del formulario
     const submitAdvert = (inputs) => {
-        // Creo un anuncio con los datos del estado si es válido
-        const newAdvert = new Advert(...inputs);
-        if (inputs.photo) {
-        newAdvert.photo = newAdvert.file.name;
-        newAdvert.thumbnail = newAdvert.file.name;
-        }
-        // Si los datos son completos continuo con la operación
-        if (!newAdvert.isValid()) {
+        // Creo un anuncio con los datos del estado y lo valido
+        const newAdvert = new Advert(inputs);
+        if (!newAdvert.isValid() || ( !inputs.file && !inputs.photo )) {
             props.enqueueSnackbar(t('Advert data is incomplete'), { variant: 'error' });
         } else {
             // Lanzando operacion al backend
@@ -67,15 +64,17 @@ function Edit(props) {
     return (
         <React.Fragment>
             <NavBar/>
-            <Container>
+            <Container className='Container__Fill'>
                 <main className='Main__Section Edit'>
-                    <AdvertEditForm noValidate 
-                                    autoComplete='off' 
-                                    className='Profile__Form'
-                                    advert={advert}
-                                    onSubmit={submitAdvert}
-                                    tags={props.tags}
-                    />
+                    { advert &&
+                        <AdvertEditForm noValidate 
+                                        autoComplete='off' 
+                                        className='Profile__Form'
+                                        advert={advert}
+                                        onSubmit={submitAdvert}
+                                        tags={props.tags}
+                        />
+                    }
                     { isFetching && <Loading text={'fetching advert'}/> }
                     { ( isUpdating || isCreating ) && <Loading text={mode === 'edit' ? t('Trying to edit advert...') : t('Trying to create advert...') }/> }
                     { error && <Error error={error}/> }

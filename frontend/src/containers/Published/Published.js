@@ -84,7 +84,7 @@ function Published (props) {
     return (
         <React.Fragment>
             <NavBar/>
-                <Container className='Container__Fill'>
+            <Container className='Container__Fill'>
                 <main className='Main__Section'>
                     <AdvertList 
                         type='list' 

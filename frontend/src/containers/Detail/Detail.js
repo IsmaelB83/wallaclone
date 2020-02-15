@@ -86,31 +86,31 @@ function Detail(props) {
     return (
         <React.Fragment>
             <NavBar/>
-                <Container>
-                    <main className='Main__Section'>
-                        { advert && 
-                            <AdvertDetail
-                                advert={advert}
-                                showEdit={advert.user && props.session._id === advert.user._id}
-                                showFavorite={advert.user && props.session._id !== advert.user_id}
-                                onSellAdvert={setSellAdvert}
-                                onBookAdvert={setBookAdvert}
-                                onFavoriteAdvert={setFavoriteAdvert}
-                                onDeleteAdvert={deleteAdvertRequest}
-                            />
-                        }
-                        { props.isFetching && <Loading text={t('Loading advert')}/> }
-                        { error &&  <Error error={error}/> }
-                    
-                    </main>
-                    {   showModalDelete && 
-                        <ModalConfirm   onConfirm={confirmDeleteAdvert} 
-                                        onCancel={cancelDeleteAdvert} 
-                                        visible={true} type='warning'
-                                        title={t('Are you sure to delete the advert?')}
-                        /> 
+            <Container className='Container__Fill'>
+                <main className='Main__Section Detail'>
+                    { advert && 
+                        <AdvertDetail
+                            advert={advert}
+                            showEdit={advert.user && props.session._id === advert.user._id}
+                            showFavorite={advert.user && props.session._id !== advert.user_id}
+                            onSellAdvert={setSellAdvert}
+                            onBookAdvert={setBookAdvert}
+                            onFavoriteAdvert={setFavoriteAdvert}
+                            onDeleteAdvert={deleteAdvertRequest}
+                        />
                     }
-                </Container>
+                    { props.isFetching && <Loading text={t('Loading advert')}/> }
+                    { error &&  <Error error={error}/> }
+                
+                </main>
+                {   showModalDelete && 
+                    <ModalConfirm   onConfirm={confirmDeleteAdvert} 
+                                    onCancel={cancelDeleteAdvert} 
+                                    visible={true} type='warning'
+                                    title={t('Are you sure to delete the advert?')}
+                    /> 
+                }
+            </Container>
             <Footer/>
         </React.Fragment>
     );

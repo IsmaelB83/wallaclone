@@ -7,9 +7,7 @@ const queueName = 'thumbnails';
 let connected = false;
 let channel = null;
 
-/**
- * Connect to amqp
- */
+// Connect to amqp
 main().catch(error => console.log('Error while connecting to rabbitmq', error));
 async function main() {
     // Connect to cloud rabbitmq
@@ -22,7 +20,6 @@ async function main() {
     });
     connected = true;
 }
-
 
 module.exports = (photo, id) => {
     if (connected) {

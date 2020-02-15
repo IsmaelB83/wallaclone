@@ -28,7 +28,7 @@ class ErrorBoundary extends Component {
         if (this.state.error) {
             return (
             <React.Fragment>
-                <Container>
+                <Container className='Container__Fill'>
                     <main className='Home'>
                         <h1>{this.props.t('An uncontrolled error has been detected in the application.')}</h1>
                         <h2>{this.props.t('Contact the admin.')}</h2>

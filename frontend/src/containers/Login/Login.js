@@ -23,7 +23,7 @@ function Login(props) {
     useEffect(() => {
         let session = LocalStorage.readLocalStorage();
         if (!token && session && session.jwt) {
-            login('ismab83', '12345678')
+            login('isma', '12345678')
             //loginWithToken(session.jwt)
             .then(response => {
                 enqueueSnackbar(t('Automatic login with token. Redirecting home.'), { variant: 'info', })

@@ -10,6 +10,7 @@ import Form from '../forms/Form';
 import InputForm from '../forms/InputForm';
 import SelectForm from '../forms/SelectForm';
 import TextAreaForm from '../forms/TextAreaForm';
+import SelectMultipleForm from '../forms/SelectMultipleForm';
 // Models
 import { ADVERT_CONSTANTS } from '../../models/Advert';
 // Own modules
@@ -21,36 +22,46 @@ import './styles.css';
 // Formulario de perfil de usuario
 function AdvertEditForm(props) {
    
+    // Props destructuring
     const { t } = props;
-    const submit = (inputs) => props.onSubmit(inputs);
+    const submit = (inputs) => {
+        if (fileTemp) {
+            inputs.file = fileTemp;
+            inputs.photo = '';
+            inputs.thumbnail = '';
+        }
+        props.onSubmit(inputs);
+    }
 
     // Open input file
     const openInputFile = () => refInputFile.current.click();
   
     // Handle close modal
     const refInputFile = useRef(undefined);
-    const [photoTemp, setPhotoTemp] = useState(undefined);
+    const [fileTemp, setFileTemp] = useState();
+    const [photoTemp, setPhotoTemp] = useState(props.advert.photo);
     const changeInputFile = (ev) => {
         ev.stopPropagation();
         ev.preventDefault();
         const aux = ev.target.files[0];
+        setFileTemp(aux);
         setPhotoTemp(URL.createObjectURL(aux));
     }
 
     // Render
     return (
-        <Form className='AdvertEditForm' onSubmit={submit} initial={props.advert}>
-            <div className='AdvertEditForm__Avatar'>
-                <span className='AdvertEditForm__Avatar--overlay' onClick={openInputFile}>{t('change advert photo')}</span>
+        <Form className='AdvertEditForm' validate onSubmit={submit} initial={props.advert}>
+            <div className='AdvertEditForm__Photo'>
+                <span className='AdvertEditForm__Photo--overlay' onClick={openInputFile}>{t('change advert photo')}</span>
                 <input type='file' id='file' ref={refInputFile} style={{display: 'none'}} onChange={changeInputFile} />
-                <img src={photoDefault} alt='thumbnail'/>
+                <img src={photoTemp || photoDefault} alt='thumbnail'/>
             </div>
             <div className='AdvertEditForm__Inputs'>
-                <SelectForm name='type' label={t('Type')} options={[ADVERT_CONSTANTS.TYPE.BUY, ADVERT_CONSTANTS.TYPE.SELL]} initial={ADVERT_CONSTANTS.TYPE.BUY} required/>
-                <InputForm name='name' type='text' label={t('Name')} required/>
-                <SelectForm name='tags' multiple label={t('Tags')} options={props.tags} initial={[]} required/>
-                <InputForm name='price' type='number' label={t('Price')} required endAdornment={<EuroIcon/>}/>
-                <TextAreaForm name='description' label={t('Description')} helperText={t('Enter an advert description')} required rows={2}/>
+                <SelectForm name='type' label={t('Type')} options={[ADVERT_CONSTANTS.TYPE.BUY, ADVERT_CONSTANTS.TYPE.SELL]} initial={ADVERT_CONSTANTS.TYPE.SELL} required/>
+                <InputForm name='name' type='text' label={t('Name')} maxLength={"40"} required/>
+                <SelectMultipleForm name='tags' label={t('Tags')} options={props.tags} initial={[]} chip='tag' required/>
+                <InputForm name='price' type='number' label={t('Price')} required maxLength={10} endAdornment={<EuroIcon/>}/>
+                <TextAreaForm name='description' label={t('Description')} placeholder={t('Enter an advert description')} maxLength={"150"} required rows={2}/>
             </div>
             <div className='AdvertEditForm__Buttons'>
                 <Button type='submit' variant='contained' color='primary'> {props.t('Save')} </Button>

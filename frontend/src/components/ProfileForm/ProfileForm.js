@@ -40,20 +40,20 @@ function ProfileForm(props) {
     // Render
     return (
         <Form className='ProfileForm' onSubmit={submit} initial={props.user}>
-            <div className='ProfileForm__Avatar'>
-                <span className='ProfileForm__Avatar--overlay' onClick={openInputFile}>{t('change your avatar')}</span>
+            <div className='ProfileForm__Photo'>
+                <span className='ProfileForm__Photo--overlay' onClick={openInputFile}>{t('change your avatar')}</span>
                 <input type='file' id='file' ref={refInputFile} style={{display: 'none'}} onChange={changeInputFile} />
                 <img src={photoTemp || imagePhoto } alt='avatar'/>
             </div>
             <div className='ProfileForm__Inputs'>
-                <InputForm name='name' type='text' placeholder={t('type your name')} required icon={<FaceIcon/>}/>
-                <InputForm name='login' type='text' placeholder={t('type your login')} required icon={<PermIdentityIcon/>}/>
-                <InputForm name='email' type='email' placeholder={t('type your email')} required icon={<MailOutlineIcon/>}/>
+                <InputForm name='name' type='text' placeholder={t('type your name')} maxLength={"30"} required icon={<FaceIcon/>}/>
+                <InputForm name='login' type='text' placeholder={t('type your login')} maxLength={"15"} required icon={<PermIdentityIcon/>}/>
+                <InputForm name='email' type='email' placeholder={t('type your email')} maxLength={"150"} required icon={<MailOutlineIcon/>}/>
                 <div className='ProfileForm__Password'>
                     <p className='Title'>{t('Change Password')}</p>
-                    <InputForm name='password_old' type='password' placeholder={t('type your current password')} autoComplete='on' icon={<LockOpenIcon/>}/>
-                    <InputForm name='password_new_1' type='password' placeholder={t('type your new password')} autoComplete='on' icon={<LockOpenIcon/>}/>
-                    <InputForm name='password_new_2' type='password' placeholder={t('repeat your new password')} autoComplete='on' icon={<LockOpenIcon/>}/>
+                    <InputForm name='password_old' type='password' placeholder={t('type your current password')} maxLength={"15"} autoComplete='on' icon={<LockOpenIcon/>}/>
+                    <InputForm name='password_new_1' type='password' placeholder={t('type your new password')} maxLength={"15"} autoComplete='on' icon={<LockOpenIcon/>}/>
+                    <InputForm name='password_new_2' type='password' placeholder={t('repeat your new password')} maxLength={"15"} autoComplete='on' icon={<LockOpenIcon/>}/>
                 </div>
             </div>
             <div className='ProfileForm__Buttons'>

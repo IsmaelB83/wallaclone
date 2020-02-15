@@ -23,7 +23,7 @@ const FooterLinksWN = withNamespaces()(FooterLinks)
 export default function Footer() {
     return (
         <footer className='Footer'>
-            <Container>
+            <Container className='Container__Fill'>
                 <Grid container spacing={3} className='Footer__row'>
                     <Grid item xs={12} sm={6} className='Footer-item mt-3 mt-lg-0'>
                         <FooterAddressWN/> 

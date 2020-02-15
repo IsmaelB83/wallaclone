@@ -1,6 +1,7 @@
 // NPM Modules
 import React from 'react';
 // Material UI
+import Container from '@material-ui/core/Container';
 // Own components
 import Error from '../../components/Error';
 // Own modules
@@ -16,9 +17,11 @@ import './styles.css';
 export default function Error404() {
   return (
     <React.Fragment>
-      <NavBar/>
-        <Error type='404'/>
-      <Footer/>
+        <NavBar/>
+        <Container className='Container__Fill'>
+            <Error type='404'/>
+        </Container>
+        <Footer/>
     </React.Fragment>
   );
 }

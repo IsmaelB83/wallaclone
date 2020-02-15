@@ -22,7 +22,7 @@ import './styles.css';
 export default function AdvertCard (props) {
 
     // Props destructuring
-    const { slug, name, photo, tags, price, sold, booked, type, favorite, user, createdAt } = props.advert;
+    const { slug, name, thumbnail, tags, price, sold, booked, type, favorite, user, createdAt } = props.advert;
 
     // Render
     return(
@@ -32,7 +32,7 @@ export default function AdvertCard (props) {
                     <AdvertChip type='type' value={type}/>
                     { ( sold || booked ) && <AdvertChip type='status' value={sold?ADVERT_CONSTANTS.STATUS.SOLD:ADVERT_CONSTANTS.STATUS.BOOKED}/> } 
                 </div>
-                <Link to={`advert/${slug}`}><img src={photo} alt='caption'/></Link>
+                <Link to={`advert/${slug}`}><img src={thumbnail} alt='caption'/></Link>
             </header>
             <div className='AdvertCard__Content'>
                 <div className='AdvertCard__ContentHeader'>

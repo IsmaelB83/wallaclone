@@ -36,4 +36,4 @@ const upload = multer({
     }
 });
 
-module.exports = upload.single('photo');
+module.exports = upload.single('photoFile');

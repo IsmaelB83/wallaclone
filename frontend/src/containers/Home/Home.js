@@ -31,7 +31,6 @@ function Home(props) {
     useEffect(() => {        
         fetchTags();
         fetchAdverts()
-        .then (res => enqueueSnackbar(t('Loaded START to END from total TOTAL', {start: res.start + 1, end: res.end+1, total: res.totalCount}), { variant: 'info' }))
         .catch (error => enqueueSnackbar(t('Error loading adverts ERROR', {error}), { variant: 'error' }));
     }, []);
 
@@ -50,18 +49,15 @@ function Home(props) {
     const onHandleSearchAdverts = (filters) => {
         if (filters) {
             return searchAdverts(filters)
-            .then (res => enqueueSnackbar(t('Loaded START to END from total TOTAL', {start: res.start + 1, end: res.end+1, total: res.totalCount}), { variant: 'info' }))
-            .catch(error => enqueueSnackbar(t('Error loading adverts ERROR', {error}), { variant: 'error' }));
+                .catch(error => enqueueSnackbar(t('Error loading adverts ERROR', {error}), { variant: 'error' }));
         }
         fetchAdverts()
-        .then (res => enqueueSnackbar(t('Loaded START to END from total TOTAL', {start: res.start + 1, end: res.end+1, total: res.totalCount}), { variant: 'info' }))
         .catch(error => enqueueSnackbar(t('Error loading adverts ERROR', {error}), { variant: 'error' }));
     }
 
     // Paginación sobre la colección de anuncios
     const onfetchIterateAdverts = (direction) => {
         return fetchIterateAdverts(direction)
-        .then (res => enqueueSnackbar(t('Loaded START to END from total TOTAL', {start: res.start + 1, end: res.end+1, total: res.totalCount}), { variant: 'info' }))
         .catch(error => enqueueSnackbar(t('Error loading adverts ERROR', {error}), { variant: 'error' }));
     }
 
@@ -70,24 +66,24 @@ function Home(props) {
         <React.Fragment>
             <NavBar/>
             <Container className='Container__Fill'>
-            <main className='Main__Section'>
-                <div className='Home__Results'>
-                <SearchPanel tags={tags} onSearchAdverts={onHandleSearchAdverts} onSetFilters={setFilters} filters={filters} />
-                    <AdvertList 
-                        type='tiles' 
-                        start={start}
-                        end={end}
-                        totalCount={totalCount}
-                        currentPage={currentPage}
-                        adverts={adverts}
-                        showFavorite={session.email?true:false}
-                        isFetching={isFetching}
-                        onFavoriteAdvert={onFavoriteAdvert}
-                        onSetCurrentPage={setCurrentPage}
-                        onfetchIterateAdverts={onfetchIterateAdverts}
-                    />
-                </div>
-            </main>
+                <main className='Main__Section'>
+                    <div className='Home__Results'>
+                    <SearchPanel tags={tags} onSearchAdverts={onHandleSearchAdverts} onSetFilters={setFilters} filters={filters} />
+                        <AdvertList 
+                            type='tiles' 
+                            start={start}
+                            end={end}
+                            totalCount={totalCount}
+                            currentPage={currentPage}
+                            adverts={adverts}
+                            showFavorite={session.email?true:false}
+                            isFetching={isFetching}
+                            onFavoriteAdvert={onFavoriteAdvert}
+                            onSetCurrentPage={setCurrentPage}
+                            onfetchIterateAdverts={onfetchIterateAdverts}
+                        />
+                    </div>
+                </main>
             </Container>
             <Footer/>
         </React.Fragment>

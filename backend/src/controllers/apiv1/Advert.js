@@ -20,7 +20,7 @@ module.exports = {
         try {
             // Validations
             validationResult(req).throw();
-            // Filtrado por login de usuario
+            // Filtrado por login de usuario. Necesito su id para reutilizar la busqueda estandar de anuncios
             let user = undefined;
             if (req.query.user) {
                 const aux = await User.findOne({login: req.query.user});
@@ -38,9 +38,6 @@ module.exports = {
                     results: result.results
                 });
             }) 
-            .catch (error => {
-                next({error});
-            });
         } catch (error) {
             next(error);
         }
@@ -57,16 +54,11 @@ module.exports = {
             // Validations
             validationResult(req).throw();
             // Get one advert
-            let advert = await Advert.findOne({slug: req.params.slug}).populate('user', '_id login name email');
-            if (advert) {
-                // Ok
-                return res.json({
-                    success: true, 
-                    result: advert
-                });
-            }   
-            // Error
-            next({ status: 404, error: 'Not Found' });
+            Advert.findOne({slug: req.params.slug}).populate('user', '_id login name email')
+            .then(advert => {
+                if (!advert) return next({ status: 404, error: 'Not Found' });
+                return res.json({success: true, result: advert});
+            })
         } catch (error) {
             next(error);
         }
@@ -96,19 +88,13 @@ module.exports = {
                     advert.tags.push(tag);
                 });
             }
-            advert = await advert.save();
-            if (advert) {
-                // Obtain al data
-                // Send work to rabbitmq
+            // Update mongo
+            advert.save().then(result => {
+                // Send work to rabbitmq 
                 Sender(advert.photo, advert._id);
-                // Ok
-                return res.json({
-                    success: true, 
-                    result: advert
-                });
-            }
-            // Error
-            next({error: 'No se ha podido insertar el anuncio'});
+                // Response
+                return res.json({success: true, result: result});
+            })
         } catch (error) {
             next(error);
         }
@@ -125,43 +111,32 @@ module.exports = {
             // Validations
             validationResult(req).throw();
             // Sólo se permiten modificar los anuncios propios
-            const advert = await Advert.findOne({slug: req.params.slug});
-            if (!advert) {
-                // Anuncio no encontrado
-                return next({ 
-                    status: 404, 
-                    description: 'Not Found' 
-                });
-            } else if (advert.user._id.toString() !== req.user._id) {
-                // Un usuario sólo puede modificar sus anuncios
-                return next({ 
-                    status: 401, 
-                    description: 'No autorizado. Sólo puede modificar sus anuncios' 
-                });
-            }
-            // Update advert model
-            const updated = {...advert, ...req.body}
-            updated.thumbnail = req.body.photo?req.body.photo:updated.thumbnail;
-            if (req.body.tags) {
-                updated.tags = [];
-                const tags = req.body.tags.split(',');
-                tags.forEach(tag => {
-                    updated.tags.push(tag);
-                });
-            }
-            // Update mongo
-            const resAdvert = await Advert.updateAdvert(advert._id, updated);
-            if (resAdvert) {
-                // Ok
-                return res.json({
-                    success: true,
-                    result: resAdvert
-                });
-            } 
-            // Error
-            return next({
-                status: 500, 
-                description: 'Error no controlado actualizando anuncio.'
+            Advert.findOne({slug: req.params.slug, user: req.user._id})
+            .then(advert => {
+                // Chequeos
+                if (!advert) return next({ status: 401, description: 'No autorizado. Sólo puede tratar sus anuncios'});
+                // Update advert model
+                const updated = {...advert, ...req.body}
+                // Image
+                if (req.file) {
+                    updated.photo = `/images/adverts/original/${req.file.filename}`;
+                    updated.thumbnail = advert.photo; // Initially thumbnail refers to the same photo
+                }
+                // Tags
+                if (req.body.tags) {
+                    updated.tags = [];
+                    const tags = req.body.tags.split(',');
+                    tags.forEach(tag => {
+                        updated.tags.push(tag);
+                    });
+                }
+                // Update mongo
+                Advert.updateAdvert(advert._id, updated)
+                .then(result => {
+                    // Send work to rabbitmq (thumbnail generation in microservice)
+                    Sender(advert.photo, advert._id);
+                    return res.json({success: true, result: result });
+                })    
             })
         } catch (error) {
             next(error);
@@ -177,31 +152,15 @@ module.exports = {
     book: async (req, res, next) => {
         try {
             // Sólo se permiten modificar los anuncios propios
-            let advert = await Advert.findOne({slug: req.params.slug}).populate('user', '_id login name email ');
-            if (!advert) {
-                // Anuncio no encontrado
-                return next({ 
-                    status: 404, 
-                    description: 'Error. Anuncio no encontrado.'
-                });
-            } else if (advert.user._id.toString() !== req.user._id) {
-                // Un usuario sólo puede modificar sus anuncios
-                return next({ 
-                    status: 401, 
-                    description: 'Error. El anuncio no es de su propiedad.' 
-                });
-            } else if (advert.sold) {
-                return next({ 
-                    status: 422, 
-                    description: 'Error. El anuncio ya está vendido.' 
-                });
-            }
-            advert.booked = !advert.booked;
-            advert = await advert.save();
-            return res.json({
-                success: true,
-                result: advert
-            });
+            Advert.findOne({slug: req.params.slug, user: req.user._id}).populate('user', '_id login name email ')
+            .then(advert => {
+                // Chequeos
+                if (!advert) return next({status: 401, description: 'No autorizado. Sólo puede tratar sus anuncios'});
+                else if (advert.sold) return next({status: 422, description: 'Error. El anuncio ya está vendido.' });
+                // Ok
+                advert.booked = !advert.booked;
+                advert.save().then(advert => res.json({success: true, result: advert}));
+            })
         } catch (error) {
             next(error);
         }
@@ -216,26 +175,14 @@ module.exports = {
     sell: async (req, res, next) => {
         try {
             // Sólo se permiten modificar los anuncios propios
-            let advert = await Advert.findOne({slug: req.params.slug}).populate('user', '_id login name email ');
-            if (!advert) {
-                // Anuncio no encontrado
-                return next({ 
-                    status: 404, 
-                    description: 'Error. Anuncio no encontrado.'
-                });
-            } else if (advert.user._id.toString() !== req.user._id) {
-                // Un usuario sólo puede modificar sus anuncios
-                return next({ 
-                    status: 401, 
-                    description: 'Error. El anuncio no es de su propiedad.' 
-                });
-            }
-            advert.sold = !advert.sold;
-            advert = await advert.save();
-            return res.json({
-                success: true,
-                result: advert
-            });
+            Advert.findOne({slug: req.params.slug, user: req.user._id}).populate('user', '_id login name email ')
+            .then(advert => {
+                // Chequeos
+                if (!advert) return next({ status: 401, description: 'No autorizado. Sólo puede tratar sus anuncios' });
+                // Ok
+                advert.sold = !advert.sold;
+                advert.save().then(advert => res.json({success: true, result: advert }))
+            })
         } catch (error) {
             next(error);
         }
@@ -250,26 +197,13 @@ module.exports = {
     delete: async (req, res, next) => {
         try {
             // Sólo se permiten modificar los anuncios propios
-            let advert = await Advert.findOne({slug: req.params.slug}).populate('user', '_id login name email ');
-            if (!advert) {
-                // Anuncio no encontrado
-                return next({ 
-                    status: 404, 
-                    description: 'Not Found' 
-                });
-            } else if (advert.user._id.toString() !== req.user._id) {
-                // Un usuario sólo puede modificar sus anuncios
-                return next({ 
-                    status: 401, 
-                    description: 'No autorizado. Sólo puede eliminar sus anuncios' 
-                });
-            }
-            // Ok
-            advert = await Advert.findByIdAndDelete(advert._id);
-            return res.json({
-                success: true,
-                result: advert
-            });
+            Advert.findOne({slug: req.params.slug, user: req.user._id}).populate('user', '_id login name email ')
+            .then(advert => {
+                // Chequeps
+                if (!advert) return next({status: 401, description: 'No autorizado. Sólo puede tratar sus anuncios'});
+                // Ok
+                Advert.findByIdAndDelete(advert._id).then(advert => res.json({success: true, result: advert}));
+            })
         } catch (error) {
             next(error);
         }
@@ -284,17 +218,15 @@ module.exports = {
     tags: async (req, res, next) => {
         try {
             // List of tags
-            let results = await Advert.find().distinct('tags');
-            if (results) {
-                // Ok
-                return res.json({
-                    success: true,
-                    count: results.length,
-                    results: results
-                });
-            }
-            // Error
-            next({ status: 404, error: 'Not Found' });
+            Advert.find().distinct('tags')
+            .then(results => {
+                if (results && results.length === 7) {
+                    return res.json({success: true, count: results.length, results: results });
+                }
+                // En caso de no haber tags (borrado de anuncios). Devuelvo un listado fijo. En versiones posteriores se incorporará el tag al modelo de mongodb.
+                const tags = ['games', 'sports', 'hardware', 'motor', 'clothes', 'comics', 'houses'];
+                return res.json({success: true, count: tags.length, results: tags });    
+            })           
         } catch (error) {
             next(error);
         }

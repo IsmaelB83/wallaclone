@@ -12,6 +12,7 @@ import AttachMoneyOutlinedIcon from '@material-ui/icons/AttachMoneyOutlined';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import EditIcon from '@material-ui/icons/Edit';
 import Button from '@material-ui/core/Button';
+import Avatar from '@material-ui/core/Avatar';
 // Own Components
 import AdvertChip from '../AdvertChip';
 // Own Modules
@@ -33,82 +34,72 @@ function AdvertDetail(props) {
     // Props destructuring
     const { slug, name, description, photo, tags, price, sold, booked, type, favorite, createdAt, user } = props.advert;
 
+    // Chip
+    const renderStatus = () => <AdvertChip type='status' value={sold?ADVERT_CONSTANTS.STATUS.SOLD:ADVERT_CONSTANTS.STATUS.BOOKED}/>
+    const renderTags = () => tags.map((value,i) => <AdvertChip key={i} type='tag' value={value}/>);
+
     // Render
     return (
         <article id={`adslug_${slug}`} className='AdvertDetail'>
-            <div className='AdvertDetail__Main'>
-                <header className='AdvertDetail__Header'>
-                    <img className='Caption' src={photo} alt='caption'/>
-                    <div className='AdvertDetail__Chips'>
-                        { ( sold || booked ) && <AdvertChip type='status' value={sold?ADVERT_CONSTANTS.STATUS.SOLD:ADVERT_CONSTANTS.STATUS.BOOKED}/> } 
-                        { <AdvertChip type='type' value={type}/> }
+            <div className='AdvertDetail__Photo'>
+                { ( sold || booked ) && <span className='AdvertDetail__Photo--overlay'>{renderStatus()}</span> }
+                <img src={photo} alt='photo'/>
+            </div>
+            <div className='AdvertDetail__Content'>
+                <AdvertChip type='type' value={type}/>
+                <div>
+                    <h1 className='AdvertDetail__Title'>{name}</h1>
+                    <Moment className='AdvertDetail__Date' locale={i18n.language} fromNow>{createdAt}</Moment>
+                </div>
+                <p className='AdvertDetail__Description'>{description}</p>
+                <div className='AdvertDetail__Tags'>{renderTags()}</div>
+                <div className='AdvertDetail__Footer'>
+                    <div className='AdvertDetail__AuthorAvatar'>
+                        <Link to={`/published/${user.login}`} className=''>
+                            <div>
+                                <Avatar className='Avatar' alt='avatar' src={user && user.photo}/>
+                                <span className='AdvertDetail__Author'>{user && user.name}</span>
+                            </div>
+                        </Link>
                     </div>
-                </header>
-                <div className='AdvertDetail__Content'>
-                    <h1>{name}</h1>
-                    <h3 className='AdvertDetail__Author'>{user && user.name}</h3>
-                    <div className='AdvertDetail__Description'>
-                        <p>{description}</p>
-                    </div>
-                    <div className='AdvertDetail__Tags'>
-                    {   tags.map((value,i) => <AdvertChip key={i} type='tag' value={value}/>) }
-                    </div>
+                    <p className='AdvertDetail__Price'>{price} <span>€</span></p>
                 </div>
             </div>
-            <div className='AdvertDetail__Actions'>
-            {   props.showFavorite && 
-                <Button type='button' 
-                    variant='contained' 
-                    color='secondary' 
-                    startIcon={<FavoriteIcon className={`FavoriteIcon FavoriteIcon--${favorite?'On':'White'}`}/>} 
-                    className='ButtonWallaclone ButtonWallaclone__Green'
-                    onClick={props.setFavoriteAdvert}>
-                    {t('Favorite')}
-                </Button>
-            }
-            {   props.showEdit && 
-                <React.Fragment>
-                    <Button type='button' 
-                            variant='contained' 
-                            className='ButtonWallaclone ButtonWallaclone__Green'
-                            startIcon={<EditIcon />} 
-                            component={Link} 
-                            to={`/advert/edit/${slug}`}>
-                            {t('Edit')}
+            <div className='AdvertDetail__Buttons'>
+                {   props.showFavorite && 
+                    <Button startIcon={<FavoriteIcon className={`FavoriteIcon FavoriteIcon--${favorite?'On':'White'}`}/>} 
+                            className='ButtonWc ButtonWc__Green Span2'
+                            onClick={props.setFavoriteAdvert}>
+                        {t('Favorite')}
                     </Button>
-                    <Button type='button' 
-                            variant='contained' 
-                            className='ButtonWallaclone ButtonWallaclone__Green' 
-                            disabled={sold || props.isUpdating} 
-                            onClick={props.setBookAdvert}
-                            startIcon={<BookmarkBorderOutlinedIcon/>}>
-                            {!booked?t('Book'):t('Cancel Book')}
-                    </Button>
-                    <Button type='button' 
-                            variant='contained' 
-                            className='ButtonWallaclone ButtonWallaclone__Green' 
-                            disabled={props.isUpdating} 
-                            onClick={props.setSellAdvert}
-                            startIcon={<AttachMoneyOutlinedIcon/>}>
-                            {!sold?t('Sold'):t('Cancel Sold')}
-                    </Button>
-                    <Button type='button' 
-                            variant='contained' 
-                            className='ButtonWallaclone ButtonWallaclone__Red' 
-                            disabled={props.isUpdating} 
-                            onClick={props.setDeleteAdvert}
-                            startIcon={<DeleteOutlineOutlinedIcon/>}>
-                            {t('Delete')}
-                    </Button>
-                </React.Fragment>
-            }
-            </div>
-            <div className='AdvertDetail__Footer'>
-                <div className='AdvertDetail__Price'>
-                    <p className='Text'>{t('Price')}</p>
-                    <p className='Price'>{price} <span>€</span></p>
-                </div>
-                <Moment className='AdvertDetail__Date' locale={i18n.language} fromNow>{createdAt}</Moment>
+                }
+                {   props.showEdit && 
+                    <React.Fragment>
+                        <Button className='ButtonWc ButtonWc__Green Span2'
+                                startIcon={<EditIcon />} 
+                                component={Link} 
+                                to={`/advert/edit/${slug}`}>
+                                {t('Edit')}
+                        </Button>
+                        <Button className='ButtonWc ButtonWc__Green' 
+                                onClick={props.setBookAdvert}
+                                startIcon={<BookmarkBorderOutlinedIcon/>}>
+                                {t('Book')}
+                        </Button>
+                        <Button className='ButtonWc ButtonWc__Green' 
+                                onClick={props.setSellAdvert}
+                                startIcon={<AttachMoneyOutlinedIcon/>}>
+                                {t('Sold')}
+                        </Button>
+                        <Button className='ButtonWc ButtonWc__Red Span2' 
+                                disabled={props.isUpdating} 
+                                onClick={props.setDeleteAdvert}
+                                startIcon={<DeleteOutlineOutlinedIcon/>}>
+                                {t('Delete')}
+                        </Button>
+                    </React.Fragment>
+                }
+                
             </div>
         </article>
     );
