@@ -16,7 +16,7 @@ export function filters (state = initialState.filters, action) {
         case ADVERTS.SEARCH_ADVERTS_SUCCESS:
             return { ...action.filters };
         // Delete filters
-        case SESSION.LOGOUT_SUCCESS:
+        case SESSION.LOGOUT:
         case SESSION.DELETE_ACCOUNT_SUCCESS:
         case ADVERTS.FETCH_ADVERTS_SUCCESS:
             return initialState.filters;
@@ -45,7 +45,7 @@ export function lastCall (state = initialState.filters, action) {
                 end: action.end,
             };
         // Delete api call statistics
-        case SESSION.LOGOUT_SUCCESS:
+        case SESSION.LOGOUT:
         case SESSION.DELETE_ACCOUNT_SUCCESS:
             return initialState.filters;
         // Default

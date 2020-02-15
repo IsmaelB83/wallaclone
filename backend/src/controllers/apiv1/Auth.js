@@ -97,33 +97,6 @@ module.exports = {
     },
 
     /**
-     * Perform application logout. JWT is invalidated
-     * @param {Request} req Request web
-     * @param {Response} res Response web
-     * @param {Middleware} next Next middleware
-     */
-    logout: async (req, res, next) => {
-        // Find user by email
-        const user = await User.findOne({email: req.user.email});
-        if (user) {
-            // Invalidate the JWT and save user information
-            user.expire = null;
-            user.jwt = null;
-            const response = await user.save();
-            // Return the user information without the JWT
-            return res.json({
-                success: true,
-                description: 'User logged out',
-            })
-        }
-        // Unauthorized
-        return next({
-            status: 401,
-            description: 'User not logged in'
-        });
-    },
-
-    /**
      * Activate a user account via token
      * @param {Request} req Request web
      * @param {Response} res Response web

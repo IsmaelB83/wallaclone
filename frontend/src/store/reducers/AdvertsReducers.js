@@ -65,7 +65,7 @@ export function adverts(state = initialState.adverts, action) {
                 return {...a};
             });
         // Logout
-        case SESSION.LOGOUT_SUCCESS:
+        case SESSION.LOGOUT:
         case SESSION.DELETE_ACCOUNT_SUCCESS:
             return initialState.adverts;
         // Default

@@ -70,7 +70,7 @@ img, embed, object, video {
   flex-direction: column;
 }
 
-.Section__Title {
+.Main__Section .Section__Title {
   background: linear-gradient(-45deg, var(--main-color), var(--main-color-light));
   padding: 1rem;
   border: 1px solid var(--main-color);
@@ -78,7 +78,7 @@ img, embed, object, video {
   box-shadow: 0 3px 5px rgba(0, 0, 0, .3);
 }
 
-.Section__Title h2 {
+.Main__Section .Section__Title h2 {
   text-align: center;
   text-transform: uppercase;
   font-size: 1.25rem;

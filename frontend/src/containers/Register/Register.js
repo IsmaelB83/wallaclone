@@ -1,31 +1,32 @@
 // NPM Modules
 import React from 'react';
+import { withNamespaces } from 'react-i18next';
 // Material UI
 // Own components
-import AuthForm from '../../components/forms/AuthForm';
+import AuthForm from '../../components/AuthForm';
 // Models
 // Own modules
 // Assets
 // CSS
 
-/**
-* Login Form
-* @param {Object} props Component properties
-*/
-export default function Register(props) {
+// Register form
+function Register(props) {
     
+    // Translate
+    const { t } = props;
+
     // Handle onSubmit event
     const createUser = async (inputs) => {
         // Campos relevantes para generar el objeto sesión
         const { login, name, email, password, password_2 } = {...inputs};
         // Ambos passwords iguales
         if ( password !== password_2 ) {
-            return props.enqueueSnackbar('Ambos passwords deben ser iguales', { variant: 'error', });
+            return props.enqueueSnackbar(t('Error. Both passwords should match'), { variant: 'error', });
         }
         // Dispatch del create
         props.createAccount(login, name, email, password)
         .then(user => {
-            props.enqueueSnackbar('Usuario creado. Chequea el mail para activar la cuenta', { variant: 'info', });
+            props.enqueueSnackbar(t('Account created. Check your email to activate it'), { variant: 'info', });
             props.history.push('/login');
         })
         .catch(error => {
@@ -42,3 +43,5 @@ export default function Register(props) {
         />
     );
 }
+
+export default withNamespaces()(Register);

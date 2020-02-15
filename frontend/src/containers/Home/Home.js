@@ -1,5 +1,6 @@
 // NPM Modules
 import React, { useEffect } from 'react';
+import { withNamespaces } from 'react-i18next';
 // Material UI
 import Container from '@material-ui/core/Container';
 // Components
@@ -14,11 +15,12 @@ import NavBar from '../../components/NavBar';
 // CSS
 import './styles.css';
 
-/**
- * Main App
- */
-export default function Home(props) {
+// Main component
+function Home(props) {
   
+    // Translate
+    const { t } = props;
+
     // Destructuring de props
     const { start, end, totalCount } = props.lastCall
     const { currentPage, isFetching } = props.ui;
@@ -29,39 +31,38 @@ export default function Home(props) {
     useEffect(() => {        
         fetchTags();
         fetchAdverts()
-        .then (response => enqueueSnackbar(`Resultados ${response.start + 1} a ${response.end + 1} cargados del total de ${response.totalCount}.`, { variant: 'info' }))
-        .catch (error => enqueueSnackbar(`Error obteniendo anuncios ${error}`, { variant: 'error' }));
+        .then (res => enqueueSnackbar(t('Loaded START to END from total TOTAL', {start: res.start + 1, end: res.end+1, total: res.totalCount}), { variant: 'info' }))
+        .catch (error => enqueueSnackbar(t('Error loading adverts ERROR', {error}), { variant: 'error' }));
     }, []);
 
     // Reservar producto
     const onFavoriteAdvert = (slug) => {
         if (! session.jwt) {
-            enqueueSnackbar('Necesita hacer login para añadir a favoritos', { variant: 'info' });
-            props.history.push('/login');
-            return;
+            enqueueSnackbar(t('You need to log in to manage favorites'), { variant: 'error' });
+            return props.history.push('/login');
         }
         setFavorite(slug, session.jwt)
-        .then(advert => enqueueSnackbar(`Anuncio ${advert.slug} ${advert.favorite?'añadido a':'eliminado de'} favoritos`, { variant: 'success' }))
-        .catch(error => enqueueSnackbar(`Error marcando favorito ${error}`, { variant: 'error' }));
+        .then(res => enqueueSnackbar(t('Advert SLUG ACTION favorites', {slug, action: res.favorite?t('added to'):t('removed from')}), { variant: 'success' }))
+        .catch(error => enqueueSnackbar(t('Error adding advert to favorite ERROR', {error}), { variant: 'error' }));
     }
 
     // Gestiona el evento de búsqueda de anuncios
     const onHandleSearchAdverts = (filters) => {
         if (filters) {
             return searchAdverts(filters)
-            .then (response => enqueueSnackbar(`Resultados ${response.start + 1} a ${response.end + 1} cargados del total de ${response.totalCount}.`, { variant: 'info' }))
-            .catch(error => enqueueSnackbar(`Error obteniendo anuncios ${error}`, { variant: 'error' }));
+            .then (res => enqueueSnackbar(t('Loaded START to END from total TOTAL', {start: res.start + 1, end: res.end+1, total: res.totalCount}), { variant: 'info' }))
+            .catch(error => enqueueSnackbar(t('Error loading adverts ERROR', {error}), { variant: 'error' }));
         }
         fetchAdverts()
-        .then (response => enqueueSnackbar(`Resultados ${response.start + 1} a ${response.end + 1} cargados del total de ${response.totalCount}.`, { variant: 'info' }))
-        .catch(error => enqueueSnackbar(`Error obteniendo anuncios ${error}`, { variant: 'error' }));
+        .then (res => enqueueSnackbar(t('Loaded START to END from total TOTAL', {start: res.start + 1, end: res.end+1, total: res.totalCount}), { variant: 'info' }))
+        .catch(error => enqueueSnackbar(t('Error loading adverts ERROR', {error}), { variant: 'error' }));
     }
 
     // Paginación sobre la colección de anuncios
     const onfetchIterateAdverts = (direction) => {
         return fetchIterateAdverts(direction)
-        .then (response => enqueueSnackbar(`Resultados ${response.start + 1} a ${response.end + 1} cargados del total de ${response.totalCount}.`, { variant: 'info' }))
-        .catch(error => enqueueSnackbar(`Error obteniendo anuncios ${error}`, { variant: 'error' }));
+        .then (res => enqueueSnackbar(t('Loaded START to END from total TOTAL', {start: res.start + 1, end: res.end+1, total: res.totalCount}), { variant: 'info' }))
+        .catch(error => enqueueSnackbar(t('Error loading adverts ERROR', {error}), { variant: 'error' }));
     }
 
     // Render
@@ -92,3 +93,5 @@ export default function Home(props) {
         </React.Fragment>
     );
 }
+
+export default withNamespaces()(Home);

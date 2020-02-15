@@ -1,5 +1,6 @@
 // NPM Modules
 import React, { useEffect } from 'react';
+import { withNamespaces } from 'react-i18next';
 // Material UI
 import Container from '@material-ui/core/Container';
 // Components
@@ -12,11 +13,12 @@ import NavBar from '../../components/NavBar';
 // CSS
 import './styles.css';
 
-/**
-* Main App
-*/
-export default function Published (props) {
+// Published section
+function Favorites (props) {
     
+    // Translate
+    const { t } = props;
+
     // Destructuring index props
     const { enqueueSnackbar, setFavorite, setCurrentPage, fetchFavorites, fetchIterateAdverts} = props;
     const { start, end, totalCount} = props.lastCall;
@@ -26,22 +28,19 @@ export default function Published (props) {
     // Cargo favoritos del usuario
     useEffect(() => {
         fetchFavorites(session.jwt)
-        .then(response => enqueueSnackbar(`Resultados ${response.start + 1} a ${response.end + 1} cargados del total de ${response.totalCount}.`, { variant: 'info' }))
-        .catch(error => enqueueSnackbar(`Error cargando favorios de ${session.name}`, { variant: 'error' }));
+        .catch(error => enqueueSnackbar(t('Error loading favorites ERROR', {error}), { variant: 'error' }));
     }, []);
 
     // Paginación sobre la colección de anuncios
     const onFetchIterateAdverts = (direction) => {
         return fetchIterateAdverts(direction)
-        .then (response => enqueueSnackbar(`Resultados ${response.start + 1} a ${response.end + 1} cargados del total de ${response.totalCount}.`, { variant: 'info' }))
-        .catch(error => enqueueSnackbar(`Error obteniendo anuncios ${error}`, { variant: 'error' }));
+        .catch(error => enqueueSnackbar(t('Error iterating favorites ERROR', {error}), { variant: 'error' }));
     }
 
     // Delete favorite
     const deleteFavorite = slug => {
         setFavorite(slug, props.session.jwt)
-        .then(advert => enqueueSnackbar(`Anuncio ${advert.slug} ${advert.favorite?'añadido a':'eliminado de'} favoritos`, { variant: 'success' }))
-        .catch(error => enqueueSnackbar(`Error eliminando favorito ${error}`, { variant: 'error' }));
+        .catch(error => enqueueSnackbar(t('Error adding advert to favorite ERROR', {error}), { variant: 'error' }));
     }
     
     // Render
@@ -70,3 +69,5 @@ export default function Published (props) {
         </React.Fragment>
     );
 }
+
+export default withNamespaces()(Favorites);

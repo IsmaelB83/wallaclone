@@ -19,8 +19,10 @@
 .NavBar__Toolbar .NavBar__User { border-radius: 0; }
 .NavBar__Toolbar .NavBar__User:hover { border-radius: 0; }
 .NavBar__User .Avatar { 
-    margin-right: 5px;
-    box-shadow: 0 0 0 3px #fff, 0 0 0 4px #999, 0 2px 5px 4px rgba(0,0,0,.3);
+    width: 32px;
+    height: 32px;
+    margin: 0 .35rem;
+    box-shadow: 0 0 0 2px #fff, 0 0 0 2px #999, 0 2px 4px 2px rgba(0,0,0,.3);
 }
 
 .NavBar__User .NavBar__User--hiddenXS {
@@ -28,9 +30,9 @@
   display: none;
 }
 
-@media only screen and (min-device-width : 768px){
-  .NavBar__Toolbar .NavBar__User .Avatar { margin-right: 5px; }
-  .NavBar__User .NavBar__User--hiddenXS { display: block; }    
+@media only screen and (min-width : 768px){
+    .NavBar__Toolbar .NavBar__User .Avatar { margin: 0 .75rem; width: 40px; height: 40px; }
+    .NavBar__User .NavBar__User--hiddenXS { display: block; }    
 }
 
 .NavBar__Menu .NavBar__MenuItem:hover {
@@ -62,6 +64,9 @@
 .NavBar__Right .NavBar__Flags button:focus {
     border-radius: 0;
 }
+
+.NavBar__Flags button { padding: 0; }
+.NavBar__Flags button:not(:first-child) { margin-left: .5rem; }
 
 .NavBar__Right .NavBar__Flags img {
     width: 35px;

@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import i18n from '../../utils/i18n';
 import { Link } from "react-router-dom";
 import Moment from 'react-moment';
-import { withNamespaces } from 'react-i18next';
 // Material UI
 import FavoriteIcon from '@material-ui/icons/Favorite';
 // Own components
@@ -20,11 +19,8 @@ import './styles.css';
 /**
  * Functional component to render an advert card
  */
-function AdvertCard (props) {
+export default function AdvertCard (props) {
 
-    // Translate
-    const { t } = props;
-    
     // Props destructuring
     const { slug, name, photo, tags, price, sold, booked, type, favorite, user, createdAt } = props.advert;
 
@@ -65,5 +61,3 @@ function AdvertCard (props) {
 AdvertCard.propTypes = {
     advert: PropTypes.instanceOf(Advert).isRequired
 }
-
-export default withNamespaces()(AdvertCard);

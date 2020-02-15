@@ -27,12 +27,6 @@ module.exports = () => {
         AuthMiddleware,
         AuthCtrl.loginToken
     );
-    // Logout (requires to be authenticated first). It invalidates the current JWT
-    router.post(
-        '/logout',
-        AuthMiddleware,
-        AuthCtrl.logout
-    );
     // Activate user account
     router.get(
         '/activate/:token',

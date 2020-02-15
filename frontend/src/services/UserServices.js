@@ -40,10 +40,9 @@ export default {
         const baseURL = `${API_URL}`;
         // Form Data
         const formData = new FormData();
-        formData.append('login', user.login);
-        formData.append('name', user.name);
-        formData.append('email', user.email);
-        formData.append('password', user.password);
+        for (const k in user) {
+            if (user[k]) formData.append(k, user[k]);
+        }
         // Config 
         const config = {
             headers: { 
@@ -52,7 +51,7 @@ export default {
             }
         }
         // Call endpoint and return
-        Axios.put( baseURL, formData, config )
+        return Axios.put( baseURL, formData, config )
         .then(res => res.data.user)
     },
 

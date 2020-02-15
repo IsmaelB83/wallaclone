@@ -1,26 +1,27 @@
 // NPM Modules
 import React from 'react';
+import { withNamespaces } from 'react-i18next';
 // Material UI
 // Own components
-import AuthForm from '../../components/forms/AuthForm';
+import AuthForm from '../../components/AuthForm';
 // Models
 // Own modules
 // Assets
 // CSS
 
 
-/**
-* Request reset Form
-* @param {Object} props Component properties
-*/
-export default function RequestReset(props) {
+// Request reset passworf section
+function RequestReset(props) {
     
+    // Translate
+    const { t } = props;
+
     // Handle onSubmit event
     const requestReset = async (inputs) => {
         const { email } = {...inputs};
         props.requestResetAccount(email)
         .then(user => {
-            props.enqueueSnackbar('Revise su email para resetear la contraseña.', { variant: 'info', });
+            props.enqueueSnackbar(t('Check your email to reset password'), { variant: 'info', });
             props.history.push('/login');
         })
         .catch(error => {
@@ -37,3 +38,5 @@ export default function RequestReset(props) {
         />
     );
 }
+
+export default withNamespaces()(RequestReset);

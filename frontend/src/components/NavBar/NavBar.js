@@ -20,6 +20,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText'
 import ViewListIcon from '@material-ui/icons/ViewList';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 // Own modules
 // Assets
 import imageLogo from '../../assets/images/logo2.png';
@@ -115,10 +116,7 @@ function NavBar(props) {
                 { !props.session.email &&
                     <div className='NavBar__Login'>
                         <IconButton color='inherit' className='NavBar__User' component={Link} to='/login'>
-                            <span className='NavBar__User--hiddenXS'>{t('LOGIN')}</span>
-                        </IconButton>
-                        <IconButton color='inherit' className='NavBar__User' component={Link} to='/register'>
-                            <span className='NavBar__User--hiddenXS'>{t('SIGN IN')}</span>
+                            <PermIdentityIcon/> <span className='NavBar__User--hiddenXS'>{t('LOGIN')}</span>
                         </IconButton>
                     </div>
                 }

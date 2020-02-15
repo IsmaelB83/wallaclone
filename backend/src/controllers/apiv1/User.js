@@ -79,47 +79,33 @@ module.exports = {
         try {
             // Obtengo el usuario que se está intentando modificar (el de la sesión activa)
             let user = await User.findById(req.user._id);
-            user.name = req.body.name;
+            user.name = req.body.name || user.name
             // Si se ha pasado login, y es distinto al actual lo chequeo primero
             if (req.body.login && user.login !== req.body.login) {
-                let users = await User.find({ login: req.user.login });
-                if (users) {
-                    users.forEach(u => {
-                        if (u.login === req.user.email && u._id.toString() !== user._id.toString()) {
-                            return next({
-                                status: 422,
-                                description: 'El login indicado no está disponible'
-                            });
-                        }
-                    });
-                    user.login = req.body.login
-                }
+                let users = await User.find({ 
+                    login: req.body.login,  
+                    _id: { "$ne": user._id}
+                });
+                if (users) return next({status: 401, description: 'El login indicado no está disponible' });
+                user.login = req.body.login
             }
             // Si se ha pasado email, y es distinto al actual lo chequeo primero
             if (req.body.email && user.email !== req.body.email) {
-                let users = await User.find({ email: req.user.email });
-                if (users) {
-                    users.forEach(u => {
-                        if (u.email === req.user.email && u._id.toString() !== user._id.toString()) {
-                            return next({
-                                status: 422,
-                                description: 'El email indicado no está disponible'
-                            });
-                        }
-                    });
-                    user.email = req.body.email
-                }
+                let users = await User.find({ 
+                    email: req.body.email,  
+                    _id: { "$ne": user._id}
+                });
+                if (users) return next({status: 401, description: 'El email indicado no está disponible'});
+                user.email = req.body.email
             }
-            // Si se ha indicado password lo encripto
+            // Si se ha indicado password lo encripto e invalido tokens
             if (req.body.password) {
                 user.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
                 user.token = '';
                 user.jwt = '';
             }
             // Intento guardar
-            user = await user.save();
-            if (user) {
-                // Ok
+            user.save().then (user => { 
                 return res.status(200).json({
                     description: 'Usuario actualizado con éxito',
                     user: {
@@ -129,7 +115,7 @@ module.exports = {
                         email: user.email
                     }
                 });
-            }
+            });
         } catch (error) {
             next(error);
         }

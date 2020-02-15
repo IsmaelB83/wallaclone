@@ -1,6 +1,7 @@
 // NPM Modules
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { withNamespaces } from 'react-i18next';
 // Material UI
 import Container from '@material-ui/core/Container';
 // Own Modules
@@ -20,7 +21,10 @@ import './styles.css';
 /**
  * Main App
  */
-export default function Detail(props) {
+function Detail(props) {
+
+    // Translate 
+    const { t } = props;
 
     // Propiedades del index
     const { fetchAdvert, enqueueSnackbar } = props;
@@ -28,7 +32,7 @@ export default function Detail(props) {
 
     // Load advert from API
     const [error, setError] = useState();
-    const [advert, setAdvert] = useState(Advert.emptyAdvert());
+    const [advert, setAdvert] = useState();
     useEffect(() => {
         fetchAdvert(slug)
         .then ((advert) => setAdvert(new Advert(advert)))
@@ -39,21 +43,21 @@ export default function Detail(props) {
     const setSellAdvert = () => {
         props.sellAdvert(advert.slug, props.session.jwt)
         .then (ad => setAdvert({...advert, sold: ad.sold}))
-        .catch(error => enqueueSnackbar(`Error vendiendo anuncio ${error}`, { variant: 'error' }));
+        .catch(error => enqueueSnackbar(t('Error setting advert as sold ERROR', {error}), { variant: 'error' }));
     }
 
     // Marcar como reservado un anuncio
     const setBookAdvert = () => {
         props.bookAdvert(advert.slug, props.session.jwt)
         .then (ad => setAdvert({...advert, booked: ad.booked}))
-        .catch(error => enqueueSnackbar(`Error marcando reservado ${error}`, { variant: 'error' }));
+        .catch(error => enqueueSnackbar(t('Error setting advert as booked ERROR', {error}), { variant: 'error' }));
     }
 
     // Marcar como favorito un anuncio  
     const setFavoriteAdvert = () => {
         props.setFavorite(advert.slug, props.session.jwt)
         .then (ad => setAdvert({...advert, favorite: ad.favorite}))
-        .catch(error=> enqueueSnackbar(`Error añadiendo a favorito ${error}`, { variant: 'error' }));
+        .catch(error=> enqueueSnackbar(t('Error adding advert to favorite ERROR', {error}), { variant: 'error' }));
     }
 
     // Borrar anuncio
@@ -65,13 +69,13 @@ export default function Detail(props) {
         setShowModalDelete(false);
         if (slug) {
             props.deleteAdvert(slug, props.session.jwt)
-            .then(advert => {
-                enqueueSnackbar(`Anuncio '${advert.slug}' eliminado`, { variant: 'success', })  
+            .then(res => {
+                enqueueSnackbar(t('Advert SLUG deleted', {slug}), { variant: 'success', })
                 props.history.push('/');
             })
-            .catch(error => enqueueSnackbar(`Error eliminando anuncio ${error}`, { variant: 'error', }));    
+            .catch(error => enqueueSnackbar(t('Error deleting advert ERROR', {error}), { variant: 'error', }));    
         } else {
-            enqueueSnackbar('Error. No se ha identificado el anuncio a eliminar', { variant: 'error', });    
+            enqueueSnackbar(t('Error identifying advert to be deleted'), { variant: 'error', });    
         }
     };
     const cancelDeleteAdvert = () => {
@@ -84,23 +88,26 @@ export default function Detail(props) {
             <NavBar/>
                 <Container>
                     <main className='Main__Section'>
-                        <AdvertDetail
-                            advert={advert}
-                            showEdit={advert.user && props.session._id === advert.user._id}
-                            showFavorite={advert.user && props.session._id !== advert.user_id}
-                            onSellAdvert={setSellAdvert}
-                            onBookAdvert={setBookAdvert}
-                            onFavoriteAdvert={setFavoriteAdvert}
-                            onDeleteAdvert={deleteAdvertRequest}
-                        />
-                        { props.isFetching && <Loading text={'fetching advert'}/> }
+                        { advert && 
+                            <AdvertDetail
+                                advert={advert}
+                                showEdit={advert.user && props.session._id === advert.user._id}
+                                showFavorite={advert.user && props.session._id !== advert.user_id}
+                                onSellAdvert={setSellAdvert}
+                                onBookAdvert={setBookAdvert}
+                                onFavoriteAdvert={setFavoriteAdvert}
+                                onDeleteAdvert={deleteAdvertRequest}
+                            />
+                        }
+                        { props.isFetching && <Loading text={t('Loading advert')}/> }
                         { error &&  <Error error={error}/> }
+                    
                     </main>
                     {   showModalDelete && 
                         <ModalConfirm   onConfirm={confirmDeleteAdvert} 
                                         onCancel={cancelDeleteAdvert} 
                                         visible={true} type='warning'
-                                        title='¿Está seguro de borrar el anuncio?'
+                                        title={t('Are you sure to delete the advert?')}
                         /> 
                     }
                 </Container>
@@ -110,7 +117,8 @@ export default function Detail(props) {
 }
 
 AdvertDetail.propTypes = {
-    session: PropTypes.object,
     isUpdating: PropTypes.bool,
     error: PropTypes.string,
 }
+
+export default withNamespaces()(Detail);

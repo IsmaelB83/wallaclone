@@ -72,7 +72,7 @@ function SearchPanel(props) {
     // Render del componente
     return (
         <form className='SearchPanel' onSubmit={handleSubmit}>
-            <h2>Criterios de búsqueda</h2>
+            <h2>{t('Filter criteria')}</h2>
             <div className='InputSearch'>
                 <SearchIcon className='InputSearch__Icon InputSearch__Icon--start'/>
                 <input 
@@ -135,7 +135,7 @@ function SearchPanel(props) {
                     />
                 </FormControl>
                 <FormControl>
-                    <InputLabel htmlFor='maxPrice'>{t('Precio hasta')}</InputLabel>
+                    <InputLabel htmlFor='maxPrice'>{t('Price to')}</InputLabel>
                     <Input
                         id='filter_maxPrice'
                         name='maxPrice'

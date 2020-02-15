@@ -1,5 +1,6 @@
 // NPM Modules
 import React, { useState, useEffect } from 'react';
+import { withNamespaces } from 'react-i18next';
 // Material UI
 import Container from '@material-ui/core/Container';
 // Components
@@ -13,11 +14,12 @@ import NavBar from '../../components/NavBar';
 // CSS
 import './styles.css';
 
-/**
-* Main App
-*/
-export default function Published (props) {
+// Published adverts section
+function Published (props) {
     
+    // Translate
+    const { t } = props;
+
     // Destructure props
     const { enqueueSnackbar, fetchUserAdverts, setCurrentPage, fetchIterateAdverts } = props;
     const { start, end, totalCount } = props.lastCall;
@@ -29,39 +31,31 @@ export default function Published (props) {
     // Cargo anuncios del usuario solicitado
     useEffect(() => {
         fetchUserAdverts(login)
-        .then(response => enqueueSnackbar(`Resultados ${response.start + 1} a ${response.end + 1} cargados del total de ${response.totalCount}.`, { variant: 'info' }))
-        .catch(error => enqueueSnackbar(`Error cargando anuncios de ${login}`, { variant: 'error' }));
+        .catch(error => enqueueSnackbar(t('Error loading USER adverts ERROR', {user: login, error}), { variant: 'error' }));
     }, []);
 
     // Paginación sobre la colección de anuncios
     const onFetchIterateAdverts = (direction) => {
         return fetchIterateAdverts(direction)
-        .then (response => enqueueSnackbar(`Resultados ${response.start + 1} a ${response.end + 1} cargados del total de ${response.totalCount}.`, { variant: 'info' }))
-        .catch(error =>{
-            debugger;
-            enqueueSnackbar(`Error obteniendo anuncios ${error}`, { variant: 'error' })
-        } );
+        .catch(error => enqueueSnackbar(t('Error iterating adverts ERROR', {error}), { variant: 'error' }));
     }
 
-    // Reservar producto
+    // Favorito
     const favoriteAdvert = (slug) => {
         props.setFavorite(slug, jwt)
-        .then(advert => props.enqueueSnackbar(`Anuncio ${advert.slug} ${advert.favorite?'añadido a':'eliminado de'} favoritos`, { variant: 'success' }))
-        .catch(error => props.enqueueSnackbar(`Error marcando favorito ${error}`, { variant: 'error' }));
+        .catch(error => props.enqueueSnackbar(t('Error adding advert to favorite ERROR', {error}), { variant: 'error' }));
     }
 
-    // Marcar como reservado
+    // Reservado
     const bookAdvert = slug => {
         props.bookAdvert(slug, jwt)
-        .then(advert => enqueueSnackbar(`Anuncio ${advert.slug} marcado como ${advert.booked?'reservado':'disponible'}`, { variant: 'success' }))
-        .catch(error => enqueueSnackbar(`Error reservando anuncio ${error}`, { variant: 'error' }));
+        .catch(error => enqueueSnackbar(t('Error setting advert as booked ERROR', {error}), { variant: 'error' }));
     };
 
-    // Marcar como reservado
+    // Vendido
     const sellAdvert = slug => {
         props.sellAdvert(slug, jwt)
-        .then(advert => enqueueSnackbar(`Anuncio ${advert.slug} marcado como ${advert.booked?'vendido':'disponible'}`, { variant: 'success' }))
-        .catch(error => enqueueSnackbar(`Error vendiendo anuncio ${error}`, { variant: 'error', }));
+        .catch(error => enqueueSnackbar(t('Error setting advert as sold ERROR', {error}), { variant: 'error', }));
     };
     
     // Borrar anuncio
@@ -75,10 +69,10 @@ export default function Published (props) {
         setShowModalDelete(false);
         if (slug) {
             props.deleteAdvert(slug, jwt)
-            .then(advert => enqueueSnackbar(`Anuncio '${advert.slug}' eliminado`, { variant: 'success', }))
-            .catch(error => enqueueSnackbar(`Error eliminando anuncio ${error}`, { variant: 'error', }));    
+            .then(res => enqueueSnackbar(t('Advert SLUG deleted', {slug}), { variant: 'success', }))
+            .catch(error => enqueueSnackbar(t('Error deleting advert ERROR', {error}), { variant: 'error', }));    
         } else {
-            enqueueSnackbar('Error. No se ha identificado el anuncio a eliminar', { variant: 'error', });    
+            enqueueSnackbar(t('Error identifying advert to be deleted'), { variant: 'error', });    
         }
     };
     const cancelDeleteAdvert = () => {
@@ -114,7 +108,7 @@ export default function Published (props) {
                     <ModalConfirm   onConfirm={confirmDeleteAdvert} 
                                     onCancel={cancelDeleteAdvert} 
                                     visible={true} type='warning'
-                                    title='¿Está seguro de borrar el anuncio?'
+                                    title={t('Are you sure to delete the advert?')}
                     /> 
                 }
             </Container>
@@ -122,3 +116,5 @@ export default function Published (props) {
         </React.Fragment>
     );
 }
+
+export default withNamespaces()(Published);

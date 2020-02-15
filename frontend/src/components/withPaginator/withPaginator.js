@@ -1,6 +1,5 @@
 // Node modules
 import React from 'react';
-import { withNamespaces } from 'react-i18next';
 // Material UI
 import MobileStepper from '@material-ui/core/MobileStepper';
 import Button from '@material-ui/core/Button';
@@ -14,9 +13,6 @@ import './styles.css';
 const withPaginator = (WrappedComponent) => {
 
     return function AdvertListWithPaginator(props) {
-
-        // Translate
-        const { t } = props;
 
         // Destructuring props
         const { adverts, start, end, totalCount } = props;
@@ -43,7 +39,7 @@ const withPaginator = (WrappedComponent) => {
             let Icon = !callAPI?KeyboardArrowLeft:RotateLeftIcon;
             return  <Button size='small' onClick={()=>!callAPI?handleMovePaginator(-1):props.onfetchIterateAdverts(-1)} 
                             disabled={disableBack} className='ButtonWallaclone ButtonWallaclone__Green'>
-                        <Icon />more
+                        <Icon />
                     </Button>
         }
 
@@ -55,7 +51,7 @@ const withPaginator = (WrappedComponent) => {
             let Icon = !callAPI?KeyboardArrowRight:RotateLeftIcon;
             return  <Button size='small' onClick={()=>!callAPI?handleMovePaginator(1):props.onfetchIterateAdverts(1)} 
                             disabled={disableNext} className='ButtonWallaclone ButtonWallaclone__Green'>
-                        <Icon />more
+                        <Icon />
                     </Button>
         }
        

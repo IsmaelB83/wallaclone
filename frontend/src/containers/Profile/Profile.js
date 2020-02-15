@@ -1,15 +1,11 @@
 // NPM Modules
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { withNamespaces } from 'react-i18next';
 // Material UI
 import Container from '@material-ui/core/Container';
-import FormControl from '@material-ui/core/FormControl';
-import Button from '@material-ui/core/Button';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import SaveIcon from '@material-ui/icons/Save';
-import DeleteIcon from '@material-ui/icons/Delete';
 // Components
+import ProfileForm from '../../components/ProfileForm/ProfileForm';
 import ModalConfirm from '../../components/ModalConfirm';
 import NavBar from '../../components/NavBar';
 import Footer from '../../components/Footer';
@@ -17,178 +13,82 @@ import Loading from '../../components/Loading';
 // Models
 // Own modules
 // Assets
-import imagePhoto from '../../assets/images/user.png'
 // CSS
 import './styles.css';
 
-/**
- * Main App
- */
-export default class Profile extends Component {
+// Profile
+function Profile(props) {
 
-  /**
-   * Constructor
-   */
-  constructor(props) {
-    super(props)
-    this.state = {
-      email: this.props.session.email,
-      name: this.props.session.name,
-      callUpdate: false,
-      showModalDelete: false,
+    // Translate 
+    const { t } = props;
+
+    // Delete account
+    const [showModalDelete, setShowModalDelete] = useState(false);
+    const requestDeleteAccount = () => setShowModalDelete(true);
+    const cancelDeleteAccount = () => setShowModalDelete(false);
+    const confirmDeleteAccount = () => {
+        this.setState({showModalDelete: false});
+        const { jwt, _id } = props.session;
+        props.logout(jwt);
+        props.deleteAccount(_id, jwt)
+        .then(res => {
+            props.enqueueSnackbar(t('Your account and all its related data is deleted'), { variant: 'success', });
+            props.history.push('');
+        })
+        .catch(error => props.enqueueSnackbar(t('Error deleting account ERROR', {error}), { variant: 'error', }));
+    };
+     
+    // Submit (save data)
+    const submitProfile = (inputs) => {
+      // Genero sesión y la guardo en LS
+      const { login, email, name, password_old, password_new_1, password_new_2 } = inputs;
+      // Datos del usuario editado
+      const user = {
+        login: login,
+        email: email,
+        name: name,
+        password: password_new_1 === password_new_2 && password_new_1 !== '' ?  password_new_1 : password_old
+      }
+      // ¿Está intentando realizar un cambio de contraseña?
+      if (password_new_1 || password_new_2) {
+        if (password_new_1 !== password_new_2) return props.enqueueSnackbar(t('Error. Both passwords should match'), { variant: 'error' });        
+        if (password_old === '') return props.enqueueSnackbar(t('You should enter your current password to change it'), { variant: 'error' });        
+      }
+      // Dispatch update user
+      props.editUser(user, props.session.jwt)
+        .then (res => {
+          props.enqueueSnackbar(t('User updated successfully'), { variant: 'success' });
+          props.history.push('/');
+        })
+        .catch (error => props.enqueueSnackbar(t('Error updating user data ERROR', {error}), { variant: 'error', }));
     }
-  }
 
-  /**
-   * Render
-   */
-  render() {
     return (
-      <React.Fragment>
+        <React.Fragment>
         <NavBar/>
         <Container>
-            <main className='Main__Section'>
-                <form onSubmit={this.handleSubmit} noValidate autoComplete='off' className='Profile__Form'>
-                    <div className='Profile_Picture'>
-                        <img src={imagePhoto} alt='user_avatar'/>
-                    </div>
-                    <FormControl fullWidth className='Profile__FormControl'>
-                        <InputLabel shrink htmlFor='type'>Nombre</InputLabel>
-                        <Input
-                        name='name'
-                        value={this.state.name}
-                        onChange={this.handleChange}
-                        type='text' 
-                        required
-                        />
-                    </FormControl>
-                    <FormControl fullWidth className='Profile__FormControl'>
-                        <InputLabel shrink htmlFor='type'>Email</InputLabel>
-                        <Input
-                        name='email'
-                        value={this.state.email}
-                        onChange={this.handleChange}
-                        type='email' 
-                        required
-                        />
-                    </FormControl>
-                    <FormControl fullWidth className='Profile__FormControl'>
-                        <InputLabel shrink htmlFor='type'>Old Password</InputLabel>
-                        <Input
-                        name='password_old'
-                        value={this.state.password_old}
-                        onChange={this.handleChange}
-                        type='password' 
-                        required
-                        />
-                    </FormControl>
-                    <FormControl fullWidth className='Profile__FormControl'>
-                        <InputLabel shrink htmlFor='type'>New password</InputLabel>
-                        <Input  name='password_new_1'
-                                value={this.state.password_new_1}
-                                onChange={this.handleChange}
-                                type='password' 
-                                required
-                        />
-                    </FormControl>
-                    <FormControl fullWidth className='Profile__FormControl'>
-                        <InputLabel shrink htmlFor='type'>Repeat Password</InputLabel>
-                        <Input  name='password_new_2'
-                                value={this.state.password_new_2}
-                                onChange={this.handleChange}
-                                type='password' 
-                                required
-                        />
-                    </FormControl>
-                    <div className='Profile__Footer'>
-                        <Button type='submit' variant='contained' color='primary' startIcon={<SaveIcon />} className='ButtonWallaclone ButtonWallaclone__Green'>
-                        Guardar
-                        </Button>
-                        <Button type='button' variant='contained' color='secondary' onClick={this.requestDeleteAccount} startIcon={<DeleteIcon />}>
-                        Borrar Cuenta
-                        </Button>
-                    </div>            
-                </form>
+            <main className='Main__Section Profile'>
+                <ProfileForm    noValidate 
+                                autoComplete='off' 
+                                className='Profile__Form'
+                                user={props.session}
+                                onSubmit={submitProfile} 
+                                onRequestDeleteAccount={requestDeleteAccount}/>
+                { props.isUpdating &&
+                    <Loading text={t('Updating user data...')}/> 
+                }
+                { showModalDelete && 
+                    <ModalConfirm   onConfirm={confirmDeleteAccount} 
+                                    onCancel={cancelDeleteAccount} 
+                                    visible={true} type='warning'
+                                    title={t('Are you sure you want to delete your account?')}
+                    /> 
+                }
             </main>
-            { this.props.isUpdating && <Loading text={'Actualizando datos de usuario' }/> }
-            {   this.state.showModalDelete && 
-                <ModalConfirm   onConfirm={this.confirmDeleteAccount} 
-                                onCancel={this.cancelDeleteAccount} 
-                                visible={true} type='warning'
-                                title='¿Está seguro de borrar su cuenta y todos los anuncios relacionados?'
-                /> 
-            }
         </Container>
         <Footer/>
-      </React.Fragment>
+        </React.Fragment>
     );
-  }
-
-
-  requestDeleteAccount = () => this.setState({showModalDelete: true});
-  cancelDeleteAccount = () => this.setState({showModalDelete: false});   
-  confirmDeleteAccount = () => {
-      this.setState({showModalDelete: false});
-      const { jwt, _id } = this.props.session;
-      this.props.logout(jwt);
-      this.props.deleteAccount(_id, jwt)
-      .then(response => {
-          this.props.enqueueSnackbar('Su cuenta y todos los anuncios asociados ha sido eliminada', { variant: 'success', });
-          this.props.history.push('');
-      })
-      .catch(error => {
-          this.props.enqueueSnackbar(`Error eliminando cuenta ${error}`, { variant: 'error', })
-      });
-  };
-  
-  /**
-   * Cambio en un input tipo texto
-   */
-  handleChange = event => {
-    this.setState({
-      [event.target.name]: event.target.value
-    });
-  }
-
-  /**
-   * Manejador del submit del formulario
-   */
-  handleSubmit = (ev) => {
-    ev.preventDefault();
-    // Genero sesión y la guardo en LS
-    const { email, name, password_old, password_new_1, password_new_2 } = this.state;    
-    // Está intentando realizar una cambio de email
-    const user = {
-      email: email,
-      name: name,
-    }
-    // ¿Está intenando realizar un cambio de contraseña?
-    if (password_new_1 || password_new_2) {
-      if (password_new_1 !== password_new_2) {
-        this.props.enqueueSnackbar('Los password indicados no coinciden.', { variant: 'error' });        
-      } else if (!password_old) {
-        this.props.enqueueSnackbar('Debe indicar su contraseña actual para poder cambiarla.', { variant: 'error' });        
-      } else {
-        user['password'] = password_new_1;
-      }
-    }
-    // Dispatch update user
-    this.setState({callUpdate: true}, () => {
-      this.props.editUser(user, this.props.session.jwt);
-    });
-  }
-
-  /**
-   * Cada vez que se actualiza
-   */
-  componentDidUpdate() {
-    if (this.state.callUpdate && !this.props.isUpdating && !this.props.error) {
-      this.props.enqueueSnackbar('Datos de usuario actualizados con éxito', { variant: 'success' });
-      this.props.history.push('/');
-    } else if (this.state.callUpdate && !this.props.isUpdating && this.props.error) {
-      this.props.enqueueSnackbar(this.props.error, { variant: 'error' });        
-    }
-  }
 }
 
 Profile.propTypes = {
@@ -197,3 +97,5 @@ Profile.propTypes = {
   editSession: PropTypes.func,
   logout: PropTypes.func
 }
+
+export default withNamespaces()(Profile);

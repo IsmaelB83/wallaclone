@@ -9,27 +9,25 @@ import LockOpenIcon from '@material-ui/icons/LockOpen';
 import FaceIcon from '@material-ui/icons/Face';
 import Button from '@material-ui/core/Button';
 // Own components
-import LoadingSmall from '../../LoadingSmall/LoadingSmall';
-import InputForm from '../components/InputForm';
-import Form from '../components/Form';
+import LoadingSmall from '../LoadingSmall/LoadingSmall';
+import InputForm from '../forms/InputForm';
+import Form from '../forms/Form';
 // Models
 // Own modules
 // Assets
-import imageLogo from '../../../assets/images/logo2.png';
+import imageLogo from '../../assets/images/logo2.png';
 // CSS
 import './styles.css';
 
 // Dinamic render
 const FORM_TYPES = {
-    requestReset: RequestResetForm,
-    register: RegisterForm,
-    reset: ResetForm,
-    login: LoginForm
+    requestReset: withNamespaces()(RequestResetForm),
+    register: withNamespaces()(RegisterForm),
+    reset: withNamespaces()(ResetForm),
+    login: withNamespaces()(LoginForm)
 };
 
-/**
-* Componente para renderizar cualquiera de los formularios de la sección de autenticación:
-*/
+// Componente para renderizar cualquiera de los formularios de la sección de autenticación:
 function AuthForm(props) {
    
     const { t } = props;
@@ -54,37 +52,33 @@ function AuthForm(props) {
     );
 }
 
-/**
- * Login form
- */
+// Login form
 function LoginForm(props) {
     const { t } = props;
     return (
         <React.Fragment>
-            <InputForm name='login' type='login' placeholder='type your login' required icon={<PermIdentityIcon/>}/>
-            <InputForm name='password' type='password' placeholder='type your password' autocomplete='on' required icon={<LockOpenIcon/>}/>
+            <InputForm name='login' type='login' placeholder={t('type your login')} required icon={<PermIdentityIcon/>}/>
+            <InputForm name='password' type='password' placeholder={t('type your password')} autocomplete='on' required icon={<LockOpenIcon/>}/>
             <p className='Login__Help'>{t('enter your credentials to login')}</p>
             <div className='Login__Buttons'>
                 <Button className='Button' type='submit' variant='contained' color='primary'> {t('Login')} </Button>
-                <Button className='Button' variant='contained' color='secondary' href='/reset'> {t('Reset password')} </Button>
+                <Button className='Button' variant='contained' color='secondary' component={Link} to='/reset'> {t('Reset password')} </Button>
                 <Link className='Login__Link' to='/register'>{t('Create an account')}</Link>
             </div>
         </React.Fragment>
     );
 }
 
-/**
- * Create new user form
- */
+// Create new user form
 function RegisterForm(props) {
     const { t } = props;
     return (
         <React.Fragment>
-            <InputForm name='login' type='login' placeholder='type your login' required icon={<PermIdentityIcon/>}/>
-            <InputForm name='name' type='name' placeholder='type your name' required icon={<FaceIcon/>}/>
-            <InputForm name='email' type='email' placeholder='type your email' required icon={<MailOutlineIcon/>} helperText="Utilice una cuenta gmail par evitar problemas de spam"/>
-            <InputForm name='password' type='password' placeholder='type your password' autoComplete='on' required icon={<LockOpenIcon/>}/>
-            <InputForm name='password_2' type='password' placeholder='repeat your password' autoComplete='on' required icon={<LockOpenIcon/>}/>
+            <InputForm name='login' type='text' placeholder={t('type your login')} required icon={<PermIdentityIcon/>}/>
+            <InputForm name='name' type='text' placeholder={t('type your name')} required icon={<FaceIcon/>}/>
+            <InputForm name='email' type='email' placeholder={t('type your email')} required icon={<MailOutlineIcon/>} />
+            <InputForm name='password' type='password' placeholder={t('type your password')} autoComplete='on' required icon={<LockOpenIcon/>}/>
+            <InputForm name='password_2' type='password' placeholder={t('repeat your password')} autoComplete='on' required icon={<LockOpenIcon/>}/>
             <p className='Login__Help'>{t('better use a gmail account to receive our emails')}</p>
             <div className='Login__Buttons'>
                 <Button className='button' type='submit' variant='contained' color='primary'>{t('Create user')}</Button>
@@ -94,14 +88,12 @@ function RegisterForm(props) {
     );
 }
 
-/**
- * Request reset password form
- */
+// Request reset password form
 function RequestResetForm(props) {
     const { t } = props;
     return (
         <React.Fragment>
-            <InputForm name='email' type='email' placeholder='type your email' required icon={<PermIdentityIcon/>}/>
+            <InputForm name='email' type='email' placeholder={t('type your email')} required icon={<PermIdentityIcon/>}/>
             <p className='Login__Help'>{t('enter your email to restart your password')}</p>
             <div className='Login__Buttons'>
                 <Button className='button' type='submit' variant='contained' color='primary'>{t('Send me an email')}</Button>
@@ -111,15 +103,13 @@ function RequestResetForm(props) {
     );
 }
 
-/**
- * Reset password form
- */
+// Reset password form
 function ResetForm(props) {
     const { t } = props;
     return (
         <React.Fragment>
-            <InputForm name='password' type='password' placeholder='type your password' autocomplete='on' required icon={<LockOpenIcon/>}/>
-            <InputForm name='password_2' type='password' placeholder='repeat your password' autocomplete='on' required icon={<LockOpenIcon/>}/>
+            <InputForm name='password' type='password' placeholder={t('type your password')} autocomplete='on' required icon={<LockOpenIcon/>}/>
+            <InputForm name='password_2' type='password' placeholder={t('repeat your password')} autocomplete='on' required icon={<LockOpenIcon/>}/>
             <p className='Login__Help'>{t('enter your new password')}</p>
             <div className='Login__Buttons'>
                 <Button className='button' type='submit' variant='contained' color='primary'>{t('Reset password')}</Button>
@@ -129,8 +119,4 @@ function ResetForm(props) {
     );
 }
 
-withNamespaces()(LoginForm);
-withNamespaces()(RegisterForm);
-withNamespaces()(RequestResetForm);
-withNamespaces()(ResetForm);
 export default withNamespaces()(AuthForm);

@@ -1,19 +1,19 @@
 // NPM Modules
 import React, { useEffect } from 'react';
+import { withNamespaces } from 'react-i18next';
 // Material UI
 // Own components
-import AuthForm from '../../components/forms/AuthForm';
+import AuthForm from '../../components/AuthForm';
 // Models
 // Own modules
 import LocalStorage from '../../utils/Storage';
 // Assets
 
-/**
- * Login Section
- * @param {Object} props Component properties
- */
-export default function Login(props) {
+// Login
+function Login(props) {
     
+    // Translate
+    const { t } = props;
     // Props destructuring
     const { login, loginWithToken, activateAccount, enqueueSnackbar } = props;
     const { token } = props.match.params;
@@ -26,14 +26,14 @@ export default function Login(props) {
             login('ismab83', '12345678')
             //loginWithToken(session.jwt)
             .then(response => {
-                enqueueSnackbar('Login automático con token. Redirigiendo al home', { variant: 'info', })
+                enqueueSnackbar(t('Automatic login with token. Redirecting home.'), { variant: 'info', })
                 push('/')
             })
             .catch (error => {
                 enqueueSnackbar(error, { variant: 'error', })
             });
         }
-    }, [login, loginWithToken, push, enqueueSnackbar, token]);
+    }, [login, loginWithToken, push, enqueueSnackbar, token, t]);
 
     // Dispatch activate account
     useEffect(() => {
@@ -49,7 +49,7 @@ export default function Login(props) {
         const { login, password } = inputs;
         props.login(login, password)
         .then(response => {
-            enqueueSnackbar('Login correcto. Redirigiendo al home.', { variant: 'info', })
+            enqueueSnackbar(t('Login OK. Redirecting home.'), { variant: 'info', })
             props.history.push('/')
         })
         .catch(error => enqueueSnackbar(error, { variant: 'error', }));
@@ -64,3 +64,5 @@ export default function Login(props) {
         />
     );
 }
+
+export default withNamespaces()(Login);

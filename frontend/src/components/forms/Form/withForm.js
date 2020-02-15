@@ -10,9 +10,7 @@ import './styles.css';
 // Contexto generado por el HOC
 export const Context = React.createContext();
 
-/**
-* Componente formulario utilizando HOC
-*/
+// Componente formulario genérico utilizando HOC
 const withForm = (WrappedComponent) => {
 
     /**
@@ -23,7 +21,7 @@ const withForm = (WrappedComponent) => {
         // Constructor
         constructor(props) {
             super(props);
-            this.state = {}
+            this.state = {...props.initial}
         }
 
         // Cambio en alguno de los campos del formulario de tipo input text
@@ -36,6 +34,16 @@ const withForm = (WrappedComponent) => {
             this.setState({ [event.target.name]: event.target.checked });
         }
         
+        // Cambio en alguno de los campos del formulario de tipo selector de multiple option
+        handleChangeMultiple = event => {
+            this.setState({ [event.target.name]: event.target.value });
+        };
+
+        // Cambio en un input tipo number
+        handleChangeNumber = event => {
+            this.setState({ [event.target.name]: parseFloat(event.target.value) });
+        }
+
         // Evento submit
         handleSubmit = event => {
             event.preventDefault();

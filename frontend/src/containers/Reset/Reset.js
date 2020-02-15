@@ -1,29 +1,30 @@
 // NPM Modules
 import React from 'react';
+import { withNamespaces } from 'react-i18next';
 // Material UI
 // Own components
-import AuthForm from '../../components/forms/AuthForm';
+import AuthForm from '../../components/AuthForm';
 // Models
 // Own modules
 // Assets
 // CSS
 
 
-/**
-* Reset pasword with token
-* @param {Object} props Component properties
-*/
-export default function Reset(props) {
+// Reset password section
+function Reset(props) {
     
+    // Translate
+    const { t } = props;
+
     // Reset de contraseña
     const resetPassword = async (inputs) => {
         const { password, password_2 } = {...inputs};
         if ( password !== password_2 ) {
-            return props.enqueueSnackbar('Ambos passwords deben ser iguales', { variant: 'error', });
+            return props.enqueueSnackbar(t("Error. Both passwords should match"), { variant: 'error', });
         } 
         props.resetAccount(props.match.params.token, password)
         .then (user => {
-            props.enqueueSnackbar('Password reseteado con exito', { variant: 'success', });
+            props.enqueueSnackbar(t('Password reset successfully'), { variant: 'success', });
             props.history.push('/login');
         })
         .catch (error => {
@@ -42,3 +43,5 @@ export default function Reset(props) {
         />
     );
 }
+
+export default withNamespaces()(Reset);

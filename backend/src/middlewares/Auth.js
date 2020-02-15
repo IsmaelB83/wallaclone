@@ -19,9 +19,7 @@ module.exports = async (req, res, next) => {
         // JWT Authentication (API)
         let reqToken = ( req.body['headers'] && req.body['headers']['Authorization']) || req.query.token || req.get('Authorization');
         if (!reqToken) {
-            return res.status(401).json({
-                data: 'Not Authorized'
-            });
+            return res.status(401).json({data: 'Not Authorized'});
         }
         // Check JWT is expired
         if (reqToken.startsWith('Bearer') || reqToken.startsWith('bearer')) {

@@ -63,27 +63,11 @@ const loginWithTokenFailure = error => ({ type: ACTIONS.LOGIN_TOKEN_FAILURE, err
 
 /**
  * Logout
- * @param {String} jwt Token del usuario
  */
-export const logout = jwt => {
-    return async function(dispatch, getState) {
-        dispatch(logoutRequest());
-        return AuthServices.logout(jwt)
-        .then(() => {
-            LocalStorage.cleanLocalStorage();
-            dispatch(logoutSuccess());
-        })
-        .catch(error => {
-            let message = error.response && error.response.data ? error.response.data.data : error.message;
-            dispatch(logoutFailure(message));
-            throw message;
-        });
-    }
+export const logout = () => {
+    LocalStorage.cleanLocalStorage();
+    return { type: ACTIONS.LOGOUT };
 };
-
-const logoutRequest = () => ({ type: ACTIONS.LOGOUT_REQUEST });
-const logoutFailure = (error) => ({ type: ACTIONS.LOGOUT_FAILURE, error });
-const logoutSuccess = () => ({ type: ACTIONS.LOGOUT_SUCCESS });
 
 /**
  * Activate Account
