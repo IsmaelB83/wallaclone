@@ -38,11 +38,11 @@ function Home(props) {
     const onFavoriteAdvert = (slug) => {
         if (! session.jwt) {
             enqueueSnackbar(t('You need to log in to manage favorites'), { variant: 'error' });
-            return props.history.push('/login');
+        } else {
+            setFavorite(slug, session.jwt)
+            .then(res => enqueueSnackbar(t('Advert SLUG ACTION favorites', {slug, action: res.favorite?t('added to'):t('removed from')}), { variant: 'success' }))
+            .catch(error => enqueueSnackbar(t('Error adding advert to favorite ERROR', {error}), { variant: 'error' }));    
         }
-        setFavorite(slug, session.jwt)
-        .then(res => enqueueSnackbar(t('Advert SLUG ACTION favorites', {slug, action: res.favorite?t('added to'):t('removed from')}), { variant: 'success' }))
-        .catch(error => enqueueSnackbar(t('Error adding advert to favorite ERROR', {error}), { variant: 'error' }));
     }
 
     // Gestiona el evento de búsqueda de anuncios

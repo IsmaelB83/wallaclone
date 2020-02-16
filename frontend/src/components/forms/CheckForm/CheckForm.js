@@ -9,9 +9,7 @@ import { Context } from '../Form';
 // CSS
 
 
-/**
- * Componente reutilizable de tipo Input (usando material)
- */
+// Componente reutilizable de tipo checkbox (usando material)
 export default function CheckForm(props) {
   
     // Uso del contexto que envuelve al HOC del formulario

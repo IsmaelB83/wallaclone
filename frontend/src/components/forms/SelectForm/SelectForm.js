@@ -1,5 +1,5 @@
 // NPM Modules
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 // Material UI
 import { Select, FormControl, MenuItem, InputLabel } from '@material-ui/core';
 // Models

@@ -1,7 +1,7 @@
 // NPM Modules
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-// Components
+// ComponentsW
 import ErrorBoundary from '../../components/ErrorBoundary';
 import PrivateRoute from '../../components/PrivateRoute';
 // Containers

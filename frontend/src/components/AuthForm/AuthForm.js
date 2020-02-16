@@ -9,13 +9,13 @@ import LockOpenIcon from '@material-ui/icons/LockOpen';
 import FaceIcon from '@material-ui/icons/Face';
 import Button from '@material-ui/core/Button';
 // Own components
-import LoadingSmall from '../LoadingSmall/LoadingSmall';
 import InputForm from '../forms/InputForm';
 import Form from '../forms/Form';
 // Models
 // Own modules
 // Assets
 import imageLogo from '../../assets/images/logo2.png';
+import imageSpinner from '../../assets/images/spinner.gif';
 // CSS
 import './styles.css';
 
@@ -28,7 +28,7 @@ const FORM_TYPES = {
 };
 
 // Componente para renderizar cualquiera de los formularios de la sección de autenticación:
-function AuthForm(props) {
+export default function AuthForm(props) {
    
     const { t } = props;
     const submit = (inputs) => props.onSubmit(inputs);
@@ -45,7 +45,9 @@ function AuthForm(props) {
                         </div>
                     </Link>
                     <Content/>
-                    { props.isLoading && <LoadingSmall text={t('authenticating...')}/> }
+                    <div className='LoadingSmall'>
+                    { props.isLoading && <img src={imageSpinner} className='LoadingSmall__Spinner' alt='spinner'/> }
+                    </div>
                 </Form>
             </div>
         </div>
@@ -118,5 +120,3 @@ function ResetForm(props) {
         </React.Fragment>
     );
 }
-
-export default withNamespaces()(AuthForm);

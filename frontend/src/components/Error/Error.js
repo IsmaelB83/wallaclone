@@ -1,6 +1,5 @@
 // NPM Modules
 import React from 'react';
-import { withNamespaces } from 'react-i18next';
 // Material UI
 // Own modules
 // Assets
@@ -9,10 +8,9 @@ import image404 from '../../assets/images/404.png';
 import './styles.css';
 // Assets
 
-/**
-* Component para el display de error (functional component)
-*/
-function Error(props) {
+
+// Component para el display de error (functional component)
+export default function Error(props) {
 
     const { t } = props;
     
@@ -31,5 +29,3 @@ function Error(props) {
 
     return (<div className='Error'>{props.type==='404'?Error404():OtherError()}</div>);
 }
-
-export default withNamespaces()(Error);

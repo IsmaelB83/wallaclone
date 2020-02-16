@@ -1,6 +1,5 @@
 // NPM Modules
 import React, { useState, useRef } from 'react';
-import { withNamespaces } from 'react-i18next';
 import { Link } from "react-router-dom";
 // Material UI
 import EuroIcon from '@material-ui/icons/Euro';
@@ -20,7 +19,7 @@ import photoDefault from '../../assets/images/product.png';
 import './styles.css';
 
 // Formulario de perfil de usuario
-function AdvertEditForm(props) {
+export default function AdvertEditForm(props) {
    
     // Props destructuring
     const { t } = props;
@@ -70,5 +69,3 @@ function AdvertEditForm(props) {
         </Form>
     );
 }
-
-export default withNamespaces()(AdvertEditForm);

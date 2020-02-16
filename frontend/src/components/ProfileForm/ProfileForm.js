@@ -1,6 +1,5 @@
 // NPM Modules
 import React, { useState, useRef } from 'react';
-import { withNamespaces } from 'react-i18next';
 import { Link } from "react-router-dom";
 // Material UI
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
@@ -19,7 +18,7 @@ import imagePhoto from '../../assets/images/user.png';
 import './styles.css';
 
 // Formulario de perfil de usuario
-function ProfileForm(props) {
+export default function ProfileForm(props) {
    
     const { t } = props;
     const submit = (inputs) => {
@@ -74,5 +73,3 @@ function ProfileForm(props) {
         </Form>
     );
 }
-
-export default withNamespaces()(ProfileForm);

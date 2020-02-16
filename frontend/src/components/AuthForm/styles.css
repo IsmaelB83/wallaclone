@@ -75,3 +75,16 @@
     flex-direction: row;
     justify-content: center;
 }
+
+.LoadingSmall {
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.LoadingSmall__Spinner {
+    height: 75px;
+    width: 100px;
+}

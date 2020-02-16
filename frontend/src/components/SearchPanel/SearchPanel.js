@@ -1,6 +1,5 @@
 // NPM Modules
 import React, { useState } from 'react';
-import { withNamespaces } from 'react-i18next';
 // Material UI
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -20,10 +19,8 @@ import { ADVERT_CONSTANTS } from '../../models/Advert';
 // CSS
 import './styles.css';
 
-/**
- * Main App
- */
-function SearchPanel(props) {
+// Panel de búsquedas
+export default function SearchPanel(props) {
 
     // Translate
     const { t } = props;
@@ -153,5 +150,3 @@ function SearchPanel(props) {
         </form>
     );
 }
-
-export default withNamespaces()(SearchPanel);

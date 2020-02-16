@@ -1,16 +1,13 @@
 // NPM Modules
 import React, { Component } from 'react';
-import { withNamespaces } from 'react-i18next';
 // Material UI
-import Container from '@material-ui/core/Container';
+import { Container } from '@material-ui/core';
 // Own modules
 // Assets
 // CSS
 
-/**
- * Error Boundary (mantengo el class component de react)
- */
-class ErrorBoundary extends Component {
+// Error Boundary (mantengo el class component de react)
+export default class ErrorBoundary extends Component {
 
     // Constructor
     constructor(props) {
@@ -42,5 +39,3 @@ class ErrorBoundary extends Component {
         }
     }
 }
-
-export default withNamespaces()(ErrorBoundary);

@@ -3,7 +3,6 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
-import { withNamespaces } from 'react-i18next';
 import i18n from '../../utils/i18n';
 // Material UI
 import BookmarkBorderOutlinedIcon from '@material-ui/icons/BookmarkBorderOutlined';
@@ -23,10 +22,8 @@ import Advert, { ADVERT_CONSTANTS } from '../../models/Advert';
 // CSS
 import './styles.css';
 
-/**
- * Main App
- */
-function AdvertDetail(props) {
+// Component to display an advert
+export default function AdvertDetail(props) {
 
     // Translate
     const { t } = props;
@@ -110,5 +107,3 @@ AdvertDetail.propTypes = {
   isFetching: PropTypes.bool,
   error: PropTypes.string,
 }
-
-export default withNamespaces()(AdvertDetail);

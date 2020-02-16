@@ -3,7 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 import { Link } from "react-router-dom";
-import { withNamespaces } from 'react-i18next';
 // Material UI
 import BookmarkBorderOutlinedIcon from '@material-ui/icons/BookmarkBorderOutlined';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
@@ -22,7 +21,7 @@ import Advert, { ADVERT_CONSTANTS as CONSTANTS } from '../../models/Advert';
 import './styles.css';
 
 // Functional component to render an advert card
-function AdvertCardSmall (props) {
+export default function AdvertCardSmall (props) {
     
     // Translate
     const { t } = props;
@@ -107,5 +106,3 @@ function AdvertCardSmall (props) {
 AdvertCardSmall.propTypes = {
     advert: PropTypes.instanceOf(Advert).isRequired
 }
-
-export default withNamespaces()(AdvertCardSmall);

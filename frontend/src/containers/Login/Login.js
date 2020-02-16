@@ -25,13 +25,8 @@ function Login(props) {
         if (!token && session && session.jwt) {
             login('isma', '12345678')
             //loginWithToken(session.jwt)
-            .then(response => {
-                enqueueSnackbar(t('Automatic login with token. Redirecting home.'), { variant: 'info', })
-                push('/')
-            })
-            .catch (error => {
-                enqueueSnackbar(error, { variant: 'error', })
-            });
+            .then(res => enqueueSnackbar(t('Login OK with token. Redirecting home...'), { variant: 'info', }))
+            .catch (error => enqueueSnackbar(error, { variant: 'error', }));
         }
     }, [login, loginWithToken, push, enqueueSnackbar, token, t]);
 
@@ -48,10 +43,7 @@ function Login(props) {
     const submitLogin = (inputs) => {
         const { login, password } = inputs;
         props.login(login, password)
-        .then(response => {
-            enqueueSnackbar(t('Login OK. Redirecting home.'), { variant: 'info', })
-            props.history.push('/')
-        })
+        .then(res => enqueueSnackbar(t('Login OK. Redirecting home...'), { variant: 'info', }))
         .catch(error => enqueueSnackbar(error, { variant: 'error', }));
     }
     

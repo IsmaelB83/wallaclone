@@ -1,7 +1,6 @@
 // NPM Modules
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { withNamespaces } from 'react-i18next';
 import i18n from '../../utils/i18n';
 import moment from 'moment';
 // Material UI
@@ -29,10 +28,8 @@ import imageGB from '../../assets/images/gb.png';
 // CSS
 import './styles.css';
 
-/**
- * Componente NavBar (uso del hook useState)
- */
-function NavBar(props) {
+// Componente NavBar
+export default function NavBar(props) {
 
     // Función traducción
     const { t } = props;
@@ -125,5 +122,3 @@ function NavBar(props) {
         </AppBar>
     );
 }
-
-export default withNamespaces()(NavBar);

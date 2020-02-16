@@ -1,7 +1,9 @@
+// Node
 import React, { Component } from 'react';
 
 const withAdvertActions = (WrappedComponent) => {
 
+    // Composed component
     return class AdvertWithActions extends Component {
 
         // Acciones posibles sobre el anuncio

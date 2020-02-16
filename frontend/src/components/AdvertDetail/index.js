@@ -1,4 +1,7 @@
-import withAdvertActions from '../withAdvertActions';
+// Component
 import AdvertDetail from './AdvertDetail'
+// HOCs
+import withAdvertActions from '../withAdvertActions';
+import { withNamespaces } from 'react-i18next';
 
-export default withAdvertActions(AdvertDetail);
+export default withAdvertActions(withNamespaces()(AdvertDetail));

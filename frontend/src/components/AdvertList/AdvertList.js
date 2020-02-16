@@ -1,7 +1,6 @@
 // NPM Modules
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withNamespaces } from 'react-i18next';
 // Material UI
 // Own Components
 import AdvertCard from '../AdvertCard';
@@ -20,10 +19,8 @@ const CARD_TYPES = {
     list: AdvertCardSmall
 };
 
-/**
- * Functional component to render an advert card
- */
-function AdvertList (props) {
+// Component to display an advert list (tiles o list mode)
+export default function AdvertList (props) {
     
     // Translate
     const { t } = props;
@@ -65,5 +62,3 @@ function LoadingList (props) {
                 <h2 className='LoadingList__Text'>{props.text}</h2>
             </div>
 }
-
-export default withNamespaces()(AdvertList);

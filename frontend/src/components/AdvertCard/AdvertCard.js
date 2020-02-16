@@ -16,9 +16,7 @@ import Advert, { ADVERT_CONSTANTS } from '../../models/Advert';
 import './styles.css';
 
 
-/**
- * Functional component to render an advert card
- */
+// Functional component to render an advert card
 export default function AdvertCard (props) {
 
     // Props destructuring

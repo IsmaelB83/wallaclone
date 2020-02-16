@@ -8,9 +8,7 @@ import imageSpinner from '../../assets/images/spinner.gif';
 import './styles.css';
 // Assets
 
-/**
-* Component para el footer (functional component)
-*/
+// Component to display a loading panel
 export default function Loading(props) {
     
     return (

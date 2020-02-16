@@ -1,6 +1,5 @@
 // NPM Modules
 import React, { useState } from 'react';
-import { withNamespaces } from 'react-i18next';
 // Material UI
 import Dialog from '@material-ui/core/Dialog';
 import Button from '@material-ui/core/Button';
@@ -15,7 +14,7 @@ import imgConfirmation from '../../assets/images/confirmation.png';
 import './styles.css';
 
 // Functional component to render an advert card
-function ModalConfirm (props) {
+export default function ModalConfirm (props) {
     
     // Translate
     const { t } = props;
@@ -39,5 +38,3 @@ function ModalConfirm (props) {
         </Dialog>
     );
 }
-
-export default withNamespaces()(ModalConfirm);

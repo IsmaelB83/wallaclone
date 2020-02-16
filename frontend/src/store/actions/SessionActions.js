@@ -1,3 +1,5 @@
+// Node
+import { push } from 'react-router-redux';
 // API
 import AuthServices from '../../services/AuthServices';
 import UserServices from '../../services/UserServices';
@@ -20,6 +22,7 @@ export const login = (login, password) => {
             dispatch(loginSuccess(response));
             const { session } = getState();
             LocalStorage.saveLocalStorage(session);
+            dispatch(push('/'));
             return response;
         })
         .catch (error => {
@@ -46,7 +49,8 @@ export const loginWithToken = jwt => {
             dispatch(loginWithTokenSuccess(response));
             const { session } = getState();
             LocalStorage.saveLocalStorage(session);
-            return response;    
+            dispatch(push('/'));
+            return response;
         })
         .catch (error => {
             LocalStorage.cleanLocalStorage();
