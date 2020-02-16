@@ -1,33 +1,44 @@
 .SearchPanel {
     background: linear-gradient(-45deg, var(--main-color), var(--main-color-light));
     padding: 1rem;
+    padding-bottom: 0;
     border: 1px solid var(--main-color);
     border-radius: 5px;
     box-shadow: 0 3px 5px rgba(0, 0, 0, .3);
-}
-
-.SearchPanel h2 {
-    text-align: center;
-    text-transform: uppercase;
-    font-size: 1.25rem;
-    color: white;
-    text-shadow: 2px 2px 2px rgba(0,0,0,.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
 }
 
 .SearchPanel__Filters {  
+    background-color: white;
+    border-radius: .75rem;
+    overflow: hidden;
+    transition: all .3s ease;
+}
+
+.SearchPanel__Filters--Hide { 
+    max-height: 0px; 
+}
+
+.SearchPanel__Filters--Show { 
+    margin-top: 1rem;
+    max-height: 500px; 
+    border: 1px solid var(--main-color);
+    box-shadow: 3px 3px 7px rgba(0, 0, 0, .3);
+}
+
+.SearchPanel__FiltersGrid {  
     display: grid;
     grid-template-columns: 1fr;
     grid-gap: .5rem;
     padding: 1rem;
     padding-bottom: 1.25rem;
-    background-color: white;
-    border: 1px solid var(--main-color);
-    border-radius: .75rem;
-    box-shadow: 3px 3px 7px rgba(0, 0, 0, .3);
 }
 
 .SearchPanel__Footer {
-    margin: 1rem 0 0 0;
+    margin: 1rem 0 1rem 0;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
@@ -37,12 +48,11 @@
 .SearchPanel__Footer button { width: 50% }
 
 @media only screen and (min-device-width : 640px) {
-    .SearchPanel__Filters { grid-template-columns: 1fr 1fr; }
+    .SearchPanel__FiltersGrid { grid-template-columns: 1fr 1fr; }
     .SearchPanel__Footer button { width: 25% }
 }
 
 .InputSearch {
-    margin: 1rem 0;
     width: 100%;
     position: relative;
 }
@@ -55,7 +65,6 @@
 }
 
 .InputSearch__Icon--start { left: 1rem; }
-.InputSearch__Icon--end   { right: .75rem; }
 
 .InputSearch__Input {
     width: 100%;
@@ -68,3 +77,28 @@
     color: black;
     outline: none;
 }
+
+.InputSearch .SearchCollapseButton {
+    background-color: transparent;
+    border: none;
+    color: black;
+    cursor: pointer;
+    position: absolute;
+    top: .10rem;
+    right: .75rem;
+    outline: none;
+    height: 100%;
+    width: 50px;
+}
+
+.InputSearch .SearchCollapseButton svg { font-size: 2rem; }
+
+/* Animación del collapse del planel */
+
+.SearchPanel__CollapseButton {
+    background-color: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+.SearchPanel__CollapseButton svg { font-size: 3rem; }
