@@ -12,7 +12,7 @@ const SIZE_CALL = parseInt(process.env.REACT_APP_MAX_ADVERTS_API);
  * Obtener tags disponibles para categorizar anuncios
  */
 export const fetchTags = () => {   
-    return async function(dispatch, getState) {
+    return async function(dispatch, getState, extra) {
         dispatch(fetchTagsRequest());
         return AdvertServices.getTags()
         .then(tags => {
@@ -36,7 +36,7 @@ const fetchTagsSuccess = tags => ({ type: ACTIONS.FETCH_TAGS_SUCCESS, tags });
  * @param {String} slug Slug identificativo del anuncio
  */
 export const fetchAdvert = slug => {
-    return async function(dispatch, getState) {
+    return async function(dispatch, getState, extra) {
         dispatch(fetchAdvertRequest());
         return AdvertServices.getAdvert(slug)
         .then(advert => {
@@ -63,7 +63,7 @@ const fetchAdvertSuccess = advert => ({ type: ACTIONS.FETCH_ADVERT_SUCCESS, adve
  * Obtener anuncios de la base de datros sin ningún tipo de filtro
  */
 export const fetchAdverts = () => {   
-    return async function(dispatch, getState) {
+    return async function(dispatch, getState, extra) {
         dispatch(fetchAdvertsRequest());
         return AdvertServices.getAdverts()
         .then(response => {
@@ -87,7 +87,7 @@ const fetchAdvertsSuccess = (adverts, totalCount, start, end) => ({ type: ACTION
  * Obtener anuncios de del usuario indicado
  */
 export const fetchUserAdverts = (login) => {   
-    return async function(dispatch, getState) {
+    return async function(dispatch, getState, extra) {
         dispatch(fetchUserAdvertsRequest());
         return AdvertServices.searchAdverts({user: login})
         .then(response => {
@@ -109,12 +109,11 @@ const fetchUserAdvertsSuccess = (adverts, totalCount, start, end) => ({ type: AC
 
 /**
  * Obtener favoritos del usuario
- * @param {String} jwt Token para autenticar en el API
  */
-export const fetchFavorites = jwt => {
-    return async function(dispatch, getState) {
+export const fetchFavorites = () => {
+    return async function(dispatch, getState, extra) {
         dispatch(fetchFavoritesRequest());
-        return UserServices.getFavorites(jwt)
+        return UserServices.getFavorites(getState().session.jwt)
         .then(response => {
             dispatch(fetchFavoritesSuccess(response.adverts, response.totalCount, response.start, response.end));
             return response;
@@ -132,11 +131,34 @@ const fetchFavoritesFailure = error => ({ type: ACTIONS.FETCH_FAVORITES_FAILURE,
 const fetchFavoritesSuccess = (adverts, totalCount, start, end) => ({ type: ACTIONS.FETCH_FAVORITES_SUCCESS, adverts, totalCount, start, end });
 
 /**
+ * Devuelve el historial de ventas de el usuario logueado
+ */
+export const fetchSoldHistory = () => {
+    return async function(dispatch, getState, extra) {
+        dispatch(fetchSoldHistoryRequest());
+        return AdvertServices.soldHistory(getState().session.jwt)
+        .then(response => {
+            dispatch(fetchSoldHistorySuccess(response.adverts, response.totalCount, response.start, response.end));
+            return response;
+        })
+        .catch(error => {
+            let message = error.response && error.response.data ? error.response.data.data : error.message;
+            dispatch(fetchSoldHistoryFailure(message));
+            throw message;
+        });
+    }
+};
+
+const fetchSoldHistoryRequest = () => ({ type: ACTIONS.FETCH_SOLD_HISTORY_REQUEST });
+const fetchSoldHistoryFailure = error => ({ type: ACTIONS.FETCH_SOLD_HISTORY_FAILURE, error });
+const fetchSoldHistorySuccess = (adverts, totalCount, start, end) => ({ type: ACTIONS.FETCH_SOLD_HISTORY_SUCCESS, adverts, totalCount, start, end });
+
+/**
  * Buscar anuncios mediante los filtros indicados
  * @param {Object} filters Filtros a aplicar en la búsqueda
  */
 export const searchAdverts = filters => {
-    return async function(dispatch, getState) {
+    return async function(dispatch, getState, extra) {
         dispatch(searchAdvertsRequest());
         return AdvertServices.searchAdverts(filters)
         .then(response => {
@@ -149,7 +171,7 @@ export const searchAdverts = filters => {
         })
         .catch(error => {
             let message = error.response && error.response.data ? error.response.data.data : error.message;
-            dispatch(searchAdvertsFailure(message));;
+            dispatch(searchAdvertsFailure(message));
             throw message;
         });
     }
@@ -163,7 +185,7 @@ const searchAdvertsSuccess = (adverts, totalCount, start, end, filters) => ({ ty
  * Next/Previous iteration getting adverts ()
  */
 export const fetchIterateAdverts = (direction) => {
-    return async function(dispatch, getState) {
+    return async function(dispatch, getState, extra) {
         dispatch(fetchIterateAdvertsRequest());
         const { lastCall, filters } = getState();
         const newFilters = {...filters};
@@ -192,14 +214,14 @@ const fetchIterateAdvertsSuccess = (adverts, totalCount, start, end) => ({ type:
 /**
  * Editar datos de un anuncio
  * @param {Object} advert Datos actualizados del anuncio
- * @param {String} jwt Token para autenticar en la API
  */
-export const editAdvert = (advert, jwt) => {   
-    return async function(dispatch, getState) {
+export const editAdvert = advert => {   
+    return async function(dispatch, getState, extra) {
         dispatch(editAdvertRequest());
-        return AdvertServices.editAdvert(advert, jwt)
+        return AdvertServices.editAdvert(advert, getState().session.jwt)
         .then(response => {
             dispatch(editAdvertSuccess(response));
+            extra.history.push('/');
             return response;
         })
         .catch(error => {
@@ -217,12 +239,11 @@ const editAdvertSuccess = advert => ({ type: ACTIONS.EDIT_ADVERT_SUCCESS, advert
 /**
  * Reservar un producto
  * @param {String} slug Slug identificativo del producto
- * @param {String} jwt Token para autenticar en la API
  */
-export const bookAdvert = (slug, jwt) => {   
-    return async function(dispatch, getState) {
+export const bookAdvert = (slug) => {   
+    return async function(dispatch, getState, extra) {
         dispatch(bookAdvertRequest());
-        return AdvertServices.bookAdvert(slug, jwt)
+        return AdvertServices.bookAdvert(slug, getState().session.jwt)
         .then(response => {
             dispatch(bookAdvertSuccess(response));
             return response;
@@ -242,12 +263,11 @@ const bookAdvertSuccess = advert => ({ type: ACTIONS.BOOK_ADVERT_SUCCESS, advert
 /**
  * Marcar un producto como vendido
  * @param {String} slug Slug identificativo del producto
- * @param {String} jwt Token para autenticar en la API
  */
-export const sellAdvert = (slug, jwt) => {   
-    return async function(dispatch, getState) {
+export const sellAdvert = (slug) => {   
+    return async function(dispatch, getState, extra) {
         dispatch(sellAdvertRequest());
-        return AdvertServices.sellAdvert(slug, jwt)
+        return AdvertServices.sellAdvert(slug, getState().session.jwt)
         .then(response => {
             dispatch(sellAdvertSuccess(response));
             return response;
@@ -267,20 +287,20 @@ const sellAdvertSuccess = advert => ({ type: ACTIONS.SELL_ADVERT_SUCCESS, advert
 /**
  * Crear un anuncio nuevo
  * @param {Object} advert Objeto con los datos del anuncio a crear
- * @param {String} jwt Token para autenticar en la API
  */
-export const createAdvert = (advert, jwt) => {   
-    return async function(dispatch, getState) {
+export const createAdvert = (advert) => {   
+    return async function(dispatch, getState, extra) {
         dispatch(createAdvertRequest());
         delete advert._id;
-        return AdvertServices.postAdvert(advert, jwt)
+        return AdvertServices.postAdvert(advert, getState().session.jwt)
         .then(response => {
             dispatch(createAdvertSuccess(response));
+            extra.history.push('/');
             return response;
         })
         .catch(error => {
             let message = error.response && error.response.data ? error.response.data.data : error.message;            
-            dispatch(createAdvertFailure(message));;
+            dispatch(createAdvertFailure(message));
             throw message;
         });
     }
@@ -293,19 +313,19 @@ const createAdvertSuccess = advert => ({ type: ACTIONS.CREATE_ADVERT_SUCCESS, ad
 /**
  * Eliminar un anuncio de la base de datos
  * @param {String} slug Slug del anuncio que queremos eliminar
- * @param {String} jwt Token para autenticar en la API
  */
-export const deleteAdvert = (slug, jwt) => {   
-    return async function(dispatch, getState) {
+export const deleteAdvert = (slug) => {   
+    return async function(dispatch, getState, extra) {
         dispatch(deleteAdvertRequest());
-        return AdvertServices.deleteAdvert(slug, jwt)
+        return AdvertServices.deleteAdvert(slug, getState().session.jwt)
         .then(response => {
             dispatch(deleteAdvertSuccess(response));
+            extra.history.push('/');
             return response;
         })
         .catch(error => {
             let message = error.response && error.response.data ? error.response.data.data : error.message;            
-            dispatch(deleteAdvertFailure(message));;
+            dispatch(deleteAdvertFailure(message));
             throw message;
         });
     }

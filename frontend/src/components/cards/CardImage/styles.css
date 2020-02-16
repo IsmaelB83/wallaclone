@@ -1,0 +1,46 @@
+.CardImage {
+    overflow: hidden;
+}
+
+.CardImage__Image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top left;
+}
+
+.CardImage__Bookmark {
+    padding: .5em;
+    background-color: rgba(255, 255, 255, .9);
+    border-radius: 5px;
+    border: 2px solid #0000EE;
+    color: #0000EE;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.CardImage__Bookmark svg { 
+    font-size: 2.5em; 
+}
+
+/* Efecto capa encima de la imagen */
+.CardImage__Overlay {
+    z-index: 100;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, .3);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: 200ms all ease-in;
+    opacity: 0;
+}
+
+.CardImage__Link:hover .CardImage__Overlay { opacity: 1; }
+.CardImage__Overlay--true { opacity: 1; }

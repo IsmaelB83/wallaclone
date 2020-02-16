@@ -1,0 +1,103 @@
+/* Layout principal del card */
+.CardTile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: .5rem;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, .30);
+    overflow: hidden;
+    transition: 100ms all ease-in;
+    border: 1px solid transparent;
+    width: 100%;
+}
+
+.CardTile:hover { border: 1px solid rgba(0, 0, 0, .35); }
+.CardTile:hover .CardTile__Header { border-bottom: 1px solid rgba(0, 0, 0, .35); }
+.CardTile:hover .CardImage__Overlay { opacity: 1; }
+
+/* Image header */
+.CardTile__Header {
+    position: relative;
+    height: 175px;
+    width: 100%;
+    overflow: hidden;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.CardTile__Price { 
+    position: absolute;
+    top: .5rem;
+    left: .75rem;
+    padding: .3rem .7rem;
+    background-color: var(--main-color);
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, .30);
+    color: white;
+    border-radius: 5px;
+    border: 2px solid var(--main-color);
+    font-size: 1rem; 
+    line-height: 1.25rem;
+    z-index: 150;
+}
+.CardTile__Price .CardTile__Currency { font-size: 1.15em; }
+
+
+/* Content */
+.CardTile__Content {
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 150;
+}
+
+/* Type and favorite button */
+.CardTile_ContentType {
+    padding: 0 .75rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    top: -35px;
+}
+
+.CardTile_ContentType .ButtonTransparent { 
+    border: 1px solid black !important;
+    background-color: rgba(255, 255, 255, .7) !important; 
+    padding: 2px 4px;
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.CardTile_ContentType .ButtonTransparent svg { margin-left: 3px; }
+.CardTile_ContentType .ButtonTransparent:hover { background-color: white !important; }
+.CardTile_ContentType .ButtonTransparent:hover svg { color: red; }
+
+/* Title and date */
+.CardTile_ContentTitle {
+    text-align: center;
+    flex-grow: 1;
+    font-size: 1.25rem;
+    padding: .75rem 1rem;
+}
+
+.CardTile_ContentTitle .CardTile__Title { color: var(--main-gray); }
+.CardTile_ContentTitle .CardTile__Title h2 { font-size: 1.25rem; }
+
+/* Footer */
+.CardTile__Footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: .5rem .75rem .5rem .75rem;
+}
+
+.CardTile__Footer .CardTile__Date {
+    font-size: .8rem;
+    color: var(--dark-grey);
+}

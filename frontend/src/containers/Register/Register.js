@@ -25,13 +25,8 @@ function Register(props) {
         }
         // Dispatch del create
         props.createAccount(login, name, email, password)
-        .then(user => {
-            props.enqueueSnackbar(t('Account created. Check your email to activate it'), { variant: 'info', });
-            props.history.push('/login');
-        })
-        .catch(error => {
-            props.enqueueSnackbar(error, { variant: 'error', });
-        });
+        .then(user => props.enqueueSnackbar(t('Account created. Check your email to activate it'), { variant: 'info', }))
+        .catch(error => props.enqueueSnackbar(error, { variant: 'error', }));
     }
     
     // Render

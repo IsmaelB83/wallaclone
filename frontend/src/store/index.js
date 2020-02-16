@@ -1,10 +1,12 @@
 // Node imports
 import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import { routerMiddleware } from 'connected-react-router'
+import { createBrowserHistory } from 'history'
 import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
-import { composeWithDevTools } from 'redux-devtools-extension';
 // Own imports
-import * as reducers from './GlobalReducers';
+import createRootReducer from './GlobalReducers';
 
 const loggerMiddleware = createLogger();
 const componseEnhancers = composeWithDevTools({
@@ -14,17 +16,17 @@ const componseEnhancers = composeWithDevTools({
     traceLimit: 25
 });
 
-/**
- * Configura el store
- */
-export function configureStore(preloadedState) {
-    const reducer = combineReducers(reducers);
-    const middlewares = [ thunkMiddleware ];
+// History
+export const history = createBrowserHistory()
+
+// Configura el store
+export default function configureStore(preloadedState) {
+    const middlewares = [ thunkMiddleware.withExtraArgument({history}), routerMiddleware(history) ];
     if (process.env === 'development') {
         middlewares.push(loggerMiddleware);
     }
     const store = createStore(
-        reducer, 
+        createRootReducer(history),
         preloadedState,
         componseEnhancers(applyMiddleware(...middlewares)),
     );

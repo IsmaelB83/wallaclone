@@ -20,13 +20,8 @@ function RequestReset(props) {
     const requestReset = async (inputs) => {
         const { email } = {...inputs};
         props.requestResetAccount(email)
-        .then(user => {
-            props.enqueueSnackbar(t('Check your email to reset password'), { variant: 'info', });
-            props.history.push('/login');
-        })
-        .catch(error => {
-            props.enqueueSnackbar(error, { variant: 'error', })
-        })
+        .then(user => props.enqueueSnackbar(t('Check your email to reset password'), { variant: 'info', }))
+        .catch(error => props.enqueueSnackbar(error, { variant: 'error', }));
     }
     
     // Render

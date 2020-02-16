@@ -1,13 +1,10 @@
 // NPM Modules
 import React from 'react';
-import PropTypes from 'prop-types';
 // Material UI
 // Own Components
-import AdvertCard from '../AdvertCard';
-import AdvertCardSmall from '../AdvertCardSmall';
+import { CardListActions, CardTileActions } from '../cards';
 // Own modules
 // Models
-import Advert from '../../models/Advert';
 // Asset
 import imageSpinner from '../../assets/images/spinner.gif';
 // CSS
@@ -15,8 +12,8 @@ import './styles.css';
 
 // Dinamic render
 const CARD_TYPES = {
-    tiles: AdvertCard,
-    list: AdvertCardSmall
+    tiles: CardTileActions,
+    list: CardListActions
 };
 
 // Component to display an advert list (tiles o list mode)
@@ -35,7 +32,6 @@ export default function AdvertList (props) {
                             advert={advert} 
                             showEdit={props.showEdit}
                             showFavorite={props.showFavorite}
-                            showDeleteFavorite={props.showDeleteFavorite}
                             onBookAdvert={props.onBookAdvert}
                             onSellAdvert={props.onSellAdvert}
                             onDeleteAdvert={props.onDeleteAdvert}
@@ -46,14 +42,6 @@ export default function AdvertList (props) {
             { props.isFetching && <LoadingList text={t('Loading adverts')}/> }
         </section>
 );
-}
-
-AdvertCard.propTypes = {
-    adverts: PropTypes.arrayOf(Advert) 
-}
-
-AdvertCardSmall.propTypes = { 
-    adverts: PropTypes.arrayOf(Advert) 
 }
 
 function LoadingList (props) {

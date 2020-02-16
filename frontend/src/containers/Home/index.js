@@ -29,13 +29,17 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
+        // Session
+        logout: () => dispatch(SessionActions.logout()),
+        setFavorite: (slug) => dispatch(SessionActions.setFavorite(slug)),
+        // Filters
+        setFilters: filters => dispatch(FiltersActions.setFilters(filters)),
+        setCurrentPage: pageNumber => dispatch(FiltersActions.setCurrentPage(pageNumber)),
+        // Adverts
         fetchTags: () => dispatch(AdvertsActions.fetchTags()),
         fetchAdverts: () => dispatch(AdvertsActions.fetchAdverts()),
         fetchIterateAdverts: direction => dispatch(AdvertsActions.fetchIterateAdverts(direction)),
-        setFilters: filters => dispatch(FiltersActions.setFilters(filters)),
-        setFavorite: (slug, jwt) => dispatch(SessionActions.setFavorite(slug, jwt)),
         searchAdverts: filters => dispatch(AdvertsActions.searchAdverts(filters)),
-        setCurrentPage: pageNumber => dispatch(FiltersActions.setCurrentPage(pageNumber)),
     }
 }
 

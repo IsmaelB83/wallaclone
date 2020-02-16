@@ -24,11 +24,14 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
+        // Session
+        logout: () => dispatch(SessionActions.logout()),
+        setFavorite: (slug) => dispatch(SessionActions.setFavorite(slug)),
+        // Adverts
         fetchAdvert: (slug) => dispatch(AdvertsActions.fetchAdvert(slug)),
-        bookAdvert: (slug, jwt) => dispatch(AdvertsActions.bookAdvert(slug, jwt)),
-        sellAdvert: (slug, jwt) => dispatch(AdvertsActions.sellAdvert(slug, jwt)),
-        setFavorite: (slug, jwt) => dispatch(SessionActions.setFavorite(slug, jwt)),
-        deleteAdvert: (slug, jwt) => dispatch(AdvertsActions.deleteAdvert(slug, jwt)),
+        bookAdvert: (slug) => dispatch(AdvertsActions.bookAdvert(slug)),
+        sellAdvert: (slug) => dispatch(AdvertsActions.sellAdvert(slug)),
+        deleteAdvert: (slug) => dispatch(AdvertsActions.deleteAdvert(slug)),
     }
 }
 

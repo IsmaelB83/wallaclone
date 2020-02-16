@@ -31,13 +31,17 @@ module.exports = () => {
         ],
         AdvertCtrl.select);
     router.get(
+        '/sold/', 
+        AuthMiddleware,
+        AdvertCtrl.soldHistory);
+    router.put(
         '/book/:slug', 
         AuthMiddleware,
         AdvertCtrl.book);
-    router.get(
+    router.put(
         '/sell/:slug', 
         AuthMiddleware,
-        AdvertCtrl.sell);        
+        AdvertCtrl.sell);
     router.get(
         '/tags', 
         AdvertCtrl.tags);

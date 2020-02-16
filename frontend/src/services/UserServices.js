@@ -85,7 +85,7 @@ export default {
         )
         .then(res => {
             return {
-                advert: new Advert(res.data.advert),
+                advert: res.data.advert,
                 favorite: res.data.favorite
             }                
         });

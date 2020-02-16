@@ -45,16 +45,12 @@ function Edit(props) {
         } else {
             // Lanzando operacion al backend
             if (mode === 'create') {
-                props.createAdvert(newAdvert, props.session.jwt)
-                .then (res => {
-                    props.enqueueSnackbar(t('Advert X created', { slug: res.slug}), { variant: 'success' });
-                    props.history.push('/'); })
+                props.createAdvert(newAdvert)
+                .then (res => props.enqueueSnackbar(t('Advert X created', { slug: res.slug}), { variant: 'success' }))
                 .catch(error => props.enqueueSnackbar(t('Error creating advert ERROR', {error}), { variant: 'error' }));
             } else {
-                props.editAdvert(newAdvert, props.session.jwt)
-                .then (res => {
-                    props.enqueueSnackbar(t('Advert X updated', {slug: res.slug}), { variant: 'success' });
-                    props.history.push('/'); })
+                props.editAdvert(newAdvert)
+                .then (res => props.enqueueSnackbar(t('Advert X updated', {slug: res.slug}), { variant: 'success' }))
                 .catch(error => props.enqueueSnackbar(t('Error updating advert ERROR', {error}), { variant: 'error' }));
             }
         } 
@@ -63,7 +59,7 @@ function Edit(props) {
     // Render
     return (
         <React.Fragment>
-            <NavBar/>
+            <NavBar session={props.session} onLogout={props.logout}/>
             <Container className='Container__Fill'>
                 <main className='Main__Section Edit'>
                     { advert &&

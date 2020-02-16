@@ -1,6 +1,7 @@
 // Node modules
 import { connect } from 'react-redux';
 import { withSnackbar } from 'notistack';
+import { withNamespaces } from 'react-i18next';
 // Own Components
 import Published from './Published';
 // Models
@@ -26,12 +27,16 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
-        deleteAdvert: (slug, jwt) => dispatch(AdvertsActions.deleteAdvert(slug, jwt)),
-        bookAdvert: (slug, jwt) => dispatch(AdvertsActions.bookAdvert(slug, jwt)),
-        sellAdvert: (slug, jwt) => dispatch(AdvertsActions.sellAdvert(slug, jwt)),
-        fetchUserAdverts: (slug) => dispatch(AdvertsActions.fetchUserAdverts(slug)),
-        setFavorite: (slug, jwt) => dispatch(SessionActions.setFavorite(slug, jwt)),
+        // Session
+        logout: () => dispatch(SessionActions.logout()),
+        setFavorite: (slug) => dispatch(SessionActions.setFavorite(slug)),
+        // Filters
         setCurrentPage: pageNumber => dispatch(FiltersActions.setCurrentPage(pageNumber)),
+        // Adverts
+        deleteAdvert: (slug) => dispatch(AdvertsActions.deleteAdvert(slug)),
+        bookAdvert: (slug) => dispatch(AdvertsActions.bookAdvert(slug)),
+        sellAdvert: (slug) => dispatch(AdvertsActions.sellAdvert(slug)),
+        fetchUserAdverts: (slug) => dispatch(AdvertsActions.fetchUserAdverts(slug)),
         fetchIterateAdverts: direction => dispatch(AdvertsActions.fetchIterateAdverts(direction)),
     }
 }
@@ -39,4 +44,4 @@ const mapDispatchToProps = (dispatch) => {
 /**
  * Envuelvo el App en al función connect para conectar con el store recibido del provider
  */ 
-export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(Published));
+export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(withNamespaces()(Published)));

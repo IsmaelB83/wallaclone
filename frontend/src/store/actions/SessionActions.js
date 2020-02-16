@@ -1,5 +1,3 @@
-// Node
-import { push } from 'react-router-redux';
 // API
 import AuthServices from '../../services/AuthServices';
 import UserServices from '../../services/UserServices';
@@ -15,14 +13,13 @@ import * as ACTIONS from '../types/SessionTypes';
  * @param {String} password Password del usuario
  */
 export const login = (login, password) => {   
-    return async function(dispatch, getState) {
+    return async function(dispatch, getState, extra) {
         dispatch(loginRequest());
         return AuthServices.login(login, password)
         .then(response => {
             dispatch(loginSuccess(response));
-            const { session } = getState();
-            LocalStorage.saveLocalStorage(session);
-            dispatch(push('/'));
+            LocalStorage.saveLocalStorage(getState().session);
+            extra.history.push('/');
             return response;
         })
         .catch (error => {
@@ -39,17 +36,15 @@ const loginFailure = error => ({ type: ACTIONS.LOGIN_FAILURE, error });
 
 /**
  * Login con token
- * @param {String} jwt 
  */
-export const loginWithToken = jwt => {   
-    return async function(dispatch, getState) {
+export const loginWithToken = (jwt) => {   
+    return async function(dispatch, getState, extra) {
         dispatch(loginWithTokenRequest());
         return AuthServices.loginWithToken(jwt)
         .then(response => {
             dispatch(loginWithTokenSuccess(response));
-            const { session } = getState();
-            LocalStorage.saveLocalStorage(session);
-            dispatch(push('/'));
+            LocalStorage.saveLocalStorage(getState().session);
+            extra.history.push('/');
             return response;
         })
         .catch (error => {
@@ -69,15 +64,34 @@ const loginWithTokenFailure = error => ({ type: ACTIONS.LOGIN_TOKEN_FAILURE, err
  * Logout
  */
 export const logout = () => {
-    LocalStorage.cleanLocalStorage();
-    return { type: ACTIONS.LOGOUT };
+    return async function(dispatch, getState, extra) {
+        dispatch(logoutRequest());
+        return AuthServices.logout(getState().session.jwt)
+        .then(response => {
+            dispatch(logoutSuccess(response));
+            LocalStorage.cleanLocalStorage();
+            extra.history.push('/login');
+            return response;
+        })
+        .catch (error => {
+            let message = error.response && error.response.data ? error.response.data.data : error.message;
+            dispatch(logoutFailure(message));
+            LocalStorage.cleanLocalStorage();
+            extra.history.push('/login');
+            throw message;
+        });
+    }
 };
+
+const logoutRequest = () => ({ type: ACTIONS.LOGOUT_REQUEST });
+const logoutSuccess = session => ({ type: ACTIONS.LOGOUT_SUCCESS, session });
+const logoutFailure = error => ({ type: ACTIONS.LOGOUT_FAILURE, error });
 
 /**
  * Activate Account
  */
 export const activateAccount = token => {
-    return async function(dispatch, getState) {
+    return async function(dispatch, getState, extra) {
         dispatch(activateAccountRequest());
         return AuthServices.activate(token)
         .then((result) => {
@@ -101,12 +115,13 @@ const activateAccountSuccess = () => ({ type: ACTIONS.ACTIVATE_ACCOUNT_SUCCESS }
  * Activate Account
  */
 export const createAccount = (login, name, email, password) => {
-    return async function(dispatch, getState) {
+    return async function(dispatch, getState, extra) {
         dispatch(createAccountRequest());
         return UserServices.create(login, name, email, password)
         .then(user => {
             LocalStorage.cleanLocalStorage();
             dispatch(createAccountSuccess());
+            extra.history.push('/login');
             return user;
         })
         .catch(error => {
@@ -125,11 +140,12 @@ const createAccountSuccess = () => ({ type: ACTIONS.CREATE_ACCOUNT_SUCCESS });
  * Request reseta password
  */
 export const requestResetAccount = email => {
-    return async function(dispatch, getState) {
+    return async function(dispatch, getState, extra) {
         dispatch(requestResetAccountRequest());
         return AuthServices.resetRequest(email)
         .then(user => {
             dispatch(requestResetAccountSuccess());
+            extra.history.push('/login');
             return user;
         })
         .catch(error => {
@@ -148,11 +164,12 @@ const requestResetAccountSuccess = () => ({ type: ACTIONS.REQUEST_RESET_ACCOUNT_
  * Reset password
  */
 export const resetAccount = (token, password) => {
-    return async function(dispatch, getState) {
+    return async function(dispatch, getState, extra) {
         dispatch(resetAccountRequest());
         return AuthServices.reset(token, password)
         .then(user => {
             dispatch(resetAccountSuccess());
+            extra.history.push('/login');
             return user;
         })
         .catch(error => {
@@ -172,10 +189,10 @@ const resetAccountSuccess = () => ({ type: ACTIONS.RESET_ACCOUNT_SUCCESS });
  * @param {String} slug Slug del anuncio que queremos guardar como favorito
  * @param {String} jwt Token para autenticar en la API
  */
-export const setFavorite = (slug, jwt) => {
-    return async function(dispatch, getState) {
+export const setFavorite = (slug) => {
+    return async function(dispatch, getState, extra) {
         dispatch(setFavoriteRequest());
-        return UserServices.setFavorite(slug, jwt)
+        return UserServices.setFavorite(slug, getState().session.jwt)
         .then(response => {
             response.advert.favorite = response.favorite;
             dispatch(setFavoriteSuccess(response.advert));
@@ -198,12 +215,13 @@ const setFavoriteSuccess = advert => ({ type: ACTIONS.SET_FAVORITE_SUCCESS, adve
  * @param {Object} user Objeto con los nuevos datos del usuario
  * @param {String} jwt Token para autenticar en la API
  */
-export const editUser = (user, jwt) => {   
-    return async function(dispatch, getState) {
+export const editUser = (user) => {   
+    return async function(dispatch, getState, extra) {
         dispatch(editUserRequest());
-        return UserServices.edit(user, jwt)
+        return UserServices.edit(user, getState().session.jwt)
         .then (response => {
             dispatch(editUserSuccess(response))
+            extra.history.push('/');
             return response;
         })
         .catch(error => {
@@ -223,12 +241,13 @@ const editUserSuccess = user => ({ type: ACTIONS.EDIT_ACCOUNT_SUCCESS, user });
  * @param {String} id Id del usuario a eliminar
  * @param {String} jwt Token para autenticar en la API
  */
-export const deleteAccount = (id, jwt) => {   
-    return async function(dispatch, getState) {
+export const deleteAccount = (id) => {   
+    return async function(dispatch, getState, extra) {
         dispatch(deleteAccountRequest());
-        return UserServices.delete(id, jwt)
+        return UserServices.delete(id, getState().session.jwt)
         .then (response => {
             LocalStorage.cleanLocalStorage();
+            dispatch(logout);
             dispatch(deleteAccountSuccess(response))
             return response;
         })

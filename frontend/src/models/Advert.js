@@ -1,3 +1,6 @@
+// Models
+import User from './User';
+
 // Constantes para el trabajo con el modelo de anuncio
 export const ADVERT_CONSTANTS = {
     STATUS: {
@@ -63,7 +66,9 @@ export default class Advert {
         this.tags = ad.tags;
         this.booked = ad.booked;
         this.sold = ad.sold;
-        this.user = {...ad.user};
+        if (ad.user) {
+            this.user = new User(ad.user);
+        }        
         this.file = ad.file;
         this.favorite = ad.favorite;
     }

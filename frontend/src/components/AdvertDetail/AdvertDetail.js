@@ -16,7 +16,7 @@ import Avatar from '@material-ui/core/Avatar';
 import AdvertChip from '../AdvertChip';
 // Own Modules
 // Models
-import Advert, { ADVERT_CONSTANTS } from '../../models/Advert';
+import { ADVERT_CONSTANTS } from '../../models/Advert';
 // Components
 // Assets
 // CSS
@@ -34,7 +34,6 @@ export default function AdvertDetail(props) {
     // Chip
     const renderStatus = () => <AdvertChip type='status' value={sold?ADVERT_CONSTANTS.STATUS.SOLD:ADVERT_CONSTANTS.STATUS.BOOKED}/>
     const renderTags = () => tags.map((value,i) => <AdvertChip key={i} type='tag' value={value}/>);
-    
     // Render
     return (
         <article id={`adslug_${slug}`} className='AdvertDetail'>
@@ -54,7 +53,7 @@ export default function AdvertDetail(props) {
                     <div className='AdvertDetail__AuthorAvatar'>
                         <Link to={`/published/${user.login}`} className=''>
                             <div>
-                                <Avatar className='Avatar' alt='avatar' src={user && user.avatar}/>
+                                <Avatar className='Avatar' alt='avatar' src={user.avatar}/>
                                 <span className='AdvertDetail__Author'>{user && user.name}</span>
                             </div>
                         </Link>
@@ -75,23 +74,27 @@ export default function AdvertDetail(props) {
                         <Button className='ButtonWc ButtonWc__Green Span2'
                                 startIcon={<EditIcon />} 
                                 component={Link} 
-                                to={`/advert/edit/${slug}`}>
+                                to={`/advert/edit/${slug}`}
+                                disabled={booked || sold}>
                                 {t('Edit')}
                         </Button>
                         <Button className='ButtonWc ButtonWc__Green' 
                                 onClick={props.setBookAdvert}
-                                startIcon={<BookmarkBorderOutlinedIcon/>}>
+                                startIcon={<BookmarkBorderOutlinedIcon/>}
+                                disabled={sold}>
                                 {t('Book')}
                         </Button>
                         <Button className='ButtonWc ButtonWc__Green' 
                                 onClick={props.setSellAdvert}
                                 startIcon={<AttachMoneyOutlinedIcon/>}>
+
                                 {t('Sold')}
                         </Button>
                         <Button className='ButtonWc ButtonWc__Red Span2' 
                                 disabled={props.isUpdating} 
                                 onClick={props.setDeleteAdvert}
-                                startIcon={<DeleteOutlineOutlinedIcon/>}>
+                                startIcon={<DeleteOutlineOutlinedIcon/>}
+                                disabled={sold}>
                                 {t('Delete')}
                         </Button>
                     </React.Fragment>
@@ -103,7 +106,7 @@ export default function AdvertDetail(props) {
 }
 
 AdvertDetail.propTypes = {
-  advert: PropTypes.instanceOf(Advert).isRequired,
+  advert: PropTypes.instanceOf(Object).isRequired,
   isFetching: PropTypes.bool,
   error: PropTypes.string,
 }

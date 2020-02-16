@@ -105,5 +105,7 @@
     "repeat your new password": "repite tu nueva contraseña",
     "Error creating advert ERROR": "Error creando anuncio {{error}}",
     "Error updating advert ERROR": "Error actualizando anuncio {{error}}",
-    "change advert photo": "cambiar imagen"
+    "change advert photo": "cambiar imagen",
+    "Error loading USER sold history ERROR": "Error cargando historial de ventas de {{user}} {{error}}",
+    "Sold History": "Histórico Ventas"
 }

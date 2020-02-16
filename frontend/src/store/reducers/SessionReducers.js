@@ -16,8 +16,9 @@ export function session (state = initialState.session, action) {
         case TYPES.LOGIN_TOKEN_SUCCESS:
         case TYPES.EDIT_ACCOUNT_SUCCESS:
             return {...action.session}
-        case TYPES.LOGOUT:
-            return initialState.session;
+        case TYPES.LOGOUT_SUCCESS:
+        case TYPES.LOGOUT_FAILURE:
+                return initialState.session;
         case TYPES.SET_FAVORITE_SUCCESS:
             const i = state.favorites.indexOf(action.advert._id);
             let favorites = []

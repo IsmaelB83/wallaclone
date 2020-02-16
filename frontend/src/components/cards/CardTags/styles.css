@@ -1,0 +1,8 @@
+
+.CardTags {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.CardTags .AdvertChip:not(:first-child) { margin-left: .2rem; }

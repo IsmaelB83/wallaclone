@@ -106,5 +106,7 @@
     "repeat your new password": "repeat your new password",
     "Error creating advert ERROR": "Error creating advert {{error}}",
     "Error updating advert ERROR": "Error updating advert {{error}}",
-    "change advert photo": "change advert photo"
+    "change advert photo": "change advert photo",
+    "Error loading USER sold history ERROR": "Error loading {{user}} sold history {{error}}",
+    "Sold History": "Sold History"
 }

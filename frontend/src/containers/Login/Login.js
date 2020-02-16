@@ -23,8 +23,7 @@ function Login(props) {
     useEffect(() => {
         let session = LocalStorage.readLocalStorage();
         if (!token && session && session.jwt) {
-            login('isma', '12345678')
-            //loginWithToken(session.jwt)
+            loginWithToken(session.jwt)
             .then(res => enqueueSnackbar(t('Login OK with token. Redirecting home...'), { variant: 'info', }))
             .catch (error => enqueueSnackbar(error, { variant: 'error', }));
         }

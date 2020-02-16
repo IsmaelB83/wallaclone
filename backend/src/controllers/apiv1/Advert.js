@@ -44,6 +44,35 @@ module.exports = {
     },
 
     /**
+     * Select adverts from database
+     * @param {Request} req Request web
+     * @param {Response} res Response web
+     * @param {Middleware} next Next middleware
+     */
+    soldHistory: async (req, res, next) => {
+        try {
+            // Validations
+            validationResult(req).throw();
+            // Filtrado por usuario logado y vendidos
+            Advert.list
+            // Get Adverts
+            Advert.list(null, null, null, null, null, null, null, null, null, {_id: req.user._id})
+            .then (result => {
+                debugger;
+                return res.status(200).json({
+                    success: true,
+                    start: result.start,
+                    end: result.end,
+                    totalCount: result.totalCount,
+                    results: result.results
+                });
+            }) 
+        } catch (error) {
+            next(error);
+        }
+    },
+
+    /**
      * Select one advert from database
      * @param {Request} req Request web
      * @param {Response} res Response web
@@ -156,9 +185,9 @@ module.exports = {
             .then(advert => {
                 // Chequeos
                 if (!advert) return next({status: 401, description: 'No autorizado. Sólo puede tratar sus anuncios'});
-                else if (advert.sold) return next({status: 422, description: 'Error. El anuncio ya está vendido.' });
                 // Ok
                 advert.booked = !advert.booked;
+                if (advert.booked) advert.sold = false;
                 advert.save().then(advert => res.json({success: true, result: advert}));
             })
         } catch (error) {
@@ -181,6 +210,7 @@ module.exports = {
                 if (!advert) return next({ status: 401, description: 'No autorizado. Sólo puede tratar sus anuncios' });
                 // Ok
                 advert.sold = !advert.sold;
+                if (advert.sold) advert.booked = false;
                 advert.save().then(advert => res.json({success: true, result: advert }))
             })
         } catch (error) {

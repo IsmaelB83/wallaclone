@@ -23,6 +23,7 @@ export function ui(state = initialState.ui, action) {
         case ADVERTS.FETCH_ITERATE_ADVERTS_REQUEST:
         case ADVERTS.FETCH_FAVORITES_REQUEST:
         case ADVERTS.FETCH_USER_ADVERTS_REQUEST:
+        case ADVERTS.FETCH_SOLD_HISTORY_REQUEST:
             return { ...state, isFetching: true, error: null }
         case ADVERTS.FETCH_ADVERT_FAILURE:
         case ADVERTS.FETCH_ADVERTS_FAILURE:
@@ -30,6 +31,7 @@ export function ui(state = initialState.ui, action) {
         case ADVERTS.FETCH_ITERATE_ADVERTS_FAILURE:
         case ADVERTS.FETCH_FAVORITES_FAILURE:
         case ADVERTS.FETCH_USER_ADVERTS_FAILURE:
+        case ADVERTS.FETCH_SOLD_HISTORY_FAILURE:
             return { ...state, isFetching: false, error: action.error }
         case ADVERTS.FETCH_ADVERT_SUCCESS:
             return { ...state, isFetching: false, error: null }
@@ -38,6 +40,7 @@ export function ui(state = initialState.ui, action) {
         case ADVERTS.FETCH_FAVORITES_SUCCESS:
         case ADVERTS.FETCH_ITERATE_ADVERTS_SUCCESS:
         case ADVERTS.FETCH_USER_ADVERTS_SUCCESS:
+        case ADVERTS.FETCH_SOLD_HISTORY_SUCCESS:
             return { ...state, currentPage: 0, isFetching: false, error: null }
         // Authention related
         case SESSION.RESET_ACCOUNT_REQUEST:
@@ -88,7 +91,8 @@ export function ui(state = initialState.ui, action) {
         case ADVERTS.DELETE_ADVERT_SUCCESS:
             return { ...state, isDeleting: false, error: null }
         // Logout
-        case SESSION.LOGOUT:
+        case SESSION.LOGOUT_SUCCESS:
+        case SESSION.LOGOUT_FAILURE:
         case SESSION.DELETE_ACCOUNT_SUCCESS:
             return initialState.ui;
         // Default

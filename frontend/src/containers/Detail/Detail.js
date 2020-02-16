@@ -35,27 +35,27 @@ function Detail(props) {
     const [advert, setAdvert] = useState();
     useEffect(() => {
         fetchAdvert(slug)
-        .then ((advert) => setAdvert(new Advert(advert)))
+        .then ((advert) => setAdvert(advert))
         .catch((error) => setError(error));
     }, [slug, enqueueSnackbar, fetchAdvert]);
 
     // Marcar como vendido un anuncio
     const setSellAdvert = () => {
-        props.sellAdvert(advert.slug, props.session.jwt)
-        .then (ad => setAdvert({...advert, sold: ad.sold}))
+        props.sellAdvert(advert.slug)
+        .then (ad => setAdvert({...advert, sold: ad.sold, booked: ad.booked,}))
         .catch(error => enqueueSnackbar(t('Error setting advert as sold ERROR', {error}), { variant: 'error' }));
     }
 
     // Marcar como reservado un anuncio
     const setBookAdvert = () => {
-        props.bookAdvert(advert.slug, props.session.jwt)
-        .then (ad => setAdvert({...advert, booked: ad.booked}))
+        props.bookAdvert(advert.slug)
+        .then (ad => setAdvert({...advert, booked: ad.booked, sold: ad.sold}))
         .catch(error => enqueueSnackbar(t('Error setting advert as booked ERROR', {error}), { variant: 'error' }));
     }
 
     // Marcar como favorito un anuncio  
     const setFavoriteAdvert = () => {
-        props.setFavorite(advert.slug, props.session.jwt)
+        props.setFavorite(advert.slug)
         .then (ad => setAdvert({...advert, favorite: ad.favorite}))
         .catch(error=> enqueueSnackbar(t('Error adding advert to favorite ERROR', {error}), { variant: 'error' }));
     }
@@ -68,11 +68,8 @@ function Detail(props) {
     const confirmDeleteAdvert = () => {
         setShowModalDelete(false);
         if (slug) {
-            props.deleteAdvert(slug, props.session.jwt)
-            .then(res => {
-                enqueueSnackbar(t('Advert SLUG deleted', {slug}), { variant: 'success', })
-                props.history.push('/');
-            })
+            props.deleteAdvert(slug)
+            .then(res => enqueueSnackbar(t('Advert SLUG deleted', {slug}), { variant: 'success', }))
             .catch(error => enqueueSnackbar(t('Error deleting advert ERROR', {error}), { variant: 'error', }));    
         } else {
             enqueueSnackbar(t('Error identifying advert to be deleted'), { variant: 'error', });    
@@ -85,7 +82,7 @@ function Detail(props) {
     // Render
     return (
         <React.Fragment>
-            <NavBar/>
+            <NavBar session={props.session} onLogout={props.logout}/>
             <Container className='Container__Fill'>
                 <main className='Main__Section Detail'>
                     { advert && 

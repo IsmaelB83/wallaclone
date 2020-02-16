@@ -20,6 +20,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import ViewListIcon from '@material-ui/icons/ViewList';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
+import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 // Own modules
 // Assets
 import imageLogo from '../../assets/images/logo2.png';
@@ -54,7 +55,7 @@ export default function NavBar(props) {
                     <IconButton onClick={() => changeLanguage('es')}><img src={imageES} alt='es' className='NavBar__Brand'/></IconButton>
                     <IconButton onClick={() => changeLanguage('en')}><img src={imageGB} alt='gb' className='NavBar__Brand'/></IconButton>
                 </div>
-                { props.session.email &&
+                { props.session && props.session.email &&
                     <div className='NavBar__Account'>
                         <IconButton
                             aria-label='account of current user'
@@ -78,31 +79,37 @@ export default function NavBar(props) {
                         >
                         <MenuItem className='NavBar__MenuItem' component={Link} to='/advert/create' onClick={() => setAnchorUserMenu(null)}>
                             <ListItemIcon className='NavBar__MenuItemIcon'>
-                            <PostAddIcon fontSize='small' />
+                                <PostAddIcon fontSize='small' />
                             </ListItemIcon>
                             <ListItemText className='NavBar__MenuItemText' primary={t('Add advert')} />
                         </MenuItem>
                         <MenuItem className='NavBar__MenuItem' component={Link} to={`/published/${props.session.login}`} onClick={() => setAnchorUserMenu(null)}>
                             <ListItemIcon className='NavBar__MenuItemIcon'>
-                            <ViewListIcon fontSize='small' />
+                                <ViewListIcon fontSize='small' />
                             </ListItemIcon>
                             <ListItemText className='NavBar__MenuItemText' primary={t('My adverts')} />
                         </MenuItem>
+                        <MenuItem className='NavBar__MenuItem' component={Link} to='/soldhistory' onClick={() => setAnchorUserMenu(null)}>
+                            <ListItemIcon className='NavBar__MenuItemIcon'>
+                                <TrendingUpIcon fontSize='small' />
+                            </ListItemIcon>
+                            <ListItemText className='NavBar__MenuItemText' primary={t('Sold History')} />
+                        </MenuItem>
                         <MenuItem className='NavBar__MenuItem' component={Link} to='/favorites' onClick={() => setAnchorUserMenu(null)}>
                             <ListItemIcon className='NavBar__MenuItemIcon'>
-                            <FavoriteIcon fontSize='small' />
+                                <FavoriteIcon fontSize='small' />
                             </ListItemIcon>
                             <ListItemText className='NavBar__MenuItemText' primary={t('Favorites')} />
                         </MenuItem>
                         <MenuItem className='NavBar__MenuItem' component={Link} to='/profile' onClick={() => setAnchorUserMenu(null)}>
                             <ListItemIcon className='NavBar__MenuItemIcon'>
-                            <AccountCircleIcon fontSize='small' />
+                                <AccountCircleIcon fontSize='small' />
                             </ListItemIcon>
                             <ListItemText className='NavBar__MenuItemText' primary={t('Profile')} />
                         </MenuItem>
-                        <MenuItem className='NavBar__MenuItem' component={Link} to='/' onClick={() => props.logout(props.session.jwt)}>
+                        <MenuItem className='NavBar__MenuItem' onClick={props.onLogout}>
                             <ListItemIcon className='NavBar__MenuItemIcon'>
-                            <ExitToAppIcon fontSize='small' />
+                                <ExitToAppIcon fontSize='small' />
                             </ListItemIcon>
                             <ListItemText className='NavBar__MenuItemText' primary={t('Logout')} />
                         </MenuItem>

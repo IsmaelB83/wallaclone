@@ -1,0 +1,8 @@
+.CardAvatar div { 
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.CardAvatar span { color: var(--main-color-dark); margin-left: 5px; }
+.CardAvatar:hover span { font-weight: bold; }

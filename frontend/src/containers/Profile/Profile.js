@@ -5,7 +5,7 @@ import { withNamespaces } from 'react-i18next';
 // Material UI
 import Container from '@material-ui/core/Container';
 // Components
-import ProfileForm from '../../components/ProfileForm/ProfileForm';
+import ProfileForm from '../../components/ProfileForm';
 import ModalConfirm from '../../components/ModalConfirm';
 import NavBar from '../../components/NavBar';
 import Footer from '../../components/Footer';
@@ -29,13 +29,8 @@ function Profile(props) {
     const cancelDeleteAccount = () => setShowModalDelete(false);
     const confirmDeleteAccount = () => {
         this.setState({showModalDelete: false});
-        const { jwt, _id } = props.session;
-        props.logout(jwt);
-        props.deleteAccount(_id, jwt)
-        .then(res => {
-            props.enqueueSnackbar(t('Your account and all its related data is deleted'), { variant: 'success', });
-            props.history.push('');
-        })
+        props.deleteAccount(props.session._id)
+        .then(res => props.enqueueSnackbar(t('Your account and all its related data is deleted'), { variant: 'success', }))
         .catch(error => props.enqueueSnackbar(t('Error deleting account ERROR', {error}), { variant: 'error', }));
     };
      
@@ -51,17 +46,14 @@ function Profile(props) {
         user.password = password_new_1;
       }
       // Dispatch update user
-      props.editUser(user, props.session.jwt)
-        .then (res => {
-          props.enqueueSnackbar(t('User updated successfully'), { variant: 'success' });
-          props.history.push('/');
-        })
+      props.editUser(user)
+        .then (res => props.enqueueSnackbar(t('User updated successfully'), { variant: 'success' }))
         .catch (error => props.enqueueSnackbar(t('Error updating user data ERROR', {error}), { variant: 'error', }));
     }
 
     return (
         <React.Fragment>
-        <NavBar/>
+        <NavBar session={props.session} onLogout={props.logout}/>
         <Container className='Container__Fill'>
             <main className='Main__Section Profile'>
                 <ProfileForm    noValidate 

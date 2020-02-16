@@ -4,8 +4,7 @@ import { withSnackbar } from 'notistack';
 // Own components
 import Edit from './Edit';
 // Own modules
-import { AdvertsActions } from '../../store/GlobalActions';
-
+import { AdvertsActions, SessionActions } from '../../store/GlobalActions';
 
 /**
  * Inyecta props en mi componente para acceder al state del store
@@ -25,9 +24,12 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
+        // Session
+        logout: () => dispatch(SessionActions.logout()),
+        // Adverts
         fetchAdvert: (slug) => dispatch(AdvertsActions.fetchAdvert(slug)),
-        editAdvert: (advert, jwt) => dispatch(AdvertsActions.editAdvert(advert, jwt)),
-        createAdvert: (advert, jwt) => dispatch(AdvertsActions.createAdvert(advert, jwt))
+        editAdvert: (advert) => dispatch(AdvertsActions.editAdvert(advert)),
+        createAdvert: (advert) => dispatch(AdvertsActions.createAdvert(advert))
     }
 }
 

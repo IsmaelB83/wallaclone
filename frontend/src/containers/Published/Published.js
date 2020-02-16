@@ -1,6 +1,5 @@
 // NPM Modules
 import React, { useState, useEffect } from 'react';
-import { withNamespaces } from 'react-i18next';
 // Material UI
 import Container from '@material-ui/core/Container';
 // Components
@@ -15,7 +14,7 @@ import NavBar from '../../components/NavBar';
 import './styles.css';
 
 // Published adverts section
-function Published (props) {
+export default function Published (props) {
     
     // Translate
     const { t } = props;
@@ -25,7 +24,6 @@ function Published (props) {
     const { start, end, totalCount } = props.lastCall;
     const { login } = props.match.params;
     const { currentPage, isFetching } = props.ui;
-    const { jwt } = props.session;
     const { adverts } = props;
 
     // Cargo anuncios del usuario solicitado
@@ -42,19 +40,19 @@ function Published (props) {
 
     // Favorito
     const favoriteAdvert = (slug) => {
-        props.setFavorite(slug, jwt)
+        props.setFavorite(slug)
         .catch(error => props.enqueueSnackbar(t('Error adding advert to favorite ERROR', {error}), { variant: 'error' }));
     }
 
     // Reservado
     const bookAdvert = slug => {
-        props.bookAdvert(slug, jwt)
+        props.bookAdvert(slug)
         .catch(error => enqueueSnackbar(t('Error setting advert as booked ERROR', {error}), { variant: 'error' }));
     };
 
     // Vendido
     const sellAdvert = slug => {
-        props.sellAdvert(slug, jwt)
+        props.sellAdvert(slug)
         .catch(error => enqueueSnackbar(t('Error setting advert as sold ERROR', {error}), { variant: 'error', }));
     };
     
@@ -68,7 +66,7 @@ function Published (props) {
     const confirmDeleteAdvert = () => {
         setShowModalDelete(false);
         if (slug) {
-            props.deleteAdvert(slug, jwt)
+            props.deleteAdvert(slug)
             .then(res => enqueueSnackbar(t('Advert SLUG deleted', {slug}), { variant: 'success', }))
             .catch(error => enqueueSnackbar(t('Error deleting advert ERROR', {error}), { variant: 'error', }));    
         } else {
@@ -83,7 +81,7 @@ function Published (props) {
     // Render
     return (
         <React.Fragment>
-            <NavBar/>
+            <NavBar session={props.session} onLogout={props.logout}/>
             <Container className='Container__Fill'>
                 <main className='Main__Section'>
                     <AdvertList 
@@ -116,5 +114,3 @@ function Published (props) {
         </React.Fragment>
     );
 }
-
-export default withNamespaces()(Published);

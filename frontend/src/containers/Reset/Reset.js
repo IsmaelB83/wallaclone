@@ -23,13 +23,8 @@ function Reset(props) {
             return props.enqueueSnackbar(t("Error. Both passwords should match"), { variant: 'error', });
         } 
         props.resetAccount(props.match.params.token, password)
-        .then (user => {
-            props.enqueueSnackbar(t('Password reset successfully'), { variant: 'success', });
-            props.history.push('/login');
-        })
-        .catch (error => {
-            props.enqueueSnackbar(error, { variant: 'error', });
-        })
+        .then (user => props.enqueueSnackbar(t('Password reset successfully'), { variant: 'success', }))
+        .catch (error => props.enqueueSnackbar(error, { variant: 'error', }));
     }
     
     /**

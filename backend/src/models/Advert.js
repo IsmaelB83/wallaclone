@@ -60,7 +60,7 @@ const AdvertSchema = new Schema(
 * http://localhost:3001/apiv1/anuncios?fields=name
 * http://localhost:3001/apiv1/anuncios?fields=-_id
 */
-AdvertSchema.statics.list = (name, venta, tag, precio, user, limit, skip, fields, sort) => {
+AdvertSchema.statics.list = (name, venta, tag, precio, user, limit, skip, fields, sort, soldHistory) => {
     return new Promise((resolve, reject) => {
         // Genero filtrado
         let filter = {}
@@ -79,7 +79,10 @@ AdvertSchema.statics.list = (name, venta, tag, precio, user, limit, skip, fields
                 }
             }
         }
+        filter.sold = false;
         if (user) filter.user = new ObjectId(user);
+        // Filtrado de historial de ventas (único caso donde se devuelven las ventas. Se ignoran filtros anteriores)
+        if (soldHistory) filter = {sold: true, user: new ObjectId(soldHistory._id)}
         // Realizo la query a Mongo
         let queryDB = Advert.find(filter);
         limit = limit || parseInt(process.env.MAX_API_ADVERTS);

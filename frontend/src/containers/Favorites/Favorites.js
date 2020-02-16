@@ -20,33 +20,27 @@ function Favorites (props) {
     const { t } = props;
 
     // Destructuring index props
-    const { enqueueSnackbar, setFavorite, setCurrentPage, fetchFavorites, fetchIterateAdverts} = props;
+    const { enqueueSnackbar, setFavorite, setCurrentPage, fetchFavorites } = props;
     const { start, end, totalCount} = props.lastCall;
-    const { adverts, session } = props;
+    const { adverts } = props;
     const { currentPage, isFetching } = props.ui;
 
     // Cargo favoritos del usuario
     useEffect(() => {
-        fetchFavorites(session.jwt)
+        fetchFavorites()
         .catch(error => enqueueSnackbar(t('Error loading favorites ERROR', {error}), { variant: 'error' }));
     }, []);
 
-    // Paginación sobre la colección de anuncios
-    const onFetchIterateAdverts = (direction) => {
-        return fetchIterateAdverts(direction)
-        .catch(error => enqueueSnackbar(t('Error iterating favorites ERROR', {error}), { variant: 'error' }));
-    }
-
     // Delete favorite
     const deleteFavorite = slug => {
-        setFavorite(slug, props.session.jwt)
+        setFavorite(slug)
         .catch(error => enqueueSnackbar(t('Error adding advert to favorite ERROR', {error}), { variant: 'error' }));
     }
     
     // Render
     return (
         <React.Fragment>
-            <NavBar/>
+            <NavBar session={props.session} onLogout={props.logout}/>
             <Container className='Container__Fill'>
                 <main className='Main__Section'>
                     <AdvertList 
@@ -61,7 +55,6 @@ function Favorites (props) {
                         isFetching={isFetching}
                         onFavoriteAdvert={deleteFavorite}
                         onSetCurrentPage={setCurrentPage}
-                        onfetchIterateAdverts={onFetchIterateAdverts}
                     />
                 </main>
             </Container>

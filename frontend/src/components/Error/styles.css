@@ -10,10 +10,11 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    text-align: center;
 }
 
 .Error p {
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin-top: 1rem;
     font-weight: bold;
 }

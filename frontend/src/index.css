@@ -66,7 +66,6 @@ img, embed, object, video {
 * Section de titulo de página
 */
 .Main__Section {
-    margin: 1rem 0;
     padding: 1rem 0;
     display: flex;
     flex-direction: column;
@@ -137,7 +136,7 @@ a {
 .FavoriteIcon--White { color: white; }
 .FavoriteIcon--On { color: red; }
 
-.ButtonWc:disabled {
+.ButtonWc:disabled, .ButtonWc.Mui-disabled {
   background-color: var(--light-grey) !important;
   color: white !important;
   cursor: not-allowed !important;
@@ -165,3 +164,7 @@ a {
 @media (max-width: 750px) {
     .Container__Fill { padding: 0 10px !important; }
 }
+
+/* Estilos generales de tags small */
+.MuiChip-sizeSmall { font-size: .73rem !important; }
+.MuiChip-iconSmall { width: .73rem !important; height: .73rem !important; }

@@ -1,17 +1,17 @@
 .AdvertListTiles {
     padding: 1.5rem 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-    grid-gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-gap: 10px;
     justify-items: center;
     position: relative;
 }
 
 .AdvertListDetail {
     padding: 1.5rem 0;
-    display: flex;
-    flex-direction: column;
-    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 5px;
 }
 
 .LoadingList {

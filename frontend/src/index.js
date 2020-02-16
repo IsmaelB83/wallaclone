@@ -1,13 +1,10 @@
 // NPM Modules
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { SnackbarProvider } from 'notistack';
 // Material UI
 // Components
 import App from './containers/App';
 // Own modules
-import { configureStore } from './store';
 import './utils/i18n';
 import 'moment/locale/es';
 import 'moment/locale/en-gb';
@@ -16,14 +13,6 @@ import 'moment/locale/en-gb';
 // CSS
 import './index.css';
 
-// Store de redux
-const store = configureStore();
-
 // Render
-ReactDOM.render(
-    <Provider store={store}>
-        <SnackbarProvider maxSnack={3}>
-            <App /> 
-        </SnackbarProvider>
-    </Provider>, document.getElementById('root')
+ReactDOM.render(<App />, document.getElementById('root')
 );

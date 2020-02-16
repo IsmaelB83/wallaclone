@@ -36,10 +36,10 @@ function Home(props) {
 
     // Reservar producto
     const onFavoriteAdvert = (slug) => {
-        if (! session.jwt) {
+        if (!session.jwt) {
             enqueueSnackbar(t('You need to log in to manage favorites'), { variant: 'error' });
         } else {
-            setFavorite(slug, session.jwt)
+            setFavorite(slug)
             .then(res => enqueueSnackbar(t('Advert SLUG ACTION favorites', {slug, action: res.favorite?t('added to'):t('removed from')}), { variant: 'success' }))
             .catch(error => enqueueSnackbar(t('Error adding advert to favorite ERROR', {error}), { variant: 'error' }));    
         }
@@ -64,7 +64,7 @@ function Home(props) {
     // Render
     return (
         <React.Fragment>
-            <NavBar/>
+            <NavBar session={props.session} onLogout={props.logout}/>
             <Container className='Container__Fill'>
                 <main className='Main__Section'>
                     <div className='Home__Results'>
