@@ -2,12 +2,12 @@
     "LOGIN": "LOGIN",
     "SIGN IN": "CREAR",
     "Add advert": "Añadir anuncio",
-    "My adverts": "Mis anuncios",
+    "My adverts": "Publicados",
     "Favorite": "Favorito",
     "Favorites": "Favoritos",
     "Profile": "Perfil",
     "Logout": "Desconectar",
-    "Search adverts by name": "Buscar anuncios por nombre",
+    "Search adverts by name": "Buscar anuncios...",
     "Type": "Tipo",
     "Tag": "Etiqueta",
     "Tags": "Etiquetas",
@@ -36,7 +36,9 @@
     "Or trough social media:": "O a través de las redes sociales",
     "Github Repo": "Github Repo",
     "enter your credentials to login": "introduce las credenciales para login",
-    "Login": "Login",
+    "Login": "Entrar",
+    "login": "entrar",
+    "logout": "salir",
     "Reset password": "Resetear contraseña",
     "Create an account": "Crear cuenta",
     "better use a gmail account to receive our emails": "utiliza gmail para evitar problemas con nuestros mails",
@@ -107,5 +109,6 @@
     "Error updating advert ERROR": "Error actualizando anuncio {{error}}",
     "change advert photo": "cambiar imagen",
     "Error loading USER sold history ERROR": "Error cargando historial de ventas de {{user}} {{error}}",
-    "Sold History": "Histórico Ventas"
+    "Sold History": "Historial",
+    "Messages": "Mensajes"
 }

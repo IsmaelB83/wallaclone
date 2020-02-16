@@ -13,7 +13,9 @@
   font-family: 'Lato', sans-serif;
 }
 
-body { background-color: #F3F5F6 }
+body { 
+    background-color: #F3F5F6;
+}
 
 ul, li {
   list-style: none;
@@ -42,6 +44,8 @@ img, embed, object, video {
     --dark-blue: rgb(61, 89, 216);
     --light-red: rgb(255, 0, 0);
     --dark-red: rgb(218, 13, 13);
+    --navbar-height: 65px;
+    --footer-height: 65px;
 }
 
 /**
@@ -60,6 +64,8 @@ img, embed, object, video {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    margin-top: var(--navbar-height);
+    padding-bottom: var(--footer-height);
 }
 
 /**
@@ -166,5 +172,5 @@ a {
 }
 
 /* Estilos generales de tags small */
-.MuiChip-sizeSmall { font-size: .73rem !important; }
-.MuiChip-iconSmall { width: .73rem !important; height: .73rem !important; }
+.MuiChip-sizeSmall { font-size: .8rem !important; }
+.MuiChip-iconSmall { width: .8rem !important; height: .8rem !important; }

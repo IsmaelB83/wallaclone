@@ -85,7 +85,7 @@ function Home(props) {
                     </div>
                 </main>
             </Container>
-            <Footer/>
+            <Footer session={props.session} onLogout={props.logout}/>
         </React.Fragment>
     );
 }

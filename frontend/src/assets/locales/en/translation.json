@@ -2,12 +2,12 @@
     "LOGIN": "LOGIN",
     "SIGN IN": "SIGN IN",
     "Add advert": "Add advert",
-    "My adverts": "My adverts",
+    "My adverts": "Published",
     "Favorite": "Favorite",
     "Favorites": "Favorites",
     "Profile": "Profile",
     "Logout": "Logout",
-    "Search adverts by name": "Search adverts by name",
+    "Search adverts by name": "Search adverts...",
     "Type": "Type",
     "Tag": "Tag",
     "Tags": "Tags",
@@ -37,6 +37,8 @@
     "Github Repo": "Github Repo",
     "enter your credentials to login": "enter your credentials to login",
     "Login": "Login",
+    "login": "login",
+    "logout": "logout",
     "Reset password": "Reset password",
     "Create an account": "Create an account",
     "better use a gmail account to receive our emails": "better use a gmail account to receive our emails",
@@ -108,5 +110,6 @@
     "Error updating advert ERROR": "Error updating advert {{error}}",
     "change advert photo": "change advert photo",
     "Error loading USER sold history ERROR": "Error loading {{user}} sold history {{error}}",
-    "Sold History": "Sold History"
+    "Sold History": "History",
+    "Messages": "Messages"
 }

@@ -76,7 +76,7 @@ function Edit(props) {
                     { error && <Error error={error}/> }
                 </main>
             </Container>
-            <Footer/>
+            <Footer session={props.session} onLogout={props.logout}/>
         </React.Fragment>
     );
 }

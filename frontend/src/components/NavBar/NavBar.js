@@ -5,27 +5,15 @@ import i18n from '../../utils/i18n';
 import moment from 'moment';
 // Material UI
 import Container from '@material-ui/core/Container';
-import IconButton from '@material-ui/core/IconButton';
-import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import Avatar from '@material-ui/core/Avatar';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import PostAddIcon from '@material-ui/icons/PostAdd';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText'
-import ViewListIcon from '@material-ui/icons/ViewList';
-import FavoriteIcon from '@material-ui/icons/Favorite';
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
-import TrendingUpIcon from '@material-ui/icons/TrendingUp';
+import LanguageIcon from '@material-ui/icons/Language';
 // Own modules
+import HideOnScrollDown from '../HideOnScrollDown';
 // Assets
 import imageLogo from '../../assets/images/logo2.png';
-import imageES from '../../assets/images/es.png';
-import imageGB from '../../assets/images/gb.png';
 // CSS
 import './styles.css';
 
@@ -35,97 +23,44 @@ export default function NavBar(props) {
     // Función traducción
     const { t } = props;
 
-    // Estado del componente funcional mediante el 'useState hook'
-    const [anchorUserMenu, setAnchorUserMenu] = useState(null);
-    
-    // Change language
-    const changeLanguage = lng => {
-        i18n.changeLanguage(lng);
-        moment.locale('es');
+    // Ocultar navbar
+    const hide = HideOnScrollDown();
+
+    // Switch language
+    const [language, setLanguage] = useState(i18n.language);
+    const switchLanguage = () => {
+        const aux = language==='en'?'es':'en';
+        i18n.changeLanguage(aux);
+        moment.locale(aux);
+        setLanguage(aux);
     }
-      
+
     // Render del componente
     return (
-        <AppBar title='Wallaclone' position='static' className='NavBar'>
-        <Container className='Container__Fill'>
-        <Toolbar className='NavBar__Toolbar'>
-            <Link to='/' className='NavBar__Brand'><img src={imageLogo} alt='logo' className='NavBar__Brand'/></Link>
-            <div className='NavBar__Right'>
-                <div className='NavBar__Flags'>
-                    <IconButton onClick={() => changeLanguage('es')}><img src={imageES} alt='es' className='NavBar__Brand'/></IconButton>
-                    <IconButton onClick={() => changeLanguage('en')}><img src={imageGB} alt='gb' className='NavBar__Brand'/></IconButton>
-                </div>
-                { props.session && props.session.email &&
-                    <div className='NavBar__Account'>
-                        <IconButton
-                            aria-label='account of current user'
-                            aria-controls='menu-NavBar'
-                            aria-haspopup='true'
-                            onClick={ (ev) => setAnchorUserMenu(ev.currentTarget) }
-                            color='inherit'
-                            className='NavBar__User' 
-                            >
-                                <Avatar className='Avatar' alt={props.session.name} src={props.session.avatar}/>
-                                <span className='NavBar__User--hiddenXS'>{props.session.name}</span>
-                            <KeyboardArrowDownIcon/>
-                        </IconButton>
-                        <Menu
-                        className='NavBar__Menu'
-                        id='menu-navbar'
-                        anchorEl={anchorUserMenu}
-                        keepMounted
-                        open={anchorUserMenu?true:false}
-                        onClose={ () => setAnchorUserMenu(null) }
-                        >
-                        <MenuItem className='NavBar__MenuItem' component={Link} to='/advert/create' onClick={() => setAnchorUserMenu(null)}>
-                            <ListItemIcon className='NavBar__MenuItemIcon'>
-                                <PostAddIcon fontSize='small' />
-                            </ListItemIcon>
-                            <ListItemText className='NavBar__MenuItemText' primary={t('Add advert')} />
+        <nav className={`NavBar NavBar--${hide?'hide':'show'}`}>
+            <Container>
+                <Toolbar className='NavBar__Toolbar'>
+                    <Link to='/' className='NavBar__Brand'><img src={imageLogo} alt='logo' className='NavBar__Brand'/></Link>
+                    <div className='NavBar__Right'>
+                        <MenuItem className='Navbar__MenuItem' onClick={switchLanguage}>
+                            <LanguageIcon fontSize='small' />
+                            <span>{language==='en'?'es':'en'}</span>
                         </MenuItem>
-                        <MenuItem className='NavBar__MenuItem' component={Link} to={`/published/${props.session.login}`} onClick={() => setAnchorUserMenu(null)}>
-                            <ListItemIcon className='NavBar__MenuItemIcon'>
-                                <ViewListIcon fontSize='small' />
-                            </ListItemIcon>
-                            <ListItemText className='NavBar__MenuItemText' primary={t('My adverts')} />
-                        </MenuItem>
-                        <MenuItem className='NavBar__MenuItem' component={Link} to='/soldhistory' onClick={() => setAnchorUserMenu(null)}>
-                            <ListItemIcon className='NavBar__MenuItemIcon'>
-                                <TrendingUpIcon fontSize='small' />
-                            </ListItemIcon>
-                            <ListItemText className='NavBar__MenuItemText' primary={t('Sold History')} />
-                        </MenuItem>
-                        <MenuItem className='NavBar__MenuItem' component={Link} to='/favorites' onClick={() => setAnchorUserMenu(null)}>
-                            <ListItemIcon className='NavBar__MenuItemIcon'>
-                                <FavoriteIcon fontSize='small' />
-                            </ListItemIcon>
-                            <ListItemText className='NavBar__MenuItemText' primary={t('Favorites')} />
-                        </MenuItem>
-                        <MenuItem className='NavBar__MenuItem' component={Link} to='/profile' onClick={() => setAnchorUserMenu(null)}>
-                            <ListItemIcon className='NavBar__MenuItemIcon'>
-                                <AccountCircleIcon fontSize='small' />
-                            </ListItemIcon>
-                            <ListItemText className='NavBar__MenuItemText' primary={t('Profile')} />
-                        </MenuItem>
-                        <MenuItem className='NavBar__MenuItem' onClick={props.onLogout}>
-                            <ListItemIcon className='NavBar__MenuItemIcon'>
+                        { props.session && props.session.email &&
+                            <MenuItem className='Navbar__MenuItem' onClick={props.onLogout}>
                                 <ExitToAppIcon fontSize='small' />
-                            </ListItemIcon>
-                            <ListItemText className='NavBar__MenuItemText' primary={t('Logout')} />
-                        </MenuItem>
-                        </Menu>
+                                <span>{t('logout')}</span>
+                            </MenuItem>
+                        }
+                        { !props.session.email &&
+                            <MenuItem className='Navbar__MenuItem' component={Link} to='/login'>
+                                <PermIdentityIcon fontSize='small' />
+                                <span>{t('login')}</span>
+                            </MenuItem>
+                        }
                     </div>
-                }
-                { !props.session.email &&
-                    <div className='NavBar__Login'>
-                        <IconButton color='inherit' className='NavBar__User' component={Link} to='/login'>
-                            <PermIdentityIcon/> <span className='NavBar__User--hiddenXS'>{t('LOGIN')}</span>
-                        </IconButton>
-                    </div>
-                }
-            </div>
-        </Toolbar>
-        </Container>
-        </AppBar>
+                </Toolbar>
+            </Container>
+        </nav>
     );
 }

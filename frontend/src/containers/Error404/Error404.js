@@ -21,7 +21,7 @@ export default function Error404(props) {
         <Container className='Container__Fill'>
             <Error type='404'/>
         </Container>
-        <Footer/>
+        <Footer session={props.session} onLogout={props.logout}/>
     </React.Fragment>
   );
 }

@@ -108,7 +108,7 @@ function Detail(props) {
                     /> 
                 }
             </Container>
-            <Footer/>
+            <Footer session={props.session} onLogout={props.logout}/>
         </React.Fragment>
     );
 }

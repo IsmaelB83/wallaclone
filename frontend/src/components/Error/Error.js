@@ -4,6 +4,7 @@ import React from 'react';
 // Own modules
 // Assets
 import image404 from '../../assets/images/404.png';
+import imageError from '../../assets/images/warning.png';
 // CSS
 import './styles.css';
 // Assets
@@ -22,6 +23,7 @@ export default function Error(props) {
 
     const OtherError = () => 
         <React.Fragment>
+            <img src={imageError} alt="error" />
             <h2>{t('Oooops! Something went wrong!')} </h2>
             <p>{props.error}</p>
             <h3>{t('Please, reload page. Or contact the admin.')}</h3>

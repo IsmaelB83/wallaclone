@@ -29,8 +29,8 @@ function CardImage (props) {
 }
 
 CardImage.propTypes = {
-    sold: PropTypes.string.isRequired,
-    booked: PropTypes.string.isRequired,
+    sold: PropTypes.bool.isRequired,
+    booked: PropTypes.bool.isRequired,
     thumbnail: PropTypes.string.isRequired,
 }
 
