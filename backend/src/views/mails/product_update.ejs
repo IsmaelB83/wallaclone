@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
+    <title>Wallaclone - product update</title>
+    <style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .wrapper {
+        height: 100vh;
+        width: 100%;
+        padding: .5rem;
+    }
+
+    .header, .footer {
+        width: 100%;
+        text-align: center;
+        background-color: rgb(233, 233, 233);
+        text-align: center;
+        padding: 2rem 0;
+        border-radius: 5px;
+    }
+
+    .content {
+        margin: 0 auto;
+        width: 800px;
+        font-size: 1rem;
+        color: rgb(51, 51, 51);
+    }
+
+    .title {
+        font-size: 1.5em;
+        margin: 1rem 0;
+        color: rgb(32, 32, 32);
+    }
+
+    .text {
+        margin-bottom: .5rem;
+        line-height: 1.1em;
+        font-size: 1em;
+    }
+
+    .text--medium { font-size: 1.1em; }
+    .text--big { font-size: 1.25em; }
+    
+    .button_section {
+        text-align: center;
+        margin: 2.5rem 0;
+    }
+
+    .button {
+        padding: 1rem 2rem;
+        font-size: 1.25rem;   
+        text-decoration: none;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        background: rgb(250,12,12);
+        background: linear-gradient(to top, #fb0000, #f83600, #f44d00, #f15f00, #ed6e0c);
+    }
+
+    .content_footer {
+        margin-top: 2rem;
+        border-top: 1px solid rgb(199, 199, 199);
+        font-size: .9rem;
+    }
+
+    .mb-1 { margin-bottom: 1rem; }
+    .mb-2 { margin-bottom: 2rem; }
+    .mt-1 { margin-top: 1rem; }
+    .mt-2 { margin-top: 2rem; }
+    .ml-1 { margin-left: 5px; }
+
+    .advert {
+        font-size: 1rem;
+        color: rgb(51, 51, 51);
+    }
+
+    .advert__image {
+        width: 100%;
+        text-align: center;
+    }
+
+    .advert img {
+        border-radius: 10px;
+        max-width: 400px;
+    }
+    
+    .advert h3 {
+        text-transform: uppercase;
+        font-size: 1.25rem;
+        color: rgb(32, 32, 32);
+    }
+
+    </style>
+</head>
+<body>
+    <div class='wrapper'>
+        <div class='header mb-2'>
+            <img class='logo' style='width:250px;' src='cid:unique@logo'>
+        </div>
+        <div class='content'> 
+            <div class='content-body'>
+                <h2 class='title'>Hi <%= name%>,</h2>
+                <p class='text'>One of the products you have in your favorites has had some modifications we think may be of your interest. See below the details of the related product.</p>
+                <div class='advert'>
+                    <h3><%= message.name%></h3>
+                    <%if (message.sold === true) { %>
+                        <p class='text'>The product has been recently <b>sold.</b></p>
+                    <% } else if (message.booked === true) { %>
+                        <p class='text'>The product is currently <b>booked</b>. Contact the product owner in Wallaclone, in case you wan to make a better offer</p>
+                    <% } else if (message.price !== message.oldPrice) { %>
+                        <p class='text'>The <b>new price</b> of the product is <span class='text--big'><%= message.price%></span>. <b>Old price</b> of this product was <%= message.oldPrice%></p>
+                    <% }  %>
+                    <div class='advert__image'>
+                    <img src='cid:unique@photo' alt='product'>
+                    </div>
+                    <div class='button_section'>
+                        <a class='button' href='<%= url%>'>More detail</a>
+                    </div>
+                </div>
+                <p class='text'>If you don't want to receive more emails regarding this product make sure to delete it from your favorites.</p>
+                <p class='text'>Thanks,</p>
+                <p class='text'>Isma and the Wallaclone Team</p>
+            </div>
+            <div class='content_footer'>
+                <p class='text'>If you're having troubles clicking the <i>see product</i> button, copy and paste the URL below into your web browser.</p>
+                <a href='<%= url%>'><%= url%></a>
+            </div>
+        </div>
+        <div class='footer mt-2'>
+            <p class='text mb-1'>Wallaclone is a project created for Keepcoding Fullstack Bootcamp 2019</p>
+            <p class='text mb-1'>Ismael Bernal Albillos: <a class='ml-1' href='mailto: ismaelbernal83@gmail.com'>ismaelbernal83@gmail.com</a></p>
+        </div>
+    </div>
+</body>

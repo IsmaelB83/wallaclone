@@ -1,4 +1,6 @@
 "use strict";
+// Node import
+const path = require('path');
 // Node imports
 const htmlToText = require('html-to-text');
 const nodemailer = require('nodemailer');
@@ -49,15 +51,36 @@ module.exports = (options) => {
     try {
         generateHTML(options.view, options)
         .then(result => {
+            // Conversión del mail a html
             const html = juice(result);
+            // Opciones del mail
             let mailOptions = {
-                from: 'Nodepop <no-reply@nodepop.com>',
+                from: 'Nodepop <no-reply@wallaclone.com>',
                 to: options.email,
                 subject: options.subject,
                 text: htmlToText.fromString(html),
                 html: html
             }
-            transport.sendMail(mailOptions);
+            // Logo en todos los mails
+            mailOptions.attachments = [];
+            const file = `${process.cwd()}/public/images/static/logo_large.png`;
+            mailOptions.attachments.push({
+                path: file,
+                filename: 'logo_large.png',
+                cid: 'unique@logo'
+            })
+            // Imagen de producto
+            if (options.thumbnail) {
+                const path = `${process.cwd()}/public${options.thumbnail}`;
+                const file = path.split("/").pop();
+                mailOptions.attachments.push({
+                    filename: file,
+                    path: path,
+                    cid: 'unique@photo'
+                });
+            }
+            transport.sendMail(mailOptions)
+            .catch (err => console.log(err)); 
         });
         
     } catch (error) {

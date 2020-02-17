@@ -14,7 +14,7 @@ import Form from '../forms/Form';
 // Models
 // Own modules
 // Assets
-import imageLogo from '../../assets/images/logo2.png';
+import imageLogo from '../../assets/images/logo_large.png';
 import imageSpinner from '../../assets/images/spinner.gif';
 // CSS
 import './styles.css';

@@ -24,7 +24,7 @@ function Login(props) {
         let session = LocalStorage.readLocalStorage();
         if (!token && session && session.jwt) {
             loginWithToken(session.jwt)
-            .then(res => enqueueSnackbar(t('Login OK with token. Redirecting home...'), { variant: 'info', }))
+            .then(res => enqueueSnackbar(t('Redirecting home...'), { variant: 'info', }))
             .catch (error => enqueueSnackbar(error, { variant: 'error', }));
         }
     }, [login, loginWithToken, push, enqueueSnackbar, token, t]);
@@ -42,7 +42,7 @@ function Login(props) {
     const submitLogin = (inputs) => {
         const { login, password } = inputs;
         props.login(login, password)
-        .then(res => enqueueSnackbar(t('Login OK. Redirecting home...'), { variant: 'info', }))
+        .then(res => enqueueSnackbar(t('Redirecting home...'), { variant: 'info', }))
         .catch(error => enqueueSnackbar(error, { variant: 'error', }));
     }
     

@@ -13,7 +13,7 @@ import LanguageIcon from '@material-ui/icons/Language';
 // Own modules
 import HideOnScrollDown from '../HideOnScrollDown';
 // Assets
-import imageLogo from '../../assets/images/logo2.png';
+import imageLogo from '../../assets/images/logo_large.png';
 // CSS
 import './styles.css';
 

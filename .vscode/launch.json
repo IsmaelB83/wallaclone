@@ -14,6 +14,24 @@
             "port": 9543
         },
         {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch nodemon for worker thumbnails",
+            "cwd": "${workspaceFolder}/backend/",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": ["run-script", "debugPhotos"],
+            "port": 9544
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch nodemon for worker notifications",
+            "cwd": "${workspaceFolder}/backend/",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": ["run-script", "debugNotify"],
+            "port": 9545
+        },
+        {
             "type": "chrome",
             "request": "launch",
             "name": "Launch react in debug",

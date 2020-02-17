@@ -171,6 +171,7 @@ module.exports = {
                     // Send work to analize potential notifications 
                     const message = {
                         _id: result._id,
+                        name: result.name,
                         slug: result.slug,
                         thumbnail: result.thumbnail,
                         booked: result.booked,
@@ -209,6 +210,7 @@ module.exports = {
                     if (advert.booked) {
                         const message = {
                             _id: advert._id,
+                            name: advert.name,
                             slug: advert.slug,
                             thumbnail: advert.thumbnail,
                             booked: advert.booked,
@@ -248,6 +250,7 @@ module.exports = {
                     if (advert.sold) {
                         const message = {
                             _id: advert._id,
+                            name: advert.name,
                             slug: advert.slug,
                             thumbnail: advert.thumbnail,
                             booked: advert.booked,
@@ -282,8 +285,10 @@ module.exports = {
                     // Ok
                     res.json({success: true, result: advert});
                     // When advert is delete send work to analize potential notifications
+                    debugger;
                     const message = {
                         _id: advert._id,
+                        name: advert.name,
                         slug: advert.slug,
                         thumbnail: advert.thumbnail,
                         booked: advert.booked,

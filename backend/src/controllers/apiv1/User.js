@@ -38,6 +38,7 @@ module.exports = {
                 // Send mail
                 mail({
                     email: user.email, 
+                    name: user.name,
                     subject: 'Activate account',
                     url: `http://localhost:3000/activate/${user.token}`,
                     view: 'new_user'
@@ -76,7 +77,7 @@ module.exports = {
             user.name = req.body.name || user.name
             // Si se ha pasado login, y es distinto al actual lo chequeo primero
             if (req.body.login && user.login !== req.body.login) {
-                let users = await User.find({ 
+                let users = await User.findOne({ 
                     login: req.body.login,  
                     _id: { "$ne": user._id}
                 });
@@ -85,7 +86,7 @@ module.exports = {
             }
             // Si se ha pasado email, y es distinto al actual lo chequeo primero
             if (req.body.email && user.email !== req.body.email) {
-                let users = await User.find({ 
+                let users = await User.findOne({ 
                     email: req.body.email,  
                     _id: { "$ne": user._id}
                 });

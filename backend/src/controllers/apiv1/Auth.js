@@ -147,6 +147,7 @@ module.exports = {
             // Send mail
             mail({
                 email: user.email, 
+                name: user.name,
                 subject: 'Password reset',
                 url: `http://localhost:3000/reset/${user.token}`,
                 view: 'password_reset'

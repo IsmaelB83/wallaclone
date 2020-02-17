@@ -1,10 +1,10 @@
 'use strict';
-// Node imports
-var Jimp = require('jimp');
 // Own imports
 const { queues, connectionPromise} = require('../index');
-const { Advert } = require('../../models');
+const { User } = require('../../models');
 const database = require('../../database');
+const { mail } = require('../../utils');
+
 
 
 // Start connection
@@ -27,10 +27,27 @@ async function main() {
         // Consume channel
         queues.notifications.channel.consume(queues.notifications.name, msg => {
             const message = JSON.parse(msg.content.toString());
-            const advert = new Advert(message);
-            // Do something
-            console.log(message);
-            // AcK queue
+            // Busco usuarios que lo tienen en favoritos
+            User.find({favorites: message._id }).select('_id login name email avatar')
+            .then(res => {
+                // Send mails
+                res.forEach(user => {
+                    mail({
+                        name: user.name,
+                        email: user.email, 
+                        subject: 'Product update',
+                        message: message,
+                        url: `http://localhost:3000/advert/${message.slug}`,
+                        view: 'product_update',
+                        thumbnail: message.thumbnail
+                    });
+                });
+            })
+            .catch(err => {
+                console.log(err);
+            });
+
+            // Ack queue
             queues.notifications.channel.ack(msg);
         });
     } else {
