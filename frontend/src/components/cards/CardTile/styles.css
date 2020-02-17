@@ -9,10 +9,11 @@
     transition: 100ms all ease-in;
     border: 1px solid transparent;
     width: 100%;
+    border: 1px solid rgba(0, 0, 0, .1);
 }
 
-.CardTile:hover { border: 1px solid rgba(0, 0, 0, .35); }
-.CardTile:hover .CardTile__Header { border-bottom: 1px solid rgba(0, 0, 0, .35); }
+.CardTile:hover { border: 1px solid rgba(0, 0, 0, .20); }
+.CardTile:hover .CardTile__Header { border-bottom: 1px solid rgba(0, 0, 0, .20); }
 .CardTile:hover .CardImage__Overlay { opacity: 1; }
 
 /* Image header */
@@ -23,6 +24,7 @@
     overflow: hidden;
     cursor: pointer;
     font-size: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
 }
 
 .CardTile__Price { 

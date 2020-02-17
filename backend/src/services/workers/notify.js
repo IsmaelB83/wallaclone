@@ -59,13 +59,6 @@ app.post('/subscribe/:login', (req, res) => {
     console.log(`Subscriber added: ${login}`);
     // Return OK
     res.status(201).json({});   
-    // Create payload and confirm with push notification
-    const payload = JSON.stringify({ title: 'Push test' });
-    webpush.sendNotification(subscription, payload)
-    .catch(err => {
-        delete subscriptions.login;
-        console.error(err)
-    });
 });
 
 // Unsubscribe route for clients
@@ -110,7 +103,13 @@ async function notifyUser (user, message) {
     let errorSubscription = false;
     if (subscription) {
         // Try notification (in case of error send email)
-        const payload = JSON.stringify({ title: 'Favorito actualizado' });
+        const payload = JSON.stringify({ 
+            title: 'Product Updated',
+            body: 'Uno de sus anuncios de interes ha sufrido una modificación.',
+            icon: `https://127.0.0.1:8443${message.thumbnail}`,
+            image: `https://127.0.0.1:8443${message.thumbnail}`,
+            actions: [{ action: 'favorite', title: 'Favoritos' }]    
+        });
         webpush.sendNotification(subscription, payload)
         .catch(err => {
             console.log(err);

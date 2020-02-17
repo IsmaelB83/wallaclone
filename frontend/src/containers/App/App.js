@@ -27,36 +27,46 @@ import { initialState } from '../../store/InitialState';
 // Assets
 // CSS
 
-// Configuro el store, y sincronizo el history del store con el de router
-const store = configureStore(initialState);
-
 // APP Root Component
 export default function App(props) {
-  
-  return (
-    <ErrorBoundary>
-        <Provider store={store}>
-            <ConnectedRouter history={history}>
-                <SnackbarProvider maxSnack={1}> 
-                    <Switch>
-                        <Route path='/login' exact component={Login} />
-                        <Route path='/register' exact component={Register} />
-                        <Route path='/reset' exact component={RequestReset} />
-                        <Route path='/reset/:token' exact component={Reset} />
-                        <Route path='/activate/:token' exact component={Login} />
-                        <Route path='/published/:login' exact component={Published} />
-                        <PrivateRoute path='/history' exact component={History} />
-                        <PrivateRoute path='/favorites' exact component={Favorites} />
-                        <PrivateRoute path='/profile' exact component={Profile} />
-                        <PrivateRoute path='/advert/create' exact render={(props) => <Edit {...props} mode='create'/>}/>
-                        <PrivateRoute path='/advert/edit/:slug' exact render={(props) => <Edit {...props} mode='edit'/>}/>
-                        <Route path='/advert/:slug' exact component={Detail} />
-                        <Route path='/' exact component={Home} />
-                        <Route component={Error404} />
-                    </Switch>
-                </SnackbarProvider>
-            </ConnectedRouter>
-        </Provider>
-    </ErrorBoundary>
-  );
+
+    const showNotification = (accion) => {
+        debugger;
+        switch (accion) {
+            case 'favorites':
+                history.push('/favorites/')
+                break;
+        }
+    }
+
+    // Configuro el store, y sincronizo el history del store con el de router
+    const store = configureStore(initialState, showNotification);
+
+    // Render
+    return (
+        <ErrorBoundary>
+            <Provider store={store}>
+                <ConnectedRouter history={history}>
+                    <SnackbarProvider maxSnack={1}> 
+                        <Switch>
+                            <Route path='/login' exact component={Login} />
+                            <Route path='/register' exact component={Register} />
+                            <Route path='/reset' exact component={RequestReset} />
+                            <Route path='/reset/:token' exact component={Reset} />
+                            <Route path='/activate/:token' exact component={Login} />
+                            <Route path='/published/:login' exact component={Published} />
+                            <PrivateRoute path='/history' exact component={History} />
+                            <PrivateRoute path='/favorites' exact component={Favorites} />
+                            <PrivateRoute path='/profile' exact component={Profile} />
+                            <PrivateRoute path='/advert/create' exact render={(props) => <Edit {...props} mode='create'/>}/>
+                            <PrivateRoute path='/advert/edit/:slug' exact render={(props) => <Edit {...props} mode='edit'/>}/>
+                            <Route path='/advert/:slug' exact component={Detail} />
+                            <Route path='/' exact component={Home} />
+                            <Route component={Error404} />
+                        </Switch>
+                    </SnackbarProvider>
+                </ConnectedRouter>
+            </Provider>
+        </ErrorBoundary>
+    );
 }

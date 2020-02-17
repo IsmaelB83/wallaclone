@@ -22,7 +22,7 @@ export const login = (login, password) => {
             dispatch(loginSuccess(response));
             LocalStorage.saveLocalStorage(getState().session);
             // register service worker to receive push notifications
-            serviceWorker.register(login);
+            serviceWorker.register(login, extra.notify);
             extra.history.push('/');
             return response;
         })
@@ -49,7 +49,7 @@ export const loginWithToken = (jwt) => {
             dispatch(loginWithTokenSuccess(response));
             LocalStorage.saveLocalStorage(getState().session);
             // register service worker to receive push notifications
-            serviceWorker.register(getState().session.login);
+            serviceWorker.register(getState().session.login, extra.notify);
             extra.history.push('/');
             return response;
         })
