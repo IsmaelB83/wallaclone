@@ -11,7 +11,6 @@ import Button from '@material-ui/core/Button';
 import SearchIcon from '@material-ui/icons/Search';
 import ClearIcon from '@material-ui/icons/Clear';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 // Own Components
 import AdvertChip from '../AdvertChip';
 // Own modules
@@ -87,6 +86,8 @@ export default function SearchPanel(props) {
                         className='InputSearch__Input'
                         autoComplete='off'
                         placeholder={t('Search adverts by name')}
+                        onFocus={handleCollapse}
+                        onBlur={handleCollapse}
                     />
                     <button onClick={handleCollapse} className='SearchCollapseButton'><ExpandMoreIcon/></button>
                 </div>   

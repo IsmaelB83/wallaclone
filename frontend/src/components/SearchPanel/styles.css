@@ -47,7 +47,7 @@
 .SearchPanel__Footer button:first-child { margin-right: .5rem; }
 .SearchPanel__Footer button { width: 50% }
 
-@media only screen and (min-device-width : 640px) {
+@media only screen and (min-width : 640px) {
     .SearchPanel__FiltersGrid { grid-template-columns: 1fr 1fr; }
     .SearchPanel__Footer button { width: 25% }
 }

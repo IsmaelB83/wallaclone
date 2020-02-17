@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withNamespaces } from 'react-i18next';
+import { Link } from "react-router-dom";
 // Material UI
 import Container from '@material-ui/core/Container';
 // Components
@@ -62,6 +63,15 @@ function Edit(props) {
             <NavBar session={props.session} onLogout={props.logout}/>
             <Container className='Container__Fill'>
                 <main className='Main__Section Edit'>
+                    <div className='Section__Content'>
+                        <div className='Content__Title'>
+                            <h1 className='Title'>Edita anuncio</h1>
+                        </div>
+                        <p className='Text'>Edite los datos de su anuncio y pulse en guardar para hacerlos permanentes... </p>
+                        <p className='Text'>Desde esta sección no puede modificar las propiedades <b>vendido</b> y <b>reservado</b>. 
+                            Para ello puede acudir a la sección <Link to={`/published/${props.session.login}`}>publicados</Link> o
+                            al <Link to={`/advert/${advert && advert.slug}`}>detalle</Link> del anuncio.</p>
+                    </div>
                     { advert &&
                         <AdvertEditForm noValidate 
                                         autoComplete='off' 

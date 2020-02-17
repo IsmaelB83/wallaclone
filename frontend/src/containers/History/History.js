@@ -14,7 +14,7 @@ import NavBar from '../../components/NavBar';
 import './styles.css';
 
 // Published adverts section
-export default function SoldHistory (props) {
+export default function History (props) {
     
     // Translate
     const { t } = props;
@@ -64,14 +64,14 @@ export default function SoldHistory (props) {
         <React.Fragment>
             <NavBar session={props.session} onLogout={props.logout}/>
             <Container className='Container__Fill'>
-                <div className='Section__Content'>
-                    <div className='Content__Title'>
-                        <h1 className='Title'>Tus ventas</h1>
-                        <p className='Text'>Aquí puedes hacer seguimiento de todo el histórico de ventas en tu usuario...</p>
-                        <p className='Counter'><span>{totalCount}</span> {t('products')}</p>
-                    </div>
-                </div>
                 <main className='Main__Section'>
+                    <div className='Section__Content'>
+                        <div className='Content__Title'>
+                            <h1 className='Title'>Tus ventas</h1>
+                            <p className='Counter'><span>{totalCount}</span> {t('products')}</p>
+                        </div>
+                        <p className='Text'>Aquí puedes hacer seguimiento de todo el histórico de ventas en tu usuario...</p>
+                    </div>
                     <AdvertList 
                         type='list' 
                         start={start}

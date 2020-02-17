@@ -19,7 +19,7 @@ import Reset from '../Reset';
 import Profile from '../Profile';
 import Home from '../Home';
 import Error404 from '../Error404';
-import SoldHistory from '../SoldHistory';
+import History from '../History';
 // Models
 // Own modules
 import configureStore, { history } from '../../store';
@@ -45,7 +45,7 @@ export default function App(props) {
                         <Route path='/reset/:token' exact component={Reset} />
                         <Route path='/activate/:token' exact component={Login} />
                         <Route path='/published/:login' exact component={Published} />
-                        <PrivateRoute path='/soldhistory' exact component={SoldHistory} />
+                        <PrivateRoute path='/history' exact component={History} />
                         <PrivateRoute path='/favorites' exact component={Favorites} />
                         <PrivateRoute path='/profile' exact component={Profile} />
                         <PrivateRoute path='/advert/create' exact render={(props) => <Edit {...props} mode='create'/>}/>

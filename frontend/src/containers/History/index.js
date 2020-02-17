@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withSnackbar } from 'notistack';
 import { withNamespaces } from 'react-i18next';
 // Own Components
-import SoldHistory from './SoldHistory';
+import History from './History';
 // Models
 // Own modules
 import { AdvertsActions, SessionActions, FiltersActions } from '../../store/GlobalActions';
@@ -40,4 +40,4 @@ const mapDispatchToProps = (dispatch) => {
 /**
  * Envuelvo el App en al función connect para conectar con el store recibido del provider
  */ 
-export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(withNamespaces()(SoldHistory)));
+export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(withNamespaces()(History)));

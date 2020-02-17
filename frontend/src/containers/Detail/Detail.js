@@ -2,11 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { withNamespaces } from 'react-i18next';
+import { Link } from "react-router-dom";
 // Material UI
 import Container from '@material-ui/core/Container';
-// Own Modules
-// Models
-import Advert from '../../models/Advert'
 // Components
 import AdvertDetail from '../../components/AdvertDetail';
 import ModalConfirm from '../../components/ModalConfirm';
@@ -14,6 +12,8 @@ import Loading from '../../components/Loading';
 import NavBar from '../../components/NavBar';
 import Footer from '../../components/Footer';
 import Error from '../../components/Error';
+// Own Modules
+// Models
 // Assets
 // CSS
 import './styles.css';
@@ -85,6 +85,14 @@ function Detail(props) {
             <NavBar session={props.session} onLogout={props.logout}/>
             <Container className='Container__Fill'>
                 <main className='Main__Section Detail'>
+                    <div className='Section__Content'>
+                        <div className='Content__Title'>
+                            <h1 className='Title'>Detalle del anuncio</h1>
+                        </div>
+                        <p className='Text'>Visualice los datos detallados del anuncio, y pongase en contacto con el propietario en caso de estar interesado... </p>
+                        <p className='Text'>También pued añadir el anuncio a sus <Link to={`/favorites/`}>favoritos</Link>, para recibir notificaciones en caso de que
+                            tenga cambios relevantes.</p>
+                    </div>
                     { advert && 
                         <AdvertDetail
                             advert={advert}
@@ -98,7 +106,6 @@ function Detail(props) {
                     }
                     { props.isFetching && <Loading text={t('Loading advert')}/> }
                     { error &&  <Error error={error}/> }
-                
                 </main>
                 {   showModalDelete && 
                     <ModalConfirm   onConfirm={confirmDeleteAdvert} 

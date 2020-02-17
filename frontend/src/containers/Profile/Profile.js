@@ -60,7 +60,7 @@ function Profile(props) {
                     <div className='Content__Title'>
                         <h1 className='Title'>Tu perfil de usuario</h1>
                     </div>
-                    <p className='Text'>Gestiona tu perfil de usuario. Desde esta sección puedes modificar tu nombre, login en la plataforma y dirección de email. También podrás cambiar tu contraseña, 
+                    <p className='Text'>Desde esta sección puedes modificar tu nombre, login en la plataforma y dirección de email. También podrás cambiar tu contraseña, 
                     y seleccionar una foto de perfil, que será visible por el resto de usuarios en los anuncios que publiques.</p>
                 </div>
                 <ProfileForm    noValidate 

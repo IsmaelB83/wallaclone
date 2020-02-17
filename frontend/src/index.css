@@ -45,7 +45,7 @@ img, embed, object, video {
     --light-red: rgb(255, 0, 0);
     --dark-red: rgb(218, 13, 13);
     --navbar-height: 65px;
-    --footer-height: 65px;
+    --footer-height: 75px;
 }
 
 /**
@@ -65,12 +65,10 @@ img, embed, object, video {
     flex-direction: column;
     justify-content: flex-start;
     margin-top: var(--navbar-height);
-    padding-bottom: var(--footer-height);
+    margin-bottom: var(--footer-height);
 }
 
-/**
-* Section de titulo de página
-*/
+/* Estilos de una sección de la app */
 .Main__Section {
     padding: 1rem 0;
     display: flex;
@@ -93,6 +91,55 @@ img, embed, object, video {
     color: white;
     text-shadow: 2px 2px 2px rgba(0,0,0,.5);
 }
+
+.Section__Content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.Section__Content .Content__Title { 
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 400; 
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.Section__Content .Content__Title .Counter { 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: .75rem;
+    text-transform: uppercase;
+}
+
+.Section__Content .Content__Title .Counter span { 
+    font-size: 2rem;
+}
+
+.Section__Content .Content__Data { 
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding: 1.5rem 0;
+    color: #607D8B;
+}
+
+.Section__Content .Text { max-width: 90%; }
+.Section__Content .Text:not(:last-child) { margin-bottom: .5rem; }
+.Section__Content .Button__AddProduct {
+    border-radius: 15px;
+    background-color: var(--main-color);
+    text-transform: capitalize;
+    align-self: flex-end;
+}
+
+.Section__Content .Button__AddProduct:hover { background-color: var(--main-color-dark); }
 
 /**
  * Links

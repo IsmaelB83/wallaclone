@@ -24,9 +24,6 @@ import './styles.css';
 // Functional component to render an advert card
 export default function CardList (props) {
     
-    // Translate
-    const { t } = props;
-
     // Props destructuring
     const { slug, name, thumbnail, tags, price, sold, type, booked, favorite, createdAt, user } = props.advert;
     const { setFavoriteAdvert, setBookAdvert, setSellAdvert, setDeleteAdvert, showFavorite, showEdit } = props;

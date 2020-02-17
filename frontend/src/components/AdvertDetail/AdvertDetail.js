@@ -39,7 +39,7 @@ export default function AdvertDetail(props) {
         <article id={`adslug_${slug}`} className='AdvertDetail'>
             <div className='AdvertDetail__Photo'>
                 { ( sold || booked ) && <span className='AdvertDetail__Photo--overlay'>{renderStatus()}</span> }
-                <img src={photo} alt='photo'/>
+                <img src={photo} alt='thumbnail'/>
             </div>
             <div className='AdvertDetail__Content'>
                 <AdvertChip type='type' value={type}/>
@@ -87,11 +87,9 @@ export default function AdvertDetail(props) {
                         <Button className='ButtonWc ButtonWc__Green' 
                                 onClick={props.setSellAdvert}
                                 startIcon={<AttachMoneyOutlinedIcon/>}>
-
                                 {t('Sold')}
                         </Button>
                         <Button className='ButtonWc ButtonWc__Red Span2' 
-                                disabled={props.isUpdating} 
                                 onClick={props.setDeleteAdvert}
                                 startIcon={<DeleteOutlineOutlinedIcon/>}
                                 disabled={sold}>

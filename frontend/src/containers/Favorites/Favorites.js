@@ -42,14 +42,14 @@ function Favorites (props) {
         <React.Fragment>
             <NavBar session={props.session} onLogout={props.logout}/>
             <Container className='Container__Fill'>
-                <div className='Section__Content'>
-                    <div className='Content__Title'>
-                        <h1 className='Title'>Tus favoritos</h1>
-                        <p className='Text'>Aquí puedes hacer seguimiento de todos los anuncios que has añadido a tus favoritos...</p>
-                        <p className='Counter'><span>{totalCount}</span> {t('products')}</p>
-                    </div>
-                </div>
                 <main className='Main__Section'>
+                    <div className='Section__Content'>
+                        <div className='Content__Title'>
+                            <h1 className='Title'>Tus favoritos</h1>
+                            <p className='Counter'><span>{totalCount}</span> {t('products')}</p>
+                        </div>
+                        <p className='Text'>Aquí puedes hacer seguimiento de todos los anuncios que has añadido a tus favoritos...</p>
+                    </div>
                     <AdvertList 
                         type='list' 
                         start={start}

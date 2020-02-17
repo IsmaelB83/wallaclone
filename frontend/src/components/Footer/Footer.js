@@ -36,7 +36,7 @@ export default function Footer(props) {
                         <ViewListIcon fontSize='small' />
                         <span>{t('My adverts')}</span>
                     </MenuItem>
-                    <MenuItem className='Footer__MenuItem' component={Link} to='/soldhistory'>
+                    <MenuItem className='Footer__MenuItem' component={Link} to='/history'>
                         <TrendingUpIcon fontSize='small' />
                         <span>{t('Sold History')}</span>
                     </MenuItem>

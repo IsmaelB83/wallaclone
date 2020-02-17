@@ -28,12 +28,8 @@ const FORM_TYPES = {
 };
 
 // Componente para renderizar cualquiera de los formularios de la sección de autenticación:
-export default function AuthForm(props) {
-   
-    const { t } = props;
+export default function AuthForm(props) {  
     const submit = (inputs) => props.onSubmit(inputs);
-
-    // Render
     const Content = FORM_TYPES[props.form];
     return (
         <div className='Login'>

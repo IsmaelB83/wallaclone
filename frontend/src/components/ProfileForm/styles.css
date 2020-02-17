@@ -80,11 +80,16 @@
 
 .ProfileForm__Buttons {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 10px;
+    grid-template-columns: 1fr;
+    grid-gap: 5px;
 }
 
 .ProfileForm__Buttons button:first-child { grid-column: span 2; }
+
+@media only screen and (min-width : 500px) {
+    .ProfileForm__Buttons { grid-template-columns: 1fr 1fr; grid-gap: 10px; }
+    .ProfileForm__Buttons button:first-child { grid-column: span 2; }
+}
 
 @media only screen and (min-width : 700px) {
     .ProfileForm { width: 500px; }   
