@@ -1,3 +1,5 @@
+// Service worker (push notifications)
+import * as serviceWorker from '../../serviceWorker';
 // API
 import AuthServices from '../../services/AuthServices';
 import UserServices from '../../services/UserServices';
@@ -19,6 +21,8 @@ export const login = (login, password) => {
         .then(response => {
             dispatch(loginSuccess(response));
             LocalStorage.saveLocalStorage(getState().session);
+            // register service worker to receive push notifications
+            serviceWorker.register(login);
             extra.history.push('/');
             return response;
         })
@@ -44,6 +48,8 @@ export const loginWithToken = (jwt) => {
         .then(response => {
             dispatch(loginWithTokenSuccess(response));
             LocalStorage.saveLocalStorage(getState().session);
+            // register service worker to receive push notifications
+            serviceWorker.register(getState().session.login);
             extra.history.push('/');
             return response;
         })
@@ -70,6 +76,8 @@ export const logout = () => {
         .then(response => {
             dispatch(logoutSuccess(response));
             LocalStorage.cleanLocalStorage();
+            // unregister service worker to receive push notifications
+            serviceWorker.unregister();
             extra.history.push('/login');
             return response;
         })

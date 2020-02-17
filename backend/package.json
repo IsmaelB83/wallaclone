@@ -9,7 +9,6 @@
     "debug": "nodemon --nolazy --inspect-brk=9543 ./src/index.js",
     "debugPhotos": "nodemon --nolazy --inspect-brk=9544 ./src/services/workers/photos.js",
     "debugNotify": "nodemon --nolazy --inspect-brk=9545 ./src/services/workers/notify.js",
-    "debugWebpush": "nodemon --nolazy --inspect-brk=9546 ./src/services/workers/testpush.js",
     "prod": "cross-env NODE_ENV=production npm start",
     "photos": "node ./src/services/workers/photos.js",
     "notify": "node ./src/services/workers/notify.js",
