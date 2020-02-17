@@ -64,6 +64,13 @@ export default function SoldHistory (props) {
         <React.Fragment>
             <NavBar session={props.session} onLogout={props.logout}/>
             <Container className='Container__Fill'>
+                <div className='Section__Content'>
+                    <div className='Content__Title'>
+                        <h1 className='Title'>Tus ventas</h1>
+                        <p className='Text'>Aquí puedes hacer seguimiento de todo el histórico de ventas en tu usuario...</p>
+                        <p className='Counter'><span>{totalCount}</span> {t('products')}</p>
+                    </div>
+                </div>
                 <main className='Main__Section'>
                     <AdvertList 
                         type='list' 

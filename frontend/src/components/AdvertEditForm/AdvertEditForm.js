@@ -49,7 +49,7 @@ export default function AdvertEditForm(props) {
 
     // Render
     return (
-        <Form className='AdvertEditForm' validate onSubmit={submit} initial={props.advert}>
+        <Form className='AdvertEditForm' onSubmit={submit} initial={props.advert}>
             <div className='AdvertEditForm__Photo'>
                 <span className='AdvertEditForm__Photo--overlay' onClick={openInputFile}>{t('change advert photo')}</span>
                 <input type='file' id='file' ref={refInputFile} style={{display: 'none'}} onChange={changeInputFile} />

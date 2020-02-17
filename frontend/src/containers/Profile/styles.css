@@ -1,4 +1,12 @@
 .Profile {
-    flex-direction: row !important;
+    flex-direction: column !important;
     justify-content: center;
+}
+
+.Profile .Section__Content {
+    margin: 1rem 0;
+}
+
+.Profile .Section__Content .Text {
+    margin: 1rem 0;
 }

@@ -10,8 +10,6 @@ const HideOnScrollDown = () => {
         // When scrolling
         const onScroll = () => {
             setHide(hide => {
-                console.log(window.scrollY);
-                console.log(hide);
                 const scrolledDown = window.scrollY > prevScrollY.current;
                 if (window.scrollY < 100) return false;
                 else if (scrolledDown && !hide) return true;
@@ -26,7 +24,6 @@ const HideOnScrollDown = () => {
         window.addEventListener("scroll", onScroll);
         return () => window.removeEventListener("scroll", onScroll);
     }, []);
-    console.log(hide);
     return hide;
 };
 

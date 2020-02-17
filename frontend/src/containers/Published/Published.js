@@ -1,12 +1,15 @@
 // NPM Modules
 import React, { useState, useEffect } from 'react';
+import { Link } from "react-router-dom";
 // Material UI
 import Container from '@material-ui/core/Container';
+import Button from '@material-ui/core/Button';
 // Components
 import ModalConfirm from '../../components/ModalConfirm';
 import AdvertList from '../../components/AdvertList';
 import Footer from '../../components/Footer';
 import NavBar from '../../components/NavBar';
+
 // Own modules
 // Models
 // Assets
@@ -84,6 +87,27 @@ export default function Published (props) {
             <NavBar session={props.session} onLogout={props.logout}/>
             <Container className='Container__Fill'>
                 <main className='Main__Section'>
+                    {  ( props.session.login && login === props.session.login ) &&
+                        <div className='Section__Content'>
+                            <div className='Content__Title'>
+                                <h1 className='Title'>Tus productos</h1>
+                                <p className='Counter'><span>{totalCount}</span> {t('products')}</p>
+                            </div>
+                            <p className='Text'>Aquí puedes gestionar tus anuncios en venta: reservarlos, marcarlos como vendidos y eliminarlos. Utiliza el botón para subir nuevos productos...</p>
+                            <Button className='Button__AddProduct' variant='contained' color='primary' component={Link} to='/advert/create'>
+                                {t('Add product')}
+                            </Button>
+                        </div>
+                    }
+                    {  ( !props.session.login || login !== props.session.login ) &&
+                        <div className='Section__Content'>
+                            <div className='Content__Title'>
+                                <h1 className='Title'>Los productos de <i>'{login}'</i></h1>
+                                <p className='Counter'><span>{totalCount}</span> {t('products')}</p>
+                            </div>
+                            <p className='Text'>Echa un vistazo a todos los anuncios que tiene publicados un usuario, y añadelos a tus favoritos para recibir notificaciones de tu inter...</p>
+                        </div>
+                    }
                     <AdvertList 
                         type='list' 
                         start={start}

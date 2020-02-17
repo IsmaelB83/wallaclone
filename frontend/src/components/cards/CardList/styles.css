@@ -94,6 +94,6 @@
 
 @media only screen and (min-width : 1000px) {
     .CardList__Header {
-        max-width: 225px;
+        max-width: 200px;
     }
 }
