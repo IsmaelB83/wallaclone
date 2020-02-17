@@ -65,12 +65,24 @@ function Edit(props) {
                 <main className='Main__Section Edit'>
                     <div className='Section__Content'>
                         <div className='Content__Title'>
-                            <h1 className='Title'>Edita anuncio</h1>
+                            { mode === 'edit' && <h1 className='Title'>Edita anuncio</h1> }
+                            { mode === 'create' && <h1 className='Title'>Crear anuncio</h1> }
                         </div>
-                        <p className='Text'>Edite los datos de su anuncio y pulse en guardar para hacerlos permanentes... </p>
-                        <p className='Text'>Desde esta sección no puede modificar las propiedades <b>vendido</b> y <b>reservado</b>. 
-                            Para ello puede acudir a la sección <Link to={`/published/${props.session.login}`}>publicados</Link> o
-                            al <Link to={`/advert/${advert && advert.slug}`}>detalle</Link> del anuncio.</p>
+                        { mode === 'edit' && 
+                            <React.Fragment>
+                                <p className='Text'>Edite los datos de su anuncio (tipo, nombre, etiquetas, precio y descripción). Seleccione una imagen para el mismo,
+                                    y pulse en guardar para hacerlos permanentes... </p>
+                                <p className='Text'>Desde esta sección no puede modificar las propiedades <b>vendido</b> y <b>reservado</b>. 
+                                    Para ello puede acudir a la sección <Link to={`/published/${props.session.login}`}>publicados</Link> o
+                                    al <Link to={`/advert/${advert && advert.slug}`}>detalle</Link> del anuncio.</p>
+                            </React.Fragment>
+                        }
+                        { mode === 'create' &&
+                            <React.Fragment>
+                                <p className='Text'>Rellene los datos del nuevo anuncio, seleccione una imagen del mismo,  y pulse en salvar para publicarlo en nuestra app.</p>
+                                <p className='Text'>A partir de ese moment podrá visualizarlo y gestionarlo en su sección de <Link to={`/published/${props.session.login}`}>publicados</Link></p>
+                            </React.Fragment>
+                        }
                     </div>
                     { advert &&
                         <AdvertEditForm noValidate 
