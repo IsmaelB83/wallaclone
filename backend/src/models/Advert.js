@@ -174,9 +174,8 @@ AdvertSchema.statics.updateAdvert = async function(id, newAdvert) {
 * @param {String} id ID que representa a un anuncio en MongoDB
 * @param {String} thumbnail String a la ruta del thumbnail
 */
-AdvertSchema.statics.udpateThumbnail = async function(id, thumbnail) {
-    // Find and update
-    return Advert.updateOne({ _id: ObjectId(id)}, { $set: { 'thumbnail': thumbnail}});
+AdvertSchema.statics.udpateThumbnail = async function(id, thumbnail) {   
+    return Advert.updateOne({ _id: ObjectId(id)}, { $set: { 'thumbnail': thumbnail}})
 };
 
 // Autopopulate user after save (mongoose middleware)

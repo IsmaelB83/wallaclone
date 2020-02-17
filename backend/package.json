@@ -8,8 +8,9 @@
     "start": "node ./src/index.js",
     "debug": "nodemon --nolazy --inspect-brk=9543 ./src/index.js",
     "prod": "cross-env NODE_ENV=production npm start",
-    "worker": "nodemon ./src/services/thumbnail/worker.js",
-    "chat": "nodemon ./src/services/chat/server.js",
+    "photos": "nodemon ./src/services/workers/photos.js",
+    "notify": "nodemon ./src/services/workers/notify.js",
+    "chat": "nodemon ./src/services/chat/index.js",
     "test": "jest",
     "test:watch": "jest --watch"
   },

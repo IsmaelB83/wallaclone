@@ -2,7 +2,7 @@
 // Own imports
 const { validationResult } = require('express-validator');
 // Node imports
-const Sender = require('../../services/thumbnail/sender');
+const { handleThumbnail, handleNotifications } = require('../../services/senders');
 const { Advert, User } = require('../../models');
 
 /**
@@ -119,8 +119,8 @@ module.exports = {
             }
             // Update mongo
             advert.save().then(result => {
-                // Send work to rabbitmq 
-                Sender(advert.photo, advert._id);
+                // Send work to rabbitmq to generate thumbnail
+                handleThumbnail(advert.photo, advert._id);
                 // Response
                 return res.json({success: true, result: result});
             })
@@ -162,10 +162,24 @@ module.exports = {
                 // Update mongo
                 Advert.updateAdvert(advert._id, updated)
                 .then(result => {
-                    // Send work to rabbitmq (thumbnail generation in microservice)
-                    Sender(advert.photo, advert._id);
-                    return res.json({success: true, result: result });
-                })    
+                    // Ok
+                    res.json({success: true, result: result });
+                    // Send works to generate thumbnail only in case of new photos
+                    if (req.file) {
+                        handleThumbnail(advert.photo, advert._id); 
+                    }
+                    // Send work to analize potential notifications 
+                    const message = {
+                        _id: result._id,
+                        slug: result.slug,
+                        thumbnail: result.thumbnail,
+                        booked: result.booked,
+                        sold: result.sold,
+                        price: result.price,
+                        oldPrice: advert.price,
+                    }
+                    handleNotifications(message);    
+                })
             })
         } catch (error) {
             next(error);
@@ -188,7 +202,23 @@ module.exports = {
                 // Ok
                 advert.booked = !advert.booked;
                 if (advert.booked) advert.sold = false;
-                advert.save().then(advert => res.json({success: true, result: advert}));
+                advert.save().then(advert => {
+                    // Ok 
+                    res.json({success: true, result: advert})
+                    // If advert is booked send work to check for potential notifications
+                    if (advert.booked) {
+                        const message = {
+                            _id: advert._id,
+                            slug: advert.slug,
+                            thumbnail: advert.thumbnail,
+                            booked: advert.booked,
+                            sold: advert.sold,
+                            price: advert.price,
+                            oldPrice: advert.price,
+                        }
+                        handleNotifications(message);    
+                    }
+                });
             })
         } catch (error) {
             next(error);
@@ -211,7 +241,23 @@ module.exports = {
                 // Ok
                 advert.sold = !advert.sold;
                 if (advert.sold) advert.booked = false;
-                advert.save().then(advert => res.json({success: true, result: advert }))
+                advert.save().then(advert => {
+                    // Ok
+                    res.json({success: true, result: advert })
+                    // If advert is sold send work to check for potential notifications
+                    if (advert.sold) {
+                        const message = {
+                            _id: advert._id,
+                            slug: advert.slug,
+                            thumbnail: advert.thumbnail,
+                            booked: advert.booked,
+                            sold: advert.sold,
+                            price: advert.price,
+                            oldPrice: advert.price,
+                        }
+                        handleNotifications(message);
+                    }
+                })
             })
         } catch (error) {
             next(error);
@@ -232,7 +278,21 @@ module.exports = {
                 // Chequeps
                 if (!advert) return next({status: 401, description: 'No autorizado. Sólo puede tratar sus anuncios'});
                 // Ok
-                Advert.findByIdAndDelete(advert._id).then(advert => res.json({success: true, result: advert}));
+                Advert.findByIdAndDelete(advert._id).then(advert => {
+                    // Ok
+                    res.json({success: true, result: advert});
+                    // When advert is delete send work to analize potential notifications
+                    const message = {
+                        _id: advert._id,
+                        slug: advert.slug,
+                        thumbnail: advert.thumbnail,
+                        booked: advert.booked,
+                        sold: advert.sold,
+                        price: advert.price,
+                        oldPrice: advert.price,
+                    }
+                    handleNotifications(message); 
+                });
             })
         } catch (error) {
             next(error);
