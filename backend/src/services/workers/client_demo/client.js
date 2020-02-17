@@ -1,42 +1,15 @@
-// NPM Modules
-import React from 'react';
-import ReactDOM from 'react-dom';
-// Material UI
-// Components
-import App from './containers/App';
-// Own modules
-import './utils/i18n';
-import 'moment/locale/es';
-import 'moment/locale/en-gb';
-import * as serviceWorker from './serviceWorker';
-// Assets
-// CSS
-import './index.css';
-
-// Render
-ReactDOM.render(<App />, document.getElementById('root'));
-
-
-/*******************************************************
- *  SERVICE WORKER REGISTRATION --> Push notification  *
- *******************************************************/
 const publicVapidKey = 'BCKzHuEXd7u1KviQLVodwYTGgJ6z7iJf-DYtLSNX6FTREky0uxvXCYMwenwp7oXB_3kgEOPGlEO3wYw6XAF2NmY';
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.register();
 
 // Check for service workers
 if('serviceWorker' in navigator) {
-    //send().catch(err => console.error(err));
+    send().catch(err => console.error(err));
 }
 
 // Register SW, Register push, Send Push
 async function send() {
     // Register service worker
     console.log('Registering service worker...');
-    const register = await navigator.serviceWorker.register('/serviceWorker.js', {scope: '/'});
+    const register = await navigator.serviceWorker.register('/worker.js', {scope: '/'});
     console.log('Service worker registered...');
     
     // Register push

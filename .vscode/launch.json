@@ -32,6 +32,15 @@
             "port": 9545
         },
         {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch nodemon for webpush notifications",
+            "cwd": "${workspaceFolder}/backend/",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": ["run-script", "debugWebpush"],
+            "port": 9546
+        },
+        {
             "type": "chrome",
             "request": "launch",
             "name": "Launch react in debug",
