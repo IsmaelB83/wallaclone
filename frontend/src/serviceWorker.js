@@ -3,49 +3,50 @@ const publicVapidKey = 'BCKzHuEXd7u1KviQLVodwYTGgJ6z7iJf-DYtLSNX6FTREky0uxvXCYMw
 
 // Register service worker
 export const register = (login, callback) =>  {
-    // Check for service workers capabilities
+    // 0. Check for service workers capabilities
     if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
         return console.error('Service workers not available');
     }
-
-    // 1st regisger service worker
+    // 1. regisger service worker
     console.log('Registering SERVICE WORKER...');
     registerServiceWorker()
     .then(registration => {
-        // 2nd ask user permisson
+        // 2. ask user permisson
         console.log('Asking form PERMISSIONS...');
         askPermission()
         .then (() => {
-            // 3rd Ensure service worker is ready
-            navigator.serviceWorker.ready
-            .then(registration => {
-                // 4th Registering push
-                console.log('Registering PUSH...');
-                registration.pushManager.subscribe({
-                    userVisibleOnly: true,
-                    applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
-                })
-                .then (subscription => {
-                    // 5th Push subscription
-                    console.log('Sending PUSH subscription...');
-                    fetch(`${process.env.REACT_APP_NOTIFY_URL}subscribe/${login}`, { 
-                        method: 'POST',
-                        body: JSON.stringify(subscription),
-                        headers: { 'content-type': 'application/json' }
-                    })
-                    .then (data => {
-                        // 6th enable communication between service worker and the rest of the app (callback)
-                        console.log('Calling the POST MESSAGE...');
-                        navigator.serviceWorker.controller.postMessage("ping");
-                        navigator.serviceWorker.addEventListener('message', function (event) {
-                            callback(event.data);
-                        })
+            // 3. Registering push
+            console.log('Registering PUSH...');
+            subscribeUserToPush()
+            .then (subscription => {
+                // 4. Push subscription
+                console.log('Sending PUSH subscription...');
+                sendSubscriptionToBackEnd(subscription, login)
+                .then (result => {
+                    // 5. Ensure service worker is ready
+                    navigator.serviceWorker.ready
+                    .then(registration => {
+                        // 6. enable communication between service worker and the rest of the app (callback)
+                        // IMPORTANT!!! dont know why service worker is not ready here.... for my scenario its not a problem
+                        // to have 10s delay until the post message is called... either dont like this. check for a solution
+                        // in the future.
+                        setTimeout(() => {
+                            try {
+                                console.log('Calling the POST MESSAGE...');
+                                navigator.serviceWorker.controller.postMessage("ping");
+                                navigator.serviceWorker.addEventListener('message', function (event) {
+                                    callback(event.data);    
+                                });                                
+                            } catch (error) {
+                                console.error(error);
+                            }
+                        }, 1000);
                     })
                     .catch(error => console.error(error));
                 })
-                .catch (error => console.error (error));
+                .catch(error => console.error(error));
             })
-            .catch(error => console.error(error));
+            .catch (error => console.error (error));
         })
         .catch(error => console.error(error));
     })
@@ -94,6 +95,40 @@ function askPermission() {
         }
     });
 }
+
+// Subscribe to Push
+function subscribeUserToPush() {
+    return navigator.serviceWorker.register(`${process.env.PUBLIC_URL}/custom-service-worker.js`)
+    .then(registration => {
+        const subscribeOptions = {
+            userVisibleOnly: true,
+            applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
+        };
+        return registration.pushManager.subscribe(subscribeOptions);
+    })
+    .then(function(pushSubscription) {
+        console.log('Received PushSubscription');
+        return pushSubscription;
+    });
+}
+
+// Susbcribe in Backend
+function sendSubscriptionToBackEnd(subscription, login) {
+    return fetch(`${process.env.REACT_APP_NOTIFY_URL}subscribe/${login}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(subscription)
+    })
+    .then(response => {
+        if (!response.ok) { throw new Error('Bad status code from server.'); }
+        return response.json();
+    })
+    .then(responseData => {
+        if (!(responseData.data && responseData.data.success)) {
+            throw new Error('Bad response from server.');
+        }
+    });
+}   
 
 // Convert vapid key to urlBase64 format
 function urlBase64ToUint8Array(base64String) {

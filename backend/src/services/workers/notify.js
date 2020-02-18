@@ -58,7 +58,7 @@ app.post('/subscribe/:login', (req, res) => {
     subscriptions[login] = subscription;
     console.log(`Subscriber added: ${login}`);
     // Return OK
-    res.status(201).json({});   
+    res.status(201).json({data: { success: true, description: 'Push subscription stablished in notify microservice'}});
 });
 
 // Unsubscribe route for clients
@@ -68,7 +68,7 @@ app.post('/unsubscribe/:login', (req, res) => {
     delete subscriptions[login];
     console.log(`Subscriber deleted: ${login}`);
     // Return OK
-    res.status(201).json({});   
+    res.status(201).json({data: { success: true, description: 'Push subscription deleted in notify microservice'}});
 });
 
 // Connect to queue and mongo
@@ -103,12 +103,13 @@ async function notifyUser (user, message) {
     let errorSubscription = false;
     if (subscription) {
         // Try notification (in case of error send email)
-        const payload = JSON.stringify({ 
+        const payload = JSON.stringify({
+            slug: message.slug, 
             title: 'Product Updated',
             body: 'Uno de sus anuncios de interes ha sufrido una modificación.',
             icon: `https://127.0.0.1:8443${message.thumbnail}`,
             image: `https://127.0.0.1:8443${message.thumbnail}`,
-            actions: [{ action: 'favorite', title: 'Favoritos' }]    
+            actions: [{ action: 'detail', title: 'Product' }]    
         });
         webpush.sendNotification(subscription, payload)
         .catch(err => {

@@ -4,10 +4,10 @@ import * as serviceWorker from '../../serviceWorker';
 import AuthServices from '../../services/AuthServices';
 import UserServices from '../../services/UserServices';
 // Own modules
+import store from '../index'
 import LocalStorage from '../../utils/Storage';
 // Actions
 import * as ACTIONS from '../types/SessionTypes';
-
 
 /**
  * Login con usuario y password
@@ -46,6 +46,7 @@ export const loginWithToken = (jwt) => {
         dispatch(loginWithTokenRequest());
         return AuthServices.loginWithToken(jwt)
         .then(response => {
+            // Distpatch login and save in local storage
             dispatch(loginWithTokenSuccess(response));
             LocalStorage.saveLocalStorage(getState().session);
             // register service worker to receive push notifications
@@ -74,10 +75,11 @@ export const logout = () => {
         dispatch(logoutRequest());
         return AuthServices.logout(getState().session.jwt)
         .then(response => {
+            // unregister service worker to receive push notifications
+            serviceWorker.unregister(getState().session.login);
+            // Distpatch logout and clear local storage
             dispatch(logoutSuccess(response));
             LocalStorage.cleanLocalStorage();
-            // unregister service worker to receive push notifications
-            serviceWorker.unregister();
             extra.history.push('/login');
             return response;
         })

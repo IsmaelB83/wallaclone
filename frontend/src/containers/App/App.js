@@ -30,11 +30,11 @@ import { initialState } from '../../store/InitialState';
 // APP Root Component
 export default function App(props) {
 
-    const showNotification = (accion) => {
-        debugger;
-        switch (accion) {
-            case 'favorites':
-                history.push('/favorites/')
+    // When user clicks in a push notification. This is the callback that service worker execute it
+    const showNotification = (content) => {
+        switch (content.action) {
+            case 'navigate':
+                history.push(content.data)
                 break;
         }
     }
