@@ -176,7 +176,7 @@ module.exports = {
                 email: user.email, 
                 name: user.name,
                 subject: 'Password reset',
-                url: `http://localhost:3000/reset/${user.token}`,
+                url: `${process.env.FRONTEND_URL}/reset/${user.token}`,
                 view: 'password_reset'
             });
             // Ok

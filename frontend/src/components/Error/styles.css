@@ -1,5 +1,4 @@
 .Error {
-    z-index: 100;
     position: absolute;
     top: 0;
     left: 0;
@@ -13,13 +12,9 @@
     text-align: center;
 }
 
-.Error p {
-    font-size: 1.5rem;
-    margin-top: 1rem;
-    font-weight: bold;
-}
+.Error img { width: 125px; margin-bottom: 1rem;}
+.Error h2 { color: red; margin-bottom: 1rem;}
+.Error h1 { margin-top: 1rem; }
+.Error h3 { margin-top: 1rem; }
+.Error p { font-size: 1.5rem; }
 
-.Error img { max-width: 700px; }
-.Error h1 { margin-top: 2rem; }
-.Error h2 { color: red; }
-.Error h3 { margin-top: 2rem; }

@@ -31,13 +31,12 @@ function Detail(props) {
     const { slug } = props.match.params;
 
     // Load advert from API
-    const [error, setError] = useState();
     const [advert, setAdvert] = useState();
     useEffect(() => {
         fetchAdvert(slug)
-        .then ((advert) => setAdvert(advert))
-        .catch((error) => setError(error));
-    }, [slug, enqueueSnackbar, fetchAdvert]);
+        .then (advert => setAdvert(advert))
+        .catch(error => enqueueSnackbar(t('Error loading advert ERROR', {error}), { variant: 'error' }));
+    }, [slug, enqueueSnackbar, fetchAdvert, t]);
 
     // Marcar como vendido un anuncio
     const setSellAdvert = () => {
@@ -104,8 +103,8 @@ function Detail(props) {
                             onDeleteAdvert={deleteAdvertRequest}
                         />
                     }
-                    { props.isFetching && <Loading text={t('Loading advert')}/> }
-                    { error &&  <Error error={error}/> }
+                { props.error && <Error error={props.error}/>}
+                { props.isFetching && <Loading text={t('Loading advert')}/> }
                 </main>
                 {   showModalDelete && 
                     <ModalConfirm   onConfirm={confirmDeleteAdvert} 

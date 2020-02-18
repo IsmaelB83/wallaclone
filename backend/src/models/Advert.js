@@ -54,11 +54,6 @@ const AdvertSchema = new Schema(
 * @param {String} fields Campos a obtener de la colección
 * @param {String} sort Criterio de ordenación
 * @param {function} callback Función a llamar al terminar la consulta
-*
-* Ejemplos de fields:
-* http://localhost:3001/apiv1/anuncios?fields=name%20type%20price%20-_id
-* http://localhost:3001/apiv1/anuncios?fields=name
-* http://localhost:3001/apiv1/anuncios?fields=-_id
 */
 AdvertSchema.statics.list = (name, venta, tag, precio, user, limit, skip, fields, sort, soldHistory) => {
     return new Promise((resolve, reject) => {

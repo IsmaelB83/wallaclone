@@ -13,6 +13,7 @@ self.addEventListener('push', e => {
     // Show notification
     const data = e.data.json();
     self.registration.showNotification(data.title, {
+        body: data.body,
         data: data.slug,
         requireInteraction: true,
         icon: data.icon,
@@ -27,16 +28,22 @@ self.addEventListener('notificationclick', function(event) {
     if (!event.action) return;
     const slug = event.notification.data
     switch (event.action) {
-        case 'favorites':
+        case 'delete':
             reactClient.postMessage({ 
-                action: 'navigate',
-                data: 'favorites'
+                action: 'delete',
+                data: slug
             });
             break;
         case 'detail':
             reactClient.postMessage({ 
                 action: 'navigate',
                 data: `/advert/${slug}`
+            });
+            break;
+        case 'favorites':
+            reactClient.postMessage({ 
+                action: 'navigate',
+                data: 'favorites'
             });
             break;
     }

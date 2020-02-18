@@ -23,13 +23,13 @@ export default function History (props) {
     const { enqueueSnackbar, fetchSoldHistory, setCurrentPage } = props;
     const { start, end, totalCount } = props.lastCall;
     const { currentPage, isFetching } = props.ui;
-    const { adverts } = props;
+    const { adverts, session } = props;
 
     // Cargo anuncios del usuario solicitado
     useEffect(() => {
         fetchSoldHistory()
-        .catch(error => enqueueSnackbar(t('Error loading USER sold history ERROR', {user: props.session.login, error}), { variant: 'error' }));
-    }, []);
+        .catch(error => enqueueSnackbar(t('Error loading USER sold history ERROR', {user: session.login, error}), { variant: 'error' }));
+    }, [enqueueSnackbar, fetchSoldHistory, session, t]);
 
     // Vendido
     const sellAdvert = slug => {
@@ -62,7 +62,7 @@ export default function History (props) {
     // Render
     return (
         <React.Fragment>
-            <NavBar session={props.session} onLogout={props.logout}/>
+            <NavBar session={session} onLogout={props.logout}/>
             <Container className='Container__Fill'>
                 <main className='Main__Section'>
                     <div className='Section__Content'>
@@ -95,7 +95,7 @@ export default function History (props) {
                     /> 
                 }
             </Container>
-            <Footer session={props.session} onLogout={props.logout}/>
+            <Footer session={session} onLogout={props.logout} active='History'/>
         </React.Fragment>
     );
 }

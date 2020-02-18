@@ -15,6 +15,7 @@ const mapStateToProps = (state) => {
     return {
         session: state.session,
         isFetching: state.ui.isFetching,
+        error: state.ui.error
     }
 }
 

@@ -4,21 +4,25 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(-45deg, var(--main-color), var(--main-color-light));
+    background-image: 
+        linear-gradient(to bottom, #37ff0f0c, #00000021),
+        url('../../assets/images/wallpaper.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .Login__Wrapper {
     max-width: 80%;
     padding: 2.5rem 2rem;
     background-color: white;
-    box-shadow: 3px 3px 7px rgba(0, 0, 0, .5);
+    box-shadow: 3px 4px 10px rgba(0, 0, 0, .5);
 }
 
 .Login__Form {
     display: grid;
     grid-gap: 1.75rem;
 }
-
+x
 .Login__Form .Button {
     align-self: flex-end;
 }

@@ -30,8 +30,8 @@ export default function InputForm(props) {
                 startAdornment={start}
                 endAdornment={props.endAdornment}
                 required={props.required}
-                autoComplete={props.autoComplete}
                 inputProps={{ maxLength: props.maxLength }}
+                autoComplete={props.autoComplete}
             />
         </FormControl>
     )

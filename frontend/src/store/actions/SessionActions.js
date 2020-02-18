@@ -4,7 +4,6 @@ import * as serviceWorker from '../../serviceWorker';
 import AuthServices from '../../services/AuthServices';
 import UserServices from '../../services/UserServices';
 // Own modules
-import store from '../index'
 import LocalStorage from '../../utils/Storage';
 // Actions
 import * as ACTIONS from '../types/SessionTypes';

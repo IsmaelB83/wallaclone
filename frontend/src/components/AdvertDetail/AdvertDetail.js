@@ -14,9 +14,9 @@ import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 // Own Components
 import AdvertChip from '../AdvertChip';
+import CardImage from '../cards/CardImage/CardImage';
 // Own Modules
 // Models
-import { ADVERT_CONSTANTS } from '../../models/Advert';
 // Components
 // Assets
 // CSS
@@ -25,21 +25,18 @@ import './styles.css';
 // Component to display an advert
 export default function AdvertDetail(props) {
 
-    // Translate
-    const { t } = props;
-
     // Props destructuring
     const { slug, name, description, photo, tags, price, sold, booked, type, favorite, createdAt, user } = props.advert;
+    const { t } = props;
 
     // Chip
-    const renderStatus = () => <AdvertChip type='status' value={sold?ADVERT_CONSTANTS.STATUS.SOLD:ADVERT_CONSTANTS.STATUS.BOOKED}/>
     const renderTags = () => tags.map((value,i) => <AdvertChip key={i} type='tag' value={value}/>);
+
     // Render
     return (
         <article id={`adslug_${slug}`} className='AdvertDetail'>
             <div className='AdvertDetail__Photo'>
-                { ( sold || booked ) && <span className='AdvertDetail__Photo--overlay'>{renderStatus()}</span> }
-                <img src={photo} alt='thumbnail'/>
+                <CardImage slug={slug} sold={sold} booked={booked} photo={photo}/>
             </div>
             <div className='AdvertDetail__Content'>
                 <AdvertChip type='type' value={type}/>

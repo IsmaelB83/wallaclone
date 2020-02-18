@@ -40,8 +40,9 @@ export const fetchAdvert = slug => {
         dispatch(fetchAdvertRequest());
         return AdvertServices.getAdvert(slug)
         .then(advert => {
-            if (getState().session) {
-                advert.favorite = getState().session.favorites.indexOf(advert._id) >= 0 ? true: false;
+            const { favorites } = getState().session;
+            if (favorites) {
+                advert.favorite = favorites.indexOf(advert._id) >= 0 ? true: false;
             }
             dispatch(fetchAdvertSuccess(advert));
             return advert;

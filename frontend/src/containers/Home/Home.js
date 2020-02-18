@@ -32,7 +32,7 @@ function Home(props) {
         fetchTags();
         fetchAdverts()
         .catch (error => enqueueSnackbar(t('Error loading adverts ERROR', {error}), { variant: 'error' }));
-    }, []);
+    }, [fetchTags, fetchAdverts, enqueueSnackbar, t]);
 
     // Reservar producto
     const onFavoriteAdvert = (slug) => {
@@ -85,7 +85,7 @@ function Home(props) {
                     </div>
                 </main>
             </Container>
-            <Footer session={props.session} onLogout={props.logout}/>
+            <Footer session={props.session} onLogout={props.logout} active='Home'/>
         </React.Fragment>
     );
 }

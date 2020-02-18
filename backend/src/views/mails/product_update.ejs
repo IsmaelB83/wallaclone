@@ -107,13 +107,7 @@
                 <p class='text'>One of the products you have in your favorites has had some modifications we think may be of your interest. See below the details of the related product.</p>
                 <div class='advert'>
                     <h3><%= message.name%></h3>
-                    <%if (message.sold === true) { %>
-                        <p class='text'>The product has been recently <b>sold.</b></p>
-                    <% } else if (message.booked === true) { %>
-                        <p class='text'>The product is currently <b>booked</b>. Contact the product owner in Wallaclone, in case you wan to make a better offer</p>
-                    <% } else if (message.price !== message.oldPrice) { %>
-                        <p class='text'>The <b>new price</b> of the product is <span class='text--big'><%= message.price%></span>. <b>Old price</b> of this product was <%= message.oldPrice%></p>
-                    <% }  %>
+                    <p class='text'><%= notify%></p>
                     <div class='advert__image'>
                     <img src='cid:unique@photo' alt='product'>
                     </div>

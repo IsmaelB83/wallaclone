@@ -19,9 +19,12 @@
 
 /* Logo */
 .NavBar__Brand {
-  height: 40px;
-  width: auto;
+  height: 43px;
+  width: 43px;
 }
+
+.NavBar__Brand--Xs { display: block; }
+.NavBar__Brand--Lg { display: none; }
 
 /* Botones derecha */
 .NavBar__Right {
@@ -30,33 +33,30 @@
     align-items: center;
 }
 
-/* Flags */
-.NavBar__Right .NavBar__Flags button:hover,
-.NavBar__Right .NavBar__Flags button:active,
-.NavBar__Right .NavBar__Flags button:focus {
-    border-radius: 0;
-}
-
-.NavBar__Flags button { padding: 0; }
-.NavBar__Flags button:not(:first-child) { margin-left: .5rem; }
-
-.NavBar__Right .NavBar__Flags img {
-    width: 35px;
-    height: 25px;
-}
-
 /* Navbar menu item */
 .Navbar__MenuItem {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    max-width: 52px;
+    
+}
+
+.Navbar__MenuItem .Avatar { 
+    height: 24px; 
+    width: 24px;
+    box-shadow: 0 0 0 2px #fff, 0 0 0 2px #999, 0 2px 4px 2px rgba(0,0,0,.3);
 }
 
 .Navbar__MenuItem:hover { background-color: rgba(0,0,0,.5)}
-.Navbar__MenuItem svg { height: 24px; width: 24px; }
+.Navbar__MenuItem svg { height: 25px; width: 25px; }
 .Navbar__MenuItem span { font-size: .75rem; margin-top: 3px; }
 
 @media only screen and (min-width : 600px) {
     .NavBar__Toolbar { min-height: 60px !important; }
+    .NavBar__Brand { width: 155px; }
+    .NavBar__Brand--Xs { display: none; }
+    .NavBar__Brand--Lg { display: block; }
+    .Navbar__MenuItem { max-width: unset; }    
 }

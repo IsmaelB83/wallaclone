@@ -55,8 +55,9 @@ function LoginForm(props) {
     const { t } = props;
     return (
         <React.Fragment>
-            <InputForm name='login' type='login' placeholder={t('type your login')} maxLength={"15"} required icon={<PermIdentityIcon/>}/>
-            <InputForm name='password' type='password' placeholder={t('type your password')} autocomplete='on' maxLength={"15"} required icon={<LockOpenIcon/>}/>
+            <input name='username' autoComplete='username' hidden></input> {/* Improve accessibility: https://goo.gl/9p2vKq)*/}
+            <InputForm name='login' type='login' placeholder={t('type your login')} maxLength={'15'} required icon={<PermIdentityIcon/>} autoComplete='username'/>
+            <InputForm name='password' type='password' placeholder={t('type your password')} maxLength={'15'} required icon={<LockOpenIcon/>} autoComplete='current-password'/>
             <p className='Login__Help'>{t('enter your credentials to login')}</p>
             <div className='Login__Buttons'>
                 <Button className='Button' type='submit' variant='contained' color='primary'> {t('Login')} </Button>
@@ -72,11 +73,11 @@ function RegisterForm(props) {
     const { t } = props;
     return (
         <React.Fragment>
-            <InputForm name='login' type='text' placeholder={t('type your login')} maxLength={"15"} required icon={<PermIdentityIcon/>}/>
-            <InputForm name='name' type='text' placeholder={t('type your name')} maxLength={"30"} required icon={<FaceIcon/>}/>
-            <InputForm name='email' type='email' placeholder={t('type your email')} maxLength={"150"} required icon={<MailOutlineIcon/>} />
-            <InputForm name='password' type='password' placeholder={t('type your password')} autoComplete='on' maxLength={"15"} required icon={<LockOpenIcon/>}/>
-            <InputForm name='password_2' type='password' placeholder={t('repeat your password')} autoComplete='on' maxLength={"15"} required icon={<LockOpenIcon/>}/>
+            <InputForm name='login' type='text' placeholder={t('type your login')} maxLength={'15'} required icon={<PermIdentityIcon/>}/>
+            <InputForm name='name' type='text' placeholder={t('type your name')} maxLength={'30'} required icon={<FaceIcon/>}/>
+            <InputForm name='email' type='email' placeholder={t('type your email')} maxLength={'150'} required icon={<MailOutlineIcon/>} />
+            <InputForm name='password' type='password' placeholder={t('type your password')} autoComplete='on' maxLength={'15'} required icon={<LockOpenIcon/>}/>
+            <InputForm name='password_2' type='password' placeholder={t('repeat your password')} autoComplete='on' maxLength={'15'} required icon={<LockOpenIcon/>}/>
             <p className='Login__Help'>{t('better use a gmail account to receive our emails')}</p>
             <div className='Login__Buttons'>
                 <Button className='button' type='submit' variant='contained' color='primary'>{t('Create user')}</Button>
@@ -91,7 +92,7 @@ function RequestResetForm(props) {
     const { t } = props;
     return (
         <React.Fragment>
-            <InputForm name='email' type='email' placeholder={t('type your email')} maxLength={"150"} required icon={<PermIdentityIcon/>}/>
+            <InputForm name='email' type='email' placeholder={t('type your email')} maxLength={'150'} required icon={<PermIdentityIcon/>}/>
             <p className='Login__Help'>{t('enter your email to restart your password')}</p>
             <div className='Login__Buttons'>
                 <Button className='button' type='submit' variant='contained' color='primary'>{t('Send me an email')}</Button>
@@ -106,8 +107,8 @@ function ResetForm(props) {
     const { t } = props;
     return (
         <React.Fragment>
-            <InputForm name='password' type='password' placeholder={t('type your password')} maxLength={"15"} autocomplete='on' required icon={<LockOpenIcon/>}/>
-            <InputForm name='password_2' type='password' placeholder={t('repeat your password')} maxLength={"15"} autocomplete='on' required icon={<LockOpenIcon/>}/>
+            <InputForm name='password' type='password' placeholder={t('type your password')} maxLength={'15'} autocomplete='on' required icon={<LockOpenIcon/>}/>
+            <InputForm name='password_2' type='password' placeholder={t('repeat your password')} maxLength={'15'} autocomplete='on' required icon={<LockOpenIcon/>}/>
             <p className='Login__Help'>{t('enter your new password')}</p>
             <div className='Login__Buttons'>
                 <Button className='button' type='submit' variant='contained' color='primary'>{t('Reset password')}</Button>

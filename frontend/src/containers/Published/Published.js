@@ -33,7 +33,7 @@ export default function Published (props) {
     useEffect(() => {
         fetchUserAdverts(login)
         .catch(error => enqueueSnackbar(t('Error loading USER adverts ERROR', {user: login, error}), { variant: 'error' }));
-    }, []);
+    }, [fetchUserAdverts, enqueueSnackbar, login, t]);
 
     // Paginación sobre la colección de anuncios
     const onFetchIterateAdverts = (direction) => {
@@ -134,7 +134,7 @@ export default function Published (props) {
                     /> 
                 }
             </Container>
-            <Footer session={props.session} onLogout={props.logout}/>
+            <Footer session={props.session} onLogout={props.logout} active='Published'/>
         </React.Fragment>
     );
 }

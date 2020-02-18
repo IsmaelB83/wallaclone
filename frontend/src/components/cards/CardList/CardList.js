@@ -33,7 +33,7 @@ export default function CardList (props) {
         <React.Fragment>
             <article id={`adslug_${slug}`} className='CardList'>
                 <header className='CardList__Header'>
-                    <CardImage slug={slug} sold={sold} booked={booked} thumbnail={thumbnail}/>
+                    <CardImage slug={slug} sold={sold} booked={booked} photo={thumbnail}/>
                     <p className='CardList__Price'>{price} €</p>
                     <AdvertChip type='type' value={type}/>
                 </header>

@@ -29,7 +29,7 @@ function Favorites (props) {
     useEffect(() => {
         fetchFavorites()
         .catch(error => enqueueSnackbar(t('Error loading favorites ERROR', {error}), { variant: 'error' }));
-    }, []);
+    }, [fetchFavorites, enqueueSnackbar, t]);
 
     // Delete favorite
     const deleteFavorite = slug => {
@@ -65,7 +65,7 @@ function Favorites (props) {
                     />
                 </main>
             </Container>
-            <Footer session={props.session} onLogout={props.logout}/>
+            <Footer session={props.session} onLogout={props.logout} active='Favorites'/>
         </React.Fragment>
     );
 }

@@ -28,7 +28,7 @@ export default function CardTile (props) {
         <article id={`adslug_${slug}`} className='CardTile'>
             <header className='CardTile__Header'>
                 <p className='CardTile__Price'>{price} <span className='CardTile__Currency'>€</span></p>
-                <CardImage slug={slug} sold={sold} booked={booked} thumbnail={thumbnail}/>
+                <CardImage slug={slug} sold={sold} booked={booked} photo={thumbnail}/>
             </header>
             <div className='CardTile__Content'>
                 <div className='CardTile_ContentType'>

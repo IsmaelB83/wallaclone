@@ -22,20 +22,21 @@ import './styles.css';
 function Edit(props) {
 
     // Props destructuring
-    const { mode, t} = props;
+    const { fetchAdvert, mode, t} = props;
+    const { slug } = props.match.params;
     const { isFetching, isUpdating, isCreating, error } = props.ui;
 
     // Load inicial
     const [ advert, setAdvert ] = useState();
     useEffect(() => {
         if (mode === 'edit') {
-            props.fetchAdvert(props.match.params.slug)
+            fetchAdvert(slug)
             .then (advert => setAdvert(advert))
-            .catch(error  => null);
+            .catch(error  => console.error(error));
         } else {
             setAdvert(new Advert(EMPTY_ADVERT))
         }
-    }, [mode])
+    }, [fetchAdvert, slug, mode])
 
     // Manejador del submit del formulario
     const submitAdvert = (inputs) => {

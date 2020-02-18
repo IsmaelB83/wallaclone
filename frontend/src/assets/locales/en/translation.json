@@ -110,5 +110,6 @@
     "change advert photo": "change advert photo",
     "Error loading USER sold history ERROR": "Error loading {{user}} sold history {{error}}",
     "Sold History": "History",
-    "Messages": "Messages"
+    "Messages": "Messages",
+    "Error loading advert ERROR": "Error loading advert {{error}}"
 }

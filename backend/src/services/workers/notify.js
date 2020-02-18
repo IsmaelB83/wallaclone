@@ -98,35 +98,62 @@ async function main() {
 
 // This function decides either to push a notification (subscribers) or send an email
 async function notifyUser (user, message) {
-    // First priority is push notification (as per specs)
-    const subscription = subscriptions[user.login];
-    let errorSubscription = false;
-    if (subscription) {
-        // Try notification (in case of error send email)
-        const payload = JSON.stringify({
-            slug: message.slug, 
-            title: 'Product Updated',
-            body: 'Uno de sus anuncios de interes ha sufrido una modificación.',
-            icon: `https://127.0.0.1:8443${message.thumbnail}`,
-            image: `https://127.0.0.1:8443${message.thumbnail}`,
-            actions: [{ action: 'detail', title: 'Product' }]    
-        });
-        webpush.sendNotification(subscription, payload)
-        .catch(err => {
-            console.log(err);
-            errorSubscription = true;
-        });
-    } 
-    // Without subscription or in case error while pushing notification --> then sends email
-    if (!subscription || errorSubscription) {
-        mail({
-            name: user.name,
-            email: user.email, 
-            subject: 'Product update',
-            message: message,
-            url: `http://localhost:3000/advert/${message.slug}`,
-            view: 'product_update',
-            thumbnail: message.thumbnail
-        });
+
+    // Content of the notification both for mails and push notifications
+    let notify = undefined;
+    // For push notifications
+    const actions = [];    
+    // Build message and actions 
+    if (message.deleted) {
+        notify = 'The product has been deleted. Click in the button below to remove it from favorites.'
+        actions.push({ action: 'delete', title: 'Delete' });
+    } else if (message.sold) {
+        notify = 'The product has been sold. Click in the button below to remove it from favorites.'
+        actions.push({ action: 'delete', title: 'Delete' });
+    } else if (message.booked === true) {
+        notify = 'The product is now booked. Click in the button below to see details and contact the owner.'
+        actions.push({ action: 'detail', title: 'Detail' });
+    } else if (parseFloat(message.price) < parseFloat(message.oldPrice)) {
+        notify = `The product has dropped in price (from ${message.oldPrice} to ${message.price}). Click in the button below to see details and contact the owner.`
+        actions.push({ action: 'detail', title: 'Detail' });       
+    } else if (parseFloat(message.price) > parseFloat(message.oldPrice)) {
+        notify = `The product has risen in price (from ${message.oldPrice} to ${message.price}). Click in the button below to navigate to your favorites.`
+        actions.push({ action: 'favorites', title: 'Favorites' });
+    }
+    
+    // If there is a message to notify
+    if (notify) {
+        // First priority is push notification (as per specs)
+        const subscription = subscriptions[user.login];
+        let errorSubscription = false;
+        if (subscription) {
+            // Try notification (in case of error send email)
+            const payload = JSON.stringify({
+                slug: message.slug, 
+                title: 'One of your favorites updated',
+                body: notify,
+                icon: `${process.env.BACKEND_URL}${message.thumbnail}`,
+                image: `${process.env.BACKEND_URL}${message.thumbnail}`,
+                actions: actions
+            });
+            webpush.sendNotification(subscription, payload)
+            .catch(err => {
+                console.log(err);
+                errorSubscription = true;
+            });
+        } 
+        // Without subscription or in case error while pushing notification --> then sends email
+        if (!subscription || errorSubscription) {
+            mail({
+                name: user.name,
+                email: user.email, 
+                subject: 'Product update',
+                message: message,
+                notify: notify,
+                url: `${process.env.FRONTEND_URL}/advert/${message.slug}`,
+                view: 'product_update',
+                thumbnail: message.thumbnail
+            });
+        }
     }
 }

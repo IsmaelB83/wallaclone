@@ -7,7 +7,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ViewListIcon from '@material-ui/icons/ViewList';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
-import Avatar from '@material-ui/core/Avatar';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import InstagramIcon from '@material-ui/icons/Instagram';
@@ -24,7 +23,7 @@ import './styles.css';
 export default function Footer(props) {
 
     // Función traducción
-    const { t } = props;
+    const { t, active } = props;
      
     // Render del componente
     return (
@@ -32,25 +31,25 @@ export default function Footer(props) {
             <Container>
             { props.session && props.session.avatar &&
                 <div className='Footer__Menu'>
-                    <MenuItem className='Footer__MenuItem' component={Link} to={`/published/${props.session.login}`}>
+                    <MenuItem className={`Footer__MenuItem ${active==='Published'?'Footer__MenuItem--active':''}`} component={Link} to={`/published/${props.session.login}`}>
                         <ViewListIcon fontSize='small' />
                         <span>{t('My adverts')}</span>
                     </MenuItem>
-                    <MenuItem className='Footer__MenuItem' component={Link} to='/history'>
+                    <MenuItem className={`Footer__MenuItem ${active==='History'?'Footer__MenuItem--active':''}`} component={Link} to='/history'>
                         <TrendingUpIcon fontSize='small' />
                         <span>{t('Sold History')}</span>
                     </MenuItem>
-                    <MenuItem className='Footer__MenuItem' component={Link} to='/favorites'>
+                    <MenuItem className={`Footer__MenuItem ${active==='Home'?'Footer__MenuItem--active':''}`} component={Link} to='/'>
+                        <HomeIcon fontSize='small' />
+                        <span>{t('Home')}</span>
+                    </MenuItem>
+                    <MenuItem className={`Footer__MenuItem ${active==='Favorites'?'Footer__MenuItem--active':''}`} component={Link} to='/favorites'>
                         <FavoriteIcon fontSize='small' />
                         <span>{t('Favorites')}</span>
                     </MenuItem>
-                    <MenuItem className='Footer__MenuItem' component={Link} to='/profile'>
+                    <MenuItem className={`Footer__MenuItem ${active==='Messages'?'Footer__MenuItem--active':''}`} component={Link} to='/profile'>
                         <ChatIcon fontSize='small' />
                         <span>{t('Messages')}</span>
-                    </MenuItem>
-                    <MenuItem className='Footer__MenuItem' component={Link} to='/profile'>
-                        <Avatar className='Avatar' alt='avatar' src={props.session.avatar}/>
-                        <span>{t('Profile')}</span>
                     </MenuItem>
                 </div>
             }

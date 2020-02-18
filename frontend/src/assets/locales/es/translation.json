@@ -109,5 +109,6 @@
     "change advert photo": "cambiar imagen",
     "Error loading USER sold history ERROR": "Error cargando historial de ventas de {{user}} {{error}}",
     "Sold History": "Historial",
-    "Messages": "Mensajes"
+    "Messages": "Mensajes",
+    "Error loading advert ERROR": "Error cargando anuncio {{error}}"
 }

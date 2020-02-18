@@ -19,42 +19,7 @@
     justify-content: center;
 }
 
-.AdvertDetail__Photo:hover { cursor: pointer; }
-
-.AdvertDetail__Photo--overlay {
-    position: absolute;
-    content: '';
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;    
-    background-color: rgba(0, 0, 0, .4);
-    transition: all 300ms ease;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-size: 2rem;
-}
-
-.AdvertDetail__Photo--overlay .AdvertChip {
-    font-size: 2rem;
-    padding: .5rem !important;
-    height: 3.5rem;
-    background-color: rgba(255, 255, 255, .8);
-}
-
-.AdvertDetail__Photo--overlay .AdvertChip svg {
-    height: 30px;
-    width: 30px;
-}
-
-.AdvertDetail__Photo img {
-    width: auto;
-    max-height: 250px;
-    transition: .3s all ease;
-}
+.AdvertDetail__Photo:hover {cursor: none !important;}
 
 /* Content */
 .AdvertDetail__Content {

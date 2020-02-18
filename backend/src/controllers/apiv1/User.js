@@ -40,7 +40,7 @@ module.exports = {
                     email: user.email, 
                     name: user.name,
                     subject: 'Activate account',
-                    url: `http://localhost:3000/activate/${user.token}`,
+                    url: `${process.env.FRONTEND_URL}/activate/${user.token}`,
                     view: 'new_user'
                 });
                 // Ok
