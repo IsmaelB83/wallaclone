@@ -46,5 +46,11 @@ self.addEventListener('notificationclick', function(event) {
                 data: 'favorites'
             });
             break;
+        case 'add':
+            reactClient.postMessage({ 
+                action: 'add',
+                data: slug
+            });
+            break;
     }
 });

@@ -170,6 +170,7 @@ module.exports = {
                         handleThumbnail(advert.photo, advert._id); 
                     }
                     // Send work to analize potential notifications 
+                    result.oldPrice = advert.price;
                     handleNotifications(result);    
                 })
             })

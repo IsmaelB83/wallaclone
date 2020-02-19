@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Wallaclone - activate account</title>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
+    <title>Wallaclone - Product recommendation</title>
     <style>
     body {
         font-family: Arial, Helvetica, sans-serif;
@@ -33,7 +33,7 @@
     .title {
         font-size: 1.5em;
         margin: 1rem 0;
-        color: rgb(32, 32, 32);;
+        color: rgb(32, 32, 32);
     }
 
     .text {
@@ -41,6 +41,9 @@
         line-height: 1.1em;
         font-size: 1em;
     }
+
+    .text--medium { font-size: 1.1em; }
+    .text--big { font-size: 1.25em; }
     
     .button_section {
         text-align: center;
@@ -69,27 +72,56 @@
     .mt-1 { margin-top: 1rem; }
     .mt-2 { margin-top: 2rem; }
     .ml-1 { margin-left: 5px; }
+
+    .advert {
+        font-size: 1rem;
+        color: rgb(51, 51, 51);
+    }
+
+    .advert__image {
+        width: 100%;
+        text-align: center;
+    }
+
+    .advert img {
+        border-radius: 10px;
+        max-width: 400px;
+    }
+    
+    .advert h3 {
+        text-transform: uppercase;
+        font-size: 1.25rem;
+        color: rgb(32, 32, 32);
+    }
+
     </style>
 </head>
 <body>
     <div class='wrapper'>
         <div class='header mb-2'>
-            <img class='logo' style="width:250px;" src="cid:unique@logo">
+            <img class='logo' style='width:250px;' src='cid:unique@logo'>
         </div>
         <div class='content'> 
             <div class='content-body'>
                 <h2 class='title'>Hi <%= name%>,</h2>
-                <p class='text'>You recently requested a new account in Wallaclone. Click the button below to continue with the activation process:</p>
-                <div class='button_section'>
-                    <a class='button' href="<%= url%>">Activate your account</a>
+                <p class='text'>Based on one of products you are looking for in Wallaclone. We have a recommendation for you.</p>
+                <div class='advert'>
+                    <h3><%= message.name%></h3>
+                    <p class='text'><%= body%></p>
+                    <div class='advert__image'>
+                    <img src='cid:unique@photo' alt='product'>
+                    </div>
+                    <div class='button_section'>
+                        <a class='button' href='<%= url%>'>More detail</a>
+                    </div>
                 </div>
-                <p class='text'>If you did not request a new account, please ignore this email or reply to let us know. The activation link is only valid for the next 60 minutes.</p>
+                <p class='text'>If you don't want to receive more emails regarding this product make sure to delete it from your favorites.</p>
                 <p class='text'>Thanks,</p>
                 <p class='text'>Isma and the Wallaclone Team</p>
             </div>
             <div class='content_footer'>
-                <p class='text'>If you're having troubles clicking the activate account button, copy and paste the URL below into your web browser.</p>
-                <a href="<%= url%>"><%= url%></a>
+                <p class='text'>If you're having troubles clicking the <i>see product</i> button, copy and paste the URL below into your web browser.</p>
+                <a href='<%= url%>'><%= url%></a>
             </div>
         </div>
         <div class='footer mt-2'>

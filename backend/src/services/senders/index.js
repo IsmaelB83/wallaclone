@@ -55,7 +55,6 @@ const handleNotifications = (advert, transaction = 'update') => {
         return;
     }
     // Information required by the worker to check for notifications to be pushed
-    debugger;
     const message = {
         _id: advert._id,
         type: advert.type,
@@ -65,7 +64,7 @@ const handleNotifications = (advert, transaction = 'update') => {
         booked: advert.booked,
         sold: advert.sold,
         price: advert.price,
-        oldPrice: advert.price,
+        oldPrice: advert.oldPrice,
         user: advert.user,
         transaction
     }

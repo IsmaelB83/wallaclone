@@ -25,7 +25,7 @@
 
     .content {
         margin: 0 auto;
-        width: 800px;
+        max-width: 800px;
         font-size: 1rem;
         color: rgb(51, 51, 51);
     }
@@ -107,7 +107,7 @@
                 <p class='text'>One of the products you have in your favorites has had some modifications we think may be of your interest. See below the details of the related product.</p>
                 <div class='advert'>
                     <h3><%= message.name%></h3>
-                    <p class='text'><%= notify%></p>
+                    <p class='text'><%= body%></p>
                     <div class='advert__image'>
                     <img src='cid:unique@photo' alt='product'>
                     </div>

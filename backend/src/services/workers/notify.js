@@ -9,7 +9,7 @@ const https = require('https');
 const fs = require('fs');
 // Own imports
 const { queues, connectionPromise} = require('../index');
-const { User } = require('../../models');
+const { User, Advert } = require('../../models');
 const database = require('../../database');
 const { mail } = require('../../utils');
 
@@ -84,8 +84,11 @@ async function main() {
         // Consume channel
         queues.notifications.channel.consume(queues.notifications.name, msg => {
             const message = JSON.parse(msg.content.toString());
-            // Notify users
-            notifyUsers(message);
+            if (message.transaction === 'update' || message.transaction === 'delete') {
+                notifyUsersUpdate(message);
+            } else {
+                notifyUsersCreate(message);
+            }
             // Ack queue
             queues.notifications.channel.ack(msg);
         });
@@ -94,101 +97,143 @@ async function main() {
     }
 }
 
-// This function decides either to push a notification (subscribers) or send an email
-async function notifyUsers (message) {
+/**
+ * Notify users when a product is updated
+ * @param {Object} message Advert data
+ */
+function notifyUsersUpdate (message) {
 
-    // Content of the notification both for mails and push notifications
-    let notify = undefined;
-    // For push notifications
-    const actions = [];    
-    // Build message and actions
+    // Build the message
+    let notificationBody = undefined;
+    let mailBody = undefined;
+    const notificationActions = [];    
     if (message.transaction === 'delete') {
-        notify = 'The product has been deleted. Click in the button below to remove it from favorites.'
-        actions.push({ action: 'delete', title: 'Delete' });
+        mailBody = 'The product has been deleted and therefore deleted from your favorites.';
+        notificationBody = 'The product has been deleted and therefore deleted from your favorites.';
     } else if (message.sold) {
-        notify = 'The product has been sold. Click in the button below to remove it from favorites.'
-        actions.push({ action: 'delete', title: 'Delete' });
-    } else if (message.booked === true) {
-        notify = 'The product is now booked. Click in the button below to see details and contact the owner.'
-        actions.push({ action: 'detail', title: 'Detail' });
+        mailBody = 'The product has been sold. Click in the button below to see details in Wallaclone.';
+        notificationBody = 'The product has been sold. Click in the button below to remove it from favorites.';
+        notificationActions.push({ action: 'delete', title: 'Delete' });
+    } else if (message.booked) {
+        mailBody = 'The product is now booked. Click in the button below to see details in Wallaclone.';
+        notificationBody = 'The product is now booked. Click in the button below to see details and contact the owner.';
+        notificationActions.push({ action: 'detail', title: 'Detail' });
     } else if (parseFloat(message.price) < parseFloat(message.oldPrice)) {
-        notify = `The product has dropped in price (from ${message.oldPrice} to ${message.price}). Click in the button below to see details and contact the owner.`
-        actions.push({ action: 'detail', title: 'Detail' });       
+        mailBody = `The product has dropped in price (from ${message.oldPrice} to ${message.price}). Click in the button below to see details in Wallaclone.`;
+        notificationBody = `The product has dropped in price (from ${message.oldPrice} to ${message.price}). Click in the button below to see details and contact the owner.`;
+        notificationActions.push({ action: 'detail', title: 'Detail' });       
     } else if (parseFloat(message.price) > parseFloat(message.oldPrice)) {
-        notify = `The product has risen in price (from ${message.oldPrice} to ${message.price}). Click in the button below to navigate to your favorites.`
-        actions.push({ action: 'favorites', title: 'Favorites' });
+        mailBody = `The product has risen in price (from ${message.oldPrice} to ${message.price}). Click in the button below to see details in Wallaclone.`;
+        notificationBody = `The product has risen in price (from ${message.oldPrice} to ${message.price}). Click in the button below to navigate to your favorites.`;
+        notificationActions.push({ action: 'detail', title: 'Detail' });       
     }
-    
-    // If there is a message to notify
-    if (notify) {
-        
-        // First determine user to notify
-        const users = [];
-        if (message.transaction === 'update' || message.transaction === 'delete') {
-            // Only notify to users that have it in favs
-            User.find({favorites: message._id}).select('_id login name email avatar favorites')
-            .then(res => {
-                debugger;
-                res.forEach(user => {
-                    debugger;
-                    users.push(user);
-                })
-            })
-            .catch(err => console.log(err));
-        } else if (message.transaction === 'create') {
-            const type = message.type==='buy'?'sell':'buy';
-            // Only those with same interests
-            Advert.find({
-                _id: { '$ne': message._id},
-                name: message.name,
-                type: type
-            })
-            .select('_id name slug thumbnail price')
-            .populate('user', '_id login name email avatar')
-            .then(res => {
-                debugger;
-                res.forEach(advert => {
-                    debugger;
-                    users.push(advert.user)
-                })
-            })
-            .catch(err => console.log(err));
-        }
 
-        // Loop over determined users to notify each of them
-        debugger;
-        users.forEach(user => {
-            // First priority is push notification (as per specs)
-            const subscription = subscriptions[user.login];
-            let errorSubscription = false;
-            if (subscription) {
-                const payload = JSON.stringify({
-                    slug: message.slug, 
-                    title: 'One of your favorites updated',
-                    body: notify,
-                    icon: `${process.env.BACKEND_URL}${message.thumbnail}`,
-                    image: `${process.env.BACKEND_URL}${message.thumbnail}`,
-                    actions: actions
-                });
-                webpush.sendNotification(subscription, payload)
-                .catch(err => {
-                    // If notification fails, then retries with email
-                    errorSubscription = true;
-                });
-            } 
-            // Without subscription or in case error while pushing notification --> then sends email
-            if (!subscription || errorSubscription) {
-                mail({
-                    name: user.name,
-                    email: user.email, 
-                    subject: 'Product update',
-                    message: message,
-                    notify: notify,
-                    url: `${process.env.FRONTEND_URL}/advert/${message.slug}`,
-                    view: 'product_update',
-                    thumbnail: message.thumbnail
-                });
-            }            
-        });
+    // If there is a message to notify only notify to users that have in its favs
+    if (notificationBody) {
+        User.find({favorites: message._id}).select('_id login name email avatar favorites')
+        .then(res => {
+            res.forEach(user => {
+                // First priority is push notification, if error or no subscribed send email
+                const subscription = subscriptions[user.login];
+                if (subscription) {
+                    try {
+                        pushNotification(subscription, message, 'Updated product', notificationBody, notificationActions);                       
+                    } catch (error) {
+                        mailNotification(user.name, user.email, 'Updated product', message, mailBody);   
+                    }
+                }
+                else {
+                    mailNotification(user.name, user.email, 'Updated product', message, mailBody);
+                }
+            })
+        })
+        .catch(err => console.log(err));
     }
+}
+
+/**
+ * Notify a new product
+ * @param {Object} message Advert data created
+ */
+function notifyUsersCreate (message) {
+
+    // Build the message
+    const mailBody = `New product that may be of your interest created recently. ${message.name} with a selling price of ${message.price}. Click the button to see it in Wallaclone.`;
+    const notificationBody = `${message.name}' has been published with a selling price of ${message.price}'. Click the button below to add it to your favorites.`;
+    const notificationActions = [{ action: 'add', title: 'Add' }];
+
+    // Notification only applies with new selling adverts
+    if (message.type !== 'sell') {
+        return;
+    }
+
+    // Search all products with same description and price +/- 10%
+    const lowRange = parseFloat(message.price) * 0.9;
+    const highRange = parseFloat(message.price) * 1.1;
+    const lowerName = message.name.toLowerCase();
+    Advert.find({
+        _id: { '$ne': message._id},
+        name: {'$regex': lowerName, $options:'i'},
+        type: 'buy',
+        price: {$gt: lowRange, $lt: highRange}
+    })
+    .select('_id name slug thumbnail price')
+    .populate('user', '_id login name email avatar')
+    .then(res => {
+        res.forEach(advert => {
+            // First priority is push notification
+            const subscription = subscriptions[advert.user.login];
+            if (subscription) {
+                try {
+                    pushNotification(subscription, message, 'New product for you', notificationBody, notificationActions);                       
+                } catch (error) {
+                    mailNotification(advert.user.name, advert.user.email, 'New product for you', message, mailBody);   
+                }
+            }
+            else {
+                mailNotification(advert.user.name, advert.user.email, 'New product for you', message, mailBody);
+            } 
+        })
+    })
+    .catch(err => console.log(err));
+}
+
+/**
+ * Send a notification via push notification
+ * @param {Object} subscription Subscription to send the notification
+ * @param {Object} message Message object with advert data
+ * @param {String} title Notification title
+ * @param {String} body Notification body
+ * @param {String} actions Array with the actions
+ */
+function pushNotification(subscription, message, title, body, actions) {
+    webpush.sendNotification(subscription, JSON.stringify({
+        slug: message.slug, 
+        title,
+        body,
+        icon: `${process.env.BACKEND_URL}${message.thumbnail}`,
+        image: `${process.env.BACKEND_URL}${message.thumbnail}`,
+        actions
+    }))
+}
+
+/**
+ * Send a notification via email
+ * @param {String} name User name
+ * @param {String} email User email
+ * @param {String} subject User subject
+ * @param {Object} message Message object with advert data
+ * @param {String} body Text to include it in the email body
+ */
+function mailNotification(name, email, subject, message, body) {
+    mail({
+        name,
+        email, 
+        subject,
+        message,
+        body,
+        url: `${process.env.FRONTEND_URL}/advert/${message.slug}`,
+        view: message.transaction==='create'?'product_new':'product_update',
+        thumbnail: message.thumbnail
+    });
 }

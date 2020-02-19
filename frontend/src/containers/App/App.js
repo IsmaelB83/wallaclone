@@ -45,6 +45,15 @@ export default function App(props) {
                 })
                 .catch(error => props.enqueueSnackbar(props.t('Error deleting advert from favorites ERROR', {error}), { variant: 'error' }));
                 break;
+            case 'add':
+                // Añado a favoritos y navego a favoritos
+                store.dispatch(SessionActions.setFavorite(content.data))
+                .then(() => {
+                    props.enqueueSnackbar(props.t('Product added to favorites'), { variant: 'success'});
+                    history.push('/favorites')
+                })
+                .catch(error => props.enqueueSnackbar(props.t('Error deleting advert from favorites ERROR', {error}), { variant: 'error' }));
+                break;
             default:
                 console.error('Uncontrolled action returned by service worker');
         }

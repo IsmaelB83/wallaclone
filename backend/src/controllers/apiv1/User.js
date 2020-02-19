@@ -151,10 +151,9 @@ module.exports = {
      */
     setFavorite: async (req, res, next) => {
         try {
-            // Sólo se permiten hacer favorite de un anuncio de otro usu ario
+            // If it not exists error
             const advert = await Advert.findOne({slug: req.params.slug});
             if (!advert) {
-                // Anuncio no encontrado
                 return next({ 
                     status: 404, 
                     description: 'Advert not Found' 
@@ -210,7 +209,7 @@ module.exports = {
                 const options = {
                     path: 'favorites.user',
                     model: 'User',
-                    select: { '_id': 1, 'login': 1, 'name':1, 'email': 1},
+                    select: { '_id': 1, 'login': 1, 'name':1, 'email': 1, 'avatar': 1},
                 };
                 User.populate(result, options, (err, respop) => {
                     return res.json({

@@ -7,7 +7,12 @@ export const register = (login, callback) =>  {
     if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
         return console.error('Service workers not available');
     }
-    // 1. regisger service worker
+    
+    // 0. Unregister all in case there is any
+    console.log('Unregister all previous SERVICE WORKERS...');
+    unregister(login);
+    
+    // 1. register service worker
     console.log('Registering SERVICE WORKER...');
     registerServiceWorker()
     .then(registration => {
@@ -50,16 +55,15 @@ export const register = (login, callback) =>  {
 }
 
 // Unregister
-export const unregister = (login) =>  {
-    navigator.serviceWorker.getRegistrations()
-    .then(function(registrations) {
+export const unregister = login =>  {
+    return navigator.serviceWorker.getRegistrations()
+    .then(registrations => {
         for(let registration of registrations) {
-            console.log('Sending PUSH delete subscription...');
             fetch(`${process.env.REACT_APP_NOTIFY_URL}unsubscribe/${login}`, { 
                 method: 'POST',
                 headers: { 'content-type': 'application/json' }
             })
-            .catch(error => console.error(error));
+            .catch();
             registration.unregister()
         } 
     })
