@@ -32,7 +32,7 @@ async function main() {
             Jimp.read(`public${message.photo}`)
             .then(image => {
                 // Create thumbnail and update mongo
-                image.resize(350, 350).quality(80).write(`public${thumbnail}`);
+                image.resize(250, Jimp.AUTO).quality(80).write(`public${thumbnail}`);
                 queues.thumbnails.channel.ack(msg);
                 Advert.udpateThumbnail(message.id, thumbnail)
                 .then (res => console.log(`OK - Advert ${message.id} updated with thumbnail ${thumbnail}`))

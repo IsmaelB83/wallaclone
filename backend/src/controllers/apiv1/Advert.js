@@ -58,7 +58,6 @@ module.exports = {
             // Get Adverts
             Advert.list(null, null, null, null, null, null, null, null, null, {_id: req.user._id})
             .then (result => {
-                debugger;
                 return res.status(200).json({
                     success: true,
                     start: result.start,
@@ -121,6 +120,8 @@ module.exports = {
             advert.save().then(result => {
                 // Send work to rabbitmq to generate thumbnail
                 handleThumbnail(advert.photo, advert._id);
+                // Send work to analize potential notifications 
+                handleNotifications(result, 'create');
                 // Response
                 return res.json({success: true, result: result});
             })
@@ -169,17 +170,7 @@ module.exports = {
                         handleThumbnail(advert.photo, advert._id); 
                     }
                     // Send work to analize potential notifications 
-                    const message = {
-                        _id: result._id,
-                        name: result.name,
-                        slug: result.slug,
-                        thumbnail: result.thumbnail,
-                        booked: result.booked,
-                        sold: result.sold,
-                        price: result.price,
-                        oldPrice: advert.price,
-                    }
-                    handleNotifications(message);    
+                    handleNotifications(result);    
                 })
             })
         } catch (error) {
@@ -208,17 +199,7 @@ module.exports = {
                     res.json({success: true, result: advert})
                     // If advert is booked send work to check for potential notifications
                     if (advert.booked) {
-                        const message = {
-                            _id: advert._id,
-                            name: advert.name,
-                            slug: advert.slug,
-                            thumbnail: advert.thumbnail,
-                            booked: advert.booked,
-                            sold: advert.sold,
-                            price: advert.price,
-                            oldPrice: advert.price,
-                        }
-                        handleNotifications(message);    
+                        handleNotifications(advert);    
                     }
                 });
             })
@@ -248,17 +229,7 @@ module.exports = {
                     res.json({success: true, result: advert })
                     // If advert is sold send work to check for potential notifications
                     if (advert.sold) {
-                        const message = {
-                            _id: advert._id,
-                            name: advert.name,
-                            slug: advert.slug,
-                            thumbnail: advert.thumbnail,
-                            booked: advert.booked,
-                            sold: advert.sold,
-                            price: advert.price,
-                            oldPrice: advert.price,
-                        }
-                        handleNotifications(message);
+                        handleNotifications(advert);
                     }
                 })
             })
@@ -285,18 +256,7 @@ module.exports = {
                     // Ok
                     res.json({success: true, result: advert});
                     // When advert is delete send work to analize potential notifications
-                    debugger;
-                    const message = {
-                        _id: advert._id,
-                        name: advert.name,
-                        slug: advert.slug,
-                        thumbnail: advert.thumbnail,
-                        booked: advert.booked,
-                        sold: advert.sold,
-                        price: advert.price,
-                        oldPrice: advert.price,
-                    }
-                    handleNotifications(message); 
+                    handleNotifications(advert, 'delete'); 
                 });
             })
         } catch (error) {

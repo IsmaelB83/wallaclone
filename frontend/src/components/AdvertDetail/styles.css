@@ -19,8 +19,6 @@
     justify-content: center;
 }
 
-.AdvertDetail__Photo:hover {cursor: none !important;}
-
 /* Content */
 .AdvertDetail__Content {
     display: grid;

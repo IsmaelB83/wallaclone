@@ -27,21 +27,17 @@ export const register = (login, callback) =>  {
                     navigator.serviceWorker.ready
                     .then(registration => {
                         // 6. enable communication between service worker and the rest of the app (callback)
-                        // IMPORTANT!!! Even with all these promises fulfilled, andthe previous .ready promise.. sometimes sw
-                        // is still not ready here. Loop with set interval until post message works.
-                        const postMessage = setInterval(() => {
-                            try {
-                                console.log('Calling the POST MESSAGE...');
-                                navigator.serviceWorker.controller.postMessage("ping");
-                                navigator.serviceWorker.addEventListener('message', function (event) {
-                                    callback(event.data);    
-                                }); 
-                                console.log('ALL SET!')
-                                clearInterval(postMessage);
-                            } catch (error) {
-                                console.error(error);
-                            }
-                        }, 2000);
+                        try {
+                            console.log('Calling the POST MESSAGE...');
+                            // BUG! Even with all these promises fulfilled, controller is still null here sometimes
+                            navigator.serviceWorker.controller.postMessage("ping");
+                            navigator.serviceWorker.addEventListener('message', function (event) {
+                                callback(event.data);    
+                            }); 
+                            console.log('All set!')
+                        } catch (error) {
+                            console.error(error);
+                        }
                     })
                     .catch(error => console.error(error));
                 })

@@ -10,6 +10,7 @@ import Avatar from '@material-ui/core/Avatar';
 import MenuItem from '@material-ui/core/MenuItem';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
+import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
 import LanguageIcon from '@material-ui/icons/Language';
 // Own modules
 import HideOnScrollDown from '../HideOnScrollDown';
@@ -53,6 +54,10 @@ export default function NavBar(props) {
                         </MenuItem>
                         { props.session && props.session.email &&
                             <React.Fragment>
+                                <MenuItem className='Navbar__MenuItem' component={Link} to='/advert/create'>
+                                    <AddPhotoAlternateIcon fontSize='small'/>
+                                    <span>{t('add')}</span>
+                                </MenuItem>
                                 <MenuItem className='Navbar__MenuItem' component={Link} to='/profile'>
                                     <Avatar className='Avatar' alt='avatar' src={props.session.avatar}/>
                                     <span>{t('profile')}</span>

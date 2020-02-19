@@ -84,10 +84,8 @@ async function main() {
         // Consume channel
         queues.notifications.channel.consume(queues.notifications.name, msg => {
             const message = JSON.parse(msg.content.toString());
-            // Busco usuarios que lo tienen en favoritos, y por cada uno de ellos llamo a notifyUser
-            User.find({favorites: message._id }).select('_id login name email avatar')
-            .then(res => res.forEach(user => notifyUser(user, message)))
-            .catch(err => console.log(err));
+            // Notify users
+            notifyUsers(message);
             // Ack queue
             queues.notifications.channel.ack(msg);
         });
@@ -97,14 +95,14 @@ async function main() {
 }
 
 // This function decides either to push a notification (subscribers) or send an email
-async function notifyUser (user, message) {
+async function notifyUsers (message) {
 
     // Content of the notification both for mails and push notifications
     let notify = undefined;
     // For push notifications
     const actions = [];    
-    // Build message and actions 
-    if (message.deleted) {
+    // Build message and actions
+    if (message.transaction === 'delete') {
         notify = 'The product has been deleted. Click in the button below to remove it from favorites.'
         actions.push({ action: 'delete', title: 'Delete' });
     } else if (message.sold) {
@@ -123,37 +121,74 @@ async function notifyUser (user, message) {
     
     // If there is a message to notify
     if (notify) {
-        // First priority is push notification (as per specs)
-        const subscription = subscriptions[user.login];
-        let errorSubscription = false;
-        if (subscription) {
-            // Try notification (in case of error send email)
-            const payload = JSON.stringify({
-                slug: message.slug, 
-                title: 'One of your favorites updated',
-                body: notify,
-                icon: `${process.env.BACKEND_URL}${message.thumbnail}`,
-                image: `${process.env.BACKEND_URL}${message.thumbnail}`,
-                actions: actions
-            });
-            webpush.sendNotification(subscription, payload)
-            .catch(err => {
-                console.log(err);
-                errorSubscription = true;
-            });
-        } 
-        // Without subscription or in case error while pushing notification --> then sends email
-        if (!subscription || errorSubscription) {
-            mail({
-                name: user.name,
-                email: user.email, 
-                subject: 'Product update',
-                message: message,
-                notify: notify,
-                url: `${process.env.FRONTEND_URL}/advert/${message.slug}`,
-                view: 'product_update',
-                thumbnail: message.thumbnail
-            });
+        
+        // First determine user to notify
+        const users = [];
+        if (message.transaction === 'update' || message.transaction === 'delete') {
+            // Only notify to users that have it in favs
+            User.find({favorites: message._id}).select('_id login name email avatar favorites')
+            .then(res => {
+                debugger;
+                res.forEach(user => {
+                    debugger;
+                    users.push(user);
+                })
+            })
+            .catch(err => console.log(err));
+        } else if (message.transaction === 'create') {
+            const type = message.type==='buy'?'sell':'buy';
+            // Only those with same interests
+            Advert.find({
+                _id: { '$ne': message._id},
+                name: message.name,
+                type: type
+            })
+            .select('_id name slug thumbnail price')
+            .populate('user', '_id login name email avatar')
+            .then(res => {
+                debugger;
+                res.forEach(advert => {
+                    debugger;
+                    users.push(advert.user)
+                })
+            })
+            .catch(err => console.log(err));
         }
+
+        // Loop over determined users to notify each of them
+        debugger;
+        users.forEach(user => {
+            // First priority is push notification (as per specs)
+            const subscription = subscriptions[user.login];
+            let errorSubscription = false;
+            if (subscription) {
+                const payload = JSON.stringify({
+                    slug: message.slug, 
+                    title: 'One of your favorites updated',
+                    body: notify,
+                    icon: `${process.env.BACKEND_URL}${message.thumbnail}`,
+                    image: `${process.env.BACKEND_URL}${message.thumbnail}`,
+                    actions: actions
+                });
+                webpush.sendNotification(subscription, payload)
+                .catch(err => {
+                    // If notification fails, then retries with email
+                    errorSubscription = true;
+                });
+            } 
+            // Without subscription or in case error while pushing notification --> then sends email
+            if (!subscription || errorSubscription) {
+                mail({
+                    name: user.name,
+                    email: user.email, 
+                    subject: 'Product update',
+                    message: message,
+                    notify: notify,
+                    url: `${process.env.FRONTEND_URL}/advert/${message.slug}`,
+                    view: 'product_update',
+                    thumbnail: message.thumbnail
+                });
+            }            
+        });
     }
 }

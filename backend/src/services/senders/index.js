@@ -48,14 +48,27 @@ const handleThumbnail = (photo, id) => {
 }
 
 // Generate a work in notifications pool so that the worker is able to analyze the required notifications
-const handleNotifications = (advert) => {
+const handleNotifications = (advert, transaction = 'update') => {
     // Check connection
     if (!queues.notifications.connected) {
         console.log(`ERROR - Connection not established to ${queues.notifications.name}. Notifications for advert ${advert.slug} lost.`);
         return;
     }
     // Information required by the worker to check for notifications to be pushed
-    const message = {...advert};
+    debugger;
+    const message = {
+        _id: advert._id,
+        type: advert.type,
+        name: advert.name,
+        slug: advert.slug,
+        thumbnail: advert.thumbnail,
+        booked: advert.booked,
+        sold: advert.sold,
+        price: advert.price,
+        oldPrice: advert.price,
+        user: advert.user,
+        transaction
+    }
     // Send work to queue
     queues.notifications.channel.sendToQueue(
         queues.notifications.name,

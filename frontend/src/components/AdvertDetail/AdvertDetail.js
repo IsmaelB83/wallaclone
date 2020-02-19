@@ -36,7 +36,7 @@ export default function AdvertDetail(props) {
     return (
         <article id={`adslug_${slug}`} className='AdvertDetail'>
             <div className='AdvertDetail__Photo'>
-                <CardImage slug={slug} sold={sold} booked={booked} photo={photo}/>
+                <CardImage slug={slug} sold={sold} booked={booked} photo={photo} detail={true}/>
             </div>
             <div className='AdvertDetail__Content'>
                 <AdvertChip type='type' value={type}/>

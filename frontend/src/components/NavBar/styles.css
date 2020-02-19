@@ -39,8 +39,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    max-width: 52px;
-    
+    max-width: 46px;
 }
 
 .Navbar__MenuItem .Avatar { 

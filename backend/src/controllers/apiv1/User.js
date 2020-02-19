@@ -222,7 +222,6 @@ module.exports = {
                 
             })
         } catch (error) {
-            debugger;
             next(error);
         }
     }
