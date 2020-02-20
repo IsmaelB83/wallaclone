@@ -20,9 +20,9 @@ function Favorites (props) {
     const { t } = props;
 
     // Destructuring index props
-    const { enqueueSnackbar, setFavorite, setCurrentPage, fetchFavorites } = props;
+    const { enqueueSnackbar, setFavorite, setCurrentPage, fetchFavorites, logout } = props;
     const { start, end, totalCount} = props.lastCall;
-    const { adverts } = props;
+    const { session, adverts } = props;
     const { currentPage, isFetching } = props.ui;
 
     // Cargo favoritos del usuario
@@ -40,7 +40,7 @@ function Favorites (props) {
     // Render
     return (
         <React.Fragment>
-            <NavBar session={props.session} onLogout={props.logout}/>
+            <NavBar session={session} onLogout={logout}/>
             <Container className='Container__Fill'>
                 <main className='Main__Section'>
                     <div className='Section__Content'>
@@ -57,15 +57,14 @@ function Favorites (props) {
                         totalCount={totalCount}
                         currentPage={currentPage}
                         adverts={adverts}
-                        showEdit={false}
-                        showFavorite={true}
+                        session={session}
                         isFetching={isFetching}
                         onFavoriteAdvert={deleteFavorite}
                         onSetCurrentPage={setCurrentPage}
                     />
                 </main>
             </Container>
-            <Footer session={props.session} onLogout={props.logout} active='Favorites'/>
+            <Footer session={session} onLogout={props.logout} active='Favorites'/>
         </React.Fragment>
     );
 }

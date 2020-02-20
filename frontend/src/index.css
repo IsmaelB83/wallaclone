@@ -130,7 +130,7 @@ img, embed, object, video {
     color: #607D8B;
 }
 
-.Section__Content .Text { max-width: 90%; }
+.Section__Content .Text { max-width: 95%; }
 .Section__Content .Text:not(:last-child) { margin-bottom: .5rem; }
 .Section__Content .Button__AddProduct {
     border-radius: 15px;
@@ -180,13 +180,18 @@ a {
   background-color: white; 
 }
 
-.FavoriteIcon { transition: 300ms all ease-in; }
+.FavoriteIcon, .ChatIcon { transition: 300ms all ease-in; }
 .FavoriteIcon:hover { 
     color: red;
     transform: scale(1.1); 
 }
-.FavoriteIcon--Off { color: black; }
-.FavoriteIcon--White { color: white; }
+.ChatIcon:hover { 
+    color: var(--main-color-dark);
+    transform: scale(1.1); 
+}
+
+.FavoriteIcon--Off, .ChatIcon--Off { color: black; }
+.FavoriteIcon--White, .ChatIcon--White { color: white; }
 .FavoriteIcon--On { color: red; }
 
 .ButtonWc:disabled, .ButtonWc.Mui-disabled {

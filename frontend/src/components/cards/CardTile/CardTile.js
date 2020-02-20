@@ -22,6 +22,7 @@ export default function CardTile (props) {
 
     // Props destructuring
     const { slug, name, thumbnail, tags, price, sold, booked, type, favorite, user, createdAt } = props.advert;
+    const { isLogin, isMyAdvert } = props;
 
     // Render
     return(
@@ -33,10 +34,12 @@ export default function CardTile (props) {
             <div className='CardTile__Content'>
                 <div className='CardTile_ContentType'>
                     <AdvertChip type='type' value={type}/>
-                    <button className='ButtonTransparent' onClick={props.setFavoriteAdvert}>
-                        <span>add</span>
-                        <FavoriteIcon className={`FavoriteIcon FavoriteIcon--${favorite?'On':'Off'}`}/>
-                    </button>
+                    { isLogin && !isMyAdvert &&
+                        <button className='ButtonTransparent' onClick={props.setFavoriteAdvert}>
+                            <span>add</span>
+                            <FavoriteIcon className={`FavoriteIcon FavoriteIcon--${favorite?'On':'Off'}`}/>
+                        </button>
+                    }
                 </div>                
                 <div className='CardTile_ContentTitle'>
                     <Link to={`advert/${slug}`} className='CardTile__Title'><h2>{name}</h2></Link>
@@ -44,7 +47,7 @@ export default function CardTile (props) {
                 <CardTags tags={tags} />
             </div>
             <div className='CardTile__Footer'>
-                <CardAvatar login={user.login} name={user.name} avatar={user.avatar}/>
+                <CardAvatar login={user.isLogin} name={user.name} avatar={user.avatar}/>
                 <Moment className='CardTile__Date' locale={i18n.language} fromNow>{createdAt}</Moment>
             </div>
         </article>

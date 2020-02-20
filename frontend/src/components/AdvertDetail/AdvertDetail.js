@@ -12,6 +12,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import EditIcon from '@material-ui/icons/Edit';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
+import ForumIcon from '@material-ui/icons/Forum';
 // Own Components
 import AdvertChip from '../AdvertChip';
 import CardImage from '../cards/CardImage/CardImage';
@@ -27,11 +28,11 @@ export default function AdvertDetail(props) {
 
     // Props destructuring
     const { slug, name, description, photo, tags, price, sold, booked, type, favorite, createdAt, user } = props.advert;
-    const { t } = props;
+    const { t, ownAdvert } = props;
 
     // Chip
     const renderTags = () => tags.map((value,i) => <AdvertChip key={i} type='tag' value={value}/>);
-
+    
     // Render
     return (
         <article id={`adslug_${slug}`} className='AdvertDetail'>
@@ -59,14 +60,21 @@ export default function AdvertDetail(props) {
                 </div>
             </div>
             <div className='AdvertDetail__Buttons'>
-                {   props.showFavorite && 
-                    <Button startIcon={<FavoriteIcon className={`FavoriteIcon FavoriteIcon--${favorite?'On':'White'}`}/>} 
-                            className='ButtonWc ButtonWc__Green Span2'
-                            onClick={props.setFavoriteAdvert}>
-                        {t('Favorite')}
-                    </Button>
+                {   !ownAdvert && 
+                    <React.Fragment>
+                        <Button startIcon={<FavoriteIcon className={`FavoriteIcon FavoriteIcon--${favorite?'On':'White'}`}/>} 
+                                className='ButtonWc ButtonWc__Green Span2'
+                                onClick={props.setFavoriteAdvert}>
+                            {t('Favorite')}
+                        </Button>
+                        <Button startIcon={<ForumIcon/>} 
+                                className='ButtonWc ButtonWc__Green Span2'
+                                onClick={props.setFavoriteAdvert}>
+                            {t('Chat')}
+                        </Button>
+                    </React.Fragment>
                 }
-                {   props.showEdit && 
+                {   ownAdvert && 
                     <React.Fragment>
                         <Button className='ButtonWc ButtonWc__Green Span2'
                                 startIcon={<EditIcon />} 

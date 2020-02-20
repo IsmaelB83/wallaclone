@@ -10,6 +10,7 @@ import AttachMoneyOutlinedIcon from '@material-ui/icons/AttachMoneyOutlined';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import Button from '@material-ui/core/Button';
+import ForumIcon from '@material-ui/icons/Forum';
 // Own components
 import AdvertChip from '../../AdvertChip';
 import CardImage from '../CardImage/CardImage';
@@ -26,7 +27,7 @@ export default function CardList (props) {
     
     // Props destructuring
     const { slug, name, thumbnail, tags, price, sold, type, booked, favorite, createdAt, user } = props.advert;
-    const { setFavoriteAdvert, setBookAdvert, setSellAdvert, setDeleteAdvert, showFavorite, showEdit } = props;
+    const { setFavoriteAdvert, setBookAdvert, setSellAdvert, setDeleteAdvert, isMyAdvert, isLogin } = props;
 
     // Render
     return(
@@ -44,15 +45,20 @@ export default function CardList (props) {
                         <CardTags tags={tags} />
                     </div>
                     <div className='CardList__Footer'>
-                        { ( showFavorite || !showEdit ) &&
+                        { !isMyAdvert &&
                             <CardAvatar login={user.login} name={user.name} avatar={user.avatar}/>
                         }
-                        { showFavorite &&
-                            <Button type='button' className='CardList__Favorite' onClick={setFavoriteAdvert}>
-                                <FavoriteIcon className={`FavoriteIcon FavoriteIcon--${favorite?'On':'Off'}`}/>
-                            </Button>
+                        { !isMyAdvert && isLogin &&
+                            <div>
+                                <Button type='button' className='CardList__Favorite'>
+                                    <ForumIcon className='ChatIcon'/>
+                                </Button>
+                                <Button type='button' className='CardList__Favorite' onClick={setFavoriteAdvert}>
+                                    <FavoriteIcon className={`FavoriteIcon FavoriteIcon--${favorite?'On':'Off'}`}/>
+                                </Button>
+                            </div>
                         }
-                        { showEdit &&
+                        { isMyAdvert &&
                             <div className='CardList__EditButtons'>
                                 <Button type='button' className={`ButtonWc ButtonWc__Clear ButtonWc__ClearToBlue ${booked && 
                                         'ButtonWc__ClearToBlue--active'}`} disabled={sold} variant='contained' onClick={setBookAdvert}>

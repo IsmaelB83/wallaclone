@@ -18,6 +18,7 @@ import Profile from '../Profile';
 import Home from '../Home';
 import Error404 from '../Error404';
 import History from '../History';
+import Chats from '../Chats';
 // Own modules
 import { SessionActions } from '../../store/GlobalActions';
 import configureStore, { history } from '../../store';
@@ -90,6 +91,7 @@ export default function App(props) {
                     <Route path='/reset/:token' exact component={Reset} />
                     <Route path='/activate/:token' exact component={Login} />
                     <Route path='/published/:login' exact component={Published} />
+                    <PrivateRoute path='/chats' exact component={Chats} />
                     <PrivateRoute path='/history' exact component={History} />
                     <PrivateRoute path='/favorites' exact component={Favorites} />
                     <PrivateRoute path='/profile' exact component={Profile} />

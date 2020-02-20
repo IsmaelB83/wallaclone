@@ -2,8 +2,10 @@
     display: grid;
     grid-template-columns: 1fr;
     grid-gap: 1.25rem;
-    max-width: 1000px;
     width: 100%;
+    max-width: 900px;
+    align-self: center;
+    margin-top: .5rem;
 }
 
 /* Photo */
@@ -63,11 +65,7 @@
 .AdvertDetail__Buttons {
     display: grid;
     grid-gap: 4px;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 400px));
-}
-
-@media only screen and (min-width : 400px) {
-    .AdvertDetail__Buttons { grid-template-columns: 1fr 1fr }
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
 @media only screen and (min-width : 600px) {
@@ -80,21 +78,7 @@
         display: grid;
         grid-template-columns: 1fr 2fr;
         grid-gap: 2rem;
-        width: 90%; 
     }
 
-    .AdvertDetail__Photo img { 
-        max-height: 100%;
-        height: 100%; 
-    }
-
-    .AdvertDetail__Buttons { 
-        grid-column: span 3; 
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-end;
-
-    }
-
-    .AdvertDetail__Buttons .ButtonWc:not(:last-child){ margin-right: 5px; }
+    .AdvertDetail__Buttons { grid-column: 2/3;  }
 }

@@ -18,13 +18,12 @@ import Error from '../../components/Error';
 // CSS
 import './styles.css';
 
-/**
- * Main App
- */
+
+// Advert detail container
 function Detail(props) {
 
     // Translate 
-    const { t } = props;
+    const { t, session } = props;
 
     // Propiedades del index
     const { fetchAdvert, enqueueSnackbar } = props;
@@ -81,7 +80,7 @@ function Detail(props) {
     // Render
     return (
         <React.Fragment>
-            <NavBar session={props.session} onLogout={props.logout}/>
+            <NavBar session={session} onLogout={props.logout}/>
             <Container className='Container__Fill'>
                 <main className='Main__Section Detail'>
                     <div className='Section__Content'>
@@ -92,11 +91,10 @@ function Detail(props) {
                         <p className='Text'>También pued añadir el anuncio a sus <Link to={`/favorites/`}>favoritos</Link>, para recibir notificaciones en caso de que
                             tenga cambios relevantes.</p>
                     </div>
-                    { advert && 
+                    { !props.isFetching && advert && 
                         <AdvertDetail
                             advert={advert}
-                            showEdit={advert.user && props.session._id === advert.user._id}
-                            showFavorite={advert.user && props.session._id !== advert.user_id}
+                            ownAdvert={advert.user._id === session._id}
                             onSellAdvert={setSellAdvert}
                             onBookAdvert={setBookAdvert}
                             onFavoriteAdvert={setFavoriteAdvert}
@@ -114,7 +112,7 @@ function Detail(props) {
                     /> 
                 }
             </Container>
-            <Footer session={props.session} onLogout={props.logout}/>
+            <Footer session={session} onLogout={props.logout}/>
         </React.Fragment>
     );
 }

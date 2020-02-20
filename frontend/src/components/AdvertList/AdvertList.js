@@ -20,26 +20,27 @@ const CARD_TYPES = {
 export default function AdvertList (props) {
     
     // Translate
-    const { t } = props;
+    const { onBookAdvert, onSellAdvert, onDeleteAdvert, onFavoriteAdvert } = props;
+    const { session, adverts, type, text, isFetching, t } = props;
 
     // Determina el tipo de Card a renderizar
-    const Card = CARD_TYPES[props.type];
+    const Card = CARD_TYPES[type];
     return(
-        <section className={`${props.type==='tiles'?'AdvertListTiles':'AdvertListDetail'}`}>
-            {   !props.isFetching && props.adverts.length > 0 &&
-                props.adverts.map((advert, index) => 
+        <section className={`${type==='tiles'?'AdvertListTiles':'AdvertListDetail'}`}>
+            {   !isFetching && adverts.length > 0 &&
+                adverts.map((advert, index) => 
                     <Card   key={index}
                             advert={advert} 
-                            showEdit={props.showEdit}
-                            showFavorite={props.showFavorite}
-                            onBookAdvert={props.onBookAdvert}
-                            onSellAdvert={props.onSellAdvert}
-                            onDeleteAdvert={props.onDeleteAdvert}
-                            onFavoriteAdvert={props.onFavoriteAdvert}
+                            isLogin={session._id !== undefined}
+                            isMyAdvert={session._id === advert.user._id }
+                            onBookAdvert={onBookAdvert}
+                            onSellAdvert={onSellAdvert}
+                            onDeleteAdvert={onDeleteAdvert}
+                            onFavoriteAdvert={onFavoriteAdvert}
                     />
             )}
-            { !props.isFetching && !props.adverts.length && <h2 className='Home__Subtitle'>{t('Sorry, we couldn\'t find any results matching the filter criteria')}</h2> }
-            { props.isFetching && <LoadingList text={t('Loading adverts')}/> }
+            { !isFetching && !adverts.length && <h2 className='Home__Subtitle'>{t('Sorry, we couldn\'t find any results matching the filter criteria')}</h2> }
+            { isFetching && <LoadingList text={t('Loading adverts')}/> }
         </section>
 );
 }

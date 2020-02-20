@@ -16,8 +16,8 @@ import NavBar from '../../components/NavBar';
 // CSS
 import './styles.css';
 
-// Published adverts section
-export default function Published (props) {
+// Chat adverts section
+export default function Chat (props) {
     
     // Translate
     const { t } = props;
@@ -86,28 +86,13 @@ export default function Published (props) {
         <React.Fragment>
             <NavBar session={props.session} onLogout={props.logout}/>
             <Container className='Container__Fill'>
-                <main className='Main__Section Published'>
-                    {  ( props.session.login && login === props.session.login ) &&
-                        <div className='Section__Content'>
-                            <div className='Content__Title'>
-                                <h1 className='Title'>Tus productos</h1>
-                                <p className='Counter'><span>{totalCount}</span> {t('products')}</p>
-                            </div>
-                            <p className='Text'>Aquí puedes gestionar tus anuncios en venta: reservarlos, marcarlos como vendidos y eliminarlos. Utiliza el botón para subir nuevos productos...</p>
-                            <Button className='Button__AddProduct' variant='contained' color='primary' component={Link} to='/advert/create'>
-                                {t('Add product')}
-                            </Button>
+                <main className='Main__Section Chat'>
+                    <div className='Section__Content'>
+                        <div className='Content__Title'>
+                            <h1 className='Title'>Tus conversaciones</h1>
                         </div>
-                    }
-                    {  ( !props.session.login || login !== props.session.login ) &&
-                        <div className='Section__Content'>
-                            <div className='Content__Title'>
-                                <h1 className='Title'>Los productos de <i>'{login}'</i></h1>
-                                <p className='Counter'><span>{totalCount}</span> {t('products')}</p>
-                            </div>
-                            <p className='Text'>Echa un vistazo a todos los anuncios que tiene publicados un usuario, y añadelos a tus favoritos para recibir notificaciones de tu inter...</p>
-                        </div>
-                    }
+                        <p className='Text'>Aquí puedes gestionar las conversaciones que tienes abiertas con otros miembros de Wallapop, y así llegar a acuerdos de compra/venta con ellos...</p>
+                    </div>
                     <AdvertList 
                         type='list' 
                         start={start}
@@ -125,15 +110,8 @@ export default function Published (props) {
                         onfetchIterateAdverts={onFetchIterateAdverts}
                     />
                 </main>
-                {   showModalDelete && 
-                    <ModalConfirm   onConfirm={confirmDeleteAdvert} 
-                                    onCancel={cancelDeleteAdvert} 
-                                    visible={true} type='warning'
-                                    title={t('Are you sure to delete the advert?')}
-                    /> 
-                }
             </Container>
-            <Footer session={props.session} onLogout={props.logout} active='Published'/>
+            <Footer session={props.session} onLogout={props.logout} active='Chats'/>
         </React.Fragment>
     );
 }

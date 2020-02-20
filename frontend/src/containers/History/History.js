@@ -79,8 +79,7 @@ export default function History (props) {
                         totalCount={totalCount}
                         currentPage={currentPage}
                         adverts={adverts}
-                        showFavorite={false}
-                        showEdit={true}
+                        session={session}
                         isFetching={isFetching}
                         onSellAdvert={sellAdvert}
                         onDeleteAdvert={deleteAdvertRequest}

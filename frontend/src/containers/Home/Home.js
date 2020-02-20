@@ -76,7 +76,7 @@ function Home(props) {
                             totalCount={totalCount}
                             currentPage={currentPage}
                             adverts={adverts}
-                            showFavorite={session.email?true:false}
+                            session={session}
                             isFetching={isFetching}
                             onFavoriteAdvert={onFavoriteAdvert}
                             onSetCurrentPage={setCurrentPage}

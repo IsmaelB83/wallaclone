@@ -47,9 +47,9 @@ export default function Footer(props) {
                         <FavoriteIcon fontSize='small' />
                         <span>{t('Favorites')}</span>
                     </MenuItem>
-                    <MenuItem className={`Footer__MenuItem ${active==='Messages'?'Footer__MenuItem--active':''}`} component={Link} to='/profile'>
+                    <MenuItem className={`Footer__MenuItem ${active==='Chats'?'Footer__MenuItem--active':''}`} component={Link} to='/chats'>
                         <ChatIcon fontSize='small' />
-                        <span>{t('Messages')}</span>
+                        <span>{t('Chats')}</span>
                     </MenuItem>
                 </div>
             }
