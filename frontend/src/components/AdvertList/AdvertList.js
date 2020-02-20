@@ -21,7 +21,7 @@ export default function AdvertList (props) {
     
     // Translate
     const { onBookAdvert, onSellAdvert, onDeleteAdvert, onFavoriteAdvert } = props;
-    const { session, adverts, type, text, isFetching, t } = props;
+    const { session, adverts, type, isFetching, t } = props;
 
     // Determina el tipo de Card a renderizar
     const Card = CARD_TYPES[type];

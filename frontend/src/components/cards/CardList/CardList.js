@@ -27,7 +27,8 @@ export default function CardList (props) {
     
     // Props destructuring
     const { slug, name, thumbnail, tags, price, sold, type, booked, favorite, createdAt, user } = props.advert;
-    const { setFavoriteAdvert, setBookAdvert, setSellAdvert, setDeleteAdvert, isMyAdvert, isLogin } = props;
+    const { setFavoriteAdvert, setBookAdvert, setSellAdvert, setDeleteAdvert, openChat } = props;
+    const { isMyAdvert, isLogin } = props;
 
     // Render
     return(
@@ -50,7 +51,7 @@ export default function CardList (props) {
                         }
                         { !isMyAdvert && isLogin &&
                             <div>
-                                <Button type='button' className='CardList__Favorite'>
+                                <Button type='button' className='CardList__Favorite' onClick={openChat}>
                                     <ForumIcon className='ChatIcon'/>
                                 </Button>
                                 <Button type='button' className='CardList__Favorite' onClick={setFavoriteAdvert}>

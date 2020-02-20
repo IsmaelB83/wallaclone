@@ -1,0 +1,63 @@
+.CardChat {
+    display: flex;
+    flex-direction: row;
+    padding: 20px 30px;
+    height: 100px;
+    max-width: 333px;
+    border-top: 1px solid #eceff1;
+    background-color: white;
+    cursor: pointer;
+}
+
+.CardChat__Figure {
+    width: 60px;
+    height: 60px;
+    overflow: hidden;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.CardChat__Figure .CardChat__Img {
+    width: 100%;
+    height: 100%;
+
+}
+
+.CardChat__Figure .CardChat__Type {
+    flex-grow: 1;
+}
+
+.CardChat__Body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.CardChat__Body .CardChat__User {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: .75rem;
+    color: #a9abac;
+    line-height: 18px;
+    width: 100%;
+    letter-spacing: .45px;
+}
+
+.CardChat__Body .CardChat__Title {
+    font-size: 1.1rem;
+    margin: 2px 0;
+}
+
+.CardChat__Body .CardChat__LastChat {
+    font-size: .85rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.CardChat__Body .CardChat__LastChat svg {
+    color: #39CAB9;
+    font-size: 1.2rem;
+    margin-right: 2px;
+}

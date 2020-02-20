@@ -6,3 +6,6 @@
 
 .CardAvatar span { color: var(--main-color-dark); margin-left: 5px; }
 .CardAvatar:hover span { font-weight: bold; }
+
+.CardAvatar.CardAvatar--large .Avatar { height: 50px; width: 50px; }
+.CardAvatar.CardAvatar--large span { font-size: 1.1rem; margin-left: 10px }

@@ -4,7 +4,6 @@
  *, *::before, *::after {
   margin: 0;
   padding: 0;
-  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 
@@ -54,26 +53,25 @@ img, embed, object, video {
 .mr-1 { margin-right: 5px; }
 
 #root {
-    min-height: 100vh;
+    height: 100vh;
     display: flex;
     flex-direction: column;
 }
 
-.Container__Fill {
+.Container {
     flex-grow: 1; 
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
     margin-top: var(--navbar-height);
     margin-bottom: var(--footer-height);
 }
 
+.Container--OverflowY {
+    overflow: hidden;
+}
+
+
 /* Estilos de una sección de la app */
 .Main__Section {
     padding: 1rem 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 }
 
 .Main__Section .Section__Title {
@@ -220,7 +218,9 @@ a {
 }
 
 @media (max-width: 750px) {
-    .Container__Fill { padding: 0 10px !important; }
+    .Container { 
+        padding-left: 12px !important;
+        padding-right: 12px !important; }
 }
 
 /* Estilos generales de tags small */

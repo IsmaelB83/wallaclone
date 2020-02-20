@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import SearchIcon from '@material-ui/icons/Search';
 import ClearIcon from '@material-ui/icons/Clear';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 // Own Components
 import AdvertChip from '../AdvertChip';
 // Own modules
@@ -73,7 +74,14 @@ export default function SearchPanel(props) {
 
     // Render del componente
     return (
-        <div className='SearchPanel'>
+        <div className={`SearchPanel SearchPanel--${!collapsed?'Show':'Hide'}`}>
+            <div className='SearchPanel__Title' onClick={handleCollapse}>
+                <h2>{t('Search Adverts')}</h2>
+                <button onClick={handleCollapse} className='SearchCollapseButton'>
+                    {collapsed?<ExpandMoreIcon/>:<ExpandLessIcon/>}
+                </button>
+            </div>
+            
             <form className='SearchPanel__Form' onSubmit={handleSubmit}>
                 <div className='InputSearch'>
                     <SearchIcon className='InputSearch__Icon InputSearch__Icon--start'/>
@@ -89,9 +97,8 @@ export default function SearchPanel(props) {
                         onFocus={handleCollapse}
                         onBlur={handleCollapse}
                     />
-                    <button onClick={handleCollapse} className='SearchCollapseButton'><ExpandMoreIcon/></button>
                 </div>   
-                <div className={`SearchPanel__Filters SearchPanel__Filters--${collapsed?'Hide':'Show'}`}>
+                <div className='SearchPanel__Filters'>
                     <div className='SearchPanel__FiltersGrid'>
                         <FormControl>
                             <InputLabel shrink htmlFor='type'>{t('Type')}</InputLabel>

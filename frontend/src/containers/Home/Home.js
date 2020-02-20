@@ -65,7 +65,7 @@ function Home(props) {
     return (
         <React.Fragment>
             <NavBar session={props.session} onLogout={props.logout}/>
-            <Container className='Container__Fill'>
+            <Container className='Container'>
                 <main className='Main__Section'>
                     <div className='Home__Results'>
                     <SearchPanel tags={tags} onSearchAdverts={onHandleSearchAdverts} onSetFilters={setFilters} filters={filters} />

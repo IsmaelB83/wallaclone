@@ -63,7 +63,7 @@ export default function History (props) {
     return (
         <React.Fragment>
             <NavBar session={session} onLogout={props.logout}/>
-            <Container className='Container__Fill'>
+            <Container className='Container'>
                 <main className='Main__Section'>
                     <div className='Section__Content'>
                         <div className='Content__Title'>

@@ -41,7 +41,7 @@ function Favorites (props) {
     return (
         <React.Fragment>
             <NavBar session={session} onLogout={logout}/>
-            <Container className='Container__Fill'>
+            <Container className='Container'>
                 <main className='Main__Section'>
                     <div className='Section__Content'>
                         <div className='Content__Title'>

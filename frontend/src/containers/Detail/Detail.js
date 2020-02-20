@@ -81,7 +81,7 @@ function Detail(props) {
     return (
         <React.Fragment>
             <NavBar session={session} onLogout={props.logout}/>
-            <Container className='Container__Fill'>
+            <Container className='Container'>
                 <main className='Main__Section Detail'>
                     <div className='Section__Content'>
                         <div className='Content__Title'>
@@ -94,6 +94,7 @@ function Detail(props) {
                     { !props.isFetching && advert && 
                         <AdvertDetail
                             advert={advert}
+                            isLogin={session._id !== undefined}
                             ownAdvert={advert.user._id === session._id}
                             onSellAdvert={setSellAdvert}
                             onBookAdvert={setBookAdvert}

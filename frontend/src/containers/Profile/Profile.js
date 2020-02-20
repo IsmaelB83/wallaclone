@@ -54,7 +54,7 @@ function Profile(props) {
     return (
         <React.Fragment>
         <NavBar session={props.session} onLogout={props.logout}/>
-        <Container className='Container__Fill'>
+        <Container className='Container'>
             <main className='Main__Section Profile'>
                 <div className='Section__Content'>
                     <div className='Content__Title'>

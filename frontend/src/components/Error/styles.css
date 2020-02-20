@@ -13,8 +13,9 @@
 }
 
 .Error img { width: 125px; margin-bottom: 1rem;}
+.Error .Error404 { width: 400px; margin-bottom: 1rem;}
 .Error h2 { color: red; margin-bottom: 1rem;}
 .Error h1 { margin-top: 1rem; }
 .Error h3 { margin-top: 1rem; }
-.Error p { font-size: 1.5rem; }
+.Error p { font-size: 1.5rem; } 
 

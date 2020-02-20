@@ -70,9 +70,9 @@ const withPaginator = (WrappedComponent) => {
                                 nextButton={renderButtonNext()}
                             />
                         </div>
-                        <div className='SearchPanel__Statistics'> 
+                        {/* <div className='SearchPanel__Statistics'> 
                             <p>Resultados {props.start} a {props.end} recuperados en la última llamada de un total de {props.totalCount}</p>
-                        </div> 
+                        </div>  */}
                     </React.Fragment>
                 }
                 <WrappedComponent {...props} adverts={adverts.slice(minAdvert, maxAdvert || 1)} isFetching={isFetching}/> 

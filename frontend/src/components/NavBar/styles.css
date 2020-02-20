@@ -5,6 +5,7 @@
   transition: 200ms all ease-in-out;
   position: fixed;
   z-index: 1000;
+  top: 0;
 }
 
 .NavBar__Toolbar {

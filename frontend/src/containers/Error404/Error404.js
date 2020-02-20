@@ -18,7 +18,7 @@ export default function Error404(props) {
   return (
     <React.Fragment>
         <NavBar session={props.session} onLogout={props.logout}/>
-        <Container className='Container__Fill'>
+        <Container className='Container'>
             <Error type='404'/>
         </Container>
         <Footer session={props.session} onLogout={props.logout}/>

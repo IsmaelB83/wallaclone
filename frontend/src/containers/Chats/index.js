@@ -16,8 +16,6 @@ const mapStateToProps = (state) => {
     return {
         adverts: state.adverts,
         session: state.session,
-        ui: state.ui,
-        lastCall: state.lastCall
     }
 }
 
@@ -27,17 +25,7 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
-        // Session
-        logout: () => dispatch(SessionActions.logout()),
-        setFavorite: (slug) => dispatch(SessionActions.setFavorite(slug)),
-        // Filters
-        setCurrentPage: pageNumber => dispatch(FiltersActions.setCurrentPage(pageNumber)),
-        // Adverts
-        deleteAdvert: (slug) => dispatch(AdvertsActions.deleteAdvert(slug)),
-        bookAdvert: (slug) => dispatch(AdvertsActions.bookAdvert(slug)),
-        sellAdvert: (slug) => dispatch(AdvertsActions.sellAdvert(slug)),
-        fetchUserAdverts: (slug) => dispatch(AdvertsActions.fetchUserAdverts(slug)),
-        fetchIterateAdverts: direction => dispatch(AdvertsActions.fetchIterateAdverts(direction)),
+        fetchAdverts: () => dispatch(AdvertsActions.fetchAdverts()),
     }
 }
 

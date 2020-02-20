@@ -85,7 +85,7 @@ export default function Published (props) {
     return (
         <React.Fragment>
             <NavBar session={props.session} onLogout={props.logout}/>
-            <Container className='Container__Fill'>
+            <Container className='Container'>
                 <main className='Main__Section Published'>
                     {  ( props.session.login && login === props.session.login ) &&
                         <div className='Section__Content'>

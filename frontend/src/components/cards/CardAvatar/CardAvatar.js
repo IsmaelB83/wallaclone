@@ -14,9 +14,9 @@ function CardAvatar (props) {
     const { login, avatar, name } = props;
 
     return (
-        <Link to={`/published/${login}`} className='CardAvatar'>
+        <Link to={`/published/${login}`} className={`CardAvatar CardAvatar--${props.size}`}>
             <div>
-                <Avatar className='Avatar' alt='avatar' src={avatar}/>
+                <Avatar className='Avatar' alt='avatar' src={avatar} />
                 <span>{name}</span>
             </div>
         </Link>

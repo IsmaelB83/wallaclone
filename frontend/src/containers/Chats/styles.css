@@ -1,0 +1,7 @@
+.Main__Section.Chat {
+    max-height: 100%;
+}
+
+.Chat .ChatPanel {
+    max-height: calc(100vh - 150px);
+}

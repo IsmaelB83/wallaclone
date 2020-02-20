@@ -28,7 +28,7 @@ export default function AdvertDetail(props) {
 
     // Props destructuring
     const { slug, name, description, photo, tags, price, sold, booked, type, favorite, createdAt, user } = props.advert;
-    const { t, ownAdvert } = props;
+    const { t, ownAdvert, isLogin } = props;
 
     // Chip
     const renderTags = () => tags.map((value,i) => <AdvertChip key={i} type='tag' value={value}/>);
@@ -60,7 +60,7 @@ export default function AdvertDetail(props) {
                 </div>
             </div>
             <div className='AdvertDetail__Buttons'>
-                {   !ownAdvert && 
+                {   !ownAdvert && isLogin &&
                     <React.Fragment>
                         <Button startIcon={<FavoriteIcon className={`FavoriteIcon FavoriteIcon--${favorite?'On':'White'}`}/>} 
                                 className='ButtonWc ButtonWc__Green Span2'
@@ -69,7 +69,7 @@ export default function AdvertDetail(props) {
                         </Button>
                         <Button startIcon={<ForumIcon/>} 
                                 className='ButtonWc ButtonWc__Green Span2'
-                                onClick={props.setFavoriteAdvert}>
+                                onClick={props.openChat}>
                             {t('Chat')}
                         </Button>
                     </React.Fragment>

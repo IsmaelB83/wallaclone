@@ -17,7 +17,7 @@ export default function Error(props) {
     
     const Error404 = () => 
         <div className='Error'>
-            <img src={image404} alt="404" />
+            <img className='Error404' src={image404} alt="404" />
             <h1>{t('Oooppps! The page you are looking for was not found!')}</h1>
         </div>
 
