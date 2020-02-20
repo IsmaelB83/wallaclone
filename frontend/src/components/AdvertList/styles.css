@@ -7,6 +7,8 @@
     position: relative;
 }
 
+.AdvertListTiles .Home__Subtitle { grid-column: 1/-1; }
+
 .AdvertListDetail {
     padding: 1.5rem 0;
     display: grid;
@@ -43,4 +45,5 @@
 
 @media only screen and (min-width : 850px) {
     .AdvertListDetail { grid-template-columns: 1fr 1fr; grid-gap: 10px; }
+    .AdvertListDetail .Home__Subtitle { grid-column: 1/-1; }
 }

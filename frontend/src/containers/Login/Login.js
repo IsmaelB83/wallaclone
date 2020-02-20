@@ -6,7 +6,6 @@ import { withNamespaces } from 'react-i18next';
 import AuthForm from '../../components/AuthForm';
 // Models
 // Own modules
-import LocalStorage from '../../utils/Storage';
 // Assets
 
 // Login
@@ -15,20 +14,9 @@ function Login(props) {
     // Translate
     const { t } = props;
     // Props destructuring
-    const { login, loginWithToken, activateAccount, enqueueSnackbar } = props;
+    const { activateAccount, enqueueSnackbar } = props;
     const { token } = props.match.params;
-    const { push } = props.history;
     
-    // Dispatch login
-    useEffect(() => {
-        let session = LocalStorage.readLocalStorage();
-        if (!token && session && session.jwt) {
-            loginWithToken(session.jwt)
-            .then(res => enqueueSnackbar(t('Redirecting home...'), { variant: 'info' }))
-            .catch (error => enqueueSnackbar(error, { variant: 'error', }));
-        }
-    }, [login, loginWithToken, push, enqueueSnackbar, token, t]);
-
     // Dispatch activate account
     useEffect(() => {
         if (token) {

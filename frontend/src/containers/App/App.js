@@ -1,5 +1,5 @@
 // NPM Modules
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ConnectedRouter } from 'connected-react-router'
 import { Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
@@ -22,6 +22,7 @@ import History from '../History';
 import { SessionActions } from '../../store/GlobalActions';
 import configureStore, { history } from '../../store';
 import { initialState } from '../../store/InitialState';
+import LocalStorage from '../../utils/Storage';
 // Models
 // Assets
 // CSS
@@ -29,8 +30,11 @@ import { initialState } from '../../store/InitialState';
 // APP Root Component
 export default function App(props) {
 
-    // When user clicks in a push notification. This is the callback that service worker execute it
-    const showNotification = (content) => {
+    // Destructure props
+    const { enqueueSnackbar, t } = props;
+
+    // Handle actions performed from a push notification
+    const handleNotifyAction = (content) => {
         switch (content.action) {
             case 'navigate':
                 // Accion de navegación
@@ -40,27 +44,40 @@ export default function App(props) {
                 // Elimino de favoritos y navego a favoritos
                 store.dispatch(SessionActions.setFavorite(content.data))
                 .then(() => {
-                    props.enqueueSnackbar(props.t('Product deleted from favorites'), { variant: 'success'});
+                    enqueueSnackbar(('Product deleted from favorites'), { variant: 'success'});
                     history.push('/favorites')
                 })
-                .catch(error => props.enqueueSnackbar(props.t('Error deleting advert from favorites ERROR', {error}), { variant: 'error' }));
+                .catch(error => enqueueSnackbar(('Error deleting advert from favorites ERROR', {error}), { variant: 'error' }));
                 break;
             case 'add':
                 // Añado a favoritos y navego a favoritos
                 store.dispatch(SessionActions.setFavorite(content.data))
                 .then(() => {
-                    props.enqueueSnackbar(props.t('Product added to favorites'), { variant: 'success'});
+                    enqueueSnackbar(('Product added to favorites'), { variant: 'success'});
                     history.push('/favorites')
                 })
-                .catch(error => props.enqueueSnackbar(props.t('Error deleting advert from favorites ERROR', {error}), { variant: 'error' }));
+                .catch(error => enqueueSnackbar(('Error deleting advert from favorites ERROR', {error}), { variant: 'error' }));
                 break;
             default:
                 console.error('Uncontrolled action returned by service worker');
         }
     }
-
+    
+    // Session storage
+    const session = LocalStorage.readLocalStorage();
     // Configuro el store, y sincronizo el history del store con el de router
-    const store = configureStore(initialState, showNotification);
+    const store = configureStore(initialState, handleNotifyAction);
+
+    // Dispatch login in case of session in local storage
+    useEffect(() => {
+        if (session && session.jwt) {
+            store.dispatch(SessionActions.loginWithToken(session.jwt))
+            .then(res => enqueueSnackbar(t('Automatic login...'), { variant: 'info' }))
+            .catch (error => enqueueSnackbar(error, { variant: 'error', }));
+        }
+    }, [store, session, enqueueSnackbar, t]);
+
+    
 
     // Render
     return (

@@ -1,16 +1,18 @@
 {
     "users": [
         {
-            "login": "demo",
-            "name": "Demo",
+            "login": "tam",
+            "name": "Tamara",
             "email": "user@example.com",
-            "password": "12345678"
+            "password": "12345678",
+            "avatar": "/images/avatars/original/pizza.jpg"
         },
         {
             "login": "isma",
             "name": "Ismael",
             "email": "ismaelbernal83@gmail.com",
-            "password": "12345678"
+            "password": "12345678",
+            "avatar": "/images/avatars/original/chaleco.jpg"
         }
     ],
     "anuncios": [
@@ -179,7 +181,7 @@
             "description": "Vendo juego de vaqueros del PS4",
             "price": 23.5,
             "type": "buy",
-            "photo": "https://media.rawg.io/media/games/511/5118aff5091cb3efec399c808f8c598f.jpg",
+            "photo": "/images/adverts/original/reddeadii.jpg",
             "tags": [
                 "games"
             ]

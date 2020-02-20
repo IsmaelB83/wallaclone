@@ -25,7 +25,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         login: (login, password) => dispatch(SessionActions.login(login, password)),
-        loginWithToken: (jwt) => dispatch(SessionActions.loginWithToken(jwt)),
         activateAccount: (token) => dispatch(SessionActions.activateAccount(token)),
     }
 }
