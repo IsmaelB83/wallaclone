@@ -157,40 +157,38 @@ a {
   text-decoration: none;
 }
 
-/**
- * Buttons
- */
-.ButtonTransparent {
+/* Buttons */
+.ButtonIcon {
   background-color: transparent !important;
+  transition: 300ms all ease-in; 
   border: none !important;
   cursor: pointer;
   outline:none;
+  color: black;
+  background-color: white !important;
+  border: 1px solid var(--light-grey) !important;
+  padding: 2px;
+  border-radius: 4px !important;
+
 }
 
-.ButtonTransparent--Big .FavoriteIcon {
-  font-size: 3rem;
+.ButtonIcon:hover { 
+    transform: scale(1.1); 
 }
+
+.FavoriteIcon:hover { color: red; }
+.ChatIcon:hover { color: var(--main-color); }
+
+.FavoriteIcon--Off { color: black; }
+.FavoriteIcon--On { color: red; }
+
 
 .ButtonWc {
-  color: white !important;
-  padding-left: 1rem !important;
-  padding-right: 1rem !important;
-  background-color: white; 
+    color: white !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    background-color: white; 
 }
-
-.FavoriteIcon, .ChatIcon { transition: 300ms all ease-in; }
-.FavoriteIcon:hover { 
-    color: red;
-    transform: scale(1.1); 
-}
-.ChatIcon:hover { 
-    color: var(--main-color-dark);
-    transform: scale(1.1); 
-}
-
-.FavoriteIcon--Off, .ChatIcon--Off { color: black; }
-.FavoriteIcon--White, .ChatIcon--White { color: white; }
-.FavoriteIcon--On { color: red; }
 
 .ButtonWc:disabled, .ButtonWc.Mui-disabled {
   background-color: var(--light-grey) !important;

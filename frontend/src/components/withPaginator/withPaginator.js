@@ -16,7 +16,7 @@ const withPaginator = (WrappedComponent) => {
 
         // Destructuring props
         const { adverts, start, end, totalCount } = props;
-        let { currentPage, isFetching } = props;
+        let { currentPage, isLoading } = props;
 
         // Local variables
         const itemsPerPage=parseInt(process.env.REACT_APP_MAX_ADVERTS_UI);
@@ -57,7 +57,7 @@ const withPaginator = (WrappedComponent) => {
        
         return (
             <React.Fragment>
-                { adverts.length > 0 &&
+                { adverts.length > 0 && !props.isLoading &&
                     <React.Fragment>
                         <div className='AdvertList__Paginator'>
                             <MobileStepper
@@ -75,7 +75,7 @@ const withPaginator = (WrappedComponent) => {
                         </div>  */}
                     </React.Fragment>
                 }
-                <WrappedComponent {...props} adverts={adverts.slice(minAdvert, maxAdvert || 1)} isFetching={isFetching}/> 
+                <WrappedComponent {...props} adverts={adverts.slice(minAdvert, maxAdvert || 1)} isLoading={isLoading}/> 
             </React.Fragment>
         );
         

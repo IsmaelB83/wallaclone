@@ -94,10 +94,8 @@ export default function SearchPanel(props) {
                         className='InputSearch__Input'
                         autoComplete='off'
                         placeholder={t('Search adverts by name')}
-                        onFocus={handleCollapse}
-                        onBlur={handleCollapse}
                     />
-                </div>   
+                </div>
                 <div className='SearchPanel__Filters'>
                     <div className='SearchPanel__FiltersGrid'>
                         <FormControl>

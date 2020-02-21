@@ -29,6 +29,20 @@ const ChatSchema = new Schema(
 );
 
 /**
+* Función estática para eliminar todos los chats
+*/
+ChatSchema.statics.deleteAll = async function() {
+    return await Chat.deleteMany({});
+};
+
+/**
+* Función estática para insertar varios chats al mismo tiempo
+*/
+ChatSchema.statics.insertAll = async function(chats) {
+    return await Chat.insertMany(chats);
+};
+
+/**
 * Insert a conversation into a chat
 * @param {String} id Chat id to insert conversation to
 * @param {String} user User related to this message
@@ -43,6 +57,12 @@ ChatSchema.statics.insertConversation = function(id, user, text) {
         .catch (error => error)
     })
 };
+
+// Autopopulate user after save (mongoose middleware)
+ChatSchema.post('save', (doc, next) => doc
+    .populate('users', '_id login name email avatar')
+    .populate('advert', '_id slug name thumbnail')
+    .execPopulate(()=>next()));
 
 ChatSchema.index({ advert: 1, users: 1 }, { unique: true });
 

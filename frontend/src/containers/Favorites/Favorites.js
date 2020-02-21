@@ -20,9 +20,9 @@ function Favorites (props) {
     const { t } = props;
 
     // Destructuring index props
-    const { enqueueSnackbar, setFavorite, setCurrentPage, fetchFavorites, logout } = props;
+    const { enqueueSnackbar, setFavorite, setCurrentPage, fetchFavorites, logout, createChat } = props;
     const { start, end, totalCount} = props.lastCall;
-    const { session, adverts } = props;
+    const { session, adverts, chats } = props;
     const { currentPage, isFetching } = props.ui;
 
     // Cargo favoritos del usuario
@@ -30,6 +30,18 @@ function Favorites (props) {
         fetchFavorites()
         .catch(error => enqueueSnackbar(t('Error loading favorites ERROR', {error}), { variant: 'error' }));
     }, [fetchFavorites, enqueueSnackbar, t]);
+
+    // Open chat
+    const openChat = slug => {
+        // Check first if already have a chat for that advert
+        const i = chats.findIndex(c => c.advert.slug === slug);
+        if (i < 0 ) {
+            createChat(slug)
+            .catch (error => enqueueSnackbar(t('Error opening a new chat session ERROR', {error}), { variant: 'error' }));
+        } else {
+            props.history.push(`/chats/${chats[i]._id}`);
+        }
+    }
 
     // Delete favorite
     const deleteFavorite = slug => {
@@ -58,9 +70,10 @@ function Favorites (props) {
                         currentPage={currentPage}
                         adverts={adverts}
                         session={session}
-                        isFetching={isFetching}
+                        isLoading={isFetching}
                         onFavoriteAdvert={deleteFavorite}
                         onSetCurrentPage={setCurrentPage}
+                        onOpenChat={openChat}
                     />
                 </main>
             </Container>

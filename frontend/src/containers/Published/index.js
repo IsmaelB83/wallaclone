@@ -6,7 +6,7 @@ import { withNamespaces } from 'react-i18next';
 import Published from './Published';
 // Models
 // Own modules
-import { AdvertsActions, SessionActions, FiltersActions } from '../../store/GlobalActions';
+import { AdvertsActions, SessionActions, FiltersActions, ChatActions } from '../../store/GlobalActions';
 
 /**
  * Inyecta props en mi componente para acceder al state del store
@@ -16,6 +16,7 @@ const mapStateToProps = (state) => {
     return {
         adverts: state.adverts,
         session: state.session,
+        chats: state.chats,
         ui: state.ui,
         lastCall: state.lastCall
     }
@@ -38,6 +39,8 @@ const mapDispatchToProps = (dispatch) => {
         sellAdvert: (slug) => dispatch(AdvertsActions.sellAdvert(slug)),
         fetchUserAdverts: (slug) => dispatch(AdvertsActions.fetchUserAdverts(slug)),
         fetchIterateAdverts: direction => dispatch(AdvertsActions.fetchIterateAdverts(direction)),
+        // Chats
+        createChat: (slug) => dispatch(ChatActions.createChat(slug))
     }
 }
 

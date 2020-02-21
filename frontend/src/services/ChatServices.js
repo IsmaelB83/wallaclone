@@ -52,16 +52,12 @@ export default {
     
     /**
     * Crear un nuevo chat
-    * @param {Advert} chat Chat information
+    * @param {Advert} slug Advert slug to chat creation
     * @param {Advert} jwt JWT for authentication
     */
-    postChat: (chat, jwt) => {
+    postChat: (slug, jwt) => {
         // Endpoint
-        const baseURL = `${API_URL}`;
-        // Form Data
-        const formData = new FormData();
-        formData.append('advert', chat.advert);
-        formData.append('users', chat.users);
+        const baseURL = `${API_URL}/${slug}`;
         // Config 
         const config = { 
             headers: { 
@@ -70,7 +66,7 @@ export default {
             } 
         }
         // Call endpoint and return
-        return Axios.post(baseURL, formData, config)
+        return Axios.post(baseURL, config)
         .then(res => new Chat(res.data.result));
     },
 }

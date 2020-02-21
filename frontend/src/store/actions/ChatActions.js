@@ -31,7 +31,7 @@ const fetchUserChatsSuccess = chats => ({ type: ACTIONS.FETCH_USER_CHATS_SUCCESS
 /**
  * Obtener todo la conversación asociada a un chat
  */
-export const fetchChat = (id) => {   
+export const fetchChat = id => {   
     return async function(dispatch, getState, extra) {
         dispatch(fetchChatRequest());
         return ChatServices.getChat(id, getState().session.jwt)
@@ -40,7 +40,7 @@ export const fetchChat = (id) => {
             return chat;
         })
         .catch (error => {
-            let message = error.response && error.response.data ? error.response.data.data : error.message;            
+                let message = error.response && error.response.data ? error.response.data.data : error.message;
             dispatch(fetchChatFailure(message));
             throw message;
         });
@@ -54,16 +54,17 @@ const fetchChatSuccess = chat => ({ type: ACTIONS.FETCH_CHAT_SUCCESS, chat });
 /**
  * Crea una nueva conversacion
  */
-export const createChat = (chat) => {   
+export const createChat = slug => {   
     return async function(dispatch, getState, extra) {
         dispatch(createChatRequest());
-        return ChatServices.createChat(chat, getState().session.jwt)
+        return ChatServices.postChat(slug, getState().session.jwt)
         .then(chat => {
             dispatch(createChatSuccess(chat));
+            extra.history.push(`/chats/${chat._id}`);
             return chat;
         })
         .catch (error => {
-            let message = error.response && error.response.data ? error.response.data.data : error.message;            
+            let message = error.response && error.response.data ? error.response.data.data : error.message;
             dispatch(createChatFailure(message));
             throw message;
         });

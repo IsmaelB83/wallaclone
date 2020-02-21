@@ -209,5 +209,91 @@
                 "sports"
             ]
         }
+    ],
+    "chats": [
+        {
+            "messages": [
+                {   "date": "2019-01-01",
+                    "user": 0,
+                    "text": "Hola buenas tardes"
+                },
+                {   "date": "2019-01-01",
+                    "user": 0,
+                    "text": "¿Tienes disponibles aún los libros del Fallout 4"
+                },
+                {   "date": "2019-01-02",
+                    "user": 1,
+                    "text": "Hola Antonio, Siguen disponibles si. Lo que pasa que por lo poco que pido no me voy a desplazar. Sería para recoger en el norte de Madrid. ¿Te cuadraría?"
+                },
+                {   "date": "2019-01-02",
+                    "user": 0,
+                    "text": "Hola. Sí, en principio no habría problema. Mañana mismo voy a Madrid capital. ¿Sería posible quedar mañana?"
+                },
+                {   "date": "2019-01-02",
+                    "user": 0,
+                    "text": "Si me dices una dirección exacta, quedamos allí a una hora que acordemos si no te parece mal."
+                },
+                {   "date": "2019-01-03",
+                    "user": 1,
+                    "text": "Mañana estoy de vacaciones así que puedo sin problema."
+                },
+                {   "date": "2019-01-03",
+                    "user": 1,
+                    "text": "Calle castiello de Jaca 18"
+                },
+                {   "date": "2019-01-03",
+                    "user": 0,
+                    "text": "OK. Estupendo. Hoy estaré en Madrid (bajo desde Villalba) desde las 12h a hacer varias cosas. Si te parece bien, cuando termine te escribo y me paso por allí con el coche un momento"
+                }
+            ]
+        },
+        {
+            "messages": [
+                {   "date": "2019-01-01",
+                    "user": 0,
+                    "text": "Hola buenas tardes"
+                },
+                {   "date": "2019-01-01",
+                    "user": 0,
+                    "text": "¿Tienes disponibles aún los libros del Fallout 4"
+                },
+                {   "date": "2019-01-02",
+                    "user": 1,
+                    "text": "Hola Antonio, Siguen disponibles si. Lo que pasa que por lo poco que pido no me voy a desplazar. Sería para recoger en Madrid. ¿Te cuadraría?"
+                },
+                {   "date": "2019-01-02",
+                    "user": 0,
+                    "text": "Hola. Sí, en principio no habría problema. Mañana mismo voy a Madrid capital. ¿Sería posible quedar mañana?"
+                }
+            ]
+        },
+        {
+            "messages": [
+                {   "date": "2019-01-01",
+                    "user": 0,
+                    "text": "Hola buenas tardes"
+                },
+                {   "date": "2019-01-01",
+                    "user": 0,
+                    "text": "¿Tienes disponibles aún los libros del Fallout 4"
+                }
+            ]
+        },
+        {
+            "messages": [
+                {   "date": "2019-01-01",
+                    "user": 0,
+                    "text": "Hola buenas tardes"
+                },
+                {   "date": "2019-01-02",
+                    "user": 1,
+                    "text": "Hola Antonio, Siguen disponibles si. Lo que pasa que por lo poco que pido no me voy a desplazar. Sería para recoger en Madrid. ¿Te cuadraría?"
+                },
+                {   "date": "2019-01-02",
+                    "user": 0,
+                    "text": "Hola. Sí, en principio no habría problema. Mañana mismo voy a Madrid capital. ¿Sería posible quedar mañana?"
+                }
+            ]
+        }
     ]
 }

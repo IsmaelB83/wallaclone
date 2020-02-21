@@ -7,18 +7,20 @@ const withAdvertActions = (WrappedComponent) => {
     return class AdvertWithActions extends Component {
 
         // Acciones posibles sobre el anuncio
-        setFavoriteAdvert = () => this.props.onFavoriteAdvert(this.props.advert.slug);
-        setSellAdvert = () => this.props.onSellAdvert(this.props.advert.slug);
-        setBookAdvert = () => this.props.onBookAdvert(this.props.advert.slug);
-        setDeleteAdvert = () => this.props.onDeleteAdvert(this.props.advert.slug);
+        favoriteAdvert = () => this.props.onFavoriteAdvert(this.props.advert.slug);
+        sellAdvert = () => this.props.onSellAdvert(this.props.advert.slug);
+        bookAdvert = () => this.props.onBookAdvert(this.props.advert.slug);
+        deleteAdvert = () => this.props.onDeleteAdvert(this.props.advert.slug);
+        openChat = () => this.props.onOpenChat(this.props.advert.slug);
 
         render() { 
             return <WrappedComponent 
                         {...this.props} 
-                        setFavoriteAdvert={this.setFavoriteAdvert}
-                        setSellAdvert={this.setSellAdvert}
-                        setBookAdvert={this.setBookAdvert}
-                        setDeleteAdvert={this.setDeleteAdvert}
+                        onFavoriteAdvert={this.favoriteAdvert}
+                        onSellAdvert={this.sellAdvert}
+                        onBookAdvert={this.bookAdvert}
+                        onDeleteAdvert={this.deleteAdvert}
+                        onOpenChat={this.openChat}
             /> 
         }
     }

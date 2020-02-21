@@ -55,16 +55,17 @@
 }
 
 /* Type and favorite button */
-.CardTile_ContentType {
+.CardTile__ContentType {
     padding: 0 .75rem;
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     position: absolute;
-    top: -35px;
+    top: -40px;
 }
 
-.CardTile_ContentType .ButtonTransparent { 
+.CardTile__ContentType .ButtonTransparent { 
     border: 1px solid black !important;
     background-color: rgba(255, 255, 255, .7) !important; 
     padding: 2px 4px;
@@ -74,9 +75,9 @@
     align-items: center;
 }
 
-.CardTile_ContentType .ButtonTransparent svg { margin-left: 3px; }
-.CardTile_ContentType .ButtonTransparent:hover { background-color: white !important; }
-.CardTile_ContentType .ButtonTransparent:hover svg { color: red; }
+.CardTile__ContentType .ButtonTransparent svg { margin-left: 3px; }
+.CardTile__ContentType .ButtonTransparent:hover { background-color: white !important; }
+.CardTile__ContentType .ButtonTransparent:hover svg { color: red; }
 
 /* Title and date */
 .CardTile_ContentTitle {
@@ -88,6 +89,14 @@
 
 .CardTile_ContentTitle .CardTile__Title { color: var(--main-gray); }
 .CardTile_ContentTitle .CardTile__Title h2 { font-size: 1.25rem; }
+
+.CardTile__Actions {
+    display: flex;
+    flex-direction: row;
+    justify-self: flex-end;
+}
+
+.CardTile__Actions button:first-child { margin-right: 5px; }
 
 /* Footer */
 .CardTile__Footer {

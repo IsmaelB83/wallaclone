@@ -28,7 +28,8 @@ export default function AdvertDetail(props) {
 
     // Props destructuring
     const { slug, name, description, photo, tags, price, sold, booked, type, favorite, createdAt, user } = props.advert;
-    const { t, ownAdvert, isLogin } = props;
+    const { onFavoriteAdvert, onOpenChat, onBookAdvert, onSellAdvert, onDeleteAdvert, t } = props;
+    const { ownAdvert, isLogin } = props;
 
     // Chip
     const renderTags = () => tags.map((value,i) => <AdvertChip key={i} type='tag' value={value}/>);
@@ -64,12 +65,12 @@ export default function AdvertDetail(props) {
                     <React.Fragment>
                         <Button startIcon={<FavoriteIcon className={`FavoriteIcon FavoriteIcon--${favorite?'On':'White'}`}/>} 
                                 className='ButtonWc ButtonWc__Green Span2'
-                                onClick={props.setFavoriteAdvert}>
+                                onClick={onFavoriteAdvert}>
                             {t('Favorite')}
                         </Button>
                         <Button startIcon={<ForumIcon/>} 
                                 className='ButtonWc ButtonWc__Green Span2'
-                                onClick={props.openChat}>
+                                onClick={onOpenChat}>
                             {t('Chat')}
                         </Button>
                     </React.Fragment>
@@ -84,18 +85,18 @@ export default function AdvertDetail(props) {
                                 {t('Edit')}
                         </Button>
                         <Button className='ButtonWc ButtonWc__Green' 
-                                onClick={props.setBookAdvert}
+                                onClick={onBookAdvert}
                                 startIcon={<BookmarkBorderOutlinedIcon/>}
                                 disabled={sold}>
                                 {t('Book')}
                         </Button>
                         <Button className='ButtonWc ButtonWc__Green' 
-                                onClick={props.setSellAdvert}
+                                onClick={onSellAdvert}
                                 startIcon={<AttachMoneyOutlinedIcon/>}>
                                 {t('Sold')}
                         </Button>
                         <Button className='ButtonWc ButtonWc__Red Span2' 
-                                onClick={props.setDeleteAdvert}
+                                onClick={onDeleteAdvert}
                                 startIcon={<DeleteOutlineOutlinedIcon/>}
                                 disabled={sold}>
                                 {t('Delete')}

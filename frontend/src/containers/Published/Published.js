@@ -27,7 +27,7 @@ export default function Published (props) {
     const { start, end, totalCount } = props.lastCall;
     const { login } = props.match.params;
     const { currentPage, isFetching } = props.ui;
-    const { adverts, session } = props;
+    const { adverts, session, chats } = props;
 
     // Cargo anuncios del usuario solicitado
     useEffect(() => {
@@ -58,7 +58,19 @@ export default function Published (props) {
         props.sellAdvert(slug)
         .catch(error => enqueueSnackbar(t('Error setting advert as sold ERROR', {error}), { variant: 'error', }));
     };
-    
+
+    // Open chat
+    const openChat = slug => {
+        // Check first if already have a chat for that advert
+        const i = chats.findIndex(c => c.advert.slug === slug);
+        if (i < 0 ) {
+            props.createChat(slug)
+            .catch (error => enqueueSnackbar(t('Error opening a new chat session ERROR', {error}), { variant: 'error' }));
+        } else {
+            props.history.push(`/chats/${chats[i]._id}`);
+        }
+}
+
     // Borrar anuncio
     const [showModalDelete, setShowModalDelete] = useState(false);
     const [slug, setSlug] = useState(undefined);
@@ -116,13 +128,14 @@ export default function Published (props) {
                         currentPage={currentPage}
                         adverts={adverts}
                         session={session}
-                        isFetching={isFetching}
+                        isLoading={isFetching}
                         onBookAdvert={bookAdvert}
                         onSellAdvert={sellAdvert}
                         onDeleteAdvert={deleteAdvertRequest}
                         onFavoriteAdvert={favoriteAdvert}
                         onSetCurrentPage={setCurrentPage}
                         onfetchIterateAdverts={onFetchIterateAdverts}
+                        onOpenChat={openChat}
                     />
                 </main>
                 {   showModalDelete && 

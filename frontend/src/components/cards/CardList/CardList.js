@@ -27,7 +27,7 @@ export default function CardList (props) {
     
     // Props destructuring
     const { slug, name, thumbnail, tags, price, sold, type, booked, favorite, createdAt, user } = props.advert;
-    const { setFavoriteAdvert, setBookAdvert, setSellAdvert, setDeleteAdvert, openChat } = props;
+    const { onFavoriteAdvert, onBookAdvert, onSellAdvert, onDeleteAdvert, onOpenChat } = props;
     const { isMyAdvert, isLogin } = props;
 
     // Render
@@ -51,10 +51,10 @@ export default function CardList (props) {
                         }
                         { !isMyAdvert && isLogin &&
                             <div>
-                                <Button type='button' className='CardList__Favorite' onClick={openChat}>
+                                <Button type='button' className='CardList__Favorite' onClick={onOpenChat}>
                                     <ForumIcon className='ChatIcon'/>
                                 </Button>
-                                <Button type='button' className='CardList__Favorite' onClick={setFavoriteAdvert}>
+                                <Button type='button' className='CardList__Favorite' onClick={onFavoriteAdvert}>
                                     <FavoriteIcon className={`FavoriteIcon FavoriteIcon--${favorite?'On':'Off'}`}/>
                                 </Button>
                             </div>
@@ -62,11 +62,11 @@ export default function CardList (props) {
                         { isMyAdvert &&
                             <div className='CardList__EditButtons'>
                                 <Button type='button' className={`ButtonWc ButtonWc__Clear ButtonWc__ClearToBlue ${booked && 
-                                        'ButtonWc__ClearToBlue--active'}`} disabled={sold} variant='contained' onClick={setBookAdvert}>
+                                        'ButtonWc__ClearToBlue--active'}`} disabled={sold} variant='contained' onClick={onBookAdvert}>
                                     <BookmarkBorderOutlinedIcon/>
                                 </Button>
                                 <Button type='button' className={`ButtonWc ButtonWc__Clear ButtonWc__ClearToRed ${sold && 'ButtonWc__ClearToRed--active'}`} 
-                                        disabled={booked} variant='contained' onClick={setSellAdvert}>
+                                        disabled={booked} variant='contained' onClick={onSellAdvert}>
                                     <AttachMoneyOutlinedIcon/>
                                 </Button>
                                 <Button type='button' className='ButtonWc ButtonWc__Clear ButtonWc__ClearToGreen' 
@@ -74,7 +74,7 @@ export default function CardList (props) {
                                     <EditOutlinedIcon/>
                                 </Button>
                                 <Button type='button' className='ButtonWc ButtonWc__Clear ButtonWc__ClearToGray' 
-                                        disabled={sold} variant='contained' onClick={setDeleteAdvert}>
+                                        disabled={sold} variant='contained' onClick={onDeleteAdvert}>
                                     <DeleteOutlineOutlinedIcon/>
                                 </Button>
                             </div>

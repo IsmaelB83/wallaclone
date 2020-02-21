@@ -33,6 +33,15 @@
             "port": 9545
         },
         {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch nodemon for init database",
+            "cwd": "${workspaceFolder}/backend/",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": ["run-script", "debugInit"],
+            "port": 9546
+        },
+        {
             "type": "chrome",
             "request": "launch",
             "name": "Launch react in debug",

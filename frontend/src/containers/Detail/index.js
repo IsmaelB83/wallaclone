@@ -4,7 +4,7 @@ import { withSnackbar } from 'notistack';
 // Own components
 import Detail from './Detail';
 // Own modules
-import { AdvertsActions, SessionActions } from '../../store/GlobalActions';
+import { AdvertsActions, SessionActions, ChatActions } from '../../store/GlobalActions';
 
 
 /**
@@ -14,6 +14,7 @@ import { AdvertsActions, SessionActions } from '../../store/GlobalActions';
 const mapStateToProps = (state) => {
     return {
         session: state.session,
+        chats: state.chats,
         isFetchingDetail: state.ui.isFetchingDetail,
         error: state.ui.error
     }
@@ -33,6 +34,8 @@ const mapDispatchToProps = (dispatch) => {
         bookAdvert: (slug) => dispatch(AdvertsActions.bookAdvert(slug)),
         sellAdvert: (slug) => dispatch(AdvertsActions.sellAdvert(slug)),
         deleteAdvert: (slug) => dispatch(AdvertsActions.deleteAdvert(slug)),
+        // Chats
+        createChat: (slug) => dispatch(ChatActions.createChat(slug))
     }
 }
 

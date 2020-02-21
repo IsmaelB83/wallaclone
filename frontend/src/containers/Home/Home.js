@@ -24,7 +24,7 @@ function Home(props) {
     // Destructuring de props
     const { start, end, totalCount } = props.lastCall
     const { currentPage, isFetching } = props.ui;
-    const { adverts, session, filters, tags } = props;
+    const { adverts, session, filters, tags, chats } = props;
     const { fetchTags, setCurrentPage, fetchIterateAdverts, enqueueSnackbar, setFilters, setFavorite, searchAdverts, fetchAdverts } = props;
 
     // On load
@@ -35,13 +35,25 @@ function Home(props) {
     }, [fetchTags, fetchAdverts, enqueueSnackbar, t]);
 
     // Reservar producto
-    const onFavoriteAdvert = (slug) => {
+    const favoriteAdvert = (slug) => {
         if (!session.jwt) {
             enqueueSnackbar(t('You need to log in to manage favorites'), { variant: 'error' });
         } else {
             setFavorite(slug)
             .then(res => enqueueSnackbar(t('Advert SLUG ACTION favorites', {slug, action: res.favorite?t('added to'):t('removed from')}), { variant: 'success' }))
             .catch(error => enqueueSnackbar(t('Error adding advert to favorite ERROR', {error}), { variant: 'error' }));    
+        }
+    }
+
+    // Open chat
+    const openChat = slug => {
+        // Check first if already have a chat for that advert
+        const i = chats.findIndex(c => c.advert.slug === slug);
+        if (i < 0 ) {
+            props.createChat(slug)
+            .catch (error => enqueueSnackbar(t('Error opening a new chat session ERROR', {error}), { variant: 'error' }));
+        } else {
+            props.history.push(`/chats/${chats[i]._id}`);
         }
     }
 
@@ -56,7 +68,7 @@ function Home(props) {
     }
 
     // Paginación sobre la colección de anuncios
-    const onfetchIterateAdverts = (direction) => {
+    const iterateAdverts = (direction) => {
         return fetchIterateAdverts(direction)
         .catch(error => enqueueSnackbar(t('Error loading adverts ERROR', {error}), { variant: 'error' }));
     }
@@ -77,10 +89,11 @@ function Home(props) {
                             currentPage={currentPage}
                             adverts={adverts}
                             session={session}
-                            isFetching={isFetching}
-                            onFavoriteAdvert={onFavoriteAdvert}
+                            isLoading={isFetching}
+                            onFavoriteAdvert={favoriteAdvert}
                             onSetCurrentPage={setCurrentPage}
-                            onfetchIterateAdverts={onfetchIterateAdverts}
+                            onfetchIterateAdverts={iterateAdverts}
+                            onOpenChat={openChat}
                         />
                     </div>
                 </main>

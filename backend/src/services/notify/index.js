@@ -31,8 +31,8 @@ app.use(bodyParser.json());
 app.use(cors())
 webpush.setVapidDetails('mailto:ismaelbernal83@gmail.com', process.env.VAPID_KEY_PUBLIC, process.env.VAPID_KEY_PRIVATE);
 const appServer = https.createServer(credentials, app);
-appServer.listen(process.env.PUSH_NOTIFICATION_SERVER_PORT, () => {
-    console.log(`OK - HTTPS server running on port ${process.env.PUSH_NOTIFICATION_SERVER_PORT}`);
+appServer.listen(process.env.PORT_NOTIFY, () => {
+    console.log(`OK - HTTPS server running on port ${process.env.PORT_NOTIFY}`);
 });
 
 // Start mongodb connection

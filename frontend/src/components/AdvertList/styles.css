@@ -16,34 +16,9 @@
     grid-gap: 5px;
 }
 
-.LoadingList {
-    top: 0;
-    left: 0;
-    background-color: transparent;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.LoadingList__Spinner {
-    height: 150px;
-    width: 150px;
-    justify-self: center;
-    align-self: center;
-    display: block;
-}
-
-.LoadingList__Text {
-    color: var(--main-color-dark);
-    letter-spacing: .35px;
-    text-transform: lowercase;
-    font-weight: 400;
-    font-size: 1.5rem;
-    text-align: center;
-}
-
 @media only screen and (min-width : 850px) {
     .AdvertListDetail { grid-template-columns: 1fr 1fr; grid-gap: 10px; }
     .AdvertListDetail .Home__Subtitle { grid-column: 1/-1; }
 }
+
+.AdvertListDetail .Loading { grid-column: 1/-1; }

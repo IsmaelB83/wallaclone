@@ -5,6 +5,7 @@ import AuthServices from '../../services/AuthServices';
 import UserServices from '../../services/UserServices';
 // Own modules
 import LocalStorage from '../../utils/Storage';
+import { fetchUserChats } from './ChatActions';
 // Actions
 import * as ACTIONS from '../types/SessionTypes';
 
@@ -20,6 +21,8 @@ export const login = (login, password) => {
         .then(response => {
             dispatch(loginSuccess(response));
             LocalStorage.saveLocalStorage(getState().session);
+            // Load chats
+            dispatch(fetchUserChats());
             // register service worker to receive push notifications
             serviceWorker.register(login, extra.notify);
             extra.history.push('/');
@@ -48,6 +51,8 @@ export const loginWithToken = (jwt) => {
             // Distpatch login and save in local storage
             dispatch(loginWithTokenSuccess(response));
             LocalStorage.saveLocalStorage(getState().session);
+            // Load chats
+            dispatch(fetchUserChats());
             // register service worker to receive push notifications
             serviceWorker.register(getState().session.login, extra.notify);
             extra.history.push('/');

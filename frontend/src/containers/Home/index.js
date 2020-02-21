@@ -4,7 +4,7 @@ import { withSnackbar } from 'notistack';
 // Own Components
 import Home from './Home';
 // Own modules
-import { AdvertsActions, SessionActions, FiltersActions } from '../../store/GlobalActions';
+import { AdvertsActions, SessionActions, FiltersActions, ChatActions } from '../../store/GlobalActions';
 import { getVisibleAdverts } from '../../store/selectors/AdvertsSelectors';
 
 
@@ -16,6 +16,7 @@ const mapStateToProps = (state) => {
     return {
         adverts: getVisibleAdverts(state.adverts, state.filters),
         session: state.session,
+        chats: state.chats,
         tags: state.tags,
         ui: state.ui,
         filters: state.filters,
@@ -40,6 +41,8 @@ const mapDispatchToProps = (dispatch) => {
         fetchAdverts: () => dispatch(AdvertsActions.fetchAdverts()),
         fetchIterateAdverts: direction => dispatch(AdvertsActions.fetchIterateAdverts(direction)),
         searchAdverts: filters => dispatch(AdvertsActions.searchAdverts(filters)),
+        // Chats
+        createChat: (slug) => dispatch(ChatActions.createChat(slug)) 
     }
 }
 

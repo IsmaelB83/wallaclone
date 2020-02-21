@@ -6,15 +6,15 @@
   "scripts": {
     "init": "node ./src/database/install_db.js",
     "start": "node ./src/index.js",
-    "debug": "nodemon --nolazy --inspect-brk=9543 ./src/index.js",
-    "debugPhotos": "nodemon --nolazy --inspect-brk=9544 ./src/services/workers/photos.js",
-    "debugNotify": "nodemon --nolazy --inspect-brk=9545 ./src/services/workers/notify.js",
     "prod": "cross-env NODE_ENV=production npm start",
-    "photos": "node ./src/services/workers/photos.js",
-    "notify": "node ./src/services/workers/notify.js",
-    "chat": "nodemon ./src/services/chat/index.js",
-    "test": "jest",
-    "test:watch": "jest --watch"
+    "photos": "node ./src/services/thumbnail/index.js",
+    "notify": "node ./src/services/notify/index.js",
+    "chat": "node ./src/services/chat/index.js",
+    "debug": "nodemon --nolazy --inspect-brk=9543 ./src/index.js",
+    "debugPhotos": "nodemon --nolazy --inspect-brk=9544 ./src/services/thumbnail/index.js",
+    "debugNotify": "nodemon --nolazy --inspect-brk=9545 ./src/services/notify/index.js",
+    "debugChat": "nodemon --nolazy --inspect-brk=9547 ./src/services/chat/index.js",
+    "debugInit": "nodemon --nolazy --inspect-brk=9546 ./src/database/install_db.js"
   },
   "jest": {
     "testEnvironment": "node"

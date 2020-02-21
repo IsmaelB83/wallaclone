@@ -4,7 +4,7 @@ import { withSnackbar } from 'notistack';
 // Own components
 import Favorites from './Favorites';
 // Own modules
-import { AdvertsActions, SessionActions, FiltersActions } from '../../store/GlobalActions';
+import { AdvertsActions, SessionActions, FiltersActions, ChatActions } from '../../store/GlobalActions';
 
 
 /**
@@ -16,6 +16,7 @@ const mapStateToProps = (state) => {
         adverts: state.adverts,
         lastCall: state.lastCall,
         session: state.session,
+        chats: state.chats,
         ui: state.ui,
     }
 }
@@ -33,6 +34,8 @@ const mapDispatchToProps = (dispatch) => {
         setCurrentPage: pageNumber => dispatch(FiltersActions.setCurrentPage(pageNumber)),
         // Adverts
         fetchFavorites: () => dispatch(AdvertsActions.fetchFavorites()),
+        // Chats
+        createChat: (slug) => dispatch(ChatActions.createChat(slug))        
     }
 }
 

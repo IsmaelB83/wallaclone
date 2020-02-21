@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 // Node imports
 // Own imports
 const { Chat, Advert } = require('../../models');
@@ -49,8 +49,8 @@ module.exports = {
             // Get all chats for the authenticated user
             Chat.find({users: req.user._id})
             .select('advert, users')
-            .populate('users', 'login name email avatar')
-            .populate('advert', 'slug name thumbnail')
+            .populate('users', '_id login name email avatar')
+            .populate('advert', '_id slug name thumbnail')
             .then (chats => {
                 // Ok
                 return res.status(201).json({
@@ -73,16 +73,16 @@ module.exports = {
     select: async (req, res, next) => {
         try {
             // Get chat conversation for a specific id and authenticated user
-            Chat.find({_id: req.params.id, users: req.user._id})
+            Chat.findOne({_id: req.params.id, users: req.user._id})
             .select('advert, users messages')
-            .populate('users', 'login name email avatar')
-            .populate('advert', 'slug name thumbnail')
+            .populate('users', '_id login name email avatar')
+            .populate('advert', '_id slug name thumbnail')
             .then (chat => {
                 // Ok
                 return res.status(201).json({
                     success: true,
                     description: 'success',
-                    result: chats
+                    result: chat
                 });
             })
         } catch (error) {

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withSnackbar } from 'notistack';
 import { withNamespaces } from 'react-i18next';
 // Own Components
-import Chat from './Chat';
+import Chats from './Chats';
 // Models
 // Own modules
 import { ChatActions } from '../../store/GlobalActions';
@@ -34,4 +34,4 @@ const mapDispatchToProps = (dispatch) => {
 /**
  * Envuelvo el App en al función connect para conectar con el store recibido del provider
  */ 
-export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(withNamespaces()(Chat)));
+export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(withNamespaces()(Chats)));

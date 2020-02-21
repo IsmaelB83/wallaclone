@@ -80,7 +80,7 @@ export default function History (props) {
                         currentPage={currentPage}
                         adverts={adverts}
                         session={session}
-                        isFetching={isFetching}
+                        isLoading={isFetching}
                         onSellAdvert={sellAdvert}
                         onDeleteAdvert={deleteAdvertRequest}
                         onSetCurrentPage={setCurrentPage}

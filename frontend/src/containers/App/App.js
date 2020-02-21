@@ -91,7 +91,7 @@ export default function App(props) {
                     <Route path='/reset/:token' exact component={Reset} />
                     <Route path='/activate/:token' exact component={Login} />
                     <Route path='/published/:login' exact component={Published} />
-                    <PrivateRoute path='/chats' exact component={Chats} />
+                    <PrivateRoute path='/chats/:id?' exact component={Chats} />
                     <PrivateRoute path='/history' exact component={History} />
                     <PrivateRoute path='/favorites' exact component={Favorites} />
                     <PrivateRoute path='/profile' exact component={Profile} />

@@ -38,11 +38,11 @@ module.exports = {
                     name: user.name,
                     login: user.login,
                     email: user.email,
-                    expires: moment().add(60, 'minutes'),
+                    expires: moment().add(600, 'minutes'),
                 };
                 const jwtoken = jwt.sign({payload}, process.env.SECRET);
                 user.jwt = jwtoken;
-                user.expire = Date.now() + 3600000;
+                user.expire = Date.now() + 36000000;
                 user.save();
                 // Return jwt and user information
                 return res.json({

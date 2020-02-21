@@ -1,6 +1,14 @@
 // Endpoint
 const API_URL = process.env.REACT_APP_API_URL.replace('/apiv1','');
 
+// Empty advert aux
+export const EMPTY_CHAT = {
+    _id: undefined,
+    advert: undefined,
+    users: [],
+    messages: []
+}
+
 // Modelo de chat en wallaclone
 export default class Chat {
     

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Moment from 'react-moment';
 // Material UI
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import ForumIcon from '@material-ui/icons/Forum';
 // Own components
 import AdvertChip from '../../AdvertChip';
 import CardAvatar from '../CardAvatar/CardAvatar';
@@ -23,6 +24,7 @@ export default function CardTile (props) {
     // Props destructuring
     const { slug, name, thumbnail, tags, price, sold, booked, type, favorite, user, createdAt } = props.advert;
     const { isLogin, isMyAdvert } = props;
+    const { onOpenChat, onFavoriteAdvert } = props;
 
     // Render
     return(
@@ -32,13 +34,17 @@ export default function CardTile (props) {
                 <CardImage slug={slug} sold={sold} booked={booked} photo={thumbnail}/>
             </header>
             <div className='CardTile__Content'>
-                <div className='CardTile_ContentType'>
+                <div className='CardTile__ContentType'>
                     <AdvertChip type='type' value={type}/>
                     { isLogin && !isMyAdvert &&
-                        <button className='ButtonTransparent' onClick={props.setFavoriteAdvert}>
-                            <span>add</span>
-                            <FavoriteIcon className={`FavoriteIcon FavoriteIcon--${favorite?'On':'Off'}`}/>
-                        </button>
+                        <div className='CardTile__Actions'>
+                            <button className='ButtonIcon' onClick={onOpenChat}>
+                                <ForumIcon className='ChatIcon'/>
+                            </button>
+                            <button className='ButtonIcon' onClick={onFavoriteAdvert}>
+                                <FavoriteIcon className={`FavoriteIcon FavoriteIcon--${favorite?'On':'Off'}`}/>
+                            </button>
+                        </div>
                     }
                 </div>                
                 <div className='CardTile_ContentTitle'>
@@ -47,7 +53,7 @@ export default function CardTile (props) {
                 <CardTags tags={tags} />
             </div>
             <div className='CardTile__Footer'>
-                <CardAvatar login={user.isLogin} name={user.name} avatar={user.avatar}/>
+                <CardAvatar login={user.login} name={user.name} avatar={user.avatar}/>
                 <Moment className='CardTile__Date' locale={i18n.language} fromNow>{createdAt}</Moment>
             </div>
         </article>

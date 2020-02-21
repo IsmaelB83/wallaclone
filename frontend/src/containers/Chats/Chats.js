@@ -3,38 +3,50 @@ import React, { useState, useEffect } from 'react';
 // Material UI
 import Container from '@material-ui/core/Container';
 // Components
-import ChatPanel from '../../components/ChatPanel';
+import ChatList from '../../components/ChatList';
 import Footer from '../../components/Footer';
 import NavBar from '../../components/NavBar';
 import Error from '../../components/Error';
 // Own modules
 // Models
+import { EMPTY_CHAT } from '../../models/Chat';
 // Assets
 // CSS
 import './styles.css';
 
 // Chat adverts section
-export default function Chat (props) {
+export default function Chats (props) {
     
     // Destructure props
     const { fetchUserChats, fetchChat, enqueueSnackbar, t } = props;
-    const { chats } = props;
-    const { isFetching, isFetchingDetail, error } = props.ui
-
-    // Cargo chats del usuario autenticado
-    useEffect(() => {
-        fetchUserChats()
-        .catch (error => enqueueSnackbar(t('Error loading chats ERROR', {error}), { variant: 'error' }));
-    }, [fetchUserChats, enqueueSnackbar, t]);
+    const { chats, session } = props;
+    const { isFetching, isFetchingDetail, error } = props.ui;
+    const { id } = props.match.params;
 
     // Change chat
-    const [currentChat, setCurrentChat] = useState(undefined);
-    const [selectedChat, setSelectedChat] = useState(0);
+    const [currentChat, setCurrentChat] = useState(EMPTY_CHAT);
     const selectedChatHandler = id => {
         fetchChat(id)
         .then(chat => setCurrentChat(chat))
         .catch (error => enqueueSnackbar(t('Error loading chat conversation ERROR', {error}), { variant: 'error' }));
     }
+
+    // Cargo chats del usuario autenticado
+    useEffect(() => {
+        fetchUserChats()
+        .then(chats => {
+            if(chats.length > 0) {
+                let i = 0;
+                if (id) i = chats.findIndex(c => c._id === id);
+                fetchChat(chats[i>=0?i:0]._id)
+                .then(chat => {
+                    setCurrentChat(chat)
+                })
+                .catch (error => enqueueSnackbar(t('Error loading chat conversation ERROR', {error}), { variant: 'error' }));
+            }
+        })
+        .catch (error => enqueueSnackbar(t('Error loading chats ERROR', {error}), { variant: 'error' }));
+    }, [fetchUserChats, fetchChat, setCurrentChat, enqueueSnackbar, id, t]);
 
     // Render
     return (
@@ -46,14 +58,15 @@ export default function Chat (props) {
                         <div className='Content__Title'>
                             <h1 className='Title'>Tus conversaciones</h1>
                         </div>
-                        <p className='Text'>Aquí puedes gestionar las conversaciones que tienes abiertas con otros miembros de Wallapop, y así llegar a acuerdos de compra/venta con ellos...</p>
+                        <p className='Text'>Aquí puedes gestionar las conversaciones que tienes abiertas con otros miembros de Wallaclone, y así llegar a acuerdos de compra/venta con ellos...</p>
                     </div>
-                    <ChatPanel
+                    <ChatList
+                        session={session}
                         chats={chats}
                         currentChat={currentChat}
                         isLoading={isFetching}
                         isLoadingChat={isFetchingDetail}
-                        onSelectedChat={selectedChatHandler}
+                        onChatSelected={selectedChatHandler}
                     />
                 </main>
                 { props.error && <Error error={error}/>}
