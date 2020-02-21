@@ -33,8 +33,8 @@ database.connect(process.env.MONGODB_URL)
         app.use(cookieParser());
         app.use(i18nConfig().init);
         // Routes API version
-        app.use('/apiv1/user/chat', ChatRouter());
         app.use('/apiv1/user', UserRoutes());
+        app.use('/apiv1/chats', ChatRouter());
         app.use('/apiv1/adverts', AdvertRoutes());
         app.use('/apiv1/authenticate', AuthRoutes());
         app.get('/favicon.ico', (req, res) => res.status(204));

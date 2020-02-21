@@ -51,7 +51,7 @@ export default {
         let baseURL = `${API_URL}/${slug}`;
         // Call endpoint and return
         return Axios.get(baseURL)
-        .then(res => new Advert(res.data.result, API_URL));
+        .then(res => new Advert(res.data.result));
     },
     
     /**
@@ -100,7 +100,7 @@ export default {
                 end: res.data.end,
                 start: res.data.start,
                 totalCount: res.data.totalCount,
-                adverts:  res.data.results.map(advert => new Advert(advert))
+                adverts: res.data.results.map(advert => new Advert(advert))
             }
         });
     },
@@ -129,7 +129,7 @@ export default {
         }
         // Call endpoint and return
         return Axios.post(baseURL, formData, config)
-        .then(res => new Advert(res.data.result, API_URL));
+        .then(res => new Advert(res.data.result));
     },
     
     /**
@@ -158,7 +158,7 @@ export default {
         }
         // Call endpoint and return
         return Axios.put(baseURL, formData, config)
-        .then(res => new Advert(res.data.result, API_URL));
+        .then(res => new Advert(res.data.result));
     },
     
     /**
@@ -176,7 +176,7 @@ export default {
         }
         // Call endpoint and return
         return Axios.put( baseURL, config )
-        .then(res => new Advert(res.data.result, API_URL));
+        .then(res => new Advert(res.data.result));
     },
     
     /**
@@ -194,7 +194,7 @@ export default {
         }
         // Call endpoint and return
         return Axios.put( baseURL, config )
-        .then(res => new Advert(res.data.result, API_URL));
+        .then(res => new Advert(res.data.result));
     },
     
     /**

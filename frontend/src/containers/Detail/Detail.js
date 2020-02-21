@@ -91,7 +91,7 @@ function Detail(props) {
                         <p className='Text'>También pued añadir el anuncio a sus <Link to={`/favorites/`}>favoritos</Link>, para recibir notificaciones en caso de que
                             tenga cambios relevantes.</p>
                     </div>
-                    { !props.isFetching && advert && 
+                    { !props.isFetchingDetail && advert && 
                         <AdvertDetail
                             advert={advert}
                             isLogin={session._id !== undefined}
@@ -103,7 +103,7 @@ function Detail(props) {
                         />
                     }
                 { props.error && <Error error={props.error}/>}
-                { props.isFetching && <Loading text={t('Loading advert')}/> }
+                { props.isFetchingDetail && <Loading text={t('Loading advert')}/> }
                 </main>
                 {   showModalDelete && 
                     <ModalConfirm   onConfirm={confirmDeleteAdvert} 

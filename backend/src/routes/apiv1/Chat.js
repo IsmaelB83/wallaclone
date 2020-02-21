@@ -25,6 +25,12 @@ module.exports = () => {
         AuthMiddleware,
         ChatCtrl.list);
 
+    // Get chat
+    router.get(
+        '/:id', 
+        AuthMiddleware,
+        ChatCtrl.select);
+
     // Return routes object
     return router;
 }

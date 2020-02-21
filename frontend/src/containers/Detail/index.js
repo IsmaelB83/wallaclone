@@ -14,7 +14,7 @@ import { AdvertsActions, SessionActions } from '../../store/GlobalActions';
 const mapStateToProps = (state) => {
     return {
         session: state.session,
-        isFetching: state.ui.isFetching,
+        isFetchingDetail: state.ui.isFetchingDetail,
         error: state.ui.error
     }
 }

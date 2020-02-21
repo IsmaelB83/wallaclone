@@ -2,6 +2,8 @@
 export const initialState = {
     // User session
     session: {},
+    // User chats
+    chats: [],    
     // Adverts in the app
     adverts: [],
     // Available tags in the backend
@@ -25,6 +27,7 @@ export const initialState = {
     ui: {
         error: null,
         isAuthenticating: false,
+        isFetchingDetail: false,
         isFetching: false,
         isUpdating: false,
         isCreating: false,

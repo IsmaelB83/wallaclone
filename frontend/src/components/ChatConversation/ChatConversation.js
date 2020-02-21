@@ -1,8 +1,6 @@
 // Node
 import React from 'react';
 import Moment from 'react-moment';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import moment from 'moment';
 // Material
 // Own components

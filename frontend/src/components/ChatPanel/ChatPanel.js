@@ -1,37 +1,41 @@
 // NPM Modules
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 // Material UI
-import Container from '@material-ui/core/Container';
 // Components
 import CardChat from '../cards/CardChat/CardChat';
 import ChatConversation from '../ChatConversation/ChatConversation';
 // Own modules
 // Models
 // Assets
+import imageSpinner from '../../assets/images/spinner.gif';
 // CSS
 import './styles.css';
 
 
 // Component to render a Chat panel
 export default function ChatPanel(props) {
+
+    // Destructure props
+    const { chats, currentChat, isLoading, isLoadingDetail, t } = props;
+
     return (
         <main className='ChatPanel'>
             <aside className='ChatPanel__Menu'>
-            {   props.adverts.map((advert, index) => 
-                    <CardChat 
-                        name={advert.name} 
-                        description={advert.description}
-                        thumbnail={advert.thumbnail}
-                        user={advert.user}
-                        booked={advert.booked}
-                        sold={advert.sold}
-                        createdAt={advert.createdAt}
-                    />
-                )
-            }
+                {   !isLoading && chats.length > 0 && chats.map((advert, index) => 
+                        <CardChat 
+                            name={advert.name} 
+                            description={advert.description}
+                            thumbnail={advert.thumbnail}
+                            user={advert.user}
+                            booked={advert.booked}
+                            sold={advert.sold}
+                            createdAt={advert.createdAt}
+                        />
+                    )
+                }
+                { isLoading && <LoadingChats text={t('Loading chats')}/> }
             </aside>
-            { props.adverts.length > 0 &&
+            { !isLoadingDetail && currentChat &&
                 <ChatConversation 
                     user={props.adverts[0].user} 
                     messages={[
@@ -47,7 +51,14 @@ export default function ChatPanel(props) {
                         {message: `OK. Estupendo. Hoy estaré en Madrid (bajo desde Villalba) desde las 12h a hacer varias cosas. Si te parece bien, cuando termine te escribo y me paso por allí con el coche un momento`, isMine: true, date: new Date(`03-01-2019 23:12`)},
                     ]}
                 />
-            } 
+            }
         </main>
     );
+}
+
+function LoadingChats (props) {
+    return <div className='LoadingChats'>
+                <img src={imageSpinner} className='LoadingChats__Spinner' alt='spinner'/>
+                <h2 className='LoadingChats__Text'>{props.text}</h2>
+            </div>
 }

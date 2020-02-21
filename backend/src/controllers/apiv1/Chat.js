@@ -17,27 +17,22 @@ module.exports = {
     create: async (req, res, next) => {
         try {
             // Every chat is attached to an advert
-            const advert = await Advert.findOne({slug: req.params.slug});
-            // Model creation
-            let chat = new Chat({
-                advertId: advert._id,
-                chatOwnerId: req.user._id,
-                advertOwnerId: advert.user._id
+            Advert.findOne({slug: req.params.slug})
+            .then(advert => {
+                // Chat creation
+                let chat = new Chat({
+                    advert: advert._id,
+                    users: [req.user._id, advert.user._id],
+                })
+                chat.save()
+                .then (chat => {
+                    return res.status(201).json({
+                        success: true,
+                        description: 'Chat created',
+                        result: chat
+                    });
+                })
             })
-            // Chat creation
-            chat = await chat.save();
-            if (chat) {
-                // Ok
-                return res.status(201).json({
-                    description: 'Chat created',
-                    chat
-                });
-            }
-            // Error
-            next({
-                status: 400,
-                description: 'Error creating chat'
-            });
         } catch (error) {
             next(error);
         }
@@ -51,24 +46,45 @@ module.exports = {
      */
     list: async (req, res, next) => {
         try {
-            // Every chat is attached to an advert
-            const chats = await Chat
-            .find({chatOwnerId: req.user._id})
-            .populate('chatOwnerId', 'login name email avatar')
-            .populate('advertOwnerId', 'login name email avatar')
-            .populate('advertId', 'slug name thumbnail');
-            if (chats) {
+            // Get all chats for the authenticated user
+            Chat.find({users: req.user._id})
+            .select('advert, users')
+            .populate('users', 'login name email avatar')
+            .populate('advert', 'slug name thumbnail')
+            .then (chats => {
                 // Ok
                 return res.status(201).json({
+                    success: true,
                     description: 'success',
-                    chats
+                    results: chats
                 });
-            }
-            // Error
-            next({
-                status: 400,
-                description: 'Error retrieving chats'
-            });
+            })
+        } catch (error) {
+            next(error);
+        }
+    },
+
+    /**
+     * Retrieves all conversation for a specific chat id
+     * @param {Request} req Request web
+     * @param {Response} res Response web
+     * @param {Middleware} next Next middleware
+     */
+    select: async (req, res, next) => {
+        try {
+            // Get chat conversation for a specific id and authenticated user
+            Chat.find({_id: req.params.id, users: req.user._id})
+            .select('advert, users messages')
+            .populate('users', 'login name email avatar')
+            .populate('advert', 'slug name thumbnail')
+            .then (chat => {
+                // Ok
+                return res.status(201).json({
+                    success: true,
+                    description: 'success',
+                    result: chats
+                });
+            })
         } catch (error) {
             next(error);
         }

@@ -24,7 +24,7 @@ function Edit(props) {
     // Props destructuring
     const { fetchAdvert, mode, t} = props;
     const { slug } = props.match.params;
-    const { isFetching, isUpdating, isCreating, error } = props.ui;
+    const { isFetchingDetail, isUpdating, isCreating, error } = props.ui;
 
     // Load inicial
     const [ advert, setAdvert ] = useState();
@@ -94,7 +94,7 @@ function Edit(props) {
                                         tags={props.tags}
                         />
                     }
-                    { isFetching && <Loading text={'fetching advert'}/> }
+                    { isFetchingDetail && <Loading text={'fetching advert'}/> }
                     { ( isUpdating || isCreating ) && <Loading text={mode === 'edit' ? t('Trying to edit advert...') : t('Trying to create advert...') }/> }
                     { error && <Error error={error}/> }
                 </main>

@@ -2,6 +2,7 @@
 import * as ADVERTS from '../types/AdvertsTypes';
 import * as FILTERS from '../types/FiltersTypes';
 import * as SESSION from '../types/SessionTypes';
+import * as CHATS from '../types/ChatTypes';
 import { initialState } from '../InitialState';
 
 /**
@@ -18,23 +19,30 @@ export function ui(state = initialState.ui, action) {
             return { ...state, currentPage: action.pageNumber }
         // Feching related
         case ADVERTS.FETCH_ADVERT_REQUEST:
+        case CHATS.FETCH_CHAT_FAILURE:
+            return { ...state, isFetchingDetail: true, error: null }
+        case ADVERTS.FETCH_ADVERT_FAILURE:
+        case CHATS.FETCH_CHAT_FAILURE:
+            return { ...state, isFetchingDetail: false, error: action.error }
+            case ADVERTS.FETCH_ADVERT_SUCCESS:
+        case CHATS.FETCH_CHAT_SUCCESS:
+            return { ...state, isFetchingDetail: false, error: null }
         case ADVERTS.FETCH_ADVERTS_REQUEST:
         case ADVERTS.SEARCH_ADVERTS_REQUEST:
         case ADVERTS.FETCH_ITERATE_ADVERTS_REQUEST:
         case ADVERTS.FETCH_FAVORITES_REQUEST:
         case ADVERTS.FETCH_USER_ADVERTS_REQUEST:
         case ADVERTS.FETCH_SOLD_HISTORY_REQUEST:
+        case CHATS.FETCH_USER_CHATS_REQUEST:
             return { ...state, isFetching: true, error: null }
-        case ADVERTS.FETCH_ADVERT_FAILURE:
         case ADVERTS.FETCH_ADVERTS_FAILURE:
         case ADVERTS.SEARCH_ADVERTS_FAILURE:
         case ADVERTS.FETCH_ITERATE_ADVERTS_FAILURE:
         case ADVERTS.FETCH_FAVORITES_FAILURE:
         case ADVERTS.FETCH_USER_ADVERTS_FAILURE:
         case ADVERTS.FETCH_SOLD_HISTORY_FAILURE:
+        case CHATS.FETCH_USER_CHATS_FAILURE:
             return { ...state, isFetching: false, error: action.error }
-        case ADVERTS.FETCH_ADVERT_SUCCESS:
-            return { ...state, isFetching: false, error: null }
         case ADVERTS.FETCH_ADVERTS_SUCCESS:
         case ADVERTS.SEARCH_ADVERTS_SUCCESS:
         case ADVERTS.FETCH_FAVORITES_SUCCESS:
@@ -73,12 +81,15 @@ export function ui(state = initialState.ui, action) {
             return { ...state, error: null, isUpdating: false }
         // Creation related
         case ADVERTS.CREATE_ADVERT_REQUEST:
+        case CHATS.CREATE_CHAT_REQUEST:
         case SESSION.CREATE_ACCOUNT_REQUEST:
             return { ...state, error: null, isCreating: true }
         case SESSION.CREATE_ACCOUNT_FAILURE:
+        case CHATS.CREATE_CHAT_FAILURE:
         case ADVERTS.CREATE_ADVERT_FAILURE:
                 return { ...state, error: action.error, isCreating: false }
         case SESSION.CREATE_ACCOUNT_SUCCESS:
+        case CHATS.CREATE_CHAT_SUCCESS:
         case ADVERTS.CREATE_ADVERT_SUCCESS:
             return { ...state, error: null, isCreating: false }
         // Deletion related
