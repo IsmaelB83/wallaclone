@@ -77,9 +77,7 @@ const withPaginator = (WrappedComponent) => {
                 }
                 <WrappedComponent {...props} adverts={adverts.slice(minAdvert, maxAdvert || 1)} isLoading={isLoading}/> 
             </React.Fragment>
-        );
-        
-        
+        ); 
     }
 }
 

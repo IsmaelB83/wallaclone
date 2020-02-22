@@ -1,19 +1,23 @@
 /* Section */
 .Main__Section.Chat {
     max-height: 100%;
+    padding: 0;
 }
 
 .Main__Section.Chat .ChatPanel {
-    max-height: calc(100vh - 150px);
+    max-height: 100vh;
 }
 
 .Main__Section.Chat {
     max-height: 100%;
 }
 
+.Main__Section.Chat .Content__Title { margin: .45rem 0; }
 .Main__Section.Chat .Section__Content .Text { display: none; }
 
 /* Media queries */
 @media only screen and (min-width : 800px) {
+    .Main__Section.Chat { padding: 1rem 0; }
+    .Main__Section.Chat .Content__Title { margin: 1rem 0; }
     .Main__Section.Chat .Section__Content .Text { display: block; }
 }

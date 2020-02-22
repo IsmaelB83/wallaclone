@@ -3,6 +3,7 @@ const publicVapidKey = 'BCKzHuEXd7u1KviQLVodwYTGgJ6z7iJf-DYtLSNX6FTREky0uxvXCYMw
 
 // Register service worker
 export const register = (login, callback) =>  {
+    return;
     // 0. Check for service workers capabilities
     if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
         return console.error('Service workers not available');
@@ -56,6 +57,7 @@ export const register = (login, callback) =>  {
 
 // Unregister
 export const unregister = login =>  {
+    return;
     return navigator.serviceWorker.getRegistrations()
     .then(registrations => {
         for(let registration of registrations) {

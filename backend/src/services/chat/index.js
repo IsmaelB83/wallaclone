@@ -1,12 +1,13 @@
 'use strict';
 // Node imports
-const client = require('socket.io').listen(3500).sockets;
 require('dotenv').config();
+const io = require('socket.io').listen(process.env.PORT_CHAT).sockets;
 // Own imports
 const { Chat } = require('../../models');
 const database = require('../../database');
 
 // Variables
+const online = [];
 const chats = {};
 const sockets = {};
 
@@ -16,14 +17,27 @@ database.connect(process.env.MONGODB_URL)
     
     // Connected
     console.log('Connected to mongodb...');
-    console.log('Chat server listening...');  
+    console.log(`Chat server listening on ${process.env.PORT_CHAT}...`);  
    
     // Client connected to socket.id
-    client.on('connection', function(socket) {
+    io.on('connection', socket => {
 
-        // Log
-        console.log(`connection from ${socket.id}...`);
-        
+        // Online user
+        socket.on('online', login => {
+            const i = online.indexOf(login);
+            if (i<0) online.push(login);
+            io.emit('online', login);
+            console.log(`online ${login}`);
+        });
+
+        // Offline user
+        socket.on('offline', login => {
+            const i = online.indexOf(login);
+            if (i>=0) online.splice(i,1);
+            io.emit('offline', login);
+            console.log(`offline ${login}`);    
+        });
+
         // Join room
         socket.on('join_chat', function(data) {
             // Gestión de la sala de chat
@@ -88,11 +102,8 @@ database.connect(process.env.MONGODB_URL)
             console.log(sockets);                        
         });
 
-        // Disconnected client
-        socket.on('disconnect', function () {
-            socket.emit(`disconnected ${socket.id}...`);
-            console.log(`disconnected ${socket.id}...`);
-        });
+        setInterval(()=>{
+            console.log(online)
+        },2000);
     });
-
 });

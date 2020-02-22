@@ -1,9 +1,10 @@
+// Components
+import App from './App';
 // HOCs
 import { withNamespaces } from 'react-i18next';
 import { withSnackbar } from 'notistack';
-// Components
-import App from './App';
+import withWebSocketChat from '../../components/withWebSocketChat';
 
 
 // Retorno el componente envuelto
-export default withNamespaces()(withSnackbar(App));
+export default withNamespaces()(withSnackbar(withWebSocketChat(App)));

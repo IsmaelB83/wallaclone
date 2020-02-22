@@ -10,6 +10,7 @@
 .Chat__User {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     padding: 1rem;
     border-bottom: 1px solid #eceff1;
     align-items: center;
@@ -25,6 +26,15 @@
     .Chat__User .Chat__ClickBack { display: none; }
 }
 
+.Chat__User .Chat__Status { 
+    display: flex;
+    flex-direction: row;
+    font-size: .9em;
+    align-items: center;
+}
+
+.Chat__User .Chat__Status svg { height: 18px; }
+.Chat__User .Chat__Status--online svg { color: green; }
 
 /* Messages */
 .Chat__Messages {
@@ -78,7 +88,7 @@
     max-width: 90%;
     padding: 7px 1rem;
     border: 1px solid #eceff1;
-    border-radius: 50px;
+    border-radius: 10px;
     letter-spacing: .5px;
 }
 

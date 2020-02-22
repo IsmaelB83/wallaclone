@@ -67,7 +67,7 @@ export default function App(props) {
     // Session storage
     const session = LocalStorage.readLocalStorage();
     // Configuro el store, y sincronizo el history del store con el de router
-    const store = configureStore(initialState, handleNotifyAction);
+    const store = configureStore(initialState, handleNotifyAction, props.chatConnect, props.chatDisconnect);
 
     // Dispatch login in case of session in local storage
     useEffect(() => {
@@ -77,8 +77,6 @@ export default function App(props) {
             .catch (error => enqueueSnackbar(error, { variant: 'error', }));
         }
     }, [store, session, enqueueSnackbar, t]);
-
-    
 
     // Render
     return (

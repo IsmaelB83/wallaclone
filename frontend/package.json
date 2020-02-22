@@ -1,6 +1,6 @@
 {
-  "name": "backend-wallafit-frontend",
-  "description": "React frontend created for the wallafit app",
+  "name": "backend-wallaclone-frontend",
+  "description": "React frontend created for the wallaclone app",
   "version": "1.0.0",
   "dependencies": {
     "@material-ui/core": "^4.5.1",
@@ -22,7 +22,8 @@
     "redux": "^4.0.4",
     "redux-logger": "^3.0.6",
     "redux-mock-store": "^1.5.4",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "socket.io-client": "^2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -46,15 +47,7 @@
     ]
   },
   "devDependencies": {
-    "enzyme": "^3.10.0",
-    "enzyme-adapter-react-16": "^1.15.1",
-    "enzyme-to-json": "^3.4.3",
     "prettier": "^1.19.1",
     "redux-devtools-extension": "^2.13.8"
-  },
-  "jest": {
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ]
   }
 }

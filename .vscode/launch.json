@@ -42,6 +42,15 @@
             "port": 9546
         },
         {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch nodemon for chat",
+            "cwd": "${workspaceFolder}/backend/",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": ["run-script", "debugChat"],
+            "port": 9547
+        },
+        {
             "type": "chrome",
             "request": "launch",
             "name": "Launch react in debug",

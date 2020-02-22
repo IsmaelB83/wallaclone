@@ -1,12 +1,16 @@
 // Node
-import React from 'react';
+import React, { useContext } from 'react';
 import Moment from 'react-moment';
 import moment from 'moment';
 // Material
 import SendIcon from '@material-ui/icons/Send';
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 // Own components
 import CardAvatar from '../cards/CardAvatar/CardAvatar';
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
+// Own modules
+import { Context } from '../withWebSocketChat/';
+
 // Assets
 // CSS
 import './styles.css';
@@ -19,10 +23,15 @@ function Chat(props) {
 
     let a = moment();
 
+    // Contexto de interacción con server de chat
+    const chatContext = useContext(Context);
+
     // Advert Owner
     let owner = user;
+    let online = false;
     if (chat.users.length > 0) {
         owner = user._id === chat.users[0]._id ? chat.users[1] : chat.users[0];
+        online = chatContext.online.indexOf(owner.login) >= 0 ? true : false;
     }
 
     // Render
@@ -31,6 +40,7 @@ function Chat(props) {
             <div className='Chat__User'>
                 <KeyboardBackspaceIcon className='Chat__ClickBack' onClick={props.onClickBack}/>
                 <CardAvatar size='large' avatar={owner.avatar} login={owner.login} name={owner.name} />
+                <span className={`Chat__Status ${online?'Chat__Status--online':''}`}><FiberManualRecordIcon/>{online?'online':'offline'}</span>
             </div>
             <div className='Chat__Messages'>
             {   chat.messages && 

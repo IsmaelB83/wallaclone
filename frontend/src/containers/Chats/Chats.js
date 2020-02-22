@@ -1,5 +1,5 @@
 // NPM Modules
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 // Material UI
 import Container from '@material-ui/core/Container';
 // Components
@@ -8,6 +8,7 @@ import Footer from '../../components/Footer';
 import NavBar from '../../components/NavBar';
 import Error from '../../components/Error';
 // Own modules
+import { Context } from '../../components/withWebSocketChat';
 // Models
 import { EMPTY_CHAT } from '../../models/Chat';
 // Assets
@@ -22,6 +23,9 @@ export default function Chats (props) {
     const { chats, session } = props;
     const { isFetching, isFetchingDetail, error } = props.ui;
     const { id } = props.match.params;
+
+    // Contexto de interacción con server de chat
+    const chatContext = useContext(Context);
 
     // Change chat
     const [currentChat, setCurrentChat] = useState(EMPTY_CHAT);

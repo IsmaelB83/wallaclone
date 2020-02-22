@@ -25,6 +25,9 @@ export const login = (login, password) => {
             dispatch(fetchUserChats());
             // register service worker to receive push notifications
             serviceWorker.register(login, extra.notify);
+            // connect to chat server
+            extra.chatConnect(login);
+            // go home
             extra.history.push('/');
             return response;
         })
@@ -55,6 +58,9 @@ export const loginWithToken = (jwt) => {
             dispatch(fetchUserChats());
             // register service worker to receive push notifications
             serviceWorker.register(getState().session.login, extra.notify);
+            // connect to chat server
+            extra.chatConnect(getState().session.login);
+            // go home
             extra.history.push('/');
             return response;
         })
@@ -81,9 +87,12 @@ export const logout = () => {
         .then(response => {
             // unregister service worker to receive push notifications
             serviceWorker.unregister(getState().session.login);
-            // Distpatch logout and clear local storage
+            // connect to chat server
+            extra.chatDisconnect(getState().session.login);
+            // distpatch logout and clear local storage
             dispatch(logoutSuccess(response));
             LocalStorage.cleanLocalStorage();
+            // go login
             extra.history.push('/login');
             return response;
         })

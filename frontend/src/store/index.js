@@ -20,8 +20,8 @@ const componseEnhancers = composeWithDevTools({
 export const history = createBrowserHistory()
 
 // Configura el store
-export default function configureStore(preloadedState, notify) {
-    const middlewares = [ thunkMiddleware.withExtraArgument({history, notify}), routerMiddleware(history) ];
+export default function configureStore(preloadedState, notify, chatConnect, chatDisconnect) {
+    const middlewares = [ thunkMiddleware.withExtraArgument({history, notify, chatConnect, chatDisconnect}), routerMiddleware(history) ];
     if (process.env === 'development') {
         middlewares.push(loggerMiddleware);
     }
