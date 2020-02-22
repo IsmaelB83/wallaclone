@@ -1,0 +1,24 @@
+.AdvertListTiles {
+    padding: 1.5rem 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-gap: 10px;
+    justify-items: center;
+    position: relative;
+}
+
+.AdvertListTiles .Home__Subtitle { grid-column: 1/-1; }
+
+.AdvertListDetail {
+    padding: 1.5rem 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 5px;
+}
+
+@media only screen and (min-width : 850px) {
+    .AdvertListDetail { grid-template-columns: 1fr 1fr; grid-gap: 10px; }
+    .AdvertListDetail .Home__Subtitle { grid-column: 1/-1; }
+}
+
+.AdvertListDetail .Loading { grid-column: 1/-1; }

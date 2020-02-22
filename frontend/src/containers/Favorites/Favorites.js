@@ -4,9 +4,9 @@ import { withNamespaces } from 'react-i18next';
 // Material UI
 import Container from '@material-ui/core/Container';
 // Components
-import AdvertList from '../../components/AdvertList';
-import Footer from '../../components/Footer';
-import NavBar from '../../components/NavBar';
+import AdvertList from '../../components/adverts/AdvertList';
+import Footer from '../../components/layout/Footer';
+import NavBar from '../../components/layout/NavBar';
 // Own modules
 // Models
 // Assets

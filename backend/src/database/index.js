@@ -10,6 +10,7 @@ const database = {
      */
     connect: async (connection) => {
         mongoose.set('useCreateIndex', true);
+        mongoose.set('useFindAndModify', false);
         await mongoose.connect(connection, { 
             useUnifiedTopology: true,
             useNewUrlParser: true 

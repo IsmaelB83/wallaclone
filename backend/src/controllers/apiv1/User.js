@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt-nodejs');
 const ObjectId = require('mongoose').Types.ObjectId; 
 const isValidUsername = require('is-valid-username');
 // Own imports
-const { User, Advert } = require('../../models');
+const { User, Advert, Chat } = require('../../models');
 const { mail } = require('../../utils');
 
 /**
@@ -131,7 +131,11 @@ module.exports = {
         try {
             let response = await Advert.deleteMany({user: req.params.id});
             if (response) {
-                response = await User.deleteOne({_id: ObjectId(req.params.id)});
+                User.deleteOne({_id: ObjectId(req.params.id)})
+                .then (user => {
+                    Chat.deleteMany({users: req.params.id}).then(res => console.log(res));
+                    Advert.deleteMany({user: req.params.id}).then(res => console.log(res));
+                })
                 return res.status(200).json({
                     success: true,
                     description: 'Usuario y todos sus anuncios eliminados'

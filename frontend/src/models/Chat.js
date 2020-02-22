@@ -6,7 +6,7 @@ export const EMPTY_CHAT = {
     _id: undefined,
     advert: undefined,
     users: [],
-    messages: []
+    messages: [],
 }
 
 // Modelo de chat en wallaclone

@@ -48,7 +48,7 @@ module.exports = {
         try {
             // Get all chats for the authenticated user
             Chat.find({users: req.user._id})
-            .select('advert, users')
+            .select('advert, users, messages')
             .populate('users', '_id login name email avatar')
             .populate('advert', '_id slug name thumbnail')
             .then (chats => {

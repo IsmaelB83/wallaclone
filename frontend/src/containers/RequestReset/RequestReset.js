@@ -3,7 +3,7 @@ import React from 'react';
 import { withNamespaces } from 'react-i18next';
 // Material UI
 // Own components
-import AuthForm from '../../components/AuthForm';
+import AuthForm from '../../components/forms/AuthForm';
 // Models
 // Own modules
 // Assets

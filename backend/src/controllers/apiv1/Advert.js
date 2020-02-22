@@ -3,7 +3,7 @@
 const { validationResult } = require('express-validator');
 // Node imports
 const { handleThumbnail, handleNotifications } = require('../../services/senders');
-const { Advert, User } = require('../../models');
+const { Advert, User, Chat } = require('../../models');
 
 /**
  * Controller object
@@ -254,6 +254,9 @@ module.exports = {
                 if (!advert) return next({status: 401, description: 'No autorizado. Sólo puede tratar sus anuncios'});
                 // Ok
                 Advert.findByIdAndDelete(advert._id).then(advert => {
+                    // Delete reference objects
+                    Chat.deleteMany({advert: advert._id}).then(res => console.log(res));
+                    User.updateMany({ }, { $pull: { favorites: advert._id } }).then(res => console.log(res));
                     // Ok
                     res.json({success: true, result: advert});
                     // When advert is delete send work to analize potential notifications

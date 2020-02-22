@@ -3,7 +3,12 @@ export const initialState = {
     // User session
     session: {},
     // User chats
-    chats: [],    
+    chats: [],
+    // Control chat server connection
+    socketIo: {
+        onlineUsers: [],
+        online: false
+    },
     // Adverts in the app
     adverts: [],
     // Available tags in the backend
@@ -27,7 +32,7 @@ export const initialState = {
     ui: {
         error: null,
         isAuthenticating: false,
-        isFetchingDetail: false,
+        isFetchingChats: false,
         isFetching: false,
         isUpdating: false,
         isCreating: false,

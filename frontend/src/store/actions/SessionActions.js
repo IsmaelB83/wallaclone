@@ -25,8 +25,7 @@ export const login = (login, password) => {
             dispatch(fetchUserChats());
             // register service worker to receive push notifications
             serviceWorker.register(login, extra.notify);
-            // connect to chat server
-            extra.chatConnect(login);
+            extra.socketio.connect(login);
             // go home
             extra.history.push('/');
             return response;
@@ -58,8 +57,7 @@ export const loginWithToken = (jwt) => {
             dispatch(fetchUserChats());
             // register service worker to receive push notifications
             serviceWorker.register(getState().session.login, extra.notify);
-            // connect to chat server
-            extra.chatConnect(getState().session.login);
+            extra.socketio.connect(getState().session.login);
             // go home
             extra.history.push('/');
             return response;
@@ -87,10 +85,9 @@ export const logout = () => {
         .then(response => {
             // unregister service worker to receive push notifications
             serviceWorker.unregister(getState().session.login);
-            // connect to chat server
-            extra.chatDisconnect(getState().session.login);
+            extra.socketio.disconnect(getState().session.login);
             // distpatch logout and clear local storage
-            dispatch(logoutSuccess(response));
+            dispatch(logoutSuccess());
             LocalStorage.cleanLocalStorage();
             // go login
             extra.history.push('/login');
@@ -107,7 +104,7 @@ export const logout = () => {
 };
 
 const logoutRequest = () => ({ type: ACTIONS.LOGOUT_REQUEST });
-const logoutSuccess = session => ({ type: ACTIONS.LOGOUT_SUCCESS, session });
+const logoutSuccess = () => ({ type: ACTIONS.LOGOUT_SUCCESS });
 const logoutFailure = error => ({ type: ACTIONS.LOGOUT_FAILURE, error });
 
 /**
@@ -270,8 +267,8 @@ export const deleteAccount = (id) => {
         return UserServices.delete(id, getState().session.jwt)
         .then (response => {
             LocalStorage.cleanLocalStorage();
-            dispatch(logout);
-            dispatch(deleteAccountSuccess(response))
+            dispatch(logoutSuccess());
+            dispatch(deleteAccountSuccess())
             return response;
         })
         .catch(error => {
@@ -284,4 +281,4 @@ export const deleteAccount = (id) => {
 
 const deleteAccountRequest = () => ({ type: ACTIONS.DELETE_ACCOUNT_REQUEST });
 const deleteAccountFailure = error => ({ type: ACTIONS.DELETE_ACCOUNT_FAILURE, error });
-const deleteAccountSuccess = response => ({ type: ACTIONS.DELETE_ACCOUNT_SUCCESS, response });
+const deleteAccountSuccess = () => ({ type: ACTIONS.DELETE_ACCOUNT_SUCCESS});

@@ -1,0 +1,91 @@
+.AdvertDetail {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 1.25rem;
+    width: 100%;
+    max-width: 900px;
+    align-self: center;
+    margin-top: .5rem;
+}
+
+/* Photo */
+.AdvertDetail__Photo {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    position: relative;
+    overflow: hidden;
+    padding: 5px;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.AdvertDetail__ShareSocial {
+    margin-top: .5rem;
+    display: flex;
+    justify-content: space-around;
+    width: 50%;
+}
+
+/* Content */
+.AdvertDetail__Content {
+    display: grid;
+    grid-gap: 1rem;
+}
+
+.AdvertDetail__Content > .AdvertChip { max-width: 80px; }
+.AdvertDetail__Content .AdvertDetail__Title { font-size: 2rem; font-weight: 300; }
+.AdvertDetail__Content .AdvertDetail__Date { font-size: .9rem; font-weight: 300; }
+.AdvertDetail__Content .AdvertDetail__Description { font-size: 1rem; }
+.AdvertDetail__Content .AdvertDetail__Tags .AdvertChip:not(:first-child) { margin-left: 4px; }
+
+/* Footer del content */
+.AdvertDetail__Content .AdvertDetail__Footer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--light-grey);
+    margin-top: .25rem;
+    padding-top: .5rem;
+}
+
+.AdvertDetail__AuthorAvatar a div { 
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.AdvertDetail__AuthorAvatar a span { color: var(--main-color-dark); margin-left: 5px; }
+.AdvertDetail__AuthorAvatar a:hover span { font-weight: bold; }
+
+.AdvertDetail__Price {
+    letter-spacing: 1px;
+    font-size: 1.5rem;
+    font-weight: 300;
+}
+
+.AdvertDetail__Price span { font-size: 1.2em; }
+
+/* Footer de botones */
+.AdvertDetail__Buttons {
+    display: grid;
+    grid-gap: 4px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+@media only screen and (min-width : 600px) {
+    .AdvertDetail { grid-template-columns: 1fr 1fr; width: 90%; }   
+    .AdvertDetail__Buttons { grid-column: span 2; }
+}
+
+@media only screen and (min-width : 1000px) {
+    .AdvertDetail { 
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        grid-gap: 2rem;
+    }
+
+    .AdvertDetail__Buttons { grid-column: 2/3;  }
+}

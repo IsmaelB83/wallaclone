@@ -4,7 +4,7 @@ import React, {useContext} from 'react';
 import { Select, FormControl, MenuItem, InputLabel } from '@material-ui/core';
 // Models
 // Own components
-import AdvertChip from '../../AdvertChip';
+import AdvertChip from '../../adverts/AdvertChip';
 // Own modules
 import { Context } from '../Form';
 // CSS

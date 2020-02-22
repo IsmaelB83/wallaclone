@@ -1,109 +1,86 @@
 'use strict';
 // Node imports
-require('dotenv').config();
-const io = require('socket.io').listen(process.env.PORT_CHAT).sockets;
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const https = require('https')
+const socketServer = require('socket.io');
+const fs = require('fs');
 // Own imports
-const { Chat } = require('../../models');
+const { Chat, User } = require('../../models');
 const database = require('../../database');
 
-// Variables
-const online = [];
-const chats = {};
-const sockets = {};
+// Load env variables
+require('dotenv').config();
+
+// Prepare https credentials
+const credentials = {
+    key: fs.readFileSync(process.env.HTTPS_KEY, 'utf8'),
+    cert: fs.readFileSync(process.env.HTTPS_CERT, 'utf8')
+};
+
+// Start express server with socket io to handle real time chat
+const app = express();
+app.use(bodyParser.urlencoded({extended:true}))
+app.use(bodyParser.json())
+app.use(cors());
+const appServer = https.createServer(credentials, app);
+const io = socketServer(appServer);
+appServer.listen(process.env.PORT_CHAT, () => {
+    console.log(`OK - HTTPS chat server running on port ${process.env.PORT_CHAT}`);
+});
 
 // Connect to mongo
 database.connect(process.env.MONGODB_URL)
 .then(result => {
-    
-    // Connected
-    console.log('Connected to mongodb...');
-    console.log(`Chat server listening on ${process.env.PORT_CHAT}...`);  
-   
+
+    // Variables
+    const onlineUsers = [];
+
     // Client connected to socket.id
     io.on('connection', socket => {
 
+        // DEVELOPMENT logging
+        if (process.env.NODE_ENV !== 'production') {
+            console.log(`Connected to Socket! ${socket.id}`);
+            socket.on('disconnect', () => console.log(`Disconnected socket ${socket.id}`));
+        }
+
         // Online user
         socket.on('online', login => {
-            const i = online.indexOf(login);
-            if (i<0) online.push(login);
-            io.emit('online', login);
+            const i = onlineUsers.findIndex(user => user.login === login)
+            if (i<0) onlineUsers.push({login, socket});
+            else onlineUsers[i] = {login, socket};
+            socket.broadcast.emit('online', login); // broadcast except sender
+            socket.emit('online_all', onlineUsers.map((user,index)=>user.login));  // only to sender
             console.log(`online ${login}`);
         });
 
         // Offline user
         socket.on('offline', login => {
-            const i = online.indexOf(login);
-            if (i>=0) online.splice(i,1);
-            io.emit('offline', login);
+            const i = onlineUsers.findIndex(user => user.login === login)
+            if (i>=0) onlineUsers.splice(i,1);
+            socket.broadcast.emit('offline', login);  // broadcast except sender
             console.log(`offline ${login}`);    
         });
 
-        // Join room
-        socket.on('join_chat', function(data) {
-            // Gestión de la sala de chat
-            const chat = chats[data.chatId];
-            if (chat) {
-                // Añado el usuario al chat si ya existe
-                const j = chats[data.chatId].users.findIndex(u => u.userId === data.userId);
-                if (j<0) {
-                    chats[data.chatId].users.push({
-                        socketId: socket.id,
-                        userId: data.userId
-                    });
-                }
-            } else {
-                // asigno el chat al array de chats
-                chats[data.chatId] = {
-                    chatId: data.chatId,
-                    users: [{
-                        socketId: socket.id,
-                        userId: data.userId
-                    }]
-                };
-            }
-            // Conecto el socket al canal
-            socket.join(data.chatId);
-            sockets[socket.id] = {chatId: data.chatId, name: data.userId}
-            socket.broadcast.to(data.chatId).emit('status', `${data.userId} joinned chat`);
-            console.log(sockets);            
-        });
-                
-        // Leave room
-        socket.on('leave_chat', function(data) {
-            const chat = chats[data.chatId];
-            if (chat) {
-                const i = chat.users.findIndex(u => u.userId === data.userId);
-                if (i >= 0) {
-                    chat.users.splice(i,1);
-                    socket.broadcast.to(data.chatId).emit('status', `${data.userId} left chat`);
-                    socket.leave(data.chatId);
-                    delete sockets[socket.id];
-                }
-            } 
-            console.log(sockets);            
-        });
-
-        // Typing
-        socket.on('typing', function(data) {
-            const aux = sockets[socket.id];
-            socket.broadcast.to(aux.chatId).emit('status', `${aux.name} is typing...`);
-        });
-
-        // Not typing
-        socket.on('not_typing', function() {
-            const aux = sockets[socket.id];
-            socket.broadcast.to(aux.chatId).emit('status', '');
-        });
-        
         // Message
         socket.on('message', function(data) {
-            const aux = sockets[socket.id];
-            socket.broadcast.to(aux.chatId).emit('message', `${aux.name}: ${data}`);
-            console.log(sockets);                        
+            // Save in mongo
+            const message = {
+                date: data.date,
+                user: data.sender,
+                text: data.text,
+            }
+            Chat.findOneAndUpdate({_id: data.chatId}, {$push: { messages: message }})
+            .then(chat =>{
+                // Emit message
+                const i = onlineUsers.findIndex(user => user.login === data.receiver)
+                if (i >= 0) {
+                    const aux = onlineUsers[i].socket;
+                    aux.emit('message', data);
+                }
+            })
         });
-
-        setInterval(()=>{
-            console.log(online)
-        },2000);
     });
 });

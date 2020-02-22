@@ -1,6 +1,7 @@
 // Node modules
 import { connect } from 'react-redux';
 import { withSnackbar } from 'notistack';
+import { withNamespaces } from 'react-i18next';
 // Own Components
 import Home from './Home';
 // Own modules
@@ -46,7 +47,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-/**
- * Envuelvo el App en al función connect para conectar con el store recibido del provider
- */ 
-export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(Home));
+export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(withNamespaces()(Home)));

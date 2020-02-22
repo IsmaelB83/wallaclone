@@ -6,7 +6,7 @@ import { withNamespaces } from 'react-i18next';
 import Chats from './Chats';
 // Models
 // Own modules
-import { ChatActions } from '../../store/GlobalActions';
+import { ChatActions, SessionActions } from '../../store/GlobalActions';
 
 /**
  * Inyecta props en mi componente para acceder al state del store
@@ -14,6 +14,7 @@ import { ChatActions } from '../../store/GlobalActions';
  */
 const mapStateToProps = (state) => {
     return {
+        socketIo: state.socketIo,
         session: state.session,
         chats: state.chats,
         ui: state.ui
@@ -26,6 +27,9 @@ const mapStateToProps = (state) => {
  */
 const mapDispatchToProps = (dispatch) => {
     return {
+        // Session
+        logout: () => dispatch(SessionActions.logout()),
+        // Chats
         fetchUserChats: () => dispatch(ChatActions.fetchUserChats()),
         fetchChat: id => dispatch(ChatActions.fetchChat(id)),
     }

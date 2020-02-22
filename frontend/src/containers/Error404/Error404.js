@@ -3,10 +3,9 @@ import React from 'react';
 // Material UI
 import Container from '@material-ui/core/Container';
 // Own components
-import Error from '../../components/Error';
-// Own modules
-import NavBar from '../../components/NavBar';
-import Footer from '../../components/Footer';
+import Error from '../../components/error/Error';
+import NavBar from '../../components/layout/NavBar';
+import Footer from '../../components/layout/Footer';
 // Assets
 // CSS
 import './styles.css';

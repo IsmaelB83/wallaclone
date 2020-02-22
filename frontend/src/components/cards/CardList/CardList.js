@@ -12,10 +12,10 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import Button from '@material-ui/core/Button';
 import ForumIcon from '@material-ui/icons/Forum';
 // Own components
-import AdvertChip from '../../AdvertChip';
-import CardImage from '../CardImage/CardImage';
-import CardAvatar from '../CardAvatar/CardAvatar';
-import CardTags from '../CardTags/CardTags';
+import AdvertChip from '../../adverts/AdvertChip';
+import CardImage from '../CardImage';
+import CardAvatar from '../CardAvatar';
+import CardTags from '../CardTags';
 // Own modules
 // Models
 // Assets

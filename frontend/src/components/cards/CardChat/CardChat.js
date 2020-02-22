@@ -20,11 +20,16 @@ import './styles.css';
 function CardChat(props) {
 
     // Destructure props
-    const { id, active, chat, owner } = props;
+    const { active, chat, owner, index } = props;
     const { onChatSelected, t } = props;
-    const status = chat.advert.sold?CONSTANTS.STATUS.SOLD:CONSTANTS.STATUS.BOOKED
+    
+    const status = chat.advert.sold?CONSTANTS.STATUS.SOLD:CONSTANTS.STATUS.BOOKED;
+    let last = t('empty chat...');
+    if (chat.messages.length) {
+        last = `${chat.messages[chat.messages.length-1].text.substring(0,25)}...`;
+    }
 
-    const clickHandler = () => onChatSelected(id);
+    const clickHandler = () => onChatSelected(index);
 
     return (
         <article className={`CardChat ${active?'CardChat--active':''}`} onClick={clickHandler}>
@@ -39,7 +44,7 @@ function CardChat(props) {
                 </div>
                 <h3 className='CardChat__Title'>{`${chat.advert.name.substring(0,20)}${chat.advert.name.length>20?'...':''}`}</h3>
                 <p className='CardChat__LastChat'>
-                    <DoneAllIcon/>{t('All messages read')}
+                    <DoneAllIcon/>{last}
                 </p>    
             </figcaption>
         </article>

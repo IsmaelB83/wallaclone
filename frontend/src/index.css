@@ -43,8 +43,8 @@ img, embed, object, video {
     --dark-blue: rgb(61, 89, 216);
     --light-red: rgb(255, 0, 0);
     --dark-red: rgb(218, 13, 13);
-    --navbar-height: 65px;
-    --footer-height: 75px;
+    --navbar-height: 60px;
+    --footer-height: 60px;
 }
 
 /**
@@ -169,7 +169,6 @@ a {
   border: 1px solid var(--light-grey) !important;
   padding: 2px;
   border-radius: 4px !important;
-
 }
 
 .ButtonIcon:hover { 

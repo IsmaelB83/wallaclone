@@ -22,7 +22,6 @@ const credentials = {
     cert: fs.readFileSync(process.env.HTTPS_CERT, 'utf8')
 };
 
-
 // Start express server (handle push registrations)
 console.log('Configuring Express...')
 const app = express();

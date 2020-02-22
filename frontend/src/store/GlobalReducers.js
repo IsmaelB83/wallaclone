@@ -8,6 +8,7 @@ import { tags } from './reducers/TagsReducers';
 import { filters } from './reducers/FiltersReducers';
 import { lastCall } from './reducers/LastCallReducers';
 import { session } from './reducers/SessionReducers';
+import { socketIo } from './reducers/SocketIoReducers';
 import { ui } from './reducers/UiReducers';
 
 const createRootReducer = (history) => combineReducers({
@@ -18,6 +19,7 @@ const createRootReducer = (history) => combineReducers({
   filters,
   lastCall,
   session,
+  socketIo,
   ui
 });
 

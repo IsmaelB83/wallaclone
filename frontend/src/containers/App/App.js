@@ -4,7 +4,7 @@ import { ConnectedRouter } from 'connected-react-router'
 import { Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 // Components
-import PrivateRoute from '../../components/PrivateRoute';
+import PrivateRoute from '../../components/utils/PrivateRoute';
 // Containers
 import Favorites from '../Favorites';
 import Published from '../Published';
@@ -23,6 +23,7 @@ import Chats from '../Chats';
 import { SessionActions } from '../../store/GlobalActions';
 import configureStore, { history } from '../../store';
 import { initialState } from '../../store/InitialState';
+import SocketIo from '../../socketio/';
 import LocalStorage from '../../utils/Storage';
 // Models
 // Assets
@@ -67,13 +68,12 @@ export default function App(props) {
     // Session storage
     const session = LocalStorage.readLocalStorage();
     // Configuro el store, y sincronizo el history del store con el de router
-    const store = configureStore(initialState, handleNotifyAction, props.chatConnect, props.chatDisconnect);
+    const store = configureStore(initialState, handleNotifyAction, SocketIo);
 
     // Dispatch login in case of session in local storage
     useEffect(() => {
         if (session && session.jwt) {
             store.dispatch(SessionActions.loginWithToken(session.jwt))
-            .then(res => enqueueSnackbar(t('Automatic login...'), { variant: 'info' }))
             .catch (error => enqueueSnackbar(error, { variant: 'error', }));
         }
     }, [store, session, enqueueSnackbar, t]);

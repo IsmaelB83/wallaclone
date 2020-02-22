@@ -6,12 +6,12 @@ import { Link } from "react-router-dom";
 // Material UI
 import Container from '@material-ui/core/Container';
 // Components
-import AdvertDetail from '../../components/AdvertDetail';
-import ModalConfirm from '../../components/ModalConfirm';
-import Loading from '../../components/Loading';
-import NavBar from '../../components/NavBar';
-import Footer from '../../components/Footer';
-import Error from '../../components/Error';
+import AdvertDetail from '../../components/adverts/AdvertDetail';
+import ModalConfirm from '../../components/modals/ModalConfirm';
+import Loading from '../../components/utils/Loading';
+import NavBar from '../../components/layout/NavBar';
+import Footer from '../../components/layout/Footer';
+import Error from '../../components/error/Error';
 // Own Modules
 // Models
 // Assets
@@ -103,7 +103,7 @@ function Detail(props) {
                         <p className='Text'>También pued añadir el anuncio a sus <Link to={`/favorites/`}>favoritos</Link>, para recibir notificaciones en caso de que
                             tenga cambios relevantes.</p>
                     </div>
-                    { !props.isFetchingDetail && advert && 
+                    { !props.isFetching && advert && 
                         <AdvertDetail
                             advert={advert}
                             isLogin={session._id !== undefined}
@@ -116,7 +116,7 @@ function Detail(props) {
                         />
                     }
                 { props.error && <Error error={props.error}/>}
-                { props.isFetchingDetail && <Loading text={t('Loading advert')}/> }
+                { props.isFetching && <Loading text={t('Loading advert')}/> }
                 </main>
                 {   showModalDelete && 
                     <ModalConfirm   onConfirm={confirmDeleteAdvert} 

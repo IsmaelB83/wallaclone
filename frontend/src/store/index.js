@@ -19,19 +19,24 @@ const componseEnhancers = composeWithDevTools({
 // History
 export const history = createBrowserHistory()
 
+// Store
+let store;
+
 // Configura el store
-export default function configureStore(preloadedState, notify, chatConnect, chatDisconnect) {
-    const middlewares = [ thunkMiddleware.withExtraArgument({history, notify, chatConnect, chatDisconnect}), routerMiddleware(history) ];
+export default function configureStore(preloadedState, notify, socketio) {
+    const middlewares = [ thunkMiddleware.withExtraArgument({history, notify, socketio}), routerMiddleware(history) ];
     if (process.env === 'development') {
         middlewares.push(loggerMiddleware);
     }
-    const store = createStore(
+    store = createStore(
         createRootReducer(history),
         preloadedState,
         componseEnhancers(applyMiddleware(...middlewares)),
     );
     return store;
 }
+
+export function getStore(){ return store };
 
 /**
  * OPCION 2: para crear el reducer combinado.

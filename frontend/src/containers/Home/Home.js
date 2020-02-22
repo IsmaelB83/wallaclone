@@ -4,11 +4,10 @@ import { withNamespaces } from 'react-i18next';
 // Material UI
 import Container from '@material-ui/core/Container';
 // Components
-import AdvertList from '../../components/AdvertList';
-import Footer from '../../components/Footer';
-// Components
-import SearchPanel from '../../components/SearchPanel';
-import NavBar from '../../components/NavBar';
+import AdvertList from '../../components/adverts/AdvertList';
+import SearchPanel from '../../components/forms/SearchForm';
+import Footer from '../../components/layout/Footer';
+import NavBar from '../../components/layout/NavBar';
 // Containers
 // Own modules
 // Assets

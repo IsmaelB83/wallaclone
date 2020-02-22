@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 // Material
 // Own Components
-import AdvertChip from '../../AdvertChip';
+import AdvertChip from '../../adverts/AdvertChip';
 // CSS
 import './styles.css';
 

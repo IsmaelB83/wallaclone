@@ -5,11 +5,11 @@ import { withNamespaces } from 'react-i18next';
 // Material UI
 import Container from '@material-ui/core/Container';
 // Components
-import ProfileForm from '../../components/ProfileForm';
-import ModalConfirm from '../../components/ModalConfirm';
-import NavBar from '../../components/NavBar';
-import Footer from '../../components/Footer';
-import Loading from '../../components/Loading';
+import ProfileForm from '../../components/forms/ProfileForm';
+import ModalConfirm from '../../components/modals/ModalConfirm';
+import NavBar from '../../components/layout/NavBar';
+import Footer from '../../components/layout/Footer';
+import Loading from '../../components/utils/Loading';
 // Models
 import Session from '../../models/Session';
 // Own modules
@@ -28,7 +28,7 @@ function Profile(props) {
     const requestDeleteAccount = () => setShowModalDelete(true);
     const cancelDeleteAccount = () => setShowModalDelete(false);
     const confirmDeleteAccount = () => {
-        this.setState({showModalDelete: false});
+        setShowModalDelete(false);
         props.deleteAccount(props.session._id)
         .then(res => props.enqueueSnackbar(t('Your account and all its related data is deleted'), { variant: 'success', }))
         .catch(error => props.enqueueSnackbar(t('Error deleting account ERROR', {error}), { variant: 'error', }));

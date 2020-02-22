@@ -3,10 +3,10 @@ import React, { useState, useEffect } from 'react';
 // Material UI
 import Container from '@material-ui/core/Container';
 // Components
-import ModalConfirm from '../../components/ModalConfirm';
-import AdvertList from '../../components/AdvertList';
-import Footer from '../../components/Footer';
-import NavBar from '../../components/NavBar';
+import ModalConfirm from '../../components/modals/ModalConfirm';
+import AdvertList from '../../components/adverts/AdvertList';
+import Footer from '../../components/layout/Footer';
+import NavBar from '../../components/layout/NavBar';
 // Own modules
 // Models
 // Assets

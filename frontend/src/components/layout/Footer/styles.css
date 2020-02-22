@@ -1,0 +1,83 @@
+.Footer {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    margin-bottom: 0px;
+    z-index: 1000;
+    background: linear-gradient(-45deg, var(--main-color), var(--main-color-light)); 
+    color: white;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: var(--navbar-height) !important;
+    max-height: var(--navbar-height);
+}
+
+/* Menu de navegación en login */
+.Footer__Menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Footer menu item */
+.Footer__Menu .Footer__MenuItem {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid transparent;
+    height: 60px !important;
+}
+
+.Footer__MenuItem.Footer__MenuItem--active {
+    border: 1px solid var(--main-color);
+    background-color: var(--main-color);
+}
+
+.Footer__MenuItem:hover { 
+    border-left: 1px solid var(--main-color);
+    border-right: 1px solid var(--main-color);
+}
+.Footer__MenuItem svg { height: 30px; width: 30px; }
+.Footer__MenuItem span { font-size: .75rem; margin-top: 3px; }
+
+/* Footer de contacto */
+.Footer__Content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+/* Social links del footer */
+.SocialLinks {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.SocialLinks__link { 
+    padding: .2rem;
+    border-radius: 2px;
+    border: 1px solid transparent;
+}
+
+.SocialLinks .SocialLinks__link:not(:first-child) { margin-left: 5px; }
+
+.SocialLinks__link svg { font-size: 2rem;}
+
+.SocialLinks__link--facebook { color: #4267b2; }
+.SocialLinks__link--twitter { color: #38A1F3; }
+.SocialLinks__link--github { color: #ED3833; }
+.SocialLinks__link--linkedin { color: #0077B5; }
+.SocialLinks__link--instagram { color: #BD081C; }
+
+.SocialLinks__link:hover { 
+    border: 1px solid var(--main-color);
+    background-color: rgba(168, 245, 236, 0.507);
+}
+

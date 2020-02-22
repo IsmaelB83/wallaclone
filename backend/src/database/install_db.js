@@ -41,7 +41,7 @@ database.connect(process.env.MONGODB_URL)
     let chats = []; 
     for (let i = 0; i < dump.chats.length; i++) {
         const chat = new Chat();
-        chat.advert = adverts[Math.floor(Math.random()*adverts.length)]._id;
+        chat.advert = adverts[i]._id;
         chat.users.push(users[0]._id);
         chat.users.push(users[1]._id);
         for (let j = 0; j < dump.chats[i].messages.length; j++) {

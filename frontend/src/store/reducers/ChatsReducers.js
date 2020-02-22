@@ -1,6 +1,7 @@
 // Imports
-import * as TYPES from '../types/ChatTypes';
+import * as CHAT from '../types/ChatTypes';
 import * as SESSION from '../types/SessionTypes';
+import * as SOCKET from '../types/SocketIoTypes';
 import { initialState } from '../InitialState';
 
 /**
@@ -11,20 +12,44 @@ import { initialState } from '../InitialState';
 export function chats(state = initialState.chats, action) {
     switch (action.type) {
         // Initialization
-        case TYPES.FETCH_USER_CHATS_FAILURE:
+        case CHAT.FETCH_USER_CHATS_FAILURE:
             return initialState.chats;
         // Fetch
-        case TYPES.FETCH_USER_CHATS_SUCCESS:
+        case CHAT.FETCH_USER_CHATS_SUCCESS:
             return [...action.chats];
         // Create
-        case TYPES.CREATE_CHAT_SUCCESS:
+        case CHAT.CREATE_CHAT_SUCCESS:
             return [...state, action.chat];
         // Logout
         case SESSION.LOGOUT_SUCCESS:
         case SESSION.LOGOUT_FAILURE:
         case SESSION.DELETE_ACCOUNT_SUCCESS:
             return initialState.chats;
-        // Default
+        case SOCKET.SOCKETIO_INCOMING_MESSAGE: {
+            const i = state.findIndex(c => c._id === action.data.chatId);
+            if (i >= 0) {
+                const aux = {...state[i]};
+                aux.messages.push({
+                    date: action.data.date,
+                    text: action.data.text,
+                    user: action.data.sender
+                });
+                return [ ...state.slice(0, i), aux, ...state.slice(i + 1) ];
+            }
+            return state;
+        }
+        case SOCKET.SOCKETIO_OUTGOING_MESSAGE:
+            const i = state.findIndex(c => c._id === action.data.chatId);
+            if (i >= 0) {
+                const aux = {...state[i]};
+                aux.messages.push({
+                    date: action.data.date,
+                    text: action.data.text,
+                    user: action.data.sender
+                });
+                return [ ...state.slice(0, i), aux, ...state.slice(i + 1) ];
+            }
+            return state;
         default:
             return state;
     }

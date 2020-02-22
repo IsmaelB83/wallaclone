@@ -6,11 +6,11 @@ import { Link } from "react-router-dom";
 // Material UI
 import Container from '@material-ui/core/Container';
 // Components
-import AdvertEditForm from '../../components/AdvertEditForm';
-import NavBar from '../../components/NavBar';
-import Footer from '../../components/Footer';
-import Loading from '../../components/Loading';
-import Error from '../../components/Error';
+import AdvertForm from '../../components/forms/AdvertForm';
+import NavBar from '../../components/layout/NavBar';
+import Footer from '../../components/layout/Footer';
+import Loading from '../../components/utils/Loading';
+import Error from '../../components/error/Error';
 // Models
 import Advert, { EMPTY_ADVERT } from '../../models/Advert';
 // Assets
@@ -22,9 +22,9 @@ import './styles.css';
 function Edit(props) {
 
     // Props destructuring
-    const { fetchAdvert, mode, t} = props;
+    const { enqueueSnackbar, fetchAdvert, mode, t} = props;
     const { slug } = props.match.params;
-    const { isFetchingDetail, isUpdating, isCreating, error } = props.ui;
+    const { isFetching, isUpdating, isCreating, error } = props.ui;
 
     // Load inicial
     const [ advert, setAdvert ] = useState();
@@ -32,28 +32,28 @@ function Edit(props) {
         if (mode === 'edit') {
             fetchAdvert(slug)
             .then (advert => setAdvert(advert))
-            .catch(error  => console.error(error));
+            .catch(error  => enqueueSnackbar(t('Error fetching advert ERROR', {error}), { variant: 'error' }));
         } else {
             setAdvert(new Advert(EMPTY_ADVERT))
         }
-    }, [fetchAdvert, slug, mode])
+    }, [fetchAdvert, slug, mode, enqueueSnackbar, t])
 
     // Manejador del submit del formulario
     const submitAdvert = (inputs) => {
         // Creo un anuncio con los datos del estado y lo valido
         const newAdvert = new Advert(inputs);
         if (!newAdvert.isValid() || ( !inputs.file && !inputs.photo )) {
-            props.enqueueSnackbar(t('Advert data is incomplete'), { variant: 'error' });
+            enqueueSnackbar(t('Advert data is incomplete'), { variant: 'error' });
         } else {
             // Lanzando operacion al backend
             if (mode === 'create') {
                 props.createAdvert(newAdvert)
-                .then (res => props.enqueueSnackbar(t('Advert X created', { slug: res.slug}), { variant: 'success' }))
-                .catch(error => props.enqueueSnackbar(t('Error creating advert ERROR', {error}), { variant: 'error' }));
+                .then (res => enqueueSnackbar(t('Advert X created', { slug: res.slug}), { variant: 'success' }))
+                .catch(error => enqueueSnackbar(t('Error creating advert ERROR', {error}), { variant: 'error' }));
             } else {
                 props.editAdvert(newAdvert)
-                .then (res => props.enqueueSnackbar(t('Advert X updated', {slug: res.slug}), { variant: 'success' }))
-                .catch(error => props.enqueueSnackbar(t('Error updating advert ERROR', {error}), { variant: 'error' }));
+                .then (res => enqueueSnackbar(t('Advert X updated', {slug: res.slug}), { variant: 'success' }))
+                .catch(error => enqueueSnackbar(t('Error updating advert ERROR', {error}), { variant: 'error' }));
             }
         } 
     }
@@ -86,15 +86,15 @@ function Edit(props) {
                         }
                     </div>
                     { advert &&
-                        <AdvertEditForm noValidate 
-                                        autoComplete='off' 
-                                        className='Profile__Form'
-                                        advert={advert}
-                                        onSubmit={submitAdvert}
-                                        tags={props.tags}
+                        <AdvertForm noValidate 
+                                    autoComplete='off' 
+                                    className='Profile__Form'
+                                    advert={advert}
+                                    onSubmit={submitAdvert}
+                                    tags={props.tags}
                         />
                     }
-                    { isFetchingDetail && <Loading text={'fetching advert'}/> }
+                    { isFetching && <Loading text={'fetching advert'}/> }
                     { ( isUpdating || isCreating ) && <Loading text={mode === 'edit' ? t('Trying to edit advert...') : t('Trying to create advert...') }/> }
                     { error && <Error error={error}/> }
                 </main>
