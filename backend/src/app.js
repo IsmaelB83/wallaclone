@@ -5,7 +5,6 @@ const cors = require('cors');
 const morgan = require('morgan');
 const express = require('express');
 const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
 // Own imports
 const { AuthRoutes, UserRoutes, AdvertRoutes, ChatRouter } = require('./routes');
 const { ErrorMiddleware, AuthMiddleware } = require('./middlewares');
@@ -30,7 +29,6 @@ database.connect(process.env.MONGODB_URL)
         app.use(morgan('dev'));
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({extended: true}));
-        app.use(cookieParser());
         app.use(i18nConfig().init);
         // Routes API version
         app.use('/apiv1/user', UserRoutes());

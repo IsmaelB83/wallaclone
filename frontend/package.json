@@ -1,7 +1,8 @@
 {
   "name": "backend-wallaclone-frontend",
   "description": "React frontend created for the wallaclone app",
-  "version": "1.0.0",
+  "url": "https://github.com/IsmaelB83/keepcoding-wallaclone",
+  "email": "ismaelbernal83@gmail.com",
   "dependencies": {
     "@material-ui/core": "^4.5.1",
     "@material-ui/icons": "^4.5.1",
@@ -23,7 +24,6 @@
     "react-share": "^4.0.1",
     "redux": "^4.0.4",
     "redux-logger": "^3.0.6",
-    "redux-mock-store": "^1.5.4",
     "redux-thunk": "^2.3.0",
     "socket.io-client": "^2.3.0"
   },

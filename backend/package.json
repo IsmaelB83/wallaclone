@@ -1,7 +1,8 @@
 {
   "name": "backend-wallaclone-backend",
-  "version": "1.0.0",
   "description": "Backend created for the wallaclone app",
+  "url": "https://github.com/IsmaelB83/keepcoding-wallaclone",
+  "email": "ismaelbernal83@gmail.com",
   "main": "./src/index.js",
   "scripts": {
     "init": "node ./src/database/install_db.js",
@@ -42,15 +43,12 @@
     "eslint-plugin-node": "^9.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.0",
-    "jest": "^24.9.0",
-    "nodemon": "^1.19.1",
-    "supertest": "^4.0.2"
+    "nodemon": "^1.19.1"
   },
   "dependencies": {
     "amqplib": "^0.5.5",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.19.0",
-    "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "ejs": "^2.6.2",
