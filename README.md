@@ -16,38 +16,13 @@ application to manage buy/sell products in an application similar to Wallapop (e
 
 ## CONTENTS
 - [DEPENDENCIES](#DEPENDENCIES)
-  - [Funcionalidad básica del servidor y API](#Funcionalidad-básica-del-servidor-y-API)
-  - [Gestión de ficheros .env](#Gestión-de-ficheros-.env)
-  - [Authenticación y gestión de sesiones](#Authenticación-y-gestión-de-sesiones)
-  - [Tratamiento de imagenes](#Tratamiento-de-imagenes)
-  - [Internacionalización](#Internacionalización)
-  - [Microservicio de generación de thumbnails](#Microservicio-de-generación-de-thumbnails)
-  - [Envío de mails](#Envío-de-mails)
-- [INSTALACIÓN Y EJECUCIÓN](#INSTALACIÓN-Y-EJECUCIÓN)
-  - [Descarga](#Descarga)
-  - [Instalación de modulos](#Instalación-de-modulos)
-  - [Inicialización de base de datos](#Inicialización-de-base-de-datos)
-  - [Configuración](#Configuración)
-  - [Lanzar-tests-unitarios](Lanzar-tests-unitarios)
-  - [Ejecución](#Ejecución)
-- [REST API](#REST-API)
-  - [Autenticación](#Autenticación)
-  - [User](#User)
-    - [User-schema](#User-schema)
-    - [Crear un usuario](#Crear-un-usuario)
-  - [Anuncios](#Anuncios)
-    - [Anuncios Schema](#Anuncios-schema)
-    - [Obtener todos los anuncios](#Obtener-todos-los-anuncios)
-    - [Obtener un único anuncio](#Obtener-un-único-anuncio)
-    - [Filtrado de anuncios](#Filtrado-de-anuncios)
-    - [Listado de tags](#Listado-de-tags)
-    - [Crear un anuncio](#Crear-un-anuncio)
-    - [Actualizar un anuncio](#Actualizar-un-anuncio)
-- [WEB](#web)
-  - [Create user](#Create-user)
-  - [Login](#Login)
-  - [Home](#Home)
-  - [Detail](#Detail)
+- [OPERATIONS MANUAL](#OPERATIONS-MANUAL)
+  - [Download](#Download)
+  - [Install dependencies](#Install-dependencies)
+  - [Initialize the data base](#Initialize-the-data-base)
+  - [Configuration](#Configuration)
+  - [Start application](#Start-application)
+- [WEB](#WEB)
   
 ## DEPENDENCIES
 
@@ -125,7 +100,7 @@ To download the repository
 \downloads\git clone https://github.com/IsmaelB83/keepcoding-wallaclone.git
 ```
 
-### Install modules
+### Install dependencies
 
 Install all the required npm packages both in backend and frontend folders
 ```
@@ -140,7 +115,7 @@ This will delete all the current data in wallaclone database, and fill with with
 \downloads\keepcoding-wallaclone\npm run init
 ```
 
-### Configuratión
+### Configuration
 
 Before starting the app you need to create one .env file for each backend and frontend. These files contains essential information to be able to start the app:
 
@@ -203,23 +178,16 @@ Find below some screenshots from wallaclone:
 
 ### Adverts
 
-![alt text](https://raw.githubusercontent.com/IsmaelB83/keepcoding-wallaclone/master/frontend/src/assets/images/readme/image_01.jpg)
+![alt text](https://raw.githubusercontent.com/IsmaelB83/keepcoding-wallaclone/master/frontend/src/assets/images/readme/image_08.jpg)
 
-![alt text](https://raw.githubusercontent.com/IsmaelB83/keepcoding-wallaclone/master/frontend/src/assets/images/readme/image_02.jpg)
+![alt text](https://raw.githubusercontent.com/IsmaelB83/keepcoding-wallaclone/master/frontend/src/assets/images/readme/image_09.jpg)
 
 ### Notifications and emails
 
-![alt text](https://raw.githubusercontent.com/IsmaelB83/keepcoding-wallaclone/master/frontend/src/assets/images/readme/image_01.jpg)
+![alt text](https://raw.githubusercontent.com/IsmaelB83/keepcoding-wallaclone/master/frontend/src/assets/images/readme/image_06.jpg)
 
-![alt text](https://raw.githubusercontent.com/IsmaelB83/keepcoding-wallaclone/master/frontend/src/assets/images/readme/image_02.jpg)
+![alt text](https://raw.githubusercontent.com/IsmaelB83/keepcoding-wallaclone/master/frontend/src/assets/images/readme/image_07.jpg)
 
 ### Chat
 
 ![alt text](https://raw.githubusercontent.com/IsmaelB83/keepcoding-wallaclone/master/frontend/src/assets/images/readme/image_05.jpg)
-
-### Mobile
-
-![alt text](https://raw.githubusercontent.com/IsmaelB83/keepcoding-wallaclone/master/frontend/src/assets/images/readme/image_01.jpg)
-
-![alt text](https://raw.githubusercontent.com/IsmaelB83/keepcoding-wallaclone/master/frontend/src/assets/images/readme/image_02.jpg)
-
