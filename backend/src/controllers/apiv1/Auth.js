@@ -227,7 +227,7 @@ module.exports = {
             user.active = true;
             user.save()
             .then (aux => {
-                res.json({
+                res.status(200).json({
                     success: true,
                     description: 'Password updated successfully.',
                 });    
