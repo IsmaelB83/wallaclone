@@ -232,9 +232,9 @@ module.exports = {
                     description: 'Password updated successfully.',
                 });    
             })
-            .then(err => res(err));
+            .catch(err => next(err));
         })
-        .catch(err => res(err));
+        .catch(err => next(err));
 
     }
 }

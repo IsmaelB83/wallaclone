@@ -111,7 +111,7 @@ function Chat(props) {
                     placeholder={t('Write a message...')}
                     onKeyDown={keyDownEventHandler}
                 />
-                <SendIcon className='InputSearch__Icon InputSearch__Icon--end' onClick={sentMessageEventHandler}/>
+                <SendIcon className='Icon' onClick={sentMessageEventHandler}/>
             </div>
         </section>
     )

@@ -3,7 +3,7 @@
 Wallaclone is my final project for the Keepcoding Fullstack Web Development Bootcamp (VII edition). This repository contains a fully functional
 application to manage buy/sell products in an application similar (with reduced functionality) to Wallapop/Ebay:
 
-- [DEMO](https://bernaldev.com)
+- [Link to the project in AWS](https://bernaldev.com)
 
 Some of the main features of this web application:
 

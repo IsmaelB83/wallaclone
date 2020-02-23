@@ -58,7 +58,7 @@ module.exports = {
                 results: chats
             });
         })
-    .then(err => res(err));
+    .catch(err => next(err));
     },
 
     /**
@@ -85,6 +85,6 @@ module.exports = {
                 result: chat
             });
         })
-    .then(err => res(err));
+    .catch(err => next(err));
     },
 }

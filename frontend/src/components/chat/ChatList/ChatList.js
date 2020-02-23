@@ -85,6 +85,7 @@ export default function ChatList(props) {
                 { isLoading && <Loading text={t('Loading chats')}/> }
             </aside>
             <main className='ChatList__Main'>
+            { chats[currentChat] &&
                 <Chat 
                     id={chats[currentChat]._id}
                     session={session}
@@ -94,6 +95,7 @@ export default function ChatList(props) {
                     name={chats[currentChat].advert.name}
                     onClickBack={hideShowChatList}
                 />
+            }
             </main>
         </div>
     );

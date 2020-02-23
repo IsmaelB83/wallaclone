@@ -23,8 +23,8 @@ export const history = createBrowserHistory()
 let store;
 
 // Configura el store
-export default function configureStore(preloadedState, notify, socketio) {
-    const middlewares = [ thunkMiddleware.withExtraArgument({history, notify, socketio}), routerMiddleware(history) ];
+export default function configureStore(preloadedState, notify, socketio, snackbar) {
+    const middlewares = [ thunkMiddleware.withExtraArgument({history, notify, socketio, snackbar}), routerMiddleware(history) ];
     if (process.env === 'development') {
         middlewares.push(loggerMiddleware);
     }

@@ -58,6 +58,7 @@
 /* Input */
 .Chat__Input {
     width: 100%;
+    position: relative !important;
 }
 
 .Chat__Input input {
@@ -72,10 +73,13 @@
     outline: none;
 }
 
-.Chat__Input .InputSearch__Icon--end { 
-    right: 1rem; 
+.Chat__Input .Icon {
+    right: 1rem;
+    position: absolute;
+    top: .67rem;
+    cursor: pointer;
     color: var(--main-color);
-    top: 13px;
+    z-index: 1000;
 }
 
 .ChatMessage__ChangeDay {

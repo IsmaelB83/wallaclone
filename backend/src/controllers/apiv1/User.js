@@ -68,7 +68,7 @@ module.exports = {
                     }
                 });
             })
-            .catch(err => res(err));
+            .catch(err => next(err));
             
         } catch (error) {
             next(error);

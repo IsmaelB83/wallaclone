@@ -18,7 +18,14 @@ export const disconnectedUser = () => ({ type: ACTIONS.SOCKETIO_DISCONNECTED_USE
 export const allOnlineUsers = onlineUsers => ({ type: ACTIONS.SOCKETIO_ALL_ONLINE_USERS, onlineUsers });
 export const onlineUser = login => ({ type: ACTIONS.SOCKETIO_ONLINE_USER, login });
 export const offlineUser = login => ({ type: ACTIONS.SOCKETIO_OFFLINE_USER, login });
-export const inMessage = data => ({ type: ACTIONS.SOCKETIO_IN_MESSAGE, data });
+
+export const inMessage = data => {   
+    return async function(dispatch, getState, extra) {
+        extra.snackbar();
+        return { type: ACTIONS.SOCKETIO_IN_MESSAGE, data };
+    }
+};
+
 export const outMessage = data => ({ type: ACTIONS.SOCKETIO_OUT_MESSAGE, data });
 export const outMessageSent = data => ({ type: ACTIONS.SOCKETIO_OUT_MESSAGE_SENT, data });
 export const outMessagesConfirmed = data => ({ type: ACTIONS.SOCKETIO_OUT_MESSAGES_CONFIRMED, data });

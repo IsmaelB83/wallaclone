@@ -46,29 +46,36 @@ export default function App(props) {
                 // Elimino de favoritos y navego a favoritos
                 store.dispatch(SessionActions.setFavorite(content.data))
                 .then(() => {
-                    enqueueSnackbar(('Product deleted from favorites'), { variant: 'success'});
+                    enqueueSnackbar(t('Product deleted from favorites'), { variant: 'success'});
                     history.push('/favorites')
                 })
-                .catch(error => enqueueSnackbar(('Error deleting advert from favorites ERROR', {error}), { variant: 'error' }));
+                .catch(error => enqueueSnackbar(t('Error deleting advert from favorites ERROR', {error}), { variant: 'error' }));
                 break;
             case 'add':
                 // Añado a favoritos y navego a favoritos
                 store.dispatch(SessionActions.setFavorite(content.data))
                 .then(() => {
-                    enqueueSnackbar(('Product added to favorites'), { variant: 'success'});
+                    enqueueSnackbar(t('Product added to favorites'), { variant: 'success'});
                     history.push('/favorites')
                 })
-                .catch(error => enqueueSnackbar(('Error deleting advert from favorites ERROR', {error}), { variant: 'error' }));
+                .catch(error => enqueueSnackbar(t('Error deleting advert from favorites ERROR', {error}), { variant: 'error' }));
                 break;
             default:
                 console.error('Uncontrolled action returned by service worker');
         }
     }
     
+    // New chats received
+    const notifyNewChats = () => {
+        if (window.location.pathname !== '/chats') {
+            enqueueSnackbar(t('You have received new messages'), { variant:'success' });
+        }
+    }
+
     // Session storage
     const session = LocalStorage.readLocalStorage();
     // Configuro el store, y sincronizo el history del store con el de router
-    const store = configureStore(initialState, handleNotifyAction, SocketIo);
+    const store = configureStore(initialState, handleNotifyAction, SocketIo, notifyNewChats);
 
     // Dispatch login in case of session in local storage
     useEffect(() => {
