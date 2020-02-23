@@ -23,19 +23,34 @@ module.exports = {
         try {
             // Validations
             validationResult(req).throw();
-            // Check first if the email already exists
+            // Check if email already exists
             let user = await User.findOne({email: req.body.email});
-            if (user) return next({status: 400, description: 'Error creating user: email already exists'});
-            // Check login if the email already exists
-            user = await User.findOne({login: req.body.login});
-            if (user) return next({status: 400, description: 'Error creating user: login already exists'});
-            // Valid user name
-            const aux = isValidUsername(req.body.login);
-            if (!aux) return next({status: 400, description: 'Nombre de usuario incorrecto.'});
-            // User creation
-            user = await User.insert(new User({...req.body}));
             if (user) {
-                // Send mail
+                return next({
+                    status: 403, 
+                    description: 'Email already exists'
+                });
+            }
+            // Check if login already exists
+            user = await User.findOne({login: req.body.login});
+            if (user) {
+                return next({
+                    status: 403, 
+                    description: 'Login already exists'
+                });
+            }
+            // Validate user name
+            const aux = isValidUsername(req.body.login);
+            if (!aux) { 
+                return next({
+                    status: 403, 
+                    description: 'Invalid username'
+                })
+            }
+            // User creation
+            User.insert(new User({...req.body}))
+            .then (user => {
+                // Send mail and response
                 mail({
                     email: user.email, 
                     name: user.name,
@@ -43,9 +58,8 @@ module.exports = {
                     url: `${process.env.FRONTEND_URL}/activate/${user.token}`,
                     view: 'new_user'
                 });
-                // Ok
-                return res.status(201).json({
-                    description: 'Check your email to activate the account',
+                res.status(201).json({
+                    success: true,
                     user: {
                         _id: user._id,
                         login: user.login,
@@ -53,12 +67,9 @@ module.exports = {
                         email: user.email
                     }
                 });
-            }
-            // Error
-            next({
-                status: 400,
-                description: 'Error creating user'
-            });
+            })
+            .catch(err => res(err));
+            
         } catch (error) {
             next(error);
         }
@@ -77,20 +88,30 @@ module.exports = {
             user.name = req.body.name || user.name
             // Si se ha pasado login, y es distinto al actual lo chequeo primero
             if (req.body.login && user.login !== req.body.login) {
-                let users = await User.findOne({ 
+                let user = await User.findOne({ 
                     login: req.body.login,  
-                    _id: { "$ne": user._id}
+                    _id: { "$ne": user._id }
                 });
-                if (users) return next({status: 401, description: 'El login indicado no está disponible' });
-                user.login = req.body.login
+                if (user) {
+                    return next({
+                        status: 403, 
+                        description: 'Login not available' 
+                    });
+                }
+                user.login = req.body.login;
             }
             // Si se ha pasado email, y es distinto al actual lo chequeo primero
             if (req.body.email && user.email !== req.body.email) {
-                let users = await User.findOne({ 
+                let user = await User.findOne({ 
                     email: req.body.email,  
                     _id: { "$ne": user._id}
                 });
-                if (users) return next({status: 401, description: 'El email indicado no está disponible'});
+                if (user) {
+                    return next({
+                        status: 403, 
+                        description: 'Mail not available'
+                    });
+                }
                 user.email = req.body.email
             }
             // Avatar
@@ -104,9 +125,10 @@ module.exports = {
                 user.jwt = '';
             }
             // Intento guardar
-            user.save().then (user => { 
-                return res.status(200).json({
-                    description: 'Usuario actualizado con éxito',
+            user.save()
+            .then (user => { 
+                res.status(200).json({
+                    success: true,
                     user: {
                         _id: user._id,
                         login: user.login,
@@ -128,23 +150,15 @@ module.exports = {
      * @param {Middleware} next Next middleware
      */
     delete: async (req, res, next) => {
-        try {
-            let response = await Advert.deleteMany({user: req.params.id});
-            if (response) {
-                User.deleteOne({_id: ObjectId(req.params.id)})
-                .then (user => {
-                    Chat.deleteMany({users: req.params.id}).then(res => console.log(res));
-                    Advert.deleteMany({user: req.params.id}).then(res => console.log(res));
-                })
-                return res.status(200).json({
-                    success: true,
-                    description: 'Usuario y todos sus anuncios eliminados'
-                });
-            }
-            next('error incontrolado')
-        } catch (error) {
-            next(error);
-        }
+        User.deleteOne({_id: ObjectId(req.params.id)})
+        .then (user => {
+            Chat.deleteMany({users: req.params.id}).then(res => console.log(res));
+            Advert.deleteMany({user: req.params.id}).then(res => console.log(res));
+            return res.status(200).json({
+                success: true,
+            });
+        })
+        .catch(err => next(err));
     },
 
     /**
@@ -154,9 +168,8 @@ module.exports = {
      * @param {Middleware} next Next middleware
      */
     setFavorite: async (req, res, next) => {
-        try {
-            // If it not exists error
-            const advert = await Advert.findOne({slug: req.params.slug});
+        Advert.findOne({slug: req.params.slug})
+        .then (advert => {
             if (!advert) {
                 return next({ 
                     status: 404, 
@@ -164,33 +177,36 @@ module.exports = {
                 });
             }
             // Add to user favorites
-            const user = await User.findById(req.user._id);
-            let favorite = false;
-            if (user) {
-                // Busco el favorite, si existe lo elimino. si no existe añado. y guardo
-                const index = user.favorites.findIndex(favorite => favorite.toString() === advert._id.toString());
-                if (index >= 0) {
-                    user.favorites.splice(index, 1);
+            User.findById(req.user._id)
+            .then(user => {
+                if (!user) {
+                    return next({ 
+                        status: 404, 
+                        description: 'User not Found' 
+                    });
+                }
+                // Find favorite set/unset depending on current state
+                let favorite = false;
+                const i = user.favorites.findIndex(favorite => favorite.toString() === advert._id.toString());
+                if (i >= 0) {
+                    user.favorites.splice(i, 1);
                 } else {
                     user.favorites.push(advert._id);                    
                     favorite = true;
                 }
-                await user.save();
-                // Retorno 
-                return res.json({
-                    success: true,
-                    advert: advert,
-                    favorite: favorite
-                });
-            } 
-            // Error
-            return next({
-                status: 500, 
-                description: 'Error no controlado actualizando favorites.'
+                user.save()
+                .then(aux => {
+                    return res.json({
+                        success: true,
+                        advert: advert,
+                        favorite: favorite
+                    });
+                })
+                .catch(err => next(err));
             })
-        } catch (error) {
-            next(error);
-        }
+            .catch(err => next(err));
+        })
+        .catch(err => next(err));
     },
 
 
@@ -207,7 +223,10 @@ module.exports = {
             .populate('favorites', '-__v')
             .exec((err, result) => {
                 if (err) {
-                    return next({ status: 404, error: 'Not Found' });
+                    return next({ 
+                        status: 404, 
+                        description: 'User not found' 
+                    });
                 }
                 // Populate de user
                 const options = {

@@ -61,6 +61,6 @@ database.connect(process.env.MONGODB_URL)
 })
 .catch(error => {
     // Error no controlado
-    console.log('Uncontrolled error.');
-    console.log(error);
+    console.error('Uncontrolled error.');
+    console.error(error);
 });

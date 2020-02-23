@@ -1,5 +1,5 @@
 // Node
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ScrollableFeed from 'react-scrollable-feed'
 import Moment from 'react-moment';
 import moment from 'moment';
@@ -7,10 +7,15 @@ import moment from 'moment';
 import SendIcon from '@material-ui/icons/Send';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
+import QueryBuilderIcon from '@material-ui/icons/QueryBuilder';
+import DoneAllIcon from '@material-ui/icons/DoneAll';
+import DoneIcon from '@material-ui/icons/Done';
 // Own components
 import CardAvatar from '../../cards/CardAvatar';
 // Own modules
 import SocketIo from '../../../socketio';
+// Models
+import { CHAT_CONSTANTS } from '../../../models/Chat';
 // Assets
 // CSS
 import './styles.css';
@@ -31,14 +36,25 @@ function Chat(props) {
         }
     }
 
+    // On load confirm peer in case id haven't done it yet
+    useEffect(() => {
+        const data = {
+            chatId: id,
+            user: user.login,
+        }
+        SocketIo.confirmChatRead(data);
+    }, [id, session, user])
+
     // Sent message to chat server
     const sentMessageEventHandler = () => {
         if (input) {
             const data = {
                 chatId: id,
                 date: new Date(),
-                sender: session._id,
-                receiver: user._id,
+                senderLogin: session.login,
+                senderId: session._id,
+                receiverLogin: user.login,
+                receiverId: user._id,
                 text: input
             }
             SocketIo.sendMessage(data)
@@ -71,10 +87,15 @@ function Chat(props) {
                     const days = diffInDays(a, message.date);
                     a = moment(message.date);
                     return  <React.Fragment key={index}>
-                                { (days > 0 || index === 0) && <Moment className='ChatMessage__ChangeDay' format='dddd, Do MMM'>{message.date}</Moment> }
-                                <p className={`ChatMessage ChatMessage--${message.user===session._id?'mine':''}`}>{ message.text }
-                                    <Moment className='ChatMessage__Time' format='LT'>{message.date}</Moment>
-                                </p>
+                                { (days > 0 || index === 0) && <Moment className='ChatMessage__ChangeDay' format='dddd, D MMM'>{message.date}</Moment> }
+                                <div className={`ChatMessage ChatMessage--${message.user===session._id?'mine':''}`}>
+                                    <p className='Text'>{message.text}
+                                    <Moment className='Time' format='LT'>{message.date}</Moment>
+                                    { message.status === CHAT_CONSTANTS.STATUS.WAIT && <QueryBuilderIcon className='Icon'/> }
+                                    { message.status === CHAT_CONSTANTS.STATUS.SENT && <DoneIcon className='Icon Icon__Green'/> }
+                                    { !message.status && <DoneAllIcon className='Icon Icon__Green'/> }
+                                    </p>
+                                </div>
                             </React.Fragment>
                 })
             }

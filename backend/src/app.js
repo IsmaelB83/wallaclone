@@ -41,8 +41,8 @@ database.connect(process.env.MONGODB_URL)
         app.use(ErrorMiddleware);
 })
 .catch( error => {
-    console.log('Error connecting mongodb');
-    console.log(error);
+    console.error('Error connecting mongodb');
+    console.error(error);
 });
 
 module.exports = app;

@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { withNamespaces } from 'react-i18next';
-import { Link } from "react-router-dom";
 // Material UI
 import Container from '@material-ui/core/Container';
 // Components
@@ -97,11 +96,10 @@ function Detail(props) {
                 <main className='Main__Section Detail'>
                     <div className='Section__Content'>
                         <div className='Content__Title'>
-                            <h1 className='Title'>Detalle del anuncio</h1>
+                            <h1 className='Title'>{t('Product detail')}</h1>
                         </div>
-                        <p className='Text'>Visualice los datos detallados del anuncio, y pongase en contacto con el propietario en caso de estar interesado... </p>
-                        <p className='Text'>También pued añadir el anuncio a sus <Link to={`/favorites/`}>favoritos</Link>, para recibir notificaciones en caso de que
-                            tenga cambios relevantes.</p>
+                        <p className='Text'>{t('In this section you can display MORE')}</p>
+                        <p className='Text'>{t('You can also add it to your favorites MORE')}</p>
                     </div>
                     { !props.isFetching && advert && 
                         <AdvertDetail

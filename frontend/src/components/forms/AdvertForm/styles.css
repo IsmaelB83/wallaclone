@@ -2,7 +2,6 @@
     display: grid;
     grid-template-columns: 1fr;
     grid-gap: 1.25rem;
-    max-width: 1000px;
 }
 
 /* Photo */
@@ -57,16 +56,11 @@
     grid-gap: 10px;
 }
 
-@media only screen and (min-width : 700px) {
-    .AdvertEditForm { width: 500px; }   
-}
-
 @media only screen and (min-width : 900px) {
     .AdvertEditForm { 
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-gap: 2rem;
-        width: 90%; 
     }
 
     .AdvertEditForm__Photo img { 

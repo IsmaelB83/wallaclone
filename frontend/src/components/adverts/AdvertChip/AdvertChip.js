@@ -28,7 +28,7 @@ export default function AdvertChip (props) {
     const Icon = IconsType[props.value];
     return <Chip className={`AdvertChip AdvertChip__${props.type} AdvertChip__${props.type}--${props.value}`}
                  size='small' 
-                 label={props.value}  
+                 label={props.t(props.value)}
                  icon={Icon!==undefined?<Icon/>:undefined}
             />
 }

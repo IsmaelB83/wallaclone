@@ -9,12 +9,15 @@ import { initialState } from '../InitialState';
  */
 export function socketIo(state = initialState.socketIo, action) {
     switch (action.type) {
-        case TYPES.SOCKETIO_CONNECTED: 
+        case TYPES.SOCKETIO_CONNECT: 
+        case TYPES.SOCKETIO_DISCONNECT: 
+            return initialState.socketIo;
+        case TYPES.SOCKETIO_CONNECTED_USER: 
             return { ...initialState.socketIo, online: true };
-        case TYPES.SOCKETIO_DISCONNECTED: 
+        case TYPES.SOCKETIO_DISCONNECTED_USER: 
             return initialState.socketIo;
         case TYPES.SOCKETIO_ALL_ONLINE_USERS:
-                return { ...state, onlineUsers: [...action.onlineUsers] };
+                return { ...state, online: true, onlineUsers: [...action.onlineUsers] };
         case TYPES.SOCKETIO_ONLINE_USER: {
             const i = state.onlineUsers.indexOf(action.login);
             let auxOnlineUsers = [...state.onlineUsers];

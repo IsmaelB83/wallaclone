@@ -47,39 +47,51 @@ database.connect(process.env.MONGODB_URL)
         }
 
         // Online user
-        socket.on('online', login => {
+        socket.on('online_user', login => {
             const i = onlineUsers.findIndex(user => user.login === login)
             if (i<0) onlineUsers.push({login, socket});
-            else onlineUsers[i] = {login, socket};
-            socket.broadcast.emit('online', login); // broadcast except sender
-            socket.emit('online_all', onlineUsers.map((user,index)=>user.login));  // only to sender
+            else onlineUsers[i].socket = socket;
+            socket.broadcast.emit('new_online', login); // broadcast except sender
+            socket.emit('all_online', onlineUsers.map((user,index)=>user.login));  // only to sender
             console.log(`online ${login}`);
         });
 
         // Offline user
-        socket.on('offline', login => {
+        socket.on('offline_user', login => {
             const i = onlineUsers.findIndex(user => user.login === login)
             if (i>=0) onlineUsers.splice(i,1);
-            socket.broadcast.emit('offline', login);  // broadcast except sender
+            socket.broadcast.emit('new_offline', login);  // broadcast except sender
             console.log(`offline ${login}`);    
         });
 
+        // User has read a chat and wants to send confirmation to peer
+        socket.on('chat_read', function(data) {
+            // Emit message to receiver
+            const i = onlineUsers.findIndex(user => user.login === data.user)
+            if (i >= 0) {
+                const aux = onlineUsers[i].socket;
+                aux.emit('messages_confirmed', data);
+            }
+        });
+        
         // Message
         socket.on('message', function(data) {
             // Save in mongo
             const message = {
                 date: data.date,
-                user: data.sender,
+                user: data.senderId,
                 text: data.text,
             }
             Chat.findOneAndUpdate({_id: data.chatId}, {$push: { messages: message }})
             .then(chat =>{
-                // Emit message
-                const i = onlineUsers.findIndex(user => user.login === data.receiver)
+                // Emit message to receiver
+                const i = onlineUsers.findIndex(user => user.login === data.receiverLogin)
                 if (i >= 0) {
                     const aux = onlineUsers[i].socket;
-                    aux.emit('message', data);
+                    aux.emit('message_received', data);
                 }
+                // Confirm sent to emisor
+                socket.emit('message_sent', data);
             })
         });
     });

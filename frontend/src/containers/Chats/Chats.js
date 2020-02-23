@@ -9,7 +9,6 @@ import Footer from '../../components/layout/Footer';
 import NavBar from '../../components/layout/NavBar';
 import Error from '../../components/error/Error';
 // Own modules
-import SocketIo from '../../socketio';
 // Models
 // Assets
 // CSS
@@ -37,9 +36,9 @@ export default function Chats (props) {
                 <main className='Main__Section Chat'>
                     <div className='Section__Content'>
                         <div className='Content__Title'>
-                            <h1 className='Title'>Tus conversaciones</h1>
+                            <h1 className='Title'>{t('Your chats')}</h1>
                         </div>
-                        <p className='Text'>Aquí puedes gestionar las conversaciones que tienes abiertas con otros miembros de Wallaclone, y así llegar a acuerdos de compra/venta con ellos...</p>
+                        <p className='Text'>{t('In this section you can manage all the conversations you have with other members of Wallaclone')}</p>
                     </div>
                     <ChatList
                         session={session}
@@ -52,12 +51,15 @@ export default function Chats (props) {
                 { props.error && <Error error={error}/>}
                 { !socketIo.online && 
                     <div className='Chat__Reconnect'>
-                        <h2 className='Home__Subtitle'>No hay conectividad con el chat de wallaclone</h2>
-                        <Button className='Chat__ReconnectButton' variant='contained' color='primary'>reconnect</Button>
+                        <h2 className='Home__Subtitle'>{t('We are having problems while connecting to the chat server')}</h2>
+                        <Button className='Chat__ReconnectButton' variant='contained' color='primary'
+                                onClick={()=>props.connectSocket(session.login)}>
+                                {t('Reconnect')}
+                        </Button>
                     </div>
                 }
             </Container>
-            <Footer session={props.session} onLogout={props.logout} active='Chats' onClick={()=>SocketIo.connect(session.login)}/>
+            <Footer session={props.session} onLogout={props.logout} active='Chats'/>
         </React.Fragment>
     );
 }

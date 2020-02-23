@@ -12,7 +12,7 @@ import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import HomeIcon from '@material-ui/icons/Home';
 import GitHubIcon from '@material-ui/icons/GitHub';
-import ChatIcon from '@material-ui/icons/Chat';
+import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 // Own components
 // Assets
 // CSS
@@ -47,7 +47,7 @@ export default function Footer(props) {
                         <span>{t('Favorites')}</span>
                     </MenuItem>
                     <MenuItem className={`Footer__MenuItem ${active==='Chats'?'Footer__MenuItem--active':''}`} component={Link} to='/chats'>
-                        <ChatIcon fontSize='small' />
+                        <WhatsAppIcon fontSize='small' />
                         <span>{t('Chats')}</span>
                     </MenuItem>
                 </div>

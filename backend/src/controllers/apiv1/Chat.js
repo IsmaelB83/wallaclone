@@ -15,27 +15,29 @@ module.exports = {
      * @param {Middleware} next Next middleware
      */
     create: async (req, res, next) => {
-        try {
-            // Every chat is attached to an advert
-            Advert.findOne({slug: req.params.slug})
-            .then(advert => {
-                // Chat creation
-                let chat = new Chat({
-                    advert: advert._id,
-                    users: [req.user._id, advert.user._id],
-                })
-                chat.save()
-                .then (chat => {
-                    return res.status(201).json({
-                        success: true,
-                        description: 'Chat created',
-                        result: chat
-                    });
-                })
+        // Every chat is attached to an advert
+        Advert.findOne({slug: req.params.slug})
+        .then(advert => {
+            if (!advert) {
+                return next({
+                    status: 404,
+                    description: 'Advert not found'
+                });
+            }
+            // Create model chat and save in mongo
+            let chat = new Chat({
+                advert: advert._id,
+                users: [req.user._id, advert.user._id],
             })
-        } catch (error) {
-            next(error);
-        }
+            chat.save()
+            .then (chat => {
+                res.status(201).json({
+                    success: true,
+                    result: chat
+                });
+            })
+        })
+        .catch (err => next(error));
     },
 
     /**
@@ -45,23 +47,18 @@ module.exports = {
      * @param {Middleware} next Next middleware
      */
     list: async (req, res, next) => {
-        try {
-            // Get all chats for the authenticated user
-            Chat.find({users: req.user._id})
-            .select('advert, users, messages')
-            .populate('users', '_id login name email avatar')
-            .populate('advert', '_id slug name thumbnail')
-            .then (chats => {
-                // Ok
-                return res.status(201).json({
-                    success: true,
-                    description: 'success',
-                    results: chats
-                });
-            })
-        } catch (error) {
-            next(error);
-        }
+        // Get all chats for the authenticated user
+        Chat.find({users: req.user._id})
+        .select('advert, users, messages')
+        .populate('users', '_id login name email avatar')
+        .populate('advert', '_id slug name thumbnail')
+        .then (chats => {
+            res.status(201).json({
+                success: true,
+                results: chats
+            });
+        })
+    .then(err => res(err));
     },
 
     /**
@@ -71,22 +68,23 @@ module.exports = {
      * @param {Middleware} next Next middleware
      */
     select: async (req, res, next) => {
-        try {
-            // Get chat conversation for a specific id and authenticated user
-            Chat.findOne({_id: req.params.id, users: req.user._id})
-            .select('advert, users messages')
-            .populate('users', '_id login name email avatar')
-            .populate('advert', '_id slug name thumbnail')
-            .then (chat => {
-                // Ok
-                return res.status(201).json({
-                    success: true,
-                    description: 'success',
-                    result: chat
-                });
-            })
-        } catch (error) {
-            next(error);
-        }
+        // Get chat conversation for a specific id and authenticated user
+        Chat.findOne({_id: req.params.id, users: req.user._id})
+        .select('advert, users messages')
+        .populate('users', '_id login name email avatar')
+        .populate('advert', '_id slug name thumbnail')
+        .then (chat => {
+            if(!chat) {
+                return next({
+                    status: 404,
+                    description: 'Chat nof found'
+                })
+            }
+            res.status(201).json({
+                success: true,
+                result: chat
+            });
+        })
+    .then(err => res(err));
     },
 }

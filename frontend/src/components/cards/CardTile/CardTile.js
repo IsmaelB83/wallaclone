@@ -48,7 +48,7 @@ export default function CardTile (props) {
                     }
                 </div>                
                 <div className='CardTile_ContentTitle'>
-                    <Link to={`advert/${slug}`} className='CardTile__Title'><h2>{name}</h2></Link>
+                    <Link to={`/advert/${slug}`} className='CardTile__Title'><h2>{name}</h2></Link>
                 </div>
                 <CardTags tags={tags} />
             </div>

@@ -26,7 +26,14 @@ function CardImage (props) {
                     <img className='CardImage__Image' src={photo} alt='caption'/>
                 </Link>
             }
-            { detail && <img className='CardImage__Image' src={photo} alt='caption'/> }
+            { detail && 
+                <React.Fragment>
+                    <div className={`CardImage__Overlay CardImage__Overlay--${sold||booked}`}>
+                        { (sold || booked) && <span className='CardImage__Bookmark'><BookmarkBorderIcon/>{t(status)}</span> }
+                    </div> 
+                    <img className='CardImage__Image' src={photo} alt='caption'/>
+                </React.Fragment>
+            }
             </div>
     )
 }

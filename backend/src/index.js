@@ -18,5 +18,5 @@ const credentials = {
 // Start https server
 const appServer = https.createServer(credentials, app);
 appServer.listen(process.env.PORT, () => {
-    console.log(`OK - HTTPS server running on port ${process.env.PORT}`);
+    console.log(`OK - HTTPS API server running on port ${process.env.PORT}`);
 });

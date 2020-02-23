@@ -1,8 +1,14 @@
+// All information regarding serviceworker lifecycle here:
+// https://developers.google.com/web/fundamentals/primers/service-workers/lifecycle
+
 // VAPID Key for push notifications
 const publicVapidKey = 'BCKzHuEXd7u1KviQLVodwYTGgJ6z7iJf-DYtLSNX6FTREky0uxvXCYMwenwp7oXB_3kgEOPGlEO3wYw6XAF2NmY';
 
 // Register service worker
 export const register = (login, callback) =>  {
+
+    console.log('SERVICE WORKER INTIALIZATION PROCESS STARTING...')
+
     // 0. Check for service workers capabilities
     if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
         return console.error('Service workers not available');
@@ -31,17 +37,21 @@ export const register = (login, callback) =>  {
                     // 5. Ensure service worker is ready
                     navigator.serviceWorker.ready
                     .then(registration => {
-                        // 6. enable communication between service worker and the rest of the app (callback)
                         try {
-                            console.log('Calling the POST MESSAGE...');
-                            // BUG! Even with all these promises fulfilled, controller is still null here sometimes
-                            navigator.serviceWorker.controller.postMessage("ping");
-                            navigator.serviceWorker.addEventListener('message', function (event) {
-                                callback(event.data);    
-                            }); 
-                            console.log('All set!')
+                            // MY assumption regarding "ready promise" resolves when page is controlled by service worker IS WRONG.
+                            // https://github.com/w3c/ServiceWorker/issues/799
+                            // ERROR: navigator.serviceWorker.ready
+                            // SOLUTION: use the custom promise developed by the polymer team (code at the end of this file)
+                            window._controlledPromise
+                            .then(registration => {
+                                // 6. enable communication between service worker and the rest of the app (callback)
+                                console.log('Calling the POST MESSAGE...');
+                                navigator.serviceWorker.addEventListener('message', event => callback(event.data));
+                                navigator.serviceWorker.controller.postMessage('ping');
+                                console.log('SERVICE WORKER INTIALIZATION PROCESS FINISHED!');
+                            })    
                         } catch (error) {
-                            console.error(error);
+                            console.error(error)
                         }
                     })
                     .catch(error => console.error(error));
@@ -51,7 +61,7 @@ export const register = (login, callback) =>  {
             .catch (error => console.error (error));
         })
         .catch(error => console.error(error));
-    })
+    });
 }
 
 // Unregister
@@ -108,7 +118,6 @@ function subscribeUserToPush() {
         return registration.pushManager.subscribe(subscribeOptions);
     })
     .then(function(pushSubscription) {
-        console.log('Received PushSubscription');
         return pushSubscription;
     });
 }
@@ -146,3 +155,31 @@ function urlBase64ToUint8Array(base64String) {
     }
     return outputArray;
 }
+
+/**
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at
+http://polymer.github.io/LICENSE.txt The complete set of authors may be found at
+http://polymer.github.io/AUTHORS.txt The complete set of contributors may be
+found at http://polymer.github.io/CONTRIBUTORS.txt Code distributed by Google as
+part of the polymer project is also subject to an additional IP rights grant
+found at http://polymer.github.io/PATENTS.txt
+*/
+// Provides an equivalent to navigator.serviceWorker.ready that waits for the
+// page to be controlled, as opposed to waiting for the active service worker.
+// See https://github.com/slightlyoff/ServiceWorker/issues/799
+window._controlledPromise = new Promise(function(resolve) {
+    // Resolve with the registration, to match the .ready promise's behavior.
+    var resolveWithRegistration = function() {
+        navigator.serviceWorker.getRegistration().then(function(registration) {
+            resolve(registration);
+        });
+    };
+    
+    if (navigator.serviceWorker.controller) {
+        resolveWithRegistration();
+    } else {
+        navigator.serviceWorker.addEventListener('controllerchange', resolveWithRegistration);
+    }
+});

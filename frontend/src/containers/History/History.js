@@ -67,10 +67,10 @@ export default function History (props) {
                 <main className='Main__Section'>
                     <div className='Section__Content'>
                         <div className='Content__Title'>
-                            <h1 className='Title'>Tus ventas</h1>
+                            <h1 className='Title'>{t('Your sales')}</h1>
                             <p className='Counter'><span>{totalCount}</span> {t('products')}</p>
                         </div>
-                        <p className='Text'>Aquí puedes hacer seguimiento de todo el histórico de ventas en tu usuario...</p>
+                        <p className='Text'>{t('Here you have all the detail regarding all the products you sold/bought in Wallaclone')}</p>
                     </div>
                     <AdvertList 
                         type='list' 

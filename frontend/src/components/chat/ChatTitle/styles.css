@@ -81,7 +81,7 @@
 }
 
 .CardChat__Body .CardChat__LastChat svg {
-    color: #39CAB9;
+    color: green;
     font-size: 1.2rem;
-    margin-right: 2px;
+    margin-right: 3px;
 }

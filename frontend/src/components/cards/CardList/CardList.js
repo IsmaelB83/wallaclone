@@ -41,7 +41,7 @@ export default function CardList (props) {
                 </header>
                 <div className='CardList__Body'>
                     <div className='CardList__Content'>
-                        <Link to={`advert/${slug}`} className='CardList__Title'><h2>{name}</h2></Link>
+                        <Link to={`/advert/${slug}`} className='CardList__Title'><h2>{name}</h2></Link>
                         <Moment className='CardList__Date' locale={i18n.language} fromNow>{createdAt}</Moment>
                         <CardTags tags={tags} />
                     </div>

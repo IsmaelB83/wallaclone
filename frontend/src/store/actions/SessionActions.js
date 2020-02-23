@@ -6,6 +6,7 @@ import UserServices from '../../services/UserServices';
 // Own modules
 import LocalStorage from '../../utils/Storage';
 import { fetchUserChats } from './ChatActions';
+import { connect, disconnect } from './SocketIoActions';
 // Actions
 import * as ACTIONS from '../types/SessionTypes';
 
@@ -21,11 +22,11 @@ export const login = (login, password) => {
         .then(response => {
             dispatch(loginSuccess(response));
             LocalStorage.saveLocalStorage(getState().session);
-            // Load chats
+            // connect to chat server
             dispatch(fetchUserChats());
+            dispatch(connect(login))
             // register service worker to receive push notifications
             serviceWorker.register(login, extra.notify);
-            extra.socketio.connect(login);
             // go home
             extra.history.push('/');
             return response;
@@ -53,11 +54,11 @@ export const loginWithToken = (jwt) => {
             // Distpatch login and save in local storage
             dispatch(loginWithTokenSuccess(response));
             LocalStorage.saveLocalStorage(getState().session);
-            // Load chats
+            // connect to chat server
             dispatch(fetchUserChats());
+            dispatch(connect(getState().session.login))
             // register service worker to receive push notifications
             serviceWorker.register(getState().session.login, extra.notify);
-            extra.socketio.connect(getState().session.login);
             // go home
             extra.history.push('/');
             return response;
@@ -85,7 +86,7 @@ export const logout = () => {
         .then(response => {
             // unregister service worker to receive push notifications
             serviceWorker.unregister(getState().session.login);
-            extra.socketio.disconnect(getState().session.login);
+            dispatch(disconnect(getState().session.login));
             // distpatch logout and clear local storage
             dispatch(logoutSuccess());
             LocalStorage.cleanLocalStorage();

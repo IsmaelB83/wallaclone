@@ -47,8 +47,8 @@ UserSchema.statics.insert = async function(user) {
         user.active = false;
         return await user.save();
     } catch (error) {
-        console.log('Error insertando usuarios.');
-        console.log(error);
+        console.error('Error insertando usuarios.');
+        console.error(error);
         return false;
     }
 };
@@ -70,7 +70,7 @@ UserSchema.statics.update = async function(id, newUser) {
         }
         return false;
     } catch (error) {
-        console.log('Error actualizando usuario: ', error);
+        console.error('Error actualizando usuario: ', error);
         return false;
     }
 };
@@ -91,7 +91,7 @@ UserSchema.statics.activate = async function(id, token) {
         }
         return false;
     } catch (error) {
-        console.log('Error activando usuario: ', error);
+        console.error('Error activando usuario: ', error);
         return false;
     }
 };

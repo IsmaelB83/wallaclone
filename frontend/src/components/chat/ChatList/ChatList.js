@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 // Material UI
 // Components
 import Chat from '../Chat';
-import CardChat from '../../cards/CardChat';
+import ChatTitle from '../ChatTitle';
 import Loading from '../../utils/Loading';
 // Own modules
 // Models
@@ -72,7 +72,7 @@ export default function ChatList(props) {
                         // Owner
                         const owner = chat.users[0].login === props.session.login ? chat.users[1]:chat.users[0];
                         // Chat session
-                        return <CardChat 
+                        return <ChatTitle 
                                     key={index}
                                     index={index}
                                     chat={chat}

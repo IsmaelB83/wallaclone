@@ -178,8 +178,8 @@ a {
 .FavoriteIcon:hover { color: red; }
 .ChatIcon:hover { color: var(--main-color); }
 
-.FavoriteIcon--Off { color: black; }
-.FavoriteIcon--On { color: red; }
+.FavoriteIcon.FavoriteIcon--Off { color: black; }
+.FavoriteIcon.FavoriteIcon--On { color: red; }
 
 
 .ButtonWc {

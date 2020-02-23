@@ -9,7 +9,7 @@ const database = require('../../database');
 
 // Start connection
 console.log('STARTING - thumbnails generator worker...')
-main().catch(error => console.log('ERROR - Connecting to rabbitmq', error));
+main().catch(error => console.error('ERROR - Connecting to rabbitmq', error));
 
 // Connect to queue and mongo
 async function main() {
@@ -36,11 +36,11 @@ async function main() {
                 queues.thumbnails.channel.ack(msg);
                 Advert.udpateThumbnail(message.id, thumbnail)
                 .then (res => console.log(`OK - Advert ${message.id} updated with thumbnail ${thumbnail}`))
-                .catch (err => console.log(`ERROR - Updating advert ${err.message}`));
+                .catch (err => console.error(`ERROR - Updating advert ${err.message}`));
             })
-            .catch(error => console.log(error));
+            .catch(error => console.error(error));
         });
     } else {
-        console.log(`ERROR - Connecting to rabbitmq: ${queues.thumbnails.name}`);
+        console.error(`ERROR - Connecting to rabbitmq: ${queues.thumbnails.name}`);
     }
 }

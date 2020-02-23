@@ -1,11 +1,8 @@
 // NPM Modules
 import React from 'react';
 import Moment from 'react-moment';
-import { withNamespaces } from 'react-i18next';
 // Material UI
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
-// import DoneIcon from '@material-ui/icons/Done';
-import DoneAllIcon from '@material-ui/icons/DoneAll';
 // Components
 // Own modules
 import i18n from '../../../utils/i18n';
@@ -17,7 +14,7 @@ import './styles.css';
 
 
 // Component to render a Chat panel
-function CardChat(props) {
+export default function ChatTitle(props) {
 
     // Destructure props
     const { active, chat, owner, index } = props;
@@ -40,15 +37,11 @@ function CardChat(props) {
             <figcaption className='CardChat__Body'>
                 <div className='CardChat__User'>
                     <p>{owner.name}</p>
-                    <Moment className='AdvertDetail__Date' locale={i18n.language} format='MMM Do YYYY'>{chat.createdAt}</Moment>
+                    <Moment className='AdvertDetail__Date' locale={i18n.language} format='MMM D YYYY'>{chat.createdAt}</Moment>
                 </div>
                 <h3 className='CardChat__Title'>{`${chat.advert.name.substring(0,20)}${chat.advert.name.length>20?'...':''}`}</h3>
-                <p className='CardChat__LastChat'>
-                    <DoneAllIcon/>{last}
-                </p>    
+                <p className='CardChat__LastChat'>{last}</p>    
             </figcaption>
         </article>
     );
 }
-
-export default withNamespaces()(CardChat)

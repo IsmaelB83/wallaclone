@@ -58,10 +58,9 @@ function Profile(props) {
             <main className='Main__Section Profile'>
                 <div className='Section__Content'>
                     <div className='Content__Title'>
-                        <h1 className='Title'>Tu perfil de usuario</h1>
+                        <h1 className='Title'>{t('Your user profile')}</h1>
                     </div>
-                    <p className='Text'>Desde esta sección puedes modificar tu nombre, login en la plataforma y dirección de email. También podrás cambiar tu contraseña, 
-                    y seleccionar una foto de perfil, que será visible por el resto de usuarios en los anuncios que publiques.</p>
+                    <p className='Text'>{t('From this section you can modify your profile MORE')}</p>
                 </div>
                 <ProfileForm    noValidate 
                                 autoComplete='off' 

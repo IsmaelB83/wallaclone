@@ -84,8 +84,16 @@ module.exports = {
             // Get one advert
             Advert.findOne({slug: req.params.slug}).populate('user', '_id login name email avatar')
             .then(advert => {
-                if (!advert) return next({ status: 404, error: 'Not Found' });
-                return res.json({success: true, result: advert});
+                if (!advert) {
+                    return next({ 
+                        status: 404,
+                        description: 'Not found any advert with that slug' 
+                    });
+                }
+                return res.status(200).json({
+                    success: true, 
+                    result: advert
+                });
             })
         } catch (error) {
             next(error);
@@ -123,7 +131,10 @@ module.exports = {
                 // Send work to analize potential notifications 
                 handleNotifications(result, 'create');
                 // Response
-                return res.json({success: true, result: result});
+                return res.status(201).json({
+                    success: true, 
+                    result: result
+                });
             })
         } catch (error) {
             next(error);
@@ -143,8 +154,13 @@ module.exports = {
             // Sólo se permiten modificar los anuncios propios
             Advert.findOne({slug: req.params.slug, user: req.user._id})
             .then(advert => {
-                // Chequeos
-                if (!advert) return next({ status: 401, description: 'No autorizado. Sólo puede tratar sus anuncios'});
+                // Check advert exists
+                if (!advert) {
+                    return next({
+                        status: 403, 
+                        description: 'You do not have an advert with that slug'
+                    });
+                }
                 // Update advert model
                 const updated = {...advert, ...req.body}
                 // Image
@@ -164,7 +180,10 @@ module.exports = {
                 Advert.updateAdvert(advert._id, updated)
                 .then(result => {
                     // Ok
-                    res.json({success: true, result: result });
+                    res.status(200).json({
+                        success: true, 
+                        result: result 
+                    });
                     // Send works to generate thumbnail only in case of new photos
                     if (req.file) {
                         handleThumbnail(advert.photo, advert._id); 
@@ -188,16 +207,25 @@ module.exports = {
     book: async (req, res, next) => {
         try {
             // Sólo se permiten modificar los anuncios propios
-            Advert.findOne({slug: req.params.slug, user: req.user._id}).populate('user', '_id login name email avatar')
+            Advert.findOne({slug: req.params.slug, user: req.user._id})
+            .populate('user', '_id login name email avatar')
             .then(advert => {
-                // Chequeos
-                if (!advert) return next({status: 401, description: 'No autorizado. Sólo puede tratar sus anuncios'});
+                // Check advert exists
+                if (!advert) {
+                    return next({
+                        status: 403, 
+                        description: 'You do not have an advert with that slug'
+                    });
+                }
                 // Ok
                 advert.booked = !advert.booked;
                 if (advert.booked) advert.sold = false;
                 advert.save().then(advert => {
                     // Ok 
-                    res.json({success: true, result: advert})
+                    res.status(200).json({
+                        success: true, 
+                        result: advert
+                    })
                     // If advert is booked send work to check for potential notifications
                     if (advert.booked) {
                         handleNotifications(advert);    
@@ -218,16 +246,26 @@ module.exports = {
     sell: async (req, res, next) => {
         try {
             // Sólo se permiten modificar los anuncios propios
-            Advert.findOne({slug: req.params.slug, user: req.user._id}).populate('user', '_id login name email avatar')
+            Advert.findOne({slug: req.params.slug, user: req.user._id})
+            .populate('user', '_id login name email avatar')
             .then(advert => {
-                // Chequeos
-                if (!advert) return next({ status: 401, description: 'No autorizado. Sólo puede tratar sus anuncios' });
+                // Check advert exists
+                if (!advert) {
+                    return next({
+                        status: 403, 
+                        success: false,
+                        description: 'You do not have an advert with that slug'
+                    });
+                }
                 // Ok
                 advert.sold = !advert.sold;
                 if (advert.sold) advert.booked = false;
                 advert.save().then(advert => {
                     // Ok
-                    res.json({success: true, result: advert })
+                    res.status(200).json({
+                        success: true, 
+                        result: advert 
+                    })
                     // If advert is sold send work to check for potential notifications
                     if (advert.sold) {
                         handleNotifications(advert);
@@ -248,17 +286,26 @@ module.exports = {
     delete: async (req, res, next) => {
         try {
             // Sólo se permiten modificar los anuncios propios
-            Advert.findOne({slug: req.params.slug, user: req.user._id}).populate('user', '_id login name email avatar')
+            Advert.findOne({slug: req.params.slug, user: req.user._id})
+            .populate('user', '_id login name email avatar')
             .then(advert => {
-                // Chequeps
-                if (!advert) return next({status: 401, description: 'No autorizado. Sólo puede tratar sus anuncios'});
+                // Check advert exists
+                if (!advert) {
+                    return next({
+                        status: 403, 
+                        description: 'You do not have an advert with that slug'
+                    });
+                }
                 // Ok
                 Advert.findByIdAndDelete(advert._id).then(advert => {
                     // Delete reference objects
                     Chat.deleteMany({advert: advert._id}).then(res => console.log(res));
                     User.updateMany({ }, { $pull: { favorites: advert._id } }).then(res => console.log(res));
                     // Ok
-                    res.json({success: true, result: advert});
+                    res.status(200).json({
+                        success: true, 
+                        result: advert
+                    });
                     // When advert is delete send work to analize potential notifications
                     handleNotifications(advert, 'delete'); 
                 });
@@ -280,11 +327,20 @@ module.exports = {
             Advert.find().distinct('tags')
             .then(results => {
                 if (results && results.length === 7) {
-                    return res.json({success: true, count: results.length, results: results });
+                    return res.status(200).json({
+                        success: true, 
+                        count: results.length, 
+                        results: results 
+                    });
                 }
-                // En caso de no haber tags (borrado de anuncios). Devuelvo un listado fijo. En versiones posteriores se incorporará el tag al modelo de mongodb.
+                // En caso de no haber tags (borrado de muchos anuncios por ejemplo).
+                // Devuelvo un listado fijo. En versiones posteriores se incorporará el tag al modelo de mongodb.
                 const tags = ['games', 'sports', 'hardware', 'motor', 'clothes', 'comics', 'houses'];
-                return res.json({success: true, count: tags.length, results: tags });    
+                res.status(200).json({
+                    success: true, 
+                    count: tags.length, 
+                    results: tags 
+                });    
             })           
         } catch (error) {
             next(error);

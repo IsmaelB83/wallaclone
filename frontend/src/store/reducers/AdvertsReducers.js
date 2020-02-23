@@ -28,16 +28,22 @@ export function adverts(state = initialState.adverts, action) {
             return [...action.adverts];
         case ADVERTS.CREATE_ADVERT_SUCCESS:
             return [action.advert, ...state];
-        case ADVERTS.EDIT_ADVERT_SUCCESS:
-            return state.map(advert => {
-                if (advert._id === action.advert._id) return { ...action.advert }
-                return advert;
-            });
-        case ADVERTS.BOOK_ADVERT_SUCCESS: 
-            return state.map(a => {
-                if (action.advert._id === a._id ) return {...a, booked: action.advert.booked};
-                return {...a};
-            });
+        case ADVERTS.EDIT_ADVERT_SUCCESS: {
+            const i = state.findIndex(ad => ad._id === action.advert._id);
+            if (i >= 0) {
+                return [ ...state.slice(0, i), action.advert, ...state.slice(i + 1) ]
+            }
+            return state;
+        }
+        case ADVERTS.BOOK_ADVERT_SUCCESS: {
+            const i = state.findIndex(ad => ad._id === action.advert._id);
+            if (i >= 0) {
+                const ad = {...state[i]};
+                ad.booked = action.advert.booked;
+                return [ ...state.slice(0, i), ad, ...state.slice(i + 1) ]
+            }
+            return state;
+        }        
         case ADVERTS.SELL_ADVERT_SUCCESS:  {
             const i = state.findIndex(advert => advert._id === action.advert._id);
             return [ ...state.slice(0, i), ...state.slice(i + 1) ];
@@ -47,11 +53,15 @@ export function adverts(state = initialState.adverts, action) {
             return [ ...state.slice(0, i), ...state.slice(i + 1) ];
         }
         // Favorites related
-        case SESSION.SET_FAVORITE_SUCCESS:
-            return state.map(a => {
-                if (action.advert._id === a._id ) return {...a, favorite: action.advert.favorite};
-                return {...a};
-            });
+        case SESSION.SET_FAVORITE_SUCCESS: { 
+            const i = state.findIndex(ad => ad._id === action.advert._id);
+            if (i >= 0) {
+                const ad = {...state[i]};
+                ad.favorite = action.advert.favorite;
+                return [ ...state.slice(0, i), ad, ...state.slice(i + 1) ]
+            }
+            return state;
+        }  
         // Logout
         case SESSION.LOGOUT_SUCCESS:
         case SESSION.LOGOUT_FAILURE:

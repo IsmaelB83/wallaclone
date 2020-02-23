@@ -4,8 +4,8 @@
 const { queues, connectionPromise} = require('../index');
 
 // Start connection
-console.log('STARTING - senders rabbitmq...')
-main().catch(error => console.log('ERROR - Connecting to rabbitmq', error));
+main()
+.catch(error => console.error('ERROR - Connecting to rabbitmq', error));
 
 // Connect to queues
 async function main() {
@@ -20,7 +20,7 @@ async function main() {
                 queue.connected = true;
                 console.log(`OK - Connected to rabbitmq: ${queue.name}`);
             } else {
-                console.log(`ERROR - Connecting to rabbitmq: ${queue.name}`);
+                console.error(`ERROR - Connecting to rabbitmq: ${queue.name}`);
             }
         }
     }
@@ -30,7 +30,7 @@ async function main() {
 const handleThumbnail = (photo, id) => {
     // Check connection
     if (!queues.thumbnails.connected) {
-        console.log(`ERROR - Connection not established to ${queues.thumbnails.name}. Thumbnail message ${photo} lost.`);
+        console.error(`ERROR - Connection not established to ${queues.thumbnails.name}. Thumbnail message ${photo} lost.`);
         return;
     }
     // Information required by the worker to prepare the thumbnail and update mongodb
@@ -51,7 +51,7 @@ const handleThumbnail = (photo, id) => {
 const handleNotifications = (advert, transaction = 'update') => {
     // Check connection
     if (!queues.notifications.connected) {
-        console.log(`ERROR - Connection not established to ${queues.notifications.name}. Notifications for advert ${advert.slug} lost.`);
+        console.error(`ERROR - Connection not established to ${queues.notifications.name}. Notifications for advert ${advert.slug} lost.`);
         return;
     }
     // Information required by the worker to check for notifications to be pushed

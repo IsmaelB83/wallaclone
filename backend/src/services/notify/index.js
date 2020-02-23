@@ -23,7 +23,6 @@ const credentials = {
 };
 
 // Start express server (handle push registrations)
-console.log('Configuring Express...')
 const app = express();
 app.use(express.static(path.join(__dirname, 'client_demo')));
 app.use(bodyParser.json());
@@ -31,20 +30,16 @@ app.use(cors())
 webpush.setVapidDetails('mailto:ismaelbernal83@gmail.com', process.env.VAPID_KEY_PUBLIC, process.env.VAPID_KEY_PRIVATE);
 const appServer = https.createServer(credentials, app);
 appServer.listen(process.env.PORT_NOTIFY, () => {
-    console.log(`OK - HTTPS server running on port ${process.env.PORT_NOTIFY}`);
+    console.log(`OK - HTTPS notify server running on port ${process.env.PORT_NOTIFY}`);
 });
 
 // Start mongodb connection
-console.log('Connecting to mongodb...')
 database.connect(process.env.MONGODB_URL)
 .then (res => {
-    // Ok
-    console.log('Mongodb connected')
-    // Start connection to rabbit queues
-    console.log('Connecting to rabbitmq...')
-    main().catch(error => console.log('ERROR - Connecting to rabbitmq', error));
+    main()
+    .catch(error => console.error('ERROR - Connecting to rabbitmq', error));
 })
-.catch (err => console.log('ERROR connecting to mongodb', err));
+.catch (err => console.error('ERROR connecting to mongodb', err));
 
 // Object to handle current subscripcions
 const subscriptions = {}
@@ -79,7 +74,7 @@ async function main() {
     if (aux) {
         queues.notifications.connected = true;
         queues.notifications.channel.prefetch(2);
-        console.log(`Rabbitmq connected: ${queues.notifications.name}`);
+        console.log(`OK - Connected to rabbitmq: ${queues.notifications.name}`);
         // Consume channel
         queues.notifications.channel.consume(queues.notifications.name, msg => {
             const message = JSON.parse(msg.content.toString());
@@ -92,7 +87,7 @@ async function main() {
             queues.notifications.channel.ack(msg);
         });
     } else {
-        console.log(`ERROR - Connecting to rabbitmq: ${queues.notifications.name}`);
+        console.error(`ERROR - Connecting to rabbitmq: ${queues.notifications.name}`);
     }
 }
 
@@ -146,7 +141,7 @@ function notifyUsersUpdate (message) {
                 }
             })
         })
-        .catch(err => console.log(err));
+        .catch(err => console.error(err));
     }
 }
 
@@ -194,7 +189,7 @@ function notifyUsersCreate (message) {
             } 
         })
     })
-    .catch(err => console.log(err));
+    .catch(err => console.error(err));
 }
 
 /**

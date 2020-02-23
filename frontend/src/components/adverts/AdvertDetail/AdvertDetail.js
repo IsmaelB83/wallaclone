@@ -40,7 +40,9 @@ export default function AdvertDetail(props) {
     return (
         <article id={`adslug_${slug}`} className='AdvertDetail'>
             <div className='AdvertDetail__Photo'>
-                <CardImage slug={slug} sold={sold} booked={booked} photo={photo} detail={true}/>
+                <div className='AdvertDetail__PhotoWrapper'>
+                    <CardImage slug={slug} sold={sold} booked={booked} photo={photo} detail={true}/>
+                </div>
                 <div className='AdvertDetail__ShareSocial'>
                     <FacebookShareButton url={window.location.href} quote={name}>
                         <FacebookIcon size={32} round={true} />

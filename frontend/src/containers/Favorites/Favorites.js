@@ -57,10 +57,10 @@ function Favorites (props) {
                 <main className='Main__Section'>
                     <div className='Section__Content'>
                         <div className='Content__Title'>
-                            <h1 className='Title'>Tus favoritos</h1>
+                            <h1 className='Title'>{t('Your favorites')}</h1>
                             <p className='Counter'><span>{totalCount}</span> {t('products')}</p>
                         </div>
-                        <p className='Text'>Aquí puedes hacer seguimiento de todos los anuncios que has añadido a tus favoritos...</p>
+                        <p className='Text'>{t('Here you can follow up all the products that you have included in your favorites')}</p>
                     </div>
                     <AdvertList 
                         type='list' 

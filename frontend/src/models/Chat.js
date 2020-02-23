@@ -9,6 +9,15 @@ export const EMPTY_CHAT = {
     messages: [],
 }
 
+// Constantes para el trabajo con el modelo de chat
+export const CHAT_CONSTANTS = {
+    STATUS: {
+        ACK: 0, // Assuming what read from API is already read.
+        WAIT: 1,
+        SENT: 2
+    }
+}
+
 // Modelo de chat en wallaclone
 export default class Chat {
     

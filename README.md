@@ -1,51 +1,57 @@
 # WALLACLONE
 
-Wallaclone in my final project for the Keepcoding Fullstack Development Bootcamp (VII edition). This repository contains a fully functional
-application to manage buy/sell products in an application similar to Wallapop (ebay kind of web). Some of the main features of this project are:
+Wallaclone is my final project for the Keepcoding Fullstack Web Development Bootcamp (VII edition). This repository contains a fully functional
+application to manage buy/sell products in an application similar (with reduced functionality) to Wallapop/Ebay:
 
-- Full stack application in MERN Stack
-- Advanced use of REDUX (thunks, multiple reducers, async action creators, extra middlewares and connected router with redux)
-- Responsive application using layouts written in grid, flexbox and using the material-ui library
-- Push notifications and email management used to notify the user regarding his favorite products.
-- Real time chat integrated using socket.io. This provides the users the possibility to discuss in real time and make a deal.
-- Frontend and API are integrated using JWT authentication. 
-- In the backend there are four main services: the API-Rest, the thumbnails generators, the chat server and the notify server. All of them are connected with the frontend to provide all its functionality.
-- There are two uses of rabbitmq queues in order to decouple the different microservices of the backend.
-- In order to integrate the service in charge of notifications and the frotend there is a service-worker implemented on top react.
-- The database is mongodb. Using to interact with it mongoose package.
+- [DEMO](https://bernaldev.com)
+
+Some of the main features of this web application:
+
+- Single Page Application written in MERN Stack (Mongoose, Express, React and Node)
+- Advanced use of REDUX (thunks, combine reducers, async action creators, extra middlewares and connected router with redux)
+- Responsive design using grid and flexbox. And several components from material-ui library
+- Push notifications and email management used to notify users regarding changes in their favorites.
+- Real time chat integrated using socket.io.
+- API secured with json web token authentication. 
+- Approximation to microservices in the backend with four main services: API (not that microservice tough xD), a thumbnail generator, chat server and push notification server.
+- Usage of rabbitmq in order to communicate some of the previous services (thumbnails and notifications)
+- Implementation of a service-worker (on top of react) in order to display the push notifications received from the notification server.
+- Usage of mongodb as the database.
 
 ## CONTENTS
 - [DEPENDENCIES](#DEPENDENCIES)
-- [OPERATIONS MANUAL](#OPERATIONS-MANUAL)
+  - [React, Router and redux](#React,-Router-and-redux)
+  - [API related functionality](#API-related-functionality)
+  - [Microservices](#Microservices)
+  - [Manage images](#Manage-images)
+  - [Internationalization](#Internationalization)
+  - [UX/UI](#UX/UI)
+- [DEPLOYMENT](#DEPLOYMENT)
   - [Download](#Download)
   - [Install dependencies](#Install-dependencies)
   - [Initialize the data base](#Initialize-the-data-base)
   - [Configuration](#Configuration)
   - [Start application](#Start-application)
-- [WEB](#WEB)
+- [EXAMPLES](#EXAMPLES)
   
 ## DEPENDENCIES
 
 This application makes use of the following packages
 
 ### React, Router and redux
-- "axios": "^0.19.0"
 - "connected-react-router": "^6.7.0"
 - "react": "^16.10.2"
 - "react-dom": "^16.10.2"
-- "react-i18next": "^9.0.10"
 - "react-moment": "^0.9.6"
 - "react-redux": "^7.1.3"
 - "react-router-dom": "^5.1.2"
 - "react-scripts": "3.2.0"
-- "react-scrollable-feed": "^1.1.2"
-- "react-share": "^4.0.1"
 - "redux": "^4.0.4"
 - "redux-logger": "^3.0.6"
 - "redux-thunk": "^2.3.0"
 - "prop-types": "^15.7.2"
 
-### Basic functionality of API Rest backend:
+### API related functionality
 - "body-parser": "^1.19.0"
 - "express": "^4.17.1"
 - "express-validator": "^6.1.1"
@@ -55,11 +61,10 @@ This application makes use of the following packages
 - "morgan": "^1.9.1"
 - "cors": "^2.8.5"
 - "dotenv": "^8.2.0"
+- "axios": "^0.19.0"
 
-### Microservices integration
+### Microservices
 - "amqplib": "^0.5.5"
-
-### Manage images
 - "multer": "^1.4.2"
 - "jimp": "^0.8.5"
 
@@ -80,18 +85,21 @@ This application makes use of the following packages
 - "html-to-text": "^5.1.1"
 - "nodemailer": "^6.3.1"
 
-### Internacionalization
+### Internationalization
 - "i18n": "^0.8.4"
 - "i18next": "^19.1.0" (frontend)
 - "i18next-browser-languagedetector": "^4.0.1" (frontend)
+- "react-i18next": "^9.0.10"
 
-### Design
+### UX/UI
 - "@material-ui/core": "^4.5.1"
 - "@material-ui/icons": "^4.5.1"
 - "notistack": "^0.9.7"
+- "react-scrollable-feed": "^1.1.2"
+- "react-share": "^4.0.1"
 
 
-## OPERATIONS MANUAL
+## DEPLOYMENT
 
 ### Download
 
@@ -160,7 +168,7 @@ Then we can start the frontend
 \downloads\keepcoding-wallaclone\frontend\npm start
 ```
 
-## WEB
+## EXAMPLES
 
 Find below some screenshots from wallaclone:
 

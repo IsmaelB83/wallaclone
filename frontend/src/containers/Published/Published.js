@@ -100,10 +100,10 @@ export default function Published (props) {
                     {  ( props.session.login && login === props.session.login ) &&
                         <div className='Section__Content'>
                             <div className='Content__Title'>
-                                <h1 className='Title'>Tus productos</h1>
+                                <h1 className='Title'>{t('Your Products')}</h1>
                                 <p className='Counter'><span>{totalCount}</span> {t('products')}</p>
                             </div>
-                            <p className='Text'>Aquí puedes gestionar tus anuncios en venta: reservarlos, marcarlos como vendidos y eliminarlos. Utiliza el botón para subir nuevos productos...</p>
+                            <p className='Text'>{t('In this section you can manage MORE')}</p>
                             <Button className='Button__AddProduct' variant='contained' color='primary' component={Link} to='/advert/create'>
                                 {t('Add product')}
                             </Button>
@@ -112,10 +112,10 @@ export default function Published (props) {
                     {  ( !props.session.login || login !== props.session.login ) &&
                         <div className='Section__Content'>
                             <div className='Content__Title'>
-                                <h1 className='Title'>Los productos de <i>'{login}'</i></h1>
+                                <h1 className='Title'>{t('Products published by')} <i>{login}</i></h1>
                                 <p className='Counter'><span>{totalCount}</span> {t('products')}</p>
                             </div>
-                            <p className='Text'>Echa un vistazo a todos los anuncios que tiene publicados un usuario, y añadelos a tus favoritos para recibir notificaciones de tu inter...</p>
+                            <p className='Text'>{t('Have a look to all the user MORE')}</p>
                         </div>
                     }
                     <AdvertList 

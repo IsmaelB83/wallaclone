@@ -80,10 +80,10 @@ module.exports = (options) => {
                 });
             }
             transport.sendMail(mailOptions)
-            .catch (err => console.log(err)); 
+            .catch (err => console.error(err)); 
         });
         
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }

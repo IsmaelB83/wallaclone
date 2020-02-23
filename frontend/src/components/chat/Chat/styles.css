@@ -58,7 +58,6 @@
 /* Input */
 .Chat__Input {
     width: 100%;
-    position: relative;
 }
 
 .Chat__Input input {
@@ -73,9 +72,10 @@
     outline: none;
 }
 
-.InputSearch__Icon--end { 
+.Chat__Input .InputSearch__Icon--end { 
     right: 1rem; 
     color: var(--main-color);
+    top: 13px;
 }
 
 .ChatMessage__ChangeDay {
@@ -105,12 +105,28 @@
     background-color: #eceff1;
 }
 
-.ChatMessage__Time {
+.ChatMessage .Text {
+    flex-grow: 1;
+    display: block;
+}
+
+.ChatMessage .Time {
     color: #888888;
-    margin-left: 10px;
+    margin-left: 7px;
     font-size: .65em;
+    min-width: 30px;
+}
+
+.ChatMessage .Icon {
+    margin-left: 3px;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.ChatMessage .Icon__Green {
+    color: green;
 }
 
 @media only screen and (min-width : 800px) {
-    .ChatMessage {  border-radius: 50px; }
+    .ChatMessage { border-radius: 50px; }
 }
