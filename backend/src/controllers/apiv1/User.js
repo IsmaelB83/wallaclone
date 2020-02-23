@@ -88,11 +88,11 @@ module.exports = {
             user.name = req.body.name || user.name
             // Si se ha pasado login, y es distinto al actual lo chequeo primero
             if (req.body.login && user.login !== req.body.login) {
-                let user = await User.findOne({ 
+                let aux = await User.findOne({ 
                     login: req.body.login,  
                     _id: { "$ne": user._id }
                 });
-                if (user) {
+                if (aux) {
                     return next({
                         status: 403, 
                         description: 'Login not available' 
@@ -102,11 +102,11 @@ module.exports = {
             }
             // Si se ha pasado email, y es distinto al actual lo chequeo primero
             if (req.body.email && user.email !== req.body.email) {
-                let user = await User.findOne({ 
+                let aux = await User.findOne({ 
                     email: req.body.email,  
                     _id: { "$ne": user._id}
                 });
-                if (user) {
+                if (aux) {
                     return next({
                         status: 403, 
                         description: 'Mail not available'
@@ -126,15 +126,15 @@ module.exports = {
             }
             // Intento guardar
             user.save()
-            .then (user => { 
+            .then (aux => { 
                 res.status(200).json({
                     success: true,
                     user: {
-                        _id: user._id,
-                        login: user.login,
-                        name: user.name,
-                        email: user.email,
-                        avatar: user.avatar
+                        _id: aux._id,
+                        login: aux.login,
+                        name: aux.name,
+                        email: aux.email,
+                        avatar: aux.avatar
                     }
                 });
             });
