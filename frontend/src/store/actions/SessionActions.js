@@ -246,6 +246,7 @@ export const editUser = (user) => {
             return response;
         })
         .catch(error => {
+            if (error.response && error.response.status === 401) dispatch(logout());
             let message = error.response && error.response.data ? error.response.data.data : error.message;            
             dispatch(editUserFailure(message));
             throw message;
@@ -273,6 +274,7 @@ export const deleteAccount = (id) => {
             return response;
         })
         .catch(error => {
+            if (error.response && error.response.status === 401) dispatch(logout());
             let message = error.response && error.response.data ? error.response.data.data : error.message;            
             dispatch(deleteAccountFailure(message));
             throw message;

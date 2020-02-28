@@ -5,6 +5,7 @@ import AdvertServices from '../../services/AdvertServices';
 import UserServices from '../../services/UserServices';
 // Actions
 import * as ACTIONS from '../types/AdvertsTypes';
+import { logout } from './SessionActions';
 
 const SIZE_CALL = parseInt(process.env.REACT_APP_MAX_ADVERTS_API); 
 
@@ -119,7 +120,8 @@ export const fetchFavorites = () => {
             return response;
         })
         .catch(error => {
-            let message = error.response && error.response.data ? error.response.data.data : error.message;            
+            if (error.response && error.response.status === 401) dispatch(logout());
+            let message = error.response && error.response.data ? error.response.data.data : error.message;
             dispatch(fetchFavoritesFailure(message));
             throw message;
         });
@@ -142,6 +144,7 @@ export const fetchSoldHistory = () => {
             return response;
         })
         .catch(error => {
+            if (error.response && error.response.status === 401) dispatch(logout());
             let message = error.response && error.response.data ? error.response.data.data : error.message;
             dispatch(fetchSoldHistoryFailure(message));
             throw message;
@@ -225,6 +228,7 @@ export const editAdvert = advert => {
             return response;
         })
         .catch(error => {
+            if (error.response && error.response.status === 401) dispatch(logout());
             let message = error.response && error.response.data ? error.response.data.data : error.message;            
             dispatch(editAdvertFailure(message));
             throw message;
@@ -249,6 +253,7 @@ export const bookAdvert = (slug) => {
             return response;
         })
         .catch(error => {
+            if (error.response && error.response.status === 401) dispatch(logout());
             let message = error.response && error.response.data ? error.response.data.data : error.message;            
             dispatch(bookAdvertFailure(message));
             throw message;
@@ -273,6 +278,7 @@ export const sellAdvert = (slug) => {
             return response;
         })
         .catch(error => {
+            if (error.response && error.response.status === 401) dispatch(logout());
             let message = error.response && error.response.data ? error.response.data.data : error.message;            
             dispatch(sellAdvertFailure(message));
             throw message;
@@ -299,6 +305,7 @@ export const createAdvert = (advert) => {
             return response;
         })
         .catch(error => {
+            if (error.response && error.response.status === 401) dispatch(logout());
             let message = error.response && error.response.data ? error.response.data.data : error.message;            
             dispatch(createAdvertFailure(message));
             throw message;
@@ -324,6 +331,7 @@ export const deleteAdvert = (slug) => {
             return response;
         })
         .catch(error => {
+            if (error.response && error.response.status === 401) dispatch(logout());
             let message = error.response && error.response.data ? error.response.data.data : error.message;            
             dispatch(deleteAdvertFailure(message));
             throw message;

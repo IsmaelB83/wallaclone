@@ -31,7 +31,6 @@ export default function SectionList (props) {
 
     // Cargo anuncios del usuario solicitado
     useEffect(() => {
-        debugger;
         switch (listType) {
             case 'history':
                 fetchSoldHistory()

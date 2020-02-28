@@ -3,6 +3,7 @@
 import ChatServices from '../../services/ChatServices';
 // Actions
 import * as ACTIONS from '../types/ChatTypes';
+import { logout } from './SessionActions';
 
 
 /**
@@ -17,6 +18,7 @@ export const fetchUserChats = () => {
             return chats;
         })
         .catch (error => {
+            if (error.response && error.response.status === 401) dispatch(logout());
             let message = error.response && error.response.data ? error.response.data.data : error.message;            
             dispatch(fetchUserChatsFailure(message));
             throw message;
@@ -40,7 +42,8 @@ export const fetchChat = id => {
             return chat;
         })
         .catch (error => {
-                let message = error.response && error.response.data ? error.response.data.data : error.message;
+            if (error.response && error.response.status === 401) dispatch(logout());
+            let message = error.response && error.response.data ? error.response.data.data : error.message;
             dispatch(fetchChatFailure(message));
             throw message;
         });
@@ -64,6 +67,7 @@ export const createChat = slug => {
             return chat;
         })
         .catch (error => {
+            if (error.response && error.response.status === 401) dispatch(logout());
             let message = error.response && error.response.data ? error.response.data.data : error.message;
             dispatch(createChatFailure(message));
             throw message;

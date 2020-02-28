@@ -12,7 +12,9 @@ module.exports = async (req, res, next) => {
         // JWT Authentication (API)
         let reqToken = ( req.body['headers'] && req.body['headers']['Authorization']) || req.query.token || req.get('Authorization');
         if (!reqToken) {
-            return res.status(401).json({data: 'Not Authorized'});
+            return res.status(401).json({
+                data: 'Not Authorized'
+            });
         }
         // Check JWT is expired
         if (reqToken.startsWith('Bearer') || reqToken.startsWith('bearer')) {
@@ -35,7 +37,7 @@ module.exports = async (req, res, next) => {
         const user = await User.findOne({email: token.payload.email, jwt: reqToken});
         if (!user) {
             return res.status(401).json({
-                data: 'Not Authorized. JWT is either not valid or active for the specified user'
+                data: 'Not Authorized'
             });    
         }
         // User authenticated continue with next middleware
