@@ -59,7 +59,7 @@ AdvertSchema.statics.list = (name, venta, tag, precio, user, limit, skip, fields
     return new Promise((resolve, reject) => {
         // Genero filtrado
         let filter = {}
-        if (name) filter.name = `/^${name}$/i`;
+        if (name) filter.name = { '$regex': name, '$options': 'i' };
         if (venta) filter.type = venta==='true'?'sell':'buy';
         if (tag) filter.tags = tag.toLowerCase();
         if (precio) {

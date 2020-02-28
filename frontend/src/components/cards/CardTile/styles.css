@@ -8,7 +8,7 @@
     overflow: hidden;
     transition: 100ms all ease-in;
     border: 1px solid transparent;
-    width: 100%;
+    max-width: 425px;
     border: 1px solid rgba(0, 0, 0, .1);
 }
 

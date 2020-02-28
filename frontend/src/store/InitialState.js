@@ -1,3 +1,6 @@
+// Model
+import { ADVERT_CONSTANTS } from '../models/Advert';
+
 // APP Initia State
 export const initialState = {
     // User session
@@ -15,11 +18,11 @@ export const initialState = {
     tags: [],
     // Filters applied (text, tag, type, amounts)
     filters: {
-        name: undefined,
-        minPrice: undefined,
-        maxPrice: undefined,
-        type: undefined, 
-        tag: undefined,
+        name: '',
+        minPrice: 0,
+        maxPrice: 0,
+        type: ADVERT_CONSTANTS.TYPE.ALL, 
+        tag: ADVERT_CONSTANTS.TAG.ALL,
         user: undefined,
     },
     // Last call statistics

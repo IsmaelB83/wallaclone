@@ -5,7 +5,6 @@ import React, { Component } from 'react';
 // Models
 // Assets
 // CSS
-import './styles.css';
 
 // Contexto generado por el HOC
 export const Context = React.createContext();
@@ -24,24 +23,29 @@ const withForm = (WrappedComponent) => {
             this.state = {...props.initial}
         }
 
+        // Update state
+        updateState = inputs => {
+            this.setState({...inputs})
+        }
+
         // Cambio en alguno de los campos del formulario de tipo input text
         handleInputChange = event => {
-            this.setState({ [event.target.name]: event.target.value });
+            this.setState({[event.target.name]: event.target.value});
         }
 
         // Cambio en alguno de los campos del formulario de tipo input checkbox
         handleCheckChange = event => {
-            this.setState({ [event.target.name]: event.target.checked });
+            this.setState({[event.target.name]: event.target.checked});
         }
         
         // Cambio en alguno de los campos del formulario de tipo selector de multiple option
         handleChangeMultiple = event => {
-            this.setState({ [event.target.name]: event.target.value });
+            this.setState({[event.target.name]: event.target.value});
         };
 
         // Cambio en un input tipo number
         handleChangeNumber = event => {
-            this.setState({ [event.target.name]: parseFloat(event.target.value) });
+            this.setState({[event.target.name]: parseFloat(event.target.value)});
         }
 
         // Evento submit
@@ -49,7 +53,10 @@ const withForm = (WrappedComponent) => {
             event.preventDefault();
             this.props.onSubmit(this.state);
         }
-        
+
+        // Reset fields
+        resetInputs = initial => this.setState({...initial});
+       
         // Render
         render() {
             return (

@@ -2,7 +2,6 @@
 import { withSnackbar } from 'notistack';
 import { connect } from 'react-redux';
 // Own components
-import withForm from '../../components/forms/Form/withForm';
 import Register from './Register';
 // Own modules
 import { SessionActions } from '../../store/GlobalActions';
@@ -28,4 +27,4 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 // Retorno el componente envuelto en el "connect", y en un withSnackBar (para los tags de info de la app)
-export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(withForm(Register)));
+export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(Register));

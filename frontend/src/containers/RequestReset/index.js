@@ -2,7 +2,6 @@
 import { withSnackbar } from 'notistack';
 import { connect } from 'react-redux';
 // Own components
-import withForm from '../../components/forms/Form/withForm';
 import RequestReset from './RequestReset';
 // Own modules
 import { SessionActions } from '../../store/GlobalActions';
@@ -28,4 +27,4 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 // Retorno el componente envuelto en el "connect", y en un withSnackBar (para los tags de info de la app)
-export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(withForm(RequestReset)));
+export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(RequestReset));

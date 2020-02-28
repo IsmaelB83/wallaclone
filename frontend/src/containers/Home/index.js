@@ -36,6 +36,7 @@ const mapDispatchToProps = (dispatch) => {
         setFavorite: (slug) => dispatch(SessionActions.setFavorite(slug)),
         // Filters
         setFilters: filters => dispatch(FiltersActions.setFilters(filters)),
+        resetFilters: () => dispatch(FiltersActions.resetFilters()),
         setCurrentPage: pageNumber => dispatch(FiltersActions.setCurrentPage(pageNumber)),
         // Adverts
         fetchTags: () => dispatch(AdvertsActions.fetchTags()),

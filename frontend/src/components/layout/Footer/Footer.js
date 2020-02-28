@@ -34,15 +34,15 @@ export default function Footer(props) {
                         <HomeIcon fontSize='small' />
                         <span>{t('Home')}</span>
                     </MenuItem>
-                    <MenuItem className={`Footer__MenuItem ${active==='Published'?'Footer__MenuItem--active':''}`} component={Link} to={`/published/${props.session.login}`}>
+                    <MenuItem className={`Footer__MenuItem ${active==='published'?'Footer__MenuItem--active':''}`} component={Link} to={`/published/${props.session.login}`}>
                         <ViewListIcon fontSize='small' />
                         <span>{t('My adverts')}</span>
                     </MenuItem>
-                    <MenuItem className={`Footer__MenuItem ${active==='History'?'Footer__MenuItem--active':''}`} component={Link} to='/history'>
+                    <MenuItem className={`Footer__MenuItem ${active==='history'?'Footer__MenuItem--active':''}`} component={Link} to='/history'>
                         <TrendingUpIcon fontSize='small' />
                         <span>{t('Sold History')}</span>
                     </MenuItem>
-                    <MenuItem className={`Footer__MenuItem ${active==='Favorites'?'Footer__MenuItem--active':''}`} component={Link} to='/favorites'>
+                    <MenuItem className={`Footer__MenuItem ${active==='favorites'?'Footer__MenuItem--active':''}`} component={Link} to='/favorites'>
                         <FavoriteIcon fontSize='small' />
                         <span>{t('Favorites')}</span>
                     </MenuItem>

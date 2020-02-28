@@ -79,30 +79,19 @@
     .SearchPanel__Footer button { width: 25% }
 }
 
+/* Filter by name */
 .InputSearch {
     width: 100%;
-    position: relative;
 }
 
-.InputSearch__Icon {
-    position: absolute;
-    top: .65rem;
-    cursor: pointer;
-    color: black;
-}
-
-.InputSearch__Icon--start { left: 1rem; }
-
-.InputSearch__Input {
+.InputSearch .Input {
     width: 100%;
     font-size: 1rem;
     line-height: 1.1rem;
-    padding: .75rem 0 .75rem 3rem;
+    padding: 1rem;
     border: 1px solid var(--main-color);
     border-radius: .75rem;
     background-color: white;
-    color: black;
-    outline: none;
 }
 
 /* Animación del collapse del planel */

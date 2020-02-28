@@ -16,6 +16,7 @@ export function filters (state = initialState.filters, action) {
         case ADVERTS.SEARCH_ADVERTS_SUCCESS:
             return { ...action.filters };
         // Delete filters
+        case FILTERS.RESET_FILTERS:
         case SESSION.LOGOUT_SUCCESS:
         case SESSION.LOGOUT_FAILURE:
         case SESSION.DELETE_ACCOUNT_SUCCESS:

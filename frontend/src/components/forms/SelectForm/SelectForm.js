@@ -25,8 +25,13 @@ export default function SelectForm(props) {
                 value={context.inputs[props.name]}
                 onChange={context.handleInputChange}
                 className='SearchPanel__Type'
+                required={props.required}
             >
-                { props.options.map(option => <MenuItem key={option} value={option}><AdvertChip type='type' value={option}/></MenuItem>) }
+                { props.options.map(option => 
+                    <MenuItem key={option} value={option}>
+                        <AdvertChip type={props.chip} value={option}/>
+                    </MenuItem>) 
+                }
             </Select>
         </FormControl>
     )

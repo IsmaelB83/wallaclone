@@ -1,12 +1,11 @@
 // NPM Modules
 import React, { useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
 // Material UI
 import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
 // Components
 import ModalConfirm from '../../components/modals/ModalConfirm';
 import AdvertList from '../../components/adverts/AdvertList';
+import SectionHeader from '../../components/SectionHeader';
 import Footer from '../../components/layout/Footer';
 import NavBar from '../../components/layout/NavBar';
 // Own modules
@@ -14,72 +13,88 @@ import NavBar from '../../components/layout/NavBar';
 // Assets
 // CSS
 
-// Published adverts section
-export default function Published (props) {
+// Section with a list of adverts
+export default function SectionList (props) {
     
     // Translate
     const { t } = props;
 
     // Destructure props
-    const { enqueueSnackbar, fetchUserAdverts, setCurrentPage, fetchIterateAdverts } = props;
+    const { enqueueSnackbar, 
+            fetchUserAdverts, fetchFavorites, fetchIterateAdverts, fetchSoldHistory, setCurrentPage, 
+            setFavorite, bookAdvert, sellAdvert, deleteAdvert, createChat, logout } = props;
     const { start, end, totalCount } = props.lastCall;
-    const { login } = props.match.params;
     const { currentPage, isFetching } = props.ui;
-    const { adverts, session, chats } = props;
+    const { adverts, session, chats, history, listType } = props;
+    const { login } = props.match.params;
 
     // Cargo anuncios del usuario solicitado
     useEffect(() => {
-        fetchUserAdverts(login)
-        .catch(error => enqueueSnackbar(t('Error loading USER adverts ERROR', {user: login, error}), { variant: 'error' }));
-    }, [fetchUserAdverts, enqueueSnackbar, login, t]);
+        switch (listType) {
+            case 'history':
+                fetchSoldHistory()
+                .catch(error => enqueueSnackbar(t('Error loading USER sold history ERROR', {user: session.login, error}), { variant: 'error' }));
+                break;
+            case 'favorites':
+                fetchFavorites()
+                .catch(error => enqueueSnackbar(t('Error loading favorites ERROR', {error}), { variant: 'error' }));
+                break;
+            case 'published':
+                fetchUserAdverts(login)
+                .catch(error => enqueueSnackbar(t('Error loading USER adverts ERROR', {user: login, error}), { variant: 'error' }));
+                break;
+            default:
+                break;
+        }
+    }, [listType, fetchSoldHistory, fetchFavorites, fetchUserAdverts, enqueueSnackbar, session, t]);
 
     // Paginación sobre la colección de anuncios
-    const onFetchIterateAdverts = (direction) => {
+    const fetchIterateAdvertsHandler = (direction) => {
         return fetchIterateAdverts(direction)
         .catch(error => enqueueSnackbar(t('Error iterating adverts ERROR', {error}), { variant: 'error' }));
     }
 
     // Favorito
-    const favoriteAdvert = (slug) => {
-        props.setFavorite(slug)
-        .catch(error => props.enqueueSnackbar(t('Error adding advert to favorite ERROR', {error}), { variant: 'error' }));
+    const favoriteAdvertHandler = slug => {
+        setFavorite(slug)
+        .catch(error => enqueueSnackbar(t('Error adding advert to favorite ERROR', {error}), { variant: 'error' }));
     }
 
     // Reservado
-    const bookAdvert = slug => {
-        props.bookAdvert(slug)
+    const bookAdvertHandler = slug => {
+        bookAdvert(slug)
         .catch(error => enqueueSnackbar(t('Error setting advert as booked ERROR', {error}), { variant: 'error' }));
     };
 
     // Vendido
-    const sellAdvert = slug => {
-        props.sellAdvert(slug)
+    const sellAdvertHandler = slug => {
+        sellAdvert(slug)
         .catch(error => enqueueSnackbar(t('Error setting advert as sold ERROR', {error}), { variant: 'error', }));
     };
 
     // Open chat
-    const openChat = slug => {
+    const openChatHandler = slug => {
         // Check first if already have a chat for that advert
         const i = chats.findIndex(c => c.advert.slug === slug);
         if (i < 0 ) {
-            props.createChat(slug)
+            createChat(slug)
             .catch (error => enqueueSnackbar(t('Error opening a new chat session ERROR', {error}), { variant: 'error' }));
         } else {
-            props.history.push(`/chats/${chats[i]._id}`);
+            history.push(`/chats/${chats[i]._id}`);
         }
-}
+    }
 
     // Borrar anuncio
     const [showModalDelete, setShowModalDelete] = useState(false);
     const [slug, setSlug] = useState(undefined);
-    const deleteAdvertRequest = slug => {
+    const deleteAdvertRequestHandler = slug => {
         setSlug(slug)
         setShowModalDelete(true);
     }
     const confirmDeleteAdvert = () => {
         setShowModalDelete(false);
         if (slug) {
-            props.deleteAdvert(slug)
+            deleteAdvert(slug)
             .then(res => enqueueSnackbar(t('Advert SLUG deleted', {slug}), { variant: 'success', }))
             .catch(error => enqueueSnackbar(t('Error deleting advert ERROR', {error}), { variant: 'error', }));    
         } else {
@@ -94,30 +109,10 @@ export default function Published (props) {
     // Render
     return (
         <React.Fragment>
-            <NavBar session={props.session} onLogout={props.logout}/>
+            <NavBar session={session} onLogout={logout}/>
             <Container className='Container'>
                 <main className='Main__Section Published'>
-                    {  ( props.session.login && login === props.session.login ) &&
-                        <div className='Section__Content'>
-                            <div className='Content__Title'>
-                                <h1 className='Title'>{t('Your Products')}</h1>
-                                <p className='Counter'><span>{totalCount}</span> {t('products')}</p>
-                            </div>
-                            <p className='Text'>{t('In this section you can manage MORE')}</p>
-                            <Button className='Button__AddProduct' variant='contained' color='primary' component={Link} to='/advert/create'>
-                                {t('Add product')}
-                            </Button>
-                        </div>
-                    }
-                    {  ( !props.session.login || login !== props.session.login ) &&
-                        <div className='Section__Content'>
-                            <div className='Content__Title'>
-                                <h1 className='Title'>{t('Products published by')} <i>{login}</i></h1>
-                                <p className='Counter'><span>{totalCount}</span> {t('products')}</p>
-                            </div>
-                            <p className='Text'>{t('Have a look to all the user MORE')}</p>
-                        </div>
-                    }
+                    <SectionHeader header={listType} login={login} session={session} totalCount={totalCount}/>
                     <AdvertList 
                         type='list' 
                         start={start}
@@ -127,13 +122,13 @@ export default function Published (props) {
                         adverts={adverts}
                         session={session}
                         isLoading={isFetching}
-                        onBookAdvert={bookAdvert}
-                        onSellAdvert={sellAdvert}
-                        onDeleteAdvert={deleteAdvertRequest}
-                        onFavoriteAdvert={favoriteAdvert}
+                        onBookAdvert={bookAdvertHandler}
+                        onSellAdvert={sellAdvertHandler}
+                        onDeleteAdvert={deleteAdvertRequestHandler}
+                        onFavoriteAdvert={favoriteAdvertHandler}
                         onSetCurrentPage={setCurrentPage}
-                        onfetchIterateAdverts={onFetchIterateAdverts}
-                        onOpenChat={openChat}
+                        onfetchIterateAdverts={fetchIterateAdvertsHandler}
+                        onOpenChat={openChatHandler}
                     />
                 </main>
                 {   showModalDelete && 
@@ -144,7 +139,8 @@ export default function Published (props) {
                     /> 
                 }
             </Container>
-            <Footer session={props.session} onLogout={props.logout} active='Published'/>
+            <Footer session={session} onLogout={logout} active={listType}/>
         </React.Fragment>
     );
 }
+

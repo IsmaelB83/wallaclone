@@ -7,7 +7,7 @@ import React from 'react';
 // CSS
 import './styles.css';
 
-import withForm from './withForm';
+import withForm from '../../hocs/withForm';
 
 /**
  * Component reutilizable para formularios. Lo exporto envuelto en el HOC que me aporta

@@ -1,8 +1,10 @@
 // Node modules
 import { connect } from 'react-redux';
 import { withSnackbar } from 'notistack';
-// Own components
-import Favorites from './Favorites';
+import { withNamespaces } from 'react-i18next';
+// Own Components
+import SectionList from './SectionList';
+// Models
 // Own modules
 import { AdvertsActions, SessionActions, FiltersActions, ChatActions } from '../../store/GlobalActions';
 
@@ -14,10 +16,10 @@ import { AdvertsActions, SessionActions, FiltersActions, ChatActions } from '../
 const mapStateToProps = (state) => {
     return {
         adverts: state.adverts,
-        lastCall: state.lastCall,
         session: state.session,
         chats: state.chats,
         ui: state.ui,
+        lastCall: state.lastCall
     }
 }
 
@@ -29,17 +31,21 @@ const mapDispatchToProps = (dispatch) => {
     return {
         // Session
         logout: () => dispatch(SessionActions.logout()),
-        setFavorite: (slug) => dispatch(SessionActions.setFavorite(slug)),
+        setFavorite: slug => dispatch(SessionActions.setFavorite(slug)),
         // Filters
         setCurrentPage: pageNumber => dispatch(FiltersActions.setCurrentPage(pageNumber)),
         // Adverts
+        deleteAdvert: slug => dispatch(AdvertsActions.deleteAdvert(slug)),
+        bookAdvert: slug => dispatch(AdvertsActions.bookAdvert(slug)),
+        sellAdvert: slug => dispatch(AdvertsActions.sellAdvert(slug)),
         fetchFavorites: () => dispatch(AdvertsActions.fetchFavorites()),
+        fetchUserAdverts: slug => dispatch(AdvertsActions.fetchUserAdverts(slug)),
+        fetchSoldHistory: () => dispatch(AdvertsActions.fetchSoldHistory()),
+        fetchIterateAdverts: direction => dispatch(AdvertsActions.fetchIterateAdverts(direction)),
         // Chats
-        createChat: (slug) => dispatch(ChatActions.createChat(slug))        
+        createChat: slug => dispatch(ChatActions.createChat(slug))
     }
 }
 
-/**
- * Envuelvo el App en al función connect para conectar con el store recibido del provider
- */ 
-export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(Favorites));
+// Envuelvo el App en al función connect para conectar con el store recibido del provider
+export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(withNamespaces()(SectionList)));

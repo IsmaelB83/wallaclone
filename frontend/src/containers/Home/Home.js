@@ -5,7 +5,7 @@ import { withNamespaces } from 'react-i18next';
 import Container from '@material-ui/core/Container';
 // Components
 import AdvertList from '../../components/adverts/AdvertList';
-import SearchPanel from '../../components/forms/SearchForm';
+import SearchForm from '../../components/forms/SearchForm';
 import Footer from '../../components/layout/Footer';
 import NavBar from '../../components/layout/NavBar';
 // Containers
@@ -24,7 +24,7 @@ function Home(props) {
     const { start, end, totalCount } = props.lastCall
     const { currentPage, isFetching } = props.ui;
     const { adverts, session, filters, tags, chats } = props;
-    const { fetchTags, setCurrentPage, fetchIterateAdverts, enqueueSnackbar, setFilters, setFavorite, searchAdverts, fetchAdverts } = props;
+    const { fetchTags, setCurrentPage, fetchIterateAdverts, enqueueSnackbar, setFilters, resetFilters, setFavorite, searchAdverts, fetchAdverts } = props;
 
     // On load
     useEffect(() => {        
@@ -79,7 +79,13 @@ function Home(props) {
             <Container className='Container'>
                 <main className='Main__Section'>
                     <div className='Home__Results'>
-                    <SearchPanel tags={tags} onSearchAdverts={onHandleSearchAdverts} onSetFilters={setFilters} filters={filters} />
+                        <SearchForm 
+                            tags={tags} 
+                            onSearchAdverts={onHandleSearchAdverts} 
+                            onSetFilters={setFilters} 
+                            onResetFilters={resetFilters} 
+                            filters={filters} 
+                        />
                         <AdvertList 
                             type='tiles' 
                             start={start}

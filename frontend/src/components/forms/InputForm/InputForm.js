@@ -16,10 +16,11 @@ export default function InputForm(props) {
 
     // Adornments
     const start = props.icon?<InputAdornment position='start' className='InputIcon__Icon'>{props.icon}</InputAdornment>:undefined;
+    const end = props.icon?<InputAdornment position='end' className='InputIcon__Icon'>{props.icon}</InputAdornment>:undefined;
     
     // Render
     return (
-        <FormControl className='InputForm'>
+        <FormControl className={`InputForm ${props.className}`}>
             { props.label && <InputLabel shrink htmlFor={props.name}>{props.label}</InputLabel> }
             <Input
                 name={props.name}
@@ -28,7 +29,7 @@ export default function InputForm(props) {
                 type={props.type}
                 placeholder={props.placeholder}
                 startAdornment={start}
-                endAdornment={props.endAdornment}
+                endAdornment={end}
                 required={props.required}
                 inputProps={{ maxLength: props.maxLength }}
                 autoComplete={props.autoComplete}

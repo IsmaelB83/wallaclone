@@ -6,8 +6,7 @@ import { Provider } from 'react-redux';
 // Components
 import PrivateRoute from '../../components/utils/PrivateRoute';
 // Containers
-import Favorites from '../Favorites';
-import Published from '../Published';
+import SectionList from '../SectionList';
 import Detail from '../Detail';
 import Edit from '../Edit';
 import Login from '../Login';
@@ -17,7 +16,6 @@ import Reset from '../Reset';
 import Profile from '../Profile';
 import Home from '../Home';
 import Error404 from '../Error404';
-import History from '../History';
 import Chats from '../Chats';
 // Own modules
 import { SessionActions } from '../../store/GlobalActions';
@@ -95,13 +93,13 @@ export default function App(props) {
                     <Route path='/reset' exact component={RequestReset} />
                     <Route path='/reset/:token' exact component={Reset} />
                     <Route path='/activate/:token' exact component={Login} />
-                    <Route path='/published/:login' exact component={Published} />
-                    <PrivateRoute path='/chats/:id?' exact component={Chats} />
-                    <PrivateRoute path='/history' exact component={History} />
-                    <PrivateRoute path='/favorites' exact component={Favorites} />
-                    <PrivateRoute path='/profile' exact component={Profile} />
+                    <Route path='/published/:login' exact render={(props) => <SectionList {...props} listType='published'/>}/>
+                    <PrivateRoute path='/history' exact render={(props) => <SectionList {...props} listType='history'/>}/>
+                    <PrivateRoute path='/favorites' exact render={(props) => <SectionList {...props} listType='favorites'/>}/>
                     <PrivateRoute path='/advert/create' exact render={(props) => <Edit {...props} mode='create'/>}/>
                     <PrivateRoute path='/advert/edit/:slug' exact render={(props) => <Edit {...props} mode='edit'/>}/>
+                    <PrivateRoute path='/chats/:id?' exact component={Chats} />
+                    <PrivateRoute path='/profile' exact component={Profile} />
                     <Route path='/advert/:slug' exact component={Detail} />
                     <Route path='/' exact component={Home} />
                     <Route component={Error404} />
