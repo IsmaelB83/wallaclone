@@ -27,13 +27,15 @@ export default function SectionList (props) {
     const { currentPage, isFetching } = props.ui;
     const { adverts, session, chats, history, listType } = props;
     const { login } = props.match.params;
+    const sessionLogin = props.session.login;
 
     // Cargo anuncios del usuario solicitado
     useEffect(() => {
+        debugger;
         switch (listType) {
             case 'history':
                 fetchSoldHistory()
-                .catch(error => enqueueSnackbar(t('Error loading USER sold history ERROR', {user: session.login, error}), { variant: 'error' }));
+                .catch(error => enqueueSnackbar(t('Error loading USER sold history ERROR', {user: sessionLogin, error}), { variant: 'error' }));
                 break;
             case 'favorites':
                 fetchFavorites()
@@ -46,7 +48,7 @@ export default function SectionList (props) {
             default:
                 break;
         }
-    }, [listType, fetchSoldHistory, fetchFavorites, fetchUserAdverts, enqueueSnackbar, login, session, t]);
+    }, [listType, fetchSoldHistory, fetchFavorites, fetchUserAdverts, enqueueSnackbar, login, sessionLogin, t]);
 
     // Paginación sobre la colección de anuncios
     const fetchIterateAdvertsHandler = (direction) => {
