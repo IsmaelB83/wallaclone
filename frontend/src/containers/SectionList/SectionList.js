@@ -46,7 +46,7 @@ export default function SectionList (props) {
             default:
                 break;
         }
-    }, [listType, fetchSoldHistory, fetchFavorites, fetchUserAdverts, enqueueSnackbar, session, t]);
+    }, [listType, fetchSoldHistory, fetchFavorites, fetchUserAdverts, enqueueSnackbar, login, session, t]);
 
     // Paginación sobre la colección de anuncios
     const fetchIterateAdvertsHandler = (direction) => {
