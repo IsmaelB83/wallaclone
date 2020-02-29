@@ -23,6 +23,12 @@ export const inMessage = data => {
     return async function(dispatch, getState, extra) {
         extra.notifyNewChats();
         dispatch(inMessageSuccess(data));
+        if (window.location.pathname.startsWith('/chats')) {
+            SocketIo.confirmChatRead({
+                chatId: data.chatId,
+                user: data.senderLogin
+            });
+        }
     }
 };
 
