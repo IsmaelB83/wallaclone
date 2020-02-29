@@ -37,7 +37,7 @@ module.exports = {
                     totalCount: result.totalCount,
                     results: result.results
                 });
-            }) 
+            })
         } catch (error) {
             next(error);
         }

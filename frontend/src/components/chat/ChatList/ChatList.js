@@ -49,26 +49,30 @@ export default function ChatList(props) {
     
     // Carga del chat
     useEffect(() => {
-        let i = currentChat;
-        if (!currentChat && id) {
-            const index = chats.findIndex(c => c._id === id);
-            i = index >= 0 ? index : 0;
+        if (chats && chats.length > 0) {
+            let i = currentChat;
+            if (!currentChat && id) {
+                const index = chats.findIndex(c => c._id === id);
+                i = index >= 0 ? index : 0;
+            }
+            const chat = chats[i];
+            let user = chat.users[0];
+            if (user._id === session._id) {
+                user = chat.users[1];
+            }
+            setUser(user);
+            setOnline(onlineUsers.indexOf(user.login) >= 0)
+            setCurrentChat(i);   
         }
-        const chat = chats[i];
-        let user = chat.users[0];
-        if (user._id === session._id) {
-            user = chat.users[1];
-        }
-        setUser(user);
-        setOnline(onlineUsers.indexOf(user.login) >= 0)
-        setCurrentChat(i);
     }, [chats, onlineUsers, currentChat, session, id])
 
     // Render
     return (
         <div className={`ChatList ChatList__Hide--${collapsed}`}>
-            <aside className='ChatList__Menu'>
-                {   !isLoading && chats.length > 0 && chats.map((chat, index) => {
+        { chats.length > 0 && 
+            <React.Fragment>
+                <aside className='ChatList__Menu'>
+                {   !isLoading && chats.map((chat, index) => {
                         // Owner
                         const owner = chat.users[0].login === props.session.login ? chat.users[1]:chat.users[0];
                         // Chat session
@@ -83,20 +87,25 @@ export default function ChatList(props) {
                     })
                 }
                 { isLoading && <Loading text={t('Loading chats')}/> }
-            </aside>
-            <main className='ChatList__Main'>
-            { chats[currentChat] &&
-                <Chat 
-                    id={chats[currentChat]._id}
-                    session={session}
-                    user={user}
-                    online={online}
-                    messages={chats[currentChat].messages}
-                    name={chats[currentChat].advert.name}
-                    onClickBack={hideShowChatList}
-                />
-            }
-            </main>
+                </aside>
+                <main className='ChatList__Main'>
+                { chats[currentChat] &&
+                    <Chat 
+                        id={chats[currentChat]._id}
+                        session={session}
+                        user={user}
+                        online={online}
+                        messages={chats[currentChat].messages}
+                        name={chats[currentChat].advert.name}
+                        onClickBack={hideShowChatList}
+                    />
+                }
+                </main>
+            </React.Fragment>
+        }
+        { !chats.length && 
+            <h2 className='Home__Subtitle'>{t('Sorry, we couldn\'t find any chat for your user name')}</h2>
+        }
         </div>
     );
 }

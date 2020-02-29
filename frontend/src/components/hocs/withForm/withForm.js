@@ -23,35 +23,44 @@ const withForm = (WrappedComponent) => {
             this.state = {...props.initial}
         }
 
-        // Update state
-        updateState = inputs => {
-            this.setState({...inputs})
-        }
-
         // Cambio en alguno de los campos del formulario de tipo input text
         handleInputChange = event => {
-            this.setState({[event.target.name]: event.target.value});
+            this.setState({
+                [event.target.name]: event.target.value
+            }, () => this.handleNotifyChanges());
         }
 
         // Cambio en alguno de los campos del formulario de tipo input checkbox
         handleCheckChange = event => {
-            this.setState({[event.target.name]: event.target.checked});
+            this.setState({
+                [event.target.name]: event.target.checked
+            }, () => this.handleNotifyChanges());
         }
         
         // Cambio en alguno de los campos del formulario de tipo selector de multiple option
         handleChangeMultiple = event => {
-            this.setState({[event.target.name]: event.target.value});
+            this.setState({
+                [event.target.name]: event.target.value
+            }, () => this.handleNotifyChanges());
         };
 
         // Cambio en un input tipo number
         handleChangeNumber = event => {
-            this.setState({[event.target.name]: parseFloat(event.target.value)});
+            this.setState({
+                [event.target.name]: parseFloat(event.target.value)
+            }, () => this.handleNotifyChanges());
         }
 
         // Evento submit
         handleSubmit = event => {
             event.preventDefault();
             this.props.onSubmit(this.state);
+        }
+
+        handleNotifyChanges = () => {
+            if (this.props.extra && this.props.extra.notifyChanges) {
+                this.props.extra.notifyChanges(this.state);
+            }
         }
 
         // Reset fields

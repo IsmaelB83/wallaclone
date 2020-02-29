@@ -36,10 +36,15 @@ export default function SearchForm(props) {
     }
 
     // Reseteo el estado a los valores originales de búsqueda
-    const handleSubmit = inputs => props.onSearchAdverts(inputs);
+    const submitHandler = inputs => props.onSearchAdverts(inputs);
+
+    // Search in real time in store (dont want to loose this functinality in the HOC version of the form)
+    const changedInputsHandler = inputs => {
+        props.onSetFilters(inputs);
+    }
 
     // Reseteo el estado a los valores originales de búsqueda
-    const handleReset = () => {
+    const resetHandler = () => {
         searchFormRef.current.resetInputs(initialState.filters);
         props.onSearchAdverts();
     }
@@ -53,7 +58,7 @@ export default function SearchForm(props) {
                     {collapsed?<ExpandMoreIcon/>:<ExpandLessIcon/>}
                 </button>
             </div>
-            <Form ref={searchFormRef} className='SearchPanel__Form' onSubmit={handleSubmit} initial={props.filters}>
+            <Form ref={searchFormRef} className='SearchPanel__Form' onSubmit={submitHandler} extra={{notifyChanges: changedInputsHandler}} initial={props.filters}>
                 <div className='InputSearch'>                    
                     <InputForm name='name' type='text' placeholder={t('Search adverts by name')} maxLength={"30"} className='Input' startIcon={<SearchIcon/>}/>
                 </div>
@@ -67,7 +72,7 @@ export default function SearchForm(props) {
                 </div>
                 <div className='SearchPanel__Footer'>
                     <Button type='submit' variant='contained' color='primary' startIcon={<SearchIcon />}>{t('Search')}</Button>
-                    <Button variant='contained' color='secondary' onClick={handleReset} startIcon={<ClearIcon/>}> {t('Reset')} </Button>
+                    <Button variant='contained' color='secondary' onClick={resetHandler} startIcon={<ClearIcon/>}> {t('Reset')} </Button>
                 </div>
             </Form>
         </div>

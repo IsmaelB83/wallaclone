@@ -21,10 +21,12 @@ export const offlineUser = login => ({ type: ACTIONS.SOCKETIO_OFFLINE_USER, logi
 
 export const inMessage = data => {   
     return async function(dispatch, getState, extra) {
-        extra.snackbar();
-        return { type: ACTIONS.SOCKETIO_IN_MESSAGE, data };
+        extra.notifyNewChats();
+        dispatch(inMessageSuccess(data));
     }
 };
+
+const inMessageSuccess = data => ({ type: ACTIONS.SOCKETIO_IN_MESSAGE, data });
 
 export const outMessage = data => ({ type: ACTIONS.SOCKETIO_OUT_MESSAGE, data });
 export const outMessageSent = data => ({ type: ACTIONS.SOCKETIO_OUT_MESSAGE_SENT, data });

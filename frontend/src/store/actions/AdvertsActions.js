@@ -21,7 +21,7 @@ export const fetchTags = () => {
             return tags;
         })
         .catch (error => {
-            let message = error.response && error.response.data ? error.response.data.data : error.message;            
+            let message = error.response && error.response.data ? error.response.data.data : error.message;  
             dispatch(fetchTagsFailure(message));
             throw message;
         });
@@ -49,7 +49,7 @@ export const fetchAdvert = slug => {
             return advert;
         })
         .catch(error => {
-            let message = error.response && error.response.data ? error.response.data.data : error.message;            
+            let message = error.response && error.response.data ? error.response.data.data : error.message;  
             dispatch(fetchAdvertFailure(message));
             throw message;
         });
@@ -203,7 +203,7 @@ export const fetchIterateAdverts = (direction) => {
             return response;
         })
         .catch (error => {
-            let message = error.response && error.response.data ? error.response.data.data : error.message;            
+            let message = error.response && error.response.data ? error.response.data.data : error.message;  
             dispatch(fetchIterateAdvertsFailure(message));
             throw message;
         });
@@ -229,7 +229,7 @@ export const editAdvert = advert => {
         })
         .catch(error => {
             if (error.response && error.response.status === 401) dispatch(logout());
-            let message = error.response && error.response.data ? error.response.data.data : error.message;            
+            let message = error.response && error.response.data ? error.response.data.data : error.message;  
             dispatch(editAdvertFailure(message));
             throw message;
         });
@@ -254,7 +254,7 @@ export const bookAdvert = (slug) => {
         })
         .catch(error => {
             if (error.response && error.response.status === 401) dispatch(logout());
-            let message = error.response && error.response.data ? error.response.data.data : error.message;            
+            let message = error.response && error.response.data ? error.response.data.data : error.message;  
             dispatch(bookAdvertFailure(message));
             throw message;
         });
@@ -279,7 +279,7 @@ export const sellAdvert = (slug) => {
         })
         .catch(error => {
             if (error.response && error.response.status === 401) dispatch(logout());
-            let message = error.response && error.response.data ? error.response.data.data : error.message;            
+            let message = error.response && error.response.data ? error.response.data.data : error.message;  
             dispatch(sellAdvertFailure(message));
             throw message;
         });
@@ -306,7 +306,7 @@ export const createAdvert = (advert) => {
         })
         .catch(error => {
             if (error.response && error.response.status === 401) dispatch(logout());
-            let message = error.response && error.response.data ? error.response.data.data : error.message;            
+            let message = error.response && error.response.data ? error.response.data.data : error.message;  
             dispatch(createAdvertFailure(message));
             throw message;
         });
@@ -332,7 +332,7 @@ export const deleteAdvert = (slug) => {
         })
         .catch(error => {
             if (error.response && error.response.status === 401) dispatch(logout());
-            let message = error.response && error.response.data ? error.response.data.data : error.message;            
+            let message = error.response && error.response.data ? error.response.data.data : error.message;  
             dispatch(deleteAdvertFailure(message));
             throw message;
         });

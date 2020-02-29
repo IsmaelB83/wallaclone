@@ -7,8 +7,8 @@
     box-shadow: 3px 3px 10px rgba(0, 0, 0, .30);
     overflow: hidden;
     transition: 100ms all ease-in;
-    border: 1px solid transparent;
-    max-width: 425px;
+    width: 100%;
+    max-width: 400px;
     border: 1px solid rgba(0, 0, 0, .1);
 }
 
