@@ -3,7 +3,10 @@ import React, { useEffect } from 'react';
 // Material UI
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
+import PropTypes from 'prop-types';
 // Components
+import HeaderChat from '../../components/headers/HeaderChat';
+import NoResults from '../../components/utils/NoResults';
 import ChatList from '../../components/chat/ChatList';
 import Footer from '../../components/layout/Footer';
 import NavBar from '../../components/layout/NavBar';
@@ -31,22 +34,22 @@ export default function Chats (props) {
     // Render
     return (
         <React.Fragment>
-            <NavBar session={props.session} onLogout={props.logout}/>
-            <Container className='Container Container--OverflowY Chats'>
-                <main className='Main__Section Chat'>
-                    <div className='Section__Content'>
-                        <div className='Content__Title'>
-                            <h1 className='Title'>{t('Your chats')}</h1>
-                        </div>
-                        <p className='Text'>{t('In this section you can manage all the conversations you have with other members of Wallaclone')}</p>
-                    </div>
-                    <ChatList
-                        session={session}
-                        chats={chats}
-                        isLoading={isFetchingChats}
-                        onlineUsers={socketIo.onlineUsers}
-                        id={props.match.params.id}
-                    />
+            <NavBar session={session} onLogout={props.logout}/>
+            <Container className='Container Container__Fixed'>
+                <main className='Section__Wrapper Section__WrapperChats'>
+                    <HeaderChat/>
+                    { chats.length > 0 &&
+                        <ChatList
+                            session={session}
+                            chats={chats}
+                            isLoading={isFetchingChats}
+                            onlineUsers={socketIo.onlineUsers}
+                            id={props.match.params.id}
+                        />
+                    }
+                    { !chats.length &&
+                        <NoResults text={t('No chats for your user MORE')}/>
+                    }
                 </main>
                 { props.error && <Error error={error}/>}
                 { !socketIo.online && 
@@ -59,7 +62,18 @@ export default function Chats (props) {
                     </div>
                 }
             </Container>
-            <Footer session={props.session} onLogout={props.logout} active='Chats'/>
+            <Footer session={session} onLogout={props.logout} active='Chats'/>
         </React.Fragment>
     );
+}
+
+Chats.propTypes = {
+    chats: PropTypes.array.isRequired,
+    session: PropTypes.object.isRequired,
+    socketIo: PropTypes.object.isRequired,
+    error: PropTypes.string,
+    isFetchingChats: PropTypes.bool,
+    t: PropTypes.func.isRequired,
+    fetchUserChats: PropTypes.func.isRequired,
+    enqueueSnackbar: PropTypes.func.isRequired,
 }

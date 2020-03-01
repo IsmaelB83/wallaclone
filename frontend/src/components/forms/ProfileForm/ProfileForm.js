@@ -65,10 +65,8 @@ export default function ProfileForm(props) {
             </div>
             <div className='ProfileForm__Buttons'>
                 <Button type='submit' variant='contained' color='primary'>{props.t('Accept')}</Button>
-                <Button type='button' variant='contained' component={Link} to={'/'}>{props.t('Cancel')}</Button>
-                <Button type='button' variant='contained' color='secondary' onClick={props.onRequestDeleteAccount} className=''>
-                {props.t('Delete Account')}
-                </Button>
+                <Button type='button' variant='contained' color='secondary' component={Link} to={'/'}>{props.t('Cancel')}</Button>
+                <Button type='button' variant='contained' className='ButtonStandard ButtonStandard__Red' onClick={props.onRequestDeleteAccount}>{props.t('Delete Account')}</Button>
             </div>
         </Form>
     );

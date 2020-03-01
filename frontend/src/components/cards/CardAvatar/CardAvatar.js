@@ -8,8 +8,8 @@ import Avatar from '@material-ui/core/Avatar';
 // CSS
 import './styles.css';
 
-// Functional component to render an advert card
-function CardAvatar (props) {
+// Functional component to render an avatar
+export default function CardAvatar (props) {
 
     const { login, avatar, name } = props;
 
@@ -28,5 +28,3 @@ CardAvatar.propTypes = {
     avatar: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
 }
-
-export default CardAvatar;

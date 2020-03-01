@@ -1,34 +1,20 @@
-/* Full screen */
-.Container.Chats { padding: 0 !important; }
-
 /* Section */
-.Main__Section.Chat {
+.Section__WrapperChats {
     max-height: 100%;
     padding: 0 !important;
 }
 
-.Main__Section.Chat .ChatPanel {
+.Section__WrapperChats .ChatPanel {
     max-height: 100vh;
 }
 
-.Main__Section.Chat {
+.Section__WrapperChats {
     max-height: 100%;
 }
 
-.Main__Section.Chat .Section__Content { 
-    padding: 0 10px;
-    margin: 1rem 0; 
-}
-
-.Main__Section.Chat .Content__Title { margin: 0; }
-.Main__Section.Chat .Section__Content .Text { display: none; }
-
 /* Media queries */
 @media only screen and (min-width : 800px) {
-    .Main__Section.Chat { padding: 1rem 0; }
-    .Main__Section.Chat .Content__Title { margin: 1rem 0; }
-    .Main__Section.Chat .Section__Content .Text { display: block; }
-    .Container.Chats { padding: 20px 10px !important; }
+    .Section__WrapperChats { padding: 1rem 0; }
 }
 
 /* Reconnect */

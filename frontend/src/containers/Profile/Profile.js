@@ -5,11 +5,12 @@ import { withNamespaces } from 'react-i18next';
 // Material UI
 import Container from '@material-ui/core/Container';
 // Components
-import ProfileForm from '../../components/forms/ProfileForm';
+import HeaderProfile from '../../components/headers/HeaderProfile';
 import ModalConfirm from '../../components/modals/ModalConfirm';
+import ProfileForm from '../../components/forms/ProfileForm';
+import Loading from '../../components/utils/Loading';
 import NavBar from '../../components/layout/NavBar';
 import Footer from '../../components/layout/Footer';
-import Loading from '../../components/utils/Loading';
 // Models
 import Session from '../../models/Session';
 // Own modules
@@ -55,13 +56,8 @@ function Profile(props) {
         <React.Fragment>
         <NavBar session={props.session} onLogout={props.logout}/>
         <Container className='Container'>
-            <main className='Main__Section Profile'>
-                <div className='Section__Content'>
-                    <div className='Content__Title'>
-                        <h1 className='Title'>{t('Your user profile')}</h1>
-                    </div>
-                    <p className='Text'>{t('From this section you can modify your profile MORE')}</p>
-                </div>
+            <main className='Section__Wrapper Profile'>
+                <HeaderProfile/>
                 <ProfileForm    noValidate 
                                 autoComplete='off' 
                                 className='Profile__Form'

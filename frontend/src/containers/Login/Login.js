@@ -21,10 +21,10 @@ function Login(props) {
     useEffect(() => {
         if (token) {
             activateAccount(token)
-            .then(result => enqueueSnackbar(result.data.description, { variant: 'success', }))
+            .then(result => enqueueSnackbar(t('Account activated successfully'), { variant: 'success', }))
             .catch(error => enqueueSnackbar(error, { variant: 'error', }))
         }
-    }, [token, activateAccount, enqueueSnackbar]);
+    }, [token, activateAccount, enqueueSnackbar, t]);
     
     // Dispatch login action
     const submitLogin = (inputs) => {

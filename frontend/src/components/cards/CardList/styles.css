@@ -82,9 +82,9 @@
 }
 
 .CardList__Footer .CardList__Favorite { min-width: 0; }
-.CardList__EditButtons { display: flex; flex-direction: row; justify-content: flex-start; }
-.CardList__EditButtons .ButtonWc { min-width: 0; padding: .25rem .5rem !important; margin-left: 5px;}
-.CardList__EditButtons .ButtonWc:first-child { margin-left: 0; }
+.CardList__Buttons { display: flex; flex-direction: row; justify-content: flex-start; }
+.CardList__Buttons .ButtonIcon { margin-left: 5px;}
+.CardList__Buttons .ButtonIcon:first-child { margin-left: 0; }
 
 @media only screen and (min-width : 600px) {
     .CardList__Header {

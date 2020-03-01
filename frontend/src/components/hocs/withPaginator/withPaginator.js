@@ -38,7 +38,7 @@ const withPaginator = (WrappedComponent) => {
             let disableBack = !currentPage && !callAPI;
             let Icon = !callAPI?KeyboardArrowLeft:RotateLeftIcon;
             return  <Button size='small' onClick={()=>!callAPI?handleMovePaginator(-1):props.onfetchIterateAdverts(-1)} 
-                            disabled={disableBack} className='ButtonWc ButtonWc__Green'>
+                            disabled={disableBack} className='ButtonStandard ButtonStandard__Green'>
                         <Icon />
                     </Button>
         }
@@ -50,7 +50,7 @@ const withPaginator = (WrappedComponent) => {
             let disableNext = ( numPages <= currentPage + 1 ) && !callAPI;
             let Icon = !callAPI?KeyboardArrowRight:RotateLeftIcon;
             return  <Button size='small' onClick={()=>!callAPI?handleMovePaginator(1):props.onfetchIterateAdverts(1)} 
-                            disabled={disableNext} className='ButtonWc ButtonWc__Green'>
+                            disabled={disableNext} className='ButtonStandard ButtonStandard__Green'>
                         <Icon />
                     </Button>
         }

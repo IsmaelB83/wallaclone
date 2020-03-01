@@ -5,7 +5,9 @@ import Container from '@material-ui/core/Container';
 // Components
 import ModalConfirm from '../../components/modals/ModalConfirm';
 import AdvertList from '../../components/adverts/AdvertList';
-import SectionHeader from '../../components/SectionHeader';
+import HeaderFavorites from '../../components/headers/HeaderFavorites';
+import HeaderPublished from '../../components/headers/HeaderPublished';
+import HeaderHistory from '../../components/headers/HeaderHistory';
 import Footer from '../../components/layout/Footer';
 import NavBar from '../../components/layout/NavBar';
 // Own modules
@@ -36,7 +38,7 @@ export default function SectionList (props) {
                 fetchSoldHistory()
                 .catch(error => enqueueSnackbar(t('Error loading USER sold history ERROR', {user: sessionLogin, error}), { variant: 'error' }));
                 break;
-            case 'favorites':
+            case 'favorites':                
                 fetchFavorites()
                 .catch(error => enqueueSnackbar(t('Error loading favorites ERROR', {error}), { variant: 'error' }));
                 break;
@@ -51,26 +53,22 @@ export default function SectionList (props) {
 
     // Paginación sobre la colección de anuncios
     const fetchIterateAdvertsHandler = (direction) => {
-        return fetchIterateAdverts(direction)
-        .catch(error => enqueueSnackbar(t('Error iterating adverts ERROR', {error}), { variant: 'error' }));
+        fetchIterateAdverts(direction).catch(error => enqueueSnackbar(t('Error iterating adverts ERROR', {error}), { variant: 'error' }));
     }
 
     // Favorito
     const favoriteAdvertHandler = slug => {
-        setFavorite(slug)
-        .catch(error => enqueueSnackbar(t('Error adding advert to favorite ERROR', {error}), { variant: 'error' }));
+        setFavorite(slug).catch(error => enqueueSnackbar(t('Error adding advert to favorite ERROR', {error}), { variant: 'error' }));
     }
 
     // Reservado
     const bookAdvertHandler = slug => {
-        bookAdvert(slug)
-        .catch(error => enqueueSnackbar(t('Error setting advert as booked ERROR', {error}), { variant: 'error' }));
+        bookAdvert(slug).catch(error => enqueueSnackbar(t('Error setting advert as booked ERROR', {error}), { variant: 'error' }));
     };
 
     // Vendido
     const sellAdvertHandler = slug => {
-        sellAdvert(slug)
-        .catch(error => enqueueSnackbar(t('Error setting advert as sold ERROR', {error}), { variant: 'error', }));
+        sellAdvert(slug).catch(error => enqueueSnackbar(t('Error setting advert as sold ERROR', {error}), { variant: 'error', }));
     };
 
     // Open chat
@@ -78,12 +76,14 @@ export default function SectionList (props) {
         // Check first if already have a chat for that advert
         const i = chats.findIndex(c => c.advert.slug === slug);
         if (i < 0 ) {
-            createChat(slug)
-            .catch (error => enqueueSnackbar(t('Error opening a new chat session ERROR', {error}), { variant: 'error' }));
+            createChat(slug).catch (error => enqueueSnackbar(t('Error opening a new chat session ERROR', {error}), { variant: 'error' }));
         } else {
             history.push(`/chats/${chats[i]._id}`);
         }
     }
+
+    // Edit Advert
+    const editAdvertHandler = slug => history.push(`/advert/edit/${slug}`);
 
     // Borrar anuncio
     const [showModalDelete, setShowModalDelete] = useState(false);
@@ -112,8 +112,8 @@ export default function SectionList (props) {
         <React.Fragment>
             <NavBar session={session} onLogout={logout}/>
             <Container className='Container'>
-                <main className='Main__Section Published'>
-                    <SectionHeader header={listType} login={login} session={session} totalCount={totalCount}/>
+                <main className='Section__Wrapper'>
+                    {HeaderSection(listType, totalCount, login, session)}
                     <AdvertList 
                         type='list' 
                         start={start}
@@ -130,6 +130,7 @@ export default function SectionList (props) {
                         onSetCurrentPage={setCurrentPage}
                         onfetchIterateAdverts={fetchIterateAdvertsHandler}
                         onOpenChat={openChatHandler}
+                        onEditAdvert={editAdvertHandler}
                     />
                 </main>
                 {   showModalDelete && 
@@ -145,3 +146,15 @@ export default function SectionList (props) {
     );
 }
 
+function HeaderSection(listType, totalCount, login, session) {
+    switch (listType) {
+        case 'favorites':
+            return <HeaderFavorites totalCount={totalCount}/>;
+        case 'published':
+            return <HeaderPublished login={login} session={session} totalCount={totalCount}/>;
+        case 'history':
+            return <HeaderHistory totalCount={totalCount}/>;
+        default:
+            return null;
+    }
+  }

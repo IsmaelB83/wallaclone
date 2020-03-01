@@ -1,0 +1,33 @@
+.NoResults {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    width: 90%;
+    margin-top: 1rem;
+}
+
+.NoResults__Title {
+    color: var(--main-color-dark);
+    letter-spacing: .35px;
+    text-transform: lowercase;
+    font-weight: 400;
+    font-size: 1.25rem;
+    text-align: center;
+}
+
+.NoResults__Text {
+    color: #253238;
+    letter-spacing: .35px;
+    text-transform: lowercase;
+    font-weight: 400;
+    font-size: .9rem;
+    text-align: center;
+}
+
+.NoResults__Image {
+    margin: 1rem 0;
+    width: 100px;
+}
+

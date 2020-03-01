@@ -21,10 +21,12 @@
     "Updated": "Actualizado",
     "Edit": "Editar",
     "Book": "Reservar",
+    "BookCancel": "Anular reserva",
     "Booked": "Reservado",
     "booked": "reservado",
     "Cancel Book": "Cancelar Reserva",
     "Sold": "Vendido",
+    "SoldCancel": "Anular venta",
     "sold": "vendido",
     "Cancel Sold": "Cancelar Venta",
     "Delete": "Eliminar",
@@ -158,5 +160,8 @@
     "My Ads": "Mis anuncios",
     "History": "Historial",
     "Chats": "Chats",
-    "You have received new messages": "Chat arrived"
+    "Chat arrived USER": "Mensaje recibido de {{user}}",
+    "No chats for your user MORE": "Seleccione un anuncio de su interés para abrir un chat con el propietario y tenerlo disponible en este área",
+    "No results found": "No se han encontrado resultados",
+    "Account activated successfully": "Cuenta activada correctamente"
 }

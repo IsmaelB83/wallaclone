@@ -62,7 +62,7 @@
     justify-content: space-between;
     align-items: center;
     position: absolute;
-    top: -40px;
+    top: -42px;
 }
 
 .CardTile__ContentType .ButtonTransparent { 
@@ -96,7 +96,7 @@
     justify-self: flex-end;
 }
 
-.CardTile__Actions button:first-child { margin-right: 5px; }
+.CardTile__Actions .ButtonIcon:first-child { margin-right: 5px; }
 
 /* Footer */
 .CardTile__Footer {

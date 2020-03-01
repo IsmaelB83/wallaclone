@@ -1,6 +1,7 @@
 // NPM Modules
 import React from 'react';
 import Moment from 'react-moment';
+import PropTypes from 'prop-types';
 // Material UI
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 // Components
@@ -11,13 +12,14 @@ import { ADVERT_CONSTANTS as CONSTANTS } from '../../../models/Advert';
 // Assets
 // CSS
 import './styles.css';
+import Chat from '../../../models/Chat';
 
 
 // Component to render a Chat panel
 export default function ChatTitle(props) {
 
     // Destructure props
-    const { active, chat, owner, index } = props;
+    const { active, chat, owner } = props;
     const { onChatSelected, t } = props;
     
     const status = chat.advert.sold?CONSTANTS.STATUS.SOLD:CONSTANTS.STATUS.BOOKED;
@@ -26,7 +28,7 @@ export default function ChatTitle(props) {
         last = `${chat.messages[chat.messages.length-1].text.substring(0,25)}...`;
     }
 
-    const clickHandler = () => onChatSelected(index);
+    const clickHandler = () => onChatSelected(chat._id);
 
     return (
         <article className={`CardChat ${active?'CardChat--active':''}`} onClick={clickHandler}>
@@ -44,4 +46,12 @@ export default function ChatTitle(props) {
             </figcaption>
         </article>
     );
+}
+
+ChatTitle.propTypes = {
+    active: PropTypes.bool.isRequired,
+    chat: PropTypes.instanceOf(Chat),
+    owner: PropTypes.object.isRequired,
+    onChatSelected: PropTypes.func.isRequired,
+    t: PropTypes.func.isRequired,
 }

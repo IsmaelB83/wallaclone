@@ -21,10 +21,12 @@
     "Updated": "Updated",
     "Edit": "Edit",
     "Book": "Book",
+    "BookCancel": "Cancel Book",
     "Booked": "Booked",
     "booked": "booked",
     "Cancel Book": "Cancel Book",
     "Sold": "Sold",
+    "SoldCancel": "Cancel Sold",
     "sold": "sold",
     "Cancel Sold": "Cancel Sold",
     "Delete": "Delete",
@@ -154,5 +156,8 @@
     "My Ads": "My Ads",
     "History": "History",
     "Chats": "Chats",
-    "You have received new messages": "Chat arrived"
+    "Chat arrived USER": "Chat arrived from {{user}}",
+    "No chats for your user MORE": "Select an advert of your interest an open a new chat with the owner to have it here",
+    "No results found": "No results found",
+    "Account activated successfully": "Account activated successfully"
 }

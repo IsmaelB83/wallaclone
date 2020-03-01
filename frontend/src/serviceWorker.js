@@ -177,9 +177,12 @@ window._controlledPromise = new Promise(function(resolve) {
         });
     };
     
-    if (navigator.serviceWorker.controller) {
-        resolveWithRegistration();
-    } else {
-        navigator.serviceWorker.addEventListener('controllerchange', resolveWithRegistration);
+    try {
+        if (navigator.serviceWorker.controller) {
+            resolveWithRegistration();
+        } else {
+            navigator.serviceWorker.addEventListener('controllerchange', resolveWithRegistration);
+        }            
+    } catch (error) {
     }
 });

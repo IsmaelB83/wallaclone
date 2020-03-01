@@ -11,6 +11,7 @@ const withAdvertActions = (WrappedComponent) => {
         sellAdvert = () => this.props.onSellAdvert(this.props.advert.slug);
         bookAdvert = () => this.props.onBookAdvert(this.props.advert.slug);
         deleteAdvert = () => this.props.onDeleteAdvert(this.props.advert.slug);
+        editAdvert = () => this.props.onEditAdvert(this.props.advert.slug);
         openChat = () => this.props.onOpenChat(this.props.advert.slug);
 
         render() { 
@@ -21,7 +22,8 @@ const withAdvertActions = (WrappedComponent) => {
                         onBookAdvert={this.bookAdvert}
                         onDeleteAdvert={this.deleteAdvert}
                         onOpenChat={this.openChat}
-            /> 
+                        onEditAdvert={this.editAdvert}
+                    /> 
         }
     }
 }

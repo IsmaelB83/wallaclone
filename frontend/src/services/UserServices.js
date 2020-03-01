@@ -5,6 +5,7 @@ import Querystring from 'querystring';
 // Own modules
 // Models
 import Advert from '../models/Advert';
+import Session from '../models/Session';
 // Assets
 // CSS
 
@@ -54,7 +55,7 @@ export default {
         }
         // Call endpoint and return
         return Axios.put( baseURL, formData, config )
-        .then(res => res.data.user)
+        .then(res => new Session(res.data.user))
     },
 
     /**

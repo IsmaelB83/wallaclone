@@ -1,6 +1,4 @@
- /**
- * Simple reset
- */
+ /* Simple reset */
  *, *::before, *::after {
   margin: 0;
   padding: 0;
@@ -8,12 +6,12 @@
 }
 
 :root {
-  font-size: 16px;
+  font-size: 16px; /* 1rem */
   font-family: 'Lato', sans-serif;
 }
 
 body { 
-    background-color: #F3F5F6;
+    background-color: var(--main-background);
 }
 
 ul, li {
@@ -27,13 +25,19 @@ img, embed, object, video {
   width: 100%;
 }
 
-/**
-* Color palette (generated with https://coolors.co/)
-*/
+a { 
+    text-decoration: none; 
+}
+
+/* Color palette */
 :root {
+    /* Greens */
     --main-color: rgb(19, 193, 172);
     --main-color-dark: rgb(14, 147, 131);
     --main-color-light:  rgb(168, 245, 236);
+    /* Background */
+    --main-background: rgb(243, 245, 246);
+
     --dark-grey: rgb(88, 88, 88);
     --medium-grey: rgb(123, 123, 124);
     --light-grey: rgba(216, 220, 224, .7);
@@ -47,179 +51,52 @@ img, embed, object, video {
     --footer-height: 60px;
 }
 
-/**
-* Estilos margenes, etc.
-*/
-.mr-1 { margin-right: 5px; }
-
+/* Layout */
 #root {
     height: 100vh;
     display: flex;
     flex-direction: column;
 }
 
-.Container {
+.Container { 
     flex-grow: 1; 
-    margin-top: var(--navbar-height);
-    margin-bottom: var(--footer-height);
+    padding-top: calc(var(--navbar-height) + 1rem);
+    padding-bottom: calc(var(--footer-height) + 1rem);
+}
+.Container__Fixed { overflow: hidden; }
+
+@media (max-width: 750px) {
+    .Container { 
+        padding-left: .6rem !important;
+        padding-right: .6rem !important; 
+    }
 }
 
-.Container--OverflowY {
-    overflow: hidden;
-}
-
-
-/* Estilos de una sección de la app */
-.Main__Section {
-    padding: 1rem 0;
-}
-
-.Main__Section .Section__Title {
-    background: linear-gradient(-45deg, var(--main-color), var(--main-color-light));
-    padding: 1rem;
-    border: 1px solid var(--main-color);
-    border-radius: 5px;
-    box-shadow: 0 3px 5px rgba(0, 0, 0, .3);
-}
-
-.Main__Section .Section__Title h2 {
-    text-align: center;
-    text-transform: uppercase;
-    font-size: 1.25rem;
-    color: white;
-    text-shadow: 2px 2px 2px rgba(0,0,0,.5);
-}
-
-.Section__Content {
+.Section__Wrapper {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    margin-bottom: 1rem;
-}
-
-.Section__Content .Content__Title { 
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    font-weight: 400; 
-    width: 100%;
-    margin-bottom: 1rem;
-}
-
-.Section__Content .Content__Title .Counter { 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: .75rem;
-    text-transform: uppercase;
-}
-
-.Section__Content .Content__Title .Counter span { 
-    font-size: 2rem;
-}
-
-.Section__Content .Content__Data { 
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    padding: 1.5rem 0;
-    color: #607D8B;
-}
-
-.Section__Content .Text { max-width: 95%; }
-.Section__Content .Text:not(:last-child) { margin-bottom: .5rem; }
-.Section__Content .Button__AddProduct {
-    border-radius: 15px;
-    background-color: var(--main-color);
-    text-transform: capitalize;
-    align-self: flex-end;
-}
-
-.Section__Content .Button__AddProduct:hover { background-color: var(--main-color-dark); }
-
-/**
- * Links
- */
-a {
-  text-decoration: none;
-}
-
-.disabledLink {
-  cursor: not-allowed;
-}
-
-.disabledLink > a {
-  color: currentColor;
-  display: inline-block;  /* For IE11/ MS Edge bug */
-  pointer-events: none;
-  text-decoration: none;
+    justify-self: flex-start;
 }
 
 /* Buttons */
-.ButtonIcon {
-  background-color: transparent !important;
-  transition: 300ms all ease-in; 
-  border: none !important;
-  cursor: pointer;
-  outline:none;
-  color: black;
-  background-color: white !important;
-  border: 1px solid var(--light-grey) !important;
-  padding: 2px;
-  border-radius: 4px !important;
-}
-
-.ButtonIcon:hover { 
-    transform: scale(1.1); 
-}
-
-.FavoriteIcon:hover { color: red; }
-.ChatIcon:hover { color: var(--main-color); }
-
-.FavoriteIcon.FavoriteIcon--Off { color: black; }
-.FavoriteIcon.FavoriteIcon--On { color: red; }
-
-
-.ButtonWc {
+.ButtonStandard {
     color: white !important;
     padding-left: 1rem !important;
     padding-right: 1rem !important;
     background-color: white; 
 }
 
-.ButtonWc:disabled, .ButtonWc.Mui-disabled {
+.ButtonStandard:disabled, .ButtonStandard.Mui-disabled {
   background-color: var(--light-grey) !important;
   color: white !important;
   cursor: not-allowed !important;
   opacity: .5;
 }
 
-.ButtonWc__Clear { color: var(--medium-grey) !important; }
-.ButtonWc__Clear:Hover { color: white !important; }
-.ButtonWc__Green { background-color: var(--main-color) !important; }
-.ButtonWc__Green:hover { background-color: var(--main-color-dark) !important; }
-.ButtonWc__Blue { background-color: var(--light-blue) !important; }
-.ButtonWc__Blue:hover { background-color: var(--dark-blue) !important; }
-.ButtonWc__Red { background-color: var(--light-red) !important; }
-.ButtonWc__Red:hover { background-color: var(--dark-red) !important; }
-.ButtonWc__ClearToNone:hover { background-color: transparent !important; }
-.ButtonWc__ClearToGreen:hover { background-color: var(--main-color) !important; }
-.ButtonWc__ClearToBlue:hover, .ButtonWc__ClearToBlue--active { background-color: var(--light-blue) !important; color: white !important; }
-.ButtonWc__ClearToRed:hover, .ButtonWc__ClearToRed--active{ background-color: var(--light-red) !important; color: white !important; }
-.ButtonWc__ClearToGray:hover { background-color: var(--dark-grey) !important; }
+.ButtonStandard__Green { background-color: var(--main-color) !important; }
+.ButtonStandard__Green:hover { background-color: var(--main-color-dark) !important; }
+.ButtonStandard__Red { background-color: var(--light-red) !important; }
+.ButtonStandard__Red:hover { background-color: var(--dark-red) !important; }
 
-.ml-1 {
-  margin-left: 10px;
-}
-
-@media (max-width: 750px) {
-    .Container { 
-        padding-left: 12px !important;
-        padding-right: 12px !important; }
-}
-
-/* Estilos generales de tags small */
-.MuiChip-sizeSmall { font-size: .8rem !important; }
-.MuiChip-iconSmall { width: .8rem !important; height: .8rem !important; }
+.FavoriteIcon.FavoriteIcon--Off { color: black; }
+.FavoriteIcon.FavoriteIcon--On { color: red; }

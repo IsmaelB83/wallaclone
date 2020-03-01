@@ -1,6 +1,7 @@
 // Node
 import React, { useState, useEffect } from 'react';
 import ScrollableFeed from 'react-scrollable-feed'
+import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 import moment from 'moment';
 // Material
@@ -20,8 +21,9 @@ import { CHAT_CONSTANTS } from '../../../models/Chat';
 // CSS
 import './styles.css';
 
-// Functional component to render an advert card
-function Chat(props) {
+
+// Functional component to render a chat conversation
+export default function Chat(props) {
 
     // Destructure props
     const { id, user, session, messages, online, name, t } = props;
@@ -62,6 +64,7 @@ function Chat(props) {
         } 
     }
 
+    // Calculata if two dates are in the same day of year or not
     function diffInDays(start, end) {
         const startAux = moment(start).clone().startOf('day');
         const endAux = moment(end).clone().startOf('day');
@@ -117,5 +120,13 @@ function Chat(props) {
     )
 }
 
-export default Chat;
 
+Chat.propTypes = {
+    id: PropTypes.string.isRequired,
+    user: PropTypes.object.isRequired,
+    session: PropTypes.object.isRequired,
+    messages: PropTypes.array,
+    online: PropTypes.bool,
+    name: PropTypes.string.isRequired,
+    t: PropTypes.func.isRequired
+}

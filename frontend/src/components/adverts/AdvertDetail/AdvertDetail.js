@@ -20,6 +20,7 @@ import CardImage from '../../cards/CardImage';
 // Own Modules
 import i18n from '../../../utils/i18n';
 // Models
+import Advert from '../../../models/Advert';
 // Components
 // Assets
 // CSS
@@ -79,12 +80,12 @@ export default function AdvertDetail(props) {
                 {   !ownAdvert && isLogin &&
                     <React.Fragment>
                         <Button startIcon={<FavoriteIcon className={`FavoriteIcon FavoriteIcon--${favorite?'On':'White'}`}/>} 
-                                className='ButtonWc ButtonWc__Green Span2'
+                                className='ButtonStandard ButtonStandard__Green Span2'
                                 onClick={onFavoriteAdvert}>
                             {t('Favorite')}
                         </Button>
                         <Button startIcon={<ForumIcon/>} 
-                                className='ButtonWc ButtonWc__Green Span2'
+                                className='ButtonStandard ButtonStandard__Green Span2'
                                 onClick={onOpenChat}>
                             {t('Chat')}
                         </Button>
@@ -92,28 +93,29 @@ export default function AdvertDetail(props) {
                 }
                 {   ownAdvert && 
                     <React.Fragment>
-                        <Button className='ButtonWc ButtonWc__Green Span2'
+                        <Button className='ButtonStandard ButtonStandard__Green Span2'
                                 startIcon={<EditIcon />} 
                                 component={Link} 
                                 to={`/advert/edit/${slug}`}
                                 disabled={booked || sold}>
                                 {t('Edit')}
                         </Button>
-                        <Button className='ButtonWc ButtonWc__Green' 
+                        <Button className='ButtonStandard ButtonStandard__Green' 
                                 onClick={onBookAdvert}
                                 startIcon={<BookmarkBorderOutlinedIcon/>}
                                 disabled={sold}>
-                                {t('Book')}
+                                {t(booked?'BookCancel':'Book')}
                         </Button>
-                        <Button className='ButtonWc ButtonWc__Green' 
+                        <Button className='ButtonStandard ButtonStandard__Green' 
                                 onClick={onSellAdvert}
-                                startIcon={<AttachMoneyOutlinedIcon/>}>
-                                {t('Sold')}
+                                startIcon={<AttachMoneyOutlinedIcon/>}
+                                disabled={booked}>
+                                {t(sold?'SoldCancel':'Sold')}
                         </Button>
-                        <Button className='ButtonWc ButtonWc__Red Span2' 
+                        <Button className='ButtonStandard ButtonStandard__Red Span2' 
                                 onClick={onDeleteAdvert}
                                 startIcon={<DeleteOutlineOutlinedIcon/>}
-                                disabled={sold}>
+                                disabled={booked || sold}>
                                 {t('Delete')}
                         </Button>
                     </React.Fragment>
@@ -125,7 +127,15 @@ export default function AdvertDetail(props) {
 }
 
 AdvertDetail.propTypes = {
-  advert: PropTypes.instanceOf(Object).isRequired,
+  advert: PropTypes.instanceOf(Advert).isRequired,
+  onFavoriteAdvert: PropTypes.func.isRequired,
+  onOpenChat: PropTypes.func.isRequired,
+  onBookAdvert: PropTypes.func.isRequired,
+  onSellAdvert: PropTypes.func.isRequired,
+  onDeleteAdvert: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired,
   isFetching: PropTypes.bool,
+  ownAdvert: PropTypes.bool,
+  isLogin: PropTypes.bool,
   error: PropTypes.string,
 }

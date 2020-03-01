@@ -1,7 +1,9 @@
 // NPM Modules
 import React from 'react';
+import PropTypes from 'prop-types';
 // Material UI
 // Own Components
+import NoResults from '../../utils/NoResults';
 import CardList from '../../cards/CardList';
 import CardTile from '../../cards/CardTile';
 import Loading from '../../utils/Loading';
@@ -21,10 +23,10 @@ const CARD_TYPES = {
 export default function AdvertList (props) {
     
     // Translate
-    const { onBookAdvert, onSellAdvert, onDeleteAdvert, onFavoriteAdvert, onOpenChat } = props;
-    const { session, adverts, type, isLoading, t } = props;
+    const { onBookAdvert, onSellAdvert, onDeleteAdvert, onFavoriteAdvert, onOpenChat, onEditAdvert, t } = props;
+    const { session, adverts, type, isLoading } = props;
 
-    // Determina el tipo de Card a renderizar
+    // Type of card to render
     const Card = CARD_TYPES[type];
     return(
         <section className={`${type==='tiles'?'AdvertListTiles':'AdvertListDetail'}`}>
@@ -40,10 +42,25 @@ export default function AdvertList (props) {
                             onDeleteAdvert={onDeleteAdvert}
                             onFavoriteAdvert={onFavoriteAdvert}
                             onOpenChat={onOpenChat}
+                            onEditAdvert={onEditAdvert}
                     />
             )}
-            { !isLoading && !adverts.length && <h2 className='Home__Subtitle'>{t('Sorry, we couldn\'t find any results matching the filter criteria')}</h2> }
+            { !isLoading && !adverts.length && <NoResults text={t('Sorry, we couldn\'t find any results matching the filter criteria')}/> }
             { isLoading && <Loading text={t('Loading adverts')}/> }
         </section>
     );
+}
+
+AdvertList.propTypes = {
+    session: PropTypes.object,
+    adverts: PropTypes.array.isRequired,
+    type: PropTypes.string.isRequired,
+    isLoading: PropTypes.bool,
+    onBookAdvert: PropTypes.func, 
+    onSellAdvert: PropTypes.func, 
+    onDeleteAdvert: PropTypes.func, 
+    onFavoriteAdvert: PropTypes.func, 
+    onOpenChat: PropTypes.func, 
+    onEditAdvert: PropTypes.func,
+    t: PropTypes.func.isRequired,
 }

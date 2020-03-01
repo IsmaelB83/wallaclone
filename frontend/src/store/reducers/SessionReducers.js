@@ -14,11 +14,18 @@ export function session (state = initialState.session, action) {
             return initialState.session;
         case TYPES.LOGIN_SUCCESS:
         case TYPES.LOGIN_TOKEN_SUCCESS:
+            return action.session;
         case TYPES.EDIT_ACCOUNT_SUCCESS:
-            return {...action.session}
+            return {
+                ...state,
+                avatar: action.user.avatar,
+                email: action.user.email,
+                login: action.user.login,
+                name: action.user.name
+            }
         case TYPES.LOGOUT_SUCCESS:
         case TYPES.LOGOUT_FAILURE:
-                return initialState.session;
+            return initialState.session;
         case TYPES.SET_FAVORITE_SUCCESS:
             const i = state.favorites.indexOf(action.advert._id);
             let favorites = []

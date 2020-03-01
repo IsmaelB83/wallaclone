@@ -6,6 +6,7 @@ import { withNamespaces } from 'react-i18next';
 import Container from '@material-ui/core/Container';
 // Components
 import AdvertForm from '../../components/forms/AdvertForm';
+import HeaderAdvertEdit from '../../components/headers/HeaderAdvertEdit';
 import NavBar from '../../components/layout/NavBar';
 import Footer from '../../components/layout/Footer';
 import Loading from '../../components/utils/Loading';
@@ -62,25 +63,8 @@ function Edit(props) {
         <React.Fragment>
             <NavBar session={props.session} onLogout={props.logout}/>
             <Container className='Container'>
-                <main className='Main__Section Edit'>
-                    <div className='Section__Content'>
-                        <div className='Content__Title'>
-                            { mode === 'edit' && <h1 className='Title'>{t('Edit Product')}</h1> }
-                            { mode === 'create' && <h1 className='Title'>{t('New Product')}</h1> }
-                        </div>
-                        { mode === 'edit' && 
-                            <React.Fragment>
-                                <p className='Text'>{t('Edit the product details and MORE')}</p>
-                                <p className='Text'>{t('You cant modify the favorites MORE')}</p>
-                            </React.Fragment>
-                        }
-                        { mode === 'create' &&
-                            <React.Fragment>
-                                <p className='Text'>{t('Create the product details and MORE')}</p>
-                                <p className='Text'>{t('From now on go to publish MORE')}</p>
-                            </React.Fragment>
-                        }
-                    </div>
+                <main className='Section__Wrapper Edit'>
+                    <HeaderAdvertEdit mode={mode}/>
                     { advert &&
                         <AdvertForm noValidate 
                                     autoComplete='off' 

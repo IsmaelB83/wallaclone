@@ -64,10 +64,8 @@ export default function App(props) {
     }
     
     // New chats received
-    const notifyNewChats = () => {
-        if (!window.location.pathname.startsWith('/chats')) {
-            enqueueSnackbar(t('You have received new messages'), { variant:'success' });
-        }
+    const notifyNewChats = user => {
+        enqueueSnackbar(t('Chat arrived USER', {user}), { variant:'success' });
     }
 
     // Session storage

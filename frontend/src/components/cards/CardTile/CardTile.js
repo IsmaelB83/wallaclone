@@ -1,18 +1,19 @@
 // NPM Modules
 import React from 'react';
+import Moment from 'react-moment';
+import PropTypes from 'prop-types';
 import i18n from '../../../utils/i18n';
 import { Link } from "react-router-dom";
-import Moment from 'react-moment';
 // Material UI
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ForumIcon from '@material-ui/icons/Forum';
 // Own components
 import AdvertChip from '../../adverts/AdvertChip';
+import ButtonIcon from '../../buttons/ButtonIcon';
 import CardAvatar from '../CardAvatar';
 import CardImage from '../CardImage';
 import CardTags from '../CardTags';
 // Own modules
 // Models
+import Advert from '../../../models/Advert';
 // Assets
 // CSS
 import './styles.css';
@@ -38,12 +39,8 @@ export default function CardTile (props) {
                     <AdvertChip type='type' value={type}/>
                     { isLogin && !isMyAdvert &&
                         <div className='CardTile__Actions'>
-                            <button className='ButtonIcon' onClick={onOpenChat}>
-                                <ForumIcon className='ChatIcon'/>
-                            </button>
-                            <button className='ButtonIcon' onClick={onFavoriteAdvert}>
-                                <FavoriteIcon className={`FavoriteIcon FavoriteIcon--${favorite?'On':'Off'}`}/>
-                            </button>
+                            <ButtonIcon onClick={onOpenChat} icon='chat'/>
+                            <ButtonIcon onClick={onFavoriteAdvert} icon='favorite' active={favorite}/>
                         </div>
                     }
                 </div>                
@@ -58,4 +55,12 @@ export default function CardTile (props) {
             </div>
         </article>
     );
+}
+
+CardTile.propTypes = {
+    advert: PropTypes.instanceOf(Advert).isRequired,    
+    isMyAdvert: PropTypes.bool,
+    isLogin: PropTypes.bool,
+    onOpenChat: PropTypes.func,
+    onFavoriteAdvert: PropTypes.func
 }

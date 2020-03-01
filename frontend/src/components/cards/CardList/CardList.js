@@ -3,31 +3,28 @@ import React from 'react';
 import Moment from 'react-moment';
 import { Link } from "react-router-dom";
 import i18n from '../../../utils/i18n';
+import PropTypes from 'prop-types';
 // Material UI
-import BookmarkBorderOutlinedIcon from '@material-ui/icons/BookmarkBorderOutlined';
-import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
-import AttachMoneyOutlinedIcon from '@material-ui/icons/AttachMoneyOutlined';
-import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import Button from '@material-ui/core/Button';
-import ForumIcon from '@material-ui/icons/Forum';
 // Own components
+import ButtonIcon from '../../buttons/ButtonIcon';
 import AdvertChip from '../../adverts/AdvertChip';
 import CardImage from '../CardImage';
 import CardAvatar from '../CardAvatar';
 import CardTags from '../CardTags';
 // Own modules
 // Models
+import Advert from '../../../models/Advert';
 // Assets
 // CSS
 import './styles.css';
+
 
 // Functional component to render an advert card
 export default function CardList (props) {
     
     // Props destructuring
     const { slug, name, thumbnail, tags, price, sold, type, booked, favorite, createdAt, user } = props.advert;
-    const { onFavoriteAdvert, onBookAdvert, onSellAdvert, onDeleteAdvert, onOpenChat } = props;
+    const { onFavoriteAdvert, onBookAdvert, onSellAdvert, onDeleteAdvert, onOpenChat, onEditAdvert } = props;
     const { isMyAdvert, isLogin } = props;
 
     // Render
@@ -50,33 +47,17 @@ export default function CardList (props) {
                             <CardAvatar login={user.login} name={user.name} avatar={user.avatar}/>
                         }
                         { !isMyAdvert && isLogin &&
-                            <div>
-                                <Button type='button' className='CardList__Favorite' onClick={onOpenChat}>
-                                    <ForumIcon className='ChatIcon'/>
-                                </Button>
-                                <Button type='button' className='CardList__Favorite' onClick={onFavoriteAdvert}>
-                                    <FavoriteIcon className={`FavoriteIcon FavoriteIcon--${favorite?'On':'Off'}`}/>
-                                </Button>
+                            <div className='CardList__Buttons'>
+                                <ButtonIcon icon='chat' onClick={onOpenChat} />
+                                <ButtonIcon icon='favorite' active={favorite} onClick={onFavoriteAdvert} />
                             </div>
                         }
                         { isMyAdvert &&
-                            <div className='CardList__EditButtons'>
-                                <Button type='button' className={`ButtonWc ButtonWc__Clear ButtonWc__ClearToBlue ${booked && 
-                                        'ButtonWc__ClearToBlue--active'}`} disabled={sold} variant='contained' onClick={onBookAdvert}>
-                                    <BookmarkBorderOutlinedIcon/>
-                                </Button>
-                                <Button type='button' className={`ButtonWc ButtonWc__Clear ButtonWc__ClearToRed ${sold && 'ButtonWc__ClearToRed--active'}`} 
-                                        disabled={booked} variant='contained' onClick={onSellAdvert}>
-                                    <AttachMoneyOutlinedIcon/>
-                                </Button>
-                                <Button type='button' className='ButtonWc ButtonWc__Clear ButtonWc__ClearToGreen' 
-                                        disabled={sold} variant='contained' component={Link} to={`/advert/edit/${slug}`}>
-                                    <EditOutlinedIcon/>
-                                </Button>
-                                <Button type='button' className='ButtonWc ButtonWc__Clear ButtonWc__ClearToGray' 
-                                        disabled={sold} variant='contained' onClick={onDeleteAdvert}>
-                                    <DeleteOutlineOutlinedIcon/>
-                                </Button>
+                            <div className='CardList__Buttons'>
+                                <ButtonIcon icon='book' disabled={sold} active={booked} onClick={onBookAdvert} />
+                                <ButtonIcon icon='sell' disabled={booked} active={sold} onClick={onSellAdvert} />
+                                <ButtonIcon icon='edit' disabled={sold} onClick={onEditAdvert}/>
+                                <ButtonIcon icon='delete' disabled={sold} onClick={onDeleteAdvert} />
                             </div>
                         }
                     </div>
@@ -84,4 +65,16 @@ export default function CardList (props) {
             </article>
         </React.Fragment>
     );
+}
+
+CardList.propTypes = {
+    advert: PropTypes.instanceOf(Advert).isRequired,
+    onFavoriteAdvert: PropTypes.func,
+    onBookAdvert: PropTypes.func,
+    onSellAdvert: PropTypes.func,
+    onDeleteAdvert: PropTypes.func,
+    onOpenChat: PropTypes.func,
+    onEditAdvert: PropTypes.func,
+    isMyAdvert: PropTypes.bool,
+    isLogin: PropTypes.bool,
 }

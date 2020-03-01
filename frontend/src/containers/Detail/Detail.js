@@ -8,6 +8,7 @@ import Container from '@material-ui/core/Container';
 import AdvertDetail from '../../components/adverts/AdvertDetail';
 import ModalConfirm from '../../components/modals/ModalConfirm';
 import Loading from '../../components/utils/Loading';
+import HeaderAdvertDetail from '../../components/headers/HeaderAdvertDetail';
 import NavBar from '../../components/layout/NavBar';
 import Footer from '../../components/layout/Footer';
 import Error from '../../components/error/Error';
@@ -93,14 +94,8 @@ function Detail(props) {
         <React.Fragment>
             <NavBar session={session} onLogout={props.logout}/>
             <Container className='Container'>
-                <main className='Main__Section Detail'>
-                    <div className='Section__Content'>
-                        <div className='Content__Title'>
-                            <h1 className='Title'>{t('Product detail')}</h1>
-                        </div>
-                        <p className='Text'>{t('In this section you can display MORE')}</p>
-                        <p className='Text'>{t('You can also add it to your favorites MORE')}</p>
-                    </div>
+                <main className='Section__Wrapper Detail'>
+                    <HeaderAdvertDetail/>
                     { !props.isFetching && advert && 
                         <AdvertDetail
                             advert={advert}

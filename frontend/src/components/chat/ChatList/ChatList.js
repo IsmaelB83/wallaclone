@@ -1,5 +1,6 @@
 // NPM Modules
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 // Material UI
 // Components
 import Chat from '../Chat';
@@ -28,30 +29,18 @@ export default function ChatList(props) {
     // Used in small devices
     const hideShowChatList = () => { setCollapsed(!collapsed); }
 
-    // Load chat from chats
-    const loadChat = index => {
-        const chat = chats[index];
-        let user = chat.users[0];
-        if (user._id === session._id) {
-            user = chat.users[1];
-        }
-        setUser(user);
-        setOnline(onlineUsers.indexOf(user.login) >= 0)
-        setCurrentChat(index);
-    }
-
-    // On chat selected hide/show chat list (mobile first)
-    const onChatSelected = index => { 
+    // On chat selected hide/show chat list (mobile first) then change
+    const onChatSelected = id => { 
         setCollapsed();
         hideShowChatList();
-        loadChat(index);
+        props.history.push(`/chats/${id}`);
     }
     
     // Carga del chat
     useEffect(() => {
         if (chats && chats.length > 0) {
-            let i = currentChat;
-            if (!currentChat && id) {
+            let i = 0;
+            if (id) {
                 const index = chats.findIndex(c => c._id === id);
                 i = index >= 0 ? index : 0;
             }
@@ -78,7 +67,6 @@ export default function ChatList(props) {
                         // Chat session
                         return <ChatTitle 
                                     key={index}
-                                    index={index}
                                     chat={chat}
                                     owner={owner}
                                     active={chats[currentChat]._id === chat._id}
@@ -108,4 +96,13 @@ export default function ChatList(props) {
         }
         </div>
     );
+}
+
+ChatList.propTypes = {
+    chats: PropTypes.array.isRequired,
+    onlineUsers: PropTypes.array,
+    session: PropTypes.object.isRequired,
+    isLoading: PropTypes.bool,
+    id: PropTypes.string,
+    t: PropTypes.func.isRequired,
 }

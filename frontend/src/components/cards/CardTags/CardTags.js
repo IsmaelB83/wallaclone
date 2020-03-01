@@ -8,11 +8,13 @@ import AdvertChip from '../../adverts/AdvertChip';
 import './styles.css';
 
 // Functional component to render an advert tags
-function CardTags (props) {
+export default function CardTags (props) {
+
+    const { tags } = props;
 
     return (
         <div className='CardTags'>
-        {   props.tags.map((value,i) => <AdvertChip key={i} type='tag' value={value}/> ) }
+        {   tags.map((value,i) => <AdvertChip key={i} type='tag' value={value}/> ) }
         </div>
     )
 }
@@ -20,5 +22,3 @@ function CardTags (props) {
 CardTags.propTypes = {
     tags: PropTypes.array.isRequired,
 }
-
-export default CardTags;

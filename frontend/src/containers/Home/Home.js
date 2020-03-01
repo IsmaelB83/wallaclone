@@ -77,7 +77,7 @@ function Home(props) {
         <React.Fragment>
             <NavBar session={props.session} onLogout={props.logout}/>
             <Container className='Container'>
-                <main className='Main__Section'>
+                <main className='Section__Wrapper'>
                     <div className='Home__Results'>
                         <SearchForm 
                             tags={tags} 

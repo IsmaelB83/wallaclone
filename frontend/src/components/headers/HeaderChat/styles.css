@@ -1,0 +1,7 @@
+.Section__WrapperChats .Content__Title { margin: 0; }
+.Section__WrapperChats .Section__Header .Text { display: none; }
+
+@media only screen and (min-width : 800px) {
+    .Section__WrapperChats .Content__Title { margin: 1rem 0; }
+    .Section__WrapperChats .Section__Header .Text { display: block; }
+}

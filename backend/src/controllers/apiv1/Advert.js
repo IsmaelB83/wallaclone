@@ -164,9 +164,11 @@ module.exports = {
                 // Update advert model
                 const updated = {...advert, ...req.body}
                 // Image
+                let newImage = false;
                 if (req.file) {
                     updated.photo = `/images/adverts/original/${req.file.filename}`;
                     updated.thumbnail = advert.photo; // Initially thumbnail refers to the same photo
+                    newImage = true;
                 }
                 // Tags
                 if (req.body.tags) {
@@ -185,7 +187,7 @@ module.exports = {
                         result: result 
                     });
                     // Send works to generate thumbnail only in case of new photos
-                    if (req.file) {
+                    if (newImage) {
                         handleThumbnail(advert.photo, advert._id); 
                     }
                     // Send work to analize potential notifications 

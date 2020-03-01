@@ -21,13 +21,27 @@ export const offlineUser = login => ({ type: ACTIONS.SOCKETIO_OFFLINE_USER, logi
 
 export const inMessage = data => {   
     return async function(dispatch, getState, extra) {
-        extra.notifyNewChats();
         dispatch(inMessageSuccess(data));
+        // If user is in chats section
         if (window.location.pathname.startsWith('/chats')) {
-            SocketIo.confirmChatRead({
-                chatId: data.chatId,
-                user: data.senderLogin
-            });
+            if (window.location.pathname === `/chats/${data.chatId}`) {
+                SocketIo.confirmChatRead({
+                    chatId: data.chatId,
+                    user: data.senderLogin
+                });    
+            } else {
+                const chat = getState().chats[0];
+                if (chat._id === data.chatId) {
+                    SocketIo.confirmChatRead({
+                        chatId: data.chatId,
+                        user: data.senderLogin
+                    });        
+                } else {
+                    extra.notifyNewChats(data.senderLogin);
+                }
+            }
+        } else {
+            extra.notifyNewChats(data.senderLogin);
         }
     }
 };
