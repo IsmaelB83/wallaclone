@@ -33,7 +33,7 @@ database.connect(process.env.MONGODB_URL)
         // Routes API version
         app.use('/apiv1/user', UserRoutes());
         app.use('/apiv1/chats', ChatRouter());
-        app.use('/apiv1/adverts', AdvertRoutes());
+        app.use('/apiv1/products', AdvertRoutes());
         app.use('/apiv1/authenticate', AuthRoutes());
         app.get('/favicon.ico', (req, res) => res.status(204));
         app.use(AuthMiddleware, (req, res, next) => next({status: 404, description: 'Not found'}));

@@ -7,7 +7,7 @@ import Advert from '../models/Advert';
 // CSS
 
 // Endpoint
-const API_URL = `${process.env.REACT_APP_API_URL}/adverts`;
+const API_URL = `${process.env.REACT_APP_API_URL}/products`;
 
 /**
 * Objeto API
