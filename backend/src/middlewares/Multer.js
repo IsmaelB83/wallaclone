@@ -37,7 +37,7 @@ const upload = (folder) => multer({
 });
 
 const uploadAvatars = upload('avatars').single('photoFile');
-const uploadAdverts = upload('adverts').single('photoFile');
+const uploadAdverts = upload('products').single('photoFile');
 
 module.exports = {
     uploadAvatars,

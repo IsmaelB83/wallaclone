@@ -22,7 +22,7 @@
             "description": "Compro PS4 Pro con menos de 1 año de uso",
             "price": 175.99,
             "type": "buy",
-            "photo": "/images/adverts/original/ps4pro.jpg",
+            "photo": "/images/products/original/ps4pro.jpg",
             "tags": [
                 "hardware",
                 "games"
@@ -34,7 +34,7 @@
             "price": 170.05,
             "description": "Vendo XBOX One X como nueva. No tengo tiempo para jugar.",
             "type": "sell",
-            "photo": "/images/adverts/original/xbox.jpg",
+            "photo": "/images/products/original/xbox.jpg",
             "tags": [
                 "hardware",
                 "games"
@@ -46,7 +46,7 @@
             "price": 35.5,
             "description": "El mejor ratón gamer del mercado. Como nuevo (1 año)",
             "type": "sell",
-            "photo": "/images/adverts/original/ratonmamba.jpg",
+            "photo": "/images/products/original/ratonmamba.jpg",
             "tags": [
                 "hardware"
             ]
@@ -57,7 +57,7 @@
             "price": 70,
             "description": "Busco teclado razer en buen estado.",
             "type": "buy",
-            "photo": "/images/adverts/original/tecladorazer.jpg",
+            "photo": "/images/products/original/tecladorazer.jpg",
             "tags": [
                 "hardware"
             ]
@@ -68,7 +68,7 @@
             "price": 70,
             "description": "Busco teclado razer en buen estado.",
             "type": "buy",
-            "photo": "/images/adverts/original/tecladorazer.jpg",
+            "photo": "/images/products/original/tecladorazer.jpg",
             "tags": [
                 "hardware"
             ]
@@ -79,7 +79,7 @@
             "price": 400,
             "description": "Todavía una bestia parda en el 2k.",
             "type": "buy",
-            "photo": "/images/adverts/original/1080ti.jpg",
+            "photo": "/images/products/original/1080ti.jpg",
             "tags": [
                 "hardware"
             ]
@@ -90,7 +90,7 @@
             "price": 400,
             "description": "Todavía una bestia",
             "type": "buy",
-            "photo": "/images/adverts/original/1080ti.jpg",
+            "photo": "/images/products/original/1080ti.jpg",
             "tags": [
                 "hardware"
             ]
@@ -100,7 +100,7 @@
             "price": 400,
             "description": "Todavía una bestia parda en el 2k.",
             "type": "buy",
-            "photo": "/images/adverts/original/1080ti.jpg",
+            "photo": "/images/products/original/1080ti.jpg",
             "tags": [
                 "hardware",
                 "games"
@@ -112,7 +112,7 @@
             "price": 400,
             "description": "Todavía una bestia parda en el 2k.",
             "type": "buy",
-            "photo": "/images/adverts/original/1080ti.jpg",
+            "photo": "/images/products/original/1080ti.jpg",
             "tags": [
                 "hardware",
                 "games"
@@ -124,7 +124,7 @@
             "price": 700,
             "description": "Acabo de tener un hijo... se me acabo el gaming :)",
             "type": "sell",
-            "photo": "/images/adverts/original/pcgaming.jpg",
+            "photo": "/images/products/original/pcgaming.jpg",
             "tags": [
                 "hardware",
                 "games"
@@ -136,7 +136,7 @@
             "price": 5000000,
             "description": "Vendo apartamento en primera linea de playa por no tener ni para pargar el seguro.",
             "type": "sell",
-            "photo": "/images/adverts/original/apartamento.jpg",
+            "photo": "/images/products/original/apartamento.jpg",
             "tags": [
                 "houses"
             ]
@@ -147,7 +147,7 @@
             "price": 15,
             "description": "Dejate de romperte las manos en los WODs",
             "type": "buy",
-            "photo": "/images/adverts/original/calleras.jpg",
+            "photo": "/images/products/original/calleras.jpg",
             "tags": [
                 "sports"
             ]
@@ -158,7 +158,7 @@
             "price": 8,
             "description": "Soy el de las calleras.",
             "type": "buy",
-            "photo": "/images/adverts/original/comba.jpg",
+            "photo": "/images/products/original/comba.jpg",
             "tags": [
                 "sports"
             ]
@@ -169,7 +169,7 @@
             "price": 40000,
             "description": "Soy el del apartamento. Con eso lo digo todo.",
             "type": "sell",
-            "photo": "/images/adverts/original/x6.jpg",
+            "photo": "/images/products/original/x6.jpg",
             "tags": [
                 "hardware",
                 "motor"
@@ -181,7 +181,7 @@
             "description": "Vendo juego de vaqueros del PS4",
             "price": 23.5,
             "type": "buy",
-            "photo": "/images/adverts/original/reddeadii.jpg",
+            "photo": "/images/products/original/reddeadii.jpg",
             "tags": [
                 "games"
             ]
@@ -192,7 +192,7 @@
             "price": 170.05,
             "description": "Vendo XBOX One X como nueva. No tengo tiempo para jugar.",
             "type": "sell",
-            "photo": "/images/adverts/original/xbox.jpg",
+            "photo": "/images/products/original/xbox.jpg",
             "tags": [
                 "hardware",
                 "games"
@@ -204,7 +204,7 @@
             "price": 35.5,
             "description": "Buenísimas zapas para halterofilia",
             "type": "sell",
-            "photo": "/images/adverts/original/romaelos.jpg",
+            "photo": "/images/products/original/romaelos.jpg",
             "tags": [
                 "sports"
             ]

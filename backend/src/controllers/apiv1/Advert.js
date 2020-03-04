@@ -114,7 +114,7 @@ module.exports = {
             let advert = new Advert({...req.body});
             advert.user = req.user._id;
             if (req.file) {
-                advert.photo = `/images/adverts/original/${req.file.filename}`;
+                advert.photo = `/images/products/original/${req.file.filename}`;
                 advert.thumbnail = advert.photo; // Initially thumbnail refers to the same photo
             }
             if (req.body.tags) {
@@ -166,7 +166,7 @@ module.exports = {
                 // Image
                 let newImage = false;
                 if (req.file) {
-                    updated.photo = `/images/adverts/original/${req.file.filename}`;
+                    updated.photo = `/images/products/original/${req.file.filename}`;
                     updated.thumbnail = advert.photo; // Initially thumbnail refers to the same photo
                     newImage = true;
                 }
