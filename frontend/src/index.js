@@ -15,10 +15,10 @@ import 'moment/locale/en-gb';
 import './index.css';
 
 // Render
-ReactDOM.render(
-        <ErrorBoundary>
-            <SnackbarProvider maxSnack={1} autoHideDuration={1000}>
-                <App/>
-            </SnackbarProvider>
-        </ErrorBoundary>
-    , document.getElementById('root'));
+const reactComp =   <ErrorBoundary>
+                        <SnackbarProvider maxSnack={1} autoHideDuration={1000}>
+                            <App/>
+                        </SnackbarProvider>
+                    </ErrorBoundary>
+
+ReactDOM.render(reactComp, document.getElementById('root'));

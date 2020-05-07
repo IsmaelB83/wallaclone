@@ -4,9 +4,7 @@ const jwt = require('jsonwebtoken');
 // Own imports
 const { User } = require('../models');
 
-/**
- * Middleware to control authentication
- */ 
+// Middleware to control authentication
 module.exports = async (req, res, next) => {
     try {
         // JWT Authentication (API)

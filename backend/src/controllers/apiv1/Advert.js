@@ -167,7 +167,7 @@ module.exports = {
                 let newImage = false;
                 if (req.file) {
                     updated.photo = `/images/products/original/${req.file.filename}`;
-                    updated.thumbnail = advert.photo; // Initially thumbnail refers to the same photo
+                    updated.thumbnail = updated.photo; // Initially thumbnail refers to the same photo
                     newImage = true;
                 }
                 // Tags
