@@ -188,11 +188,11 @@ module.exports = {
                     });
                     // Send works to generate thumbnail only in case of new photos
                     if (newImage) {
-                        handleThumbnail(advert.photo, advert._id); 
+                        handleThumbnail(updated.photo, advert._id); 
                     }
                     // Send work to analize potential notifications 
                     result.oldPrice = advert.price;
-                    handleNotifications(result);    
+                    handleNotifications(result);
                 })
             })
         } catch (error) {
